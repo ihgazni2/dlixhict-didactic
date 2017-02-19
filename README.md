@@ -61,12 +61,12 @@ take a simple html structure for explaining:
 head depth = 1, body depth = 1;  
 meta depth =2, Success depth =2,Error depth =2;  
 
->>>>'breadth' :  the position of the <element> hierarchy
+>>>>'breadth' :  the position of the element hierarchy
 >>>>>html breadth = 0 ;  
 head breadth = 0, body breadth = 1;  
 meta breadth = 0, Success breadth =1,Error breadth =2;  
 
->>>>'siblings_seq' :  the position of the <element> in its siblings
+>>>>'siblings_seq' :  the position of the element in its siblings
 >>>>>html siblings_seq = 0 ;  
 head siblings_seq = 0, body siblings_seq = 1;  
 meta siblings_seq = 0, Success siblings_seq =0,Error siblings_seq =1; 
@@ -81,20 +81,20 @@ meta path = [0,'children',0,'children',0], Success path =[0,'children',1,'childr
 
 >>>>'tag' :  tag names when convered a html\_dict back to a dict, tag will be used as key  
 
->>>>'attrib': a dict stores the attributes , just like the html attributes, when convert a dict to a html\_dict, it will store the data type of the original  in <element>['attrib']['type']
+>>>>'attrib': a dict stores the attributes , just like the html attributes, when convert a dict to a html\_dict, it will store the data type of the original  in element['attrib']['type']
 
->>>>'children': just like the descendants tree in html;if the children = {},which means this is a non-recursive leaf, the string fromat of leaf value will be stored in <element>['text'],the type of leaf value will be stored in <element>['attrib']['type']  
+>>>>'children': just like the descendants tree in html;if the children = {},which means this is a non-recursive leaf, the string fromat of leaf value will be stored in element['text'],the type of leaf value will be stored in element['attrib']['type']  
 
->>>>'text':just like the text in html;if the children = {},which means this is a non-recursive leaf, the string fromat of leaf value will be stored in <element>['text'],the type of leaf value will be stored in <element>['attrib']['type']; if the children != {}, the <element>['text'] will be None.  
+>>>>'text':just like the text in html;if the children = {},which means this is a non-recursive leaf, the string fromat of leaf value will be stored in element['text'],the type of leaf value will be stored in element['attrib']['type']; if the children != {}, the element['text'] will be None.  
 
->>list/array and tuple not exist in <html_dict>,when converting a dict a html\_dict, list/array and tuple will be convert to the following formats(it use the <element>['attrib']['type'] to in dicate the original type):  
+>>list/array and tuple not exist in html\_dict,when converting a dict a html\_dict, list/array and tuple will be convert to the following formats(it use the element['attrib']['type'] to in dicate the original type):  
   
 >>>the original key:value pair:  
 >>>>"Pair": ('swimming','cadence')  
 key = "Pair"  
  value = ('swimming','cadence')  
 
->>>the correspoding <element> of the key:value pair:  
+>>>the correspoding element of the key:value pair:  
 
 					{  
 						'depth': 3,  
@@ -180,7 +180,7 @@ key = "Pair"
 					n:  {0:<description>,1:<description>......Ln:<description>}  
 				}  
 
->>>the <desciption> is a dict with the following format:  
+>>>the desciption is a dict with the following format:  
 
 				{  
 					'external_path': ['html', 'body', 'Error'],#the same meaning as external_path explained in 1.2.1
