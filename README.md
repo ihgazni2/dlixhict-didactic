@@ -17,17 +17,17 @@ the corresponding list\_tuple\_dict of this array is :
 >>>}  
 
 >1.2.  html\_dict  
-			a  <html\_dict>  is a dict with the following format:  
-				{   
+			
+				{   #a  <html\_dict>  is a dict with the following format:
 					0 : <element>,  
 					1 : <element>,  
 					......,  
 					n : <element>
 				}
 
->>each <element> is a dict with the follwing format:  
+>> element  
 
-				{    
+				{    #each <element> is a dict with the follwing format:
 					'depth': 2,   
 					'external_path': ['html','body','Error'],  
 					'siblings_seq': 1,  
