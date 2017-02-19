@@ -40,7 +40,7 @@ the corresponding list\_tuple\_dict of this array is :
 					'text': "Timeout!!!",  
 					'children': <html_dict>
   				  }  
->>>1.2.1 the meaning of each key in <element>:  
+>>>1.2.1 the meaning of each key in element:  
 take a simple html structure for explaining:  
 
 					<html>  
