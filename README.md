@@ -71,7 +71,7 @@ meta breadth = 0, Success breadth =1,Error breadth =2;
 head siblings_seq = 0, body siblings_seq = 1;  
 meta siblings_seq = 0, Success siblings_seq =0,Error siblings_seq =1; 
 
->>>>'external\_path': the absolute path consist of tags splited into a array,just like the ancestors-or-self chain in html  
+>>>>'external\_path': the absolute path consist of tags splited into a array,just like the ancestors-and-self chain in html  
 >>>>>Error external\_path = ['html','body','Error']  
 
 >>>>'path': the absolute path consist of siblings\_seq and 'children' splited into a array  
