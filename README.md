@@ -17,7 +17,7 @@ the corresponding list\_tuple\_dict of this array is :
 >>>}  
 
 >1.2.  html\_dict  
->>a  <html\_dict>  is a dict with the following format:  
+			a  <html\_dict>  is a dict with the following format:  
 
 				{   
 					0 : <element>,  
