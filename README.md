@@ -212,7 +212,9 @@ key = "Pair"
 					},  
 					2: {  # this mean the 2st  hierarchy
 						0: {  # this mean the 0st in the 2st hierarchy
-							'external_path': ['html', 'head', 'meta'],  								'breadth_external_path': [0, 0, 0],  									'internal_path': [0, 'children', 0, 'children', 0]  
+							'external_path': ['html', 'head', 'meta'],  
+							'breadth_external_path': [0, 0, 0],  
+							'internal_path': [0, 'children', 0, 'children', 0]  
 						},  
 						1: {  # this mean the 1st in the 2st hierarchy
 							'external_path': ['html', 'body', 'Error'],
