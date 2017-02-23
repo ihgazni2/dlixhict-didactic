@@ -232,7 +232,7 @@ key = "Pair"
 
 
 
-2.  Abbreviations:
+2 . Abbreviations:
 
 >2.1  list\_tuple\_dict : ltdict  
 2.2   html\_dict: hdict  
