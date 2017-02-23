@@ -1,7 +1,5 @@
 1. is_list(obj):  
-
 2. is_tuple(obj):  
-
 3. is_dict(obj):
 4. is_set(obj):
 5. is_str(obj):
