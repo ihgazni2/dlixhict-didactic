@@ -234,7 +234,7 @@ key = "Pair"
 
 2 . Abbreviations:
 
->2.1  list\_tuple\_dict : ltdict  
+>2.1  list\_tuple\_dict : [ltdict](ltdict.md)  
 2.2   html\_dict: hdict  
 2.3   structure\_description\_dict: sdict  
 

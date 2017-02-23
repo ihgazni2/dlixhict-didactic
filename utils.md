@@ -1,20 +1,20 @@
-is_list(obj):
-is_tuple(obj):
-is_dict(obj):
-is_set(obj):
-is_str(obj):
-is_int(obj):
-is_float(obj):
-is_number(obj):
-is_bool(obj):
-is_none(obj):
-is_recursive_type(obj):
-is_module(obj):
-is_non_buildin_function(obj):
-is_buildin_function(obj):
-is_function(obj):
-is_type(obj):
-is_customer_defined_type(obj):
-is_hashable_type(obj):
-is_unhashable_type(obj):
-get_type_name(obj):
+1. is_list(obj):  
+2. is_tuple(obj):  
+3. is_dict(obj):
+4. is_set(obj):
+5. is_str(obj):
+6. is_int(obj):
+7. is_float(obj):
+8. is_number(obj):
+9. is_bool(obj):
+10. is_none(obj):
+11. is_recursive_type(obj):
+12. is_module(obj):
+13. is_non_buildin_function(obj):
+14. is_buildin_function(obj):
+15. is_function(obj):
+16. is_type(obj):
+17. is_customer_defined_type(obj):
+18. is_hashable_type(obj):
+19. is_unhashable_type(obj):
+20. get_type_name(obj):
