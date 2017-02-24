@@ -1,3 +1,4 @@
+##object type judgement
 1. is_list(obj):  
 2. is_tuple(obj):  
 3. is_dict(obj):
