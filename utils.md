@@ -18,3 +18,8 @@
 18. is_hashable_type(obj):
 19. is_unhashable_type(obj):
 20. get_type_name(obj):
+
+##path string
+1. is_slash_end(path_string,delimiter='/')  
+2. get_dir_string_head(path_string,delimiter='/')  
+3. get_dir_string_tail(self,path_string,delimiter='/')
