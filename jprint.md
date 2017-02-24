@@ -1,4 +1,4 @@
-# display and format dict-like structure  
+# display and format dict-like structure string
 1. get_block_op_pairs(pairs_str)  
 2. format_j_str(j_str,block_op_pairs_dict)  
 3. is_lop(ch,block_op_pairs_dict)  
