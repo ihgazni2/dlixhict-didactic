@@ -18,7 +18,8 @@
 17. is_customer_defined_type(obj):
 18. is_hashable_type(obj):
 19. is_unhashable_type(obj):
-20. get_type_name(obj):
+20. is_json(obj,strict=False):
+21. get_type_name(obj):
 
 ##path string
 1. is_slash_end(path_string,delimiter='/')  
