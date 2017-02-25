@@ -24,4 +24,22 @@
 ##path string
 1. is_slash_end(path_string,delimiter='/')  
 2. get_dir_string_head(path_string,delimiter='/')  
-3. get_dir_string_tail(self,path_string,delimiter='/')
+3. get_dir_string_tail(self,path_string,delimiter='/')  
+4. path_str_to_path_list(path_str,sp="/",keep_head_sp=0,keep_end_sp=0)
+5. path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0)
+
+##string
+1. def loose_str_to_bool(str)  
+2. def str_lstrip(s,char,count)  
+3. def str_rstrip(s,char,count)  
+
+##dict list tuple
+1. creat_default_list_with_len(len,element=None)  
+2. set_default_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
+3. path_list_in_dict(external_dict,path_list,n2s=0,s2n=0)  
+4. set_dict_items_via_path_list(external_dict,path_list,value,n2s=0,s2n=0)  
+5. get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
+
+
+
+
