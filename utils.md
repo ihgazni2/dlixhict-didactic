@@ -40,6 +40,19 @@
 4. set_dict_items_via_path_list(external_dict,path_list,value,n2s=0,s2n=0)  
 5. get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
 
+## char encode decode  
+1. unpack_unicode_char_bytes(two_bytes)  
+2. pack_unicode_char_str(char_str)  
+3. unpack_unicode_bytes_stream(Bs)  
+4. pack_unicode_str(str)  
+5. char_to_slash_u_str(ch,with_slash_u=1)  
+6. slash_u_str_to_char(slash_u_str)  
+7. str_to_slash_u_str(a_string,with_slash_u=1)  
+8. slash_u_str_to_str(slash_us)  
+9. char_str_to_unicode_num(char_str)  
+10. unicode_num_to_char_str(unicode_num)  
+11. str_to_unicode_num_array(a_string)  
+12. unicode_num_array_to_str(num_arr)  
 
 
 
