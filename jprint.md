@@ -21,6 +21,7 @@
 20. get_dynamic_indent_j_str(j_str,**kwargs)  
 21. beautify(j_str,**kwargs)  
 22. print_j_str(j_str,**kwargs)  
->![](/Images/jprint.print_j_str.png)  
+>:  
+![](/Images/jprint.print_j_str.png)  
 23. get_jdict_token_set(block_op_pairs_dict=get_block_op_pairs('{}[]()'))  
 24. convert_token_in_quote(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'))
