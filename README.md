@@ -183,9 +183,9 @@ key = "Pair"
 >>>the desciption is a dict with the following format:  
 
 				{  
-					'external_path': ['html', 'body', 'Error'],#the same meaning as external_path explained in 1.2.1
-					'breadth_external_path': [0, 1, 0], #the array after poping all 'children's of internal_path
-					'internal_path': [0, 'children', 1, 'children', 0]#the same meaning as path explained in 1.2.1
+					'orig_obj_path': ['html', 'body', 'Error'],#the same meaning as orig_obj_path explained in 1.2.1
+					'breadth_path': [0, 1, 0], #the array after poping all 'children's of hdict_path
+					'hdict_path': [0, 'children', 1, 'children', 0]#the same meaning as path explained in 1.2.1
 				 }
 		
 
@@ -193,16 +193,16 @@ key = "Pair"
 				{  
 					0: {  # this mean the 0st  hierarchy
 						 0: {  # this mean the 0st in the 0st hierarchy
-							'external_path': ['html'],  
-							'breadth_external_path': [0],  
-							'internal_path': [0]  
+							'orig_obj_path': ['html'],  
+							'breadth_path': [0],  
+							'hdict_path': [0]  
 						}  
 					}  
 					1: {  # this mean the 1st  hierarchy
 						0: {  # this mean the 0st in 1st the hierarchy
-							'external_path': ['html', 'head'],  
-							'breadth_external_path': [0, 0],  
-							'internal_path': [0, 'children', 0]  
+							'orig_obj_path': ['html', 'head'],  
+							'breadth_path': [0, 0],  
+							'hdict_path': [0, 'children', 0]  
 						},  
 						1: {  # this mean the 1st in the 1st hierarchy
 							'external_path': ['html', 'body'],  
@@ -212,19 +212,19 @@ key = "Pair"
 					},  
 					2: {  # this mean the 2st  hierarchy
 						0: {  # this mean the 0st in the 2st hierarchy
-							'external_path': ['html', 'head', 'meta'],  
-							'breadth_external_path': [0, 0, 0],  
-							'internal_path': [0, 'children', 0, 'children', 0]  
+							'orig_obj_path': ['html', 'head', 'meta'],  
+							'breadth_path': [0, 0, 0],  
+							'hdict_path': [0, 'children', 0, 'children', 0]  
 						},  
 						1: {  # this mean the 1st in the 2st hierarchy
-							'external_path': ['html', 'body', 'Error'],
-							'breadth_external_path': [0, 1, 0],
-							'internal_path': [0, 'children', 1, 'children', 0]
+							'orig_obj_path': ['html', 'body', 'Error'],
+							'breadth_path': [0, 1, 0],
+							'hdict_path': [0, 'children', 1, 'children', 0]
 						 },
 						2: {  # this mean the 2st in the 2st hierarchy
-							'external_path': ['html', 'body', 'Success'],  
-							'breadth_external_path': [0, 1, 1],  
-							'internal_path': [0, 'children', 1, 'children', 1]  
+							'orig_obj_path': ['html', 'body', 'Success'],  
+							'breadth_path': [0, 1, 1],  
+							'hdict_path': [0, 'children', 1, 'children', 1]  
 						 }  
 					}  
 				}  
