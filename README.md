@@ -185,7 +185,14 @@ key = "Pair"
 				{  
 					'orig_obj_path': ['html', 'body', 'Error'],#the same meaning as orig_obj_path explained in 1.2.1
 					'breadth_path': [0, 1, 0], #the array after poping all 'children's of hdict_path
-					'hdict_path': [0, 'children', 1, 'children', 0]#the same meaning as path explained in 1.2.1
+					'hdict_path': [0, 'children', 1, 'children', 0]#the same meaning as path explained in 1.2.1  
+					'leaf':
+					'leaf_sons':
+					'non_leaf_sons':
+					'leaf_descendants':
+					'non_leaf_descendants':
+					
+					
 				 }
 		
 
