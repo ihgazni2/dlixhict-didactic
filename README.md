@@ -186,11 +186,11 @@ key = "Pair"
 					'orig_obj_path': ['html', 'body', 'Error'],#the same meaning as orig_obj_path explained in 1.2.1
 					'breadth_path': [0, 1, 0], #the array after poping all 'children's of hdict_path
 					'hdict_path': [0, 'children', 1, 'children', 0]#the same meaning as path explained in 1.2.1  
-					'leaf':
-					'leaf_sons':
-					'non_leaf_sons':
-					'leaf_descendants':
-					'non_leaf_descendants':
+					'leaf':True
+					'leaf_sons':0
+					'non_leaf_sons':0
+					'leaf_descendants':0
+					'non_leaf_descendants':0
 					
 					
 				 }
@@ -203,6 +203,11 @@ key = "Pair"
 							'orig_obj_path': ['html'],  
 							'breadth_path': [0],  
 							'hdict_path': [0]  
+							'leaf':False
+					                'leaf_sons':0
+					                'non_leaf_sons':2
+							'leaf_descendants':3
+							'non_leaf_descendants':2
 						}  
 					}  
 					1: {  # this mean the 1st  hierarchy
@@ -210,11 +215,21 @@ key = "Pair"
 							'orig_obj_path': ['html', 'head'],  
 							'breadth_path': [0, 0],  
 							'hdict_path': [0, 'children', 0]  
+							'leaf':False
+					                'leaf_sons':1
+					                'non_leaf_sons':0
+							'leaf_descendants':1
+							'non_leaf_descendants':0
 						},  
 						1: {  # this mean the 1st in the 1st hierarchy
 							'external_path': ['html', 'body'],  
 							'breadth_external_path': [0, 1],  
 							 'internal_path': [0, 'children', 1]  
+							 'leaf':False
+					                 'leaf_sons':2
+					                 'non_leaf_sons':0
+							 'leaf_descendants':2
+							 'non_leaf_descendants':0
 						}  
 					},  
 					2: {  # this mean the 2st  hierarchy
@@ -222,16 +237,31 @@ key = "Pair"
 							'orig_obj_path': ['html', 'head', 'meta'],  
 							'breadth_path': [0, 0, 0],  
 							'hdict_path': [0, 'children', 0, 'children', 0]  
+							'leaf':True
+					                'leaf_sons':0
+					                'non_leaf_sons':0
+							'leaf_descendants':0
+							'non_leaf_descendants':0
 						},  
 						1: {  # this mean the 1st in the 2st hierarchy
 							'orig_obj_path': ['html', 'body', 'Error'],
 							'breadth_path': [0, 1, 0],
 							'hdict_path': [0, 'children', 1, 'children', 0]
+							'leaf':True
+					                'leaf_sons':0
+					                'non_leaf_sons':0
+							'leaf_descendants':0
+							'non_leaf_descendants':0
 						 },
 						2: {  # this mean the 2st in the 2st hierarchy
 							'orig_obj_path': ['html', 'body', 'Success'],  
 							'breadth_path': [0, 1, 1],  
 							'hdict_path': [0, 'children', 1, 'children', 1]  
+							'leaf':True
+					                'leaf_sons':0
+					                'non_leaf_sons':0
+							'leaf_descendants':0
+							'non_leaf_descendants':0
 						 }  
 					}  
 				}  
