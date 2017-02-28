@@ -223,13 +223,13 @@ key = "Pair"
 						},  
 						1: {  # this mean the 1st in the 1st hierarchy
 							'external_path': ['html', 'body'],  
-							'breadth_external_path': [0, 1],  
-							 'internal_path': [0, 'children', 1]  
-							 'leaf':False
-							 'leaf_sons':2
-							 'non_leaf_sons':0
-							 'leaf_descendants':2
-							 'non_leaf_descendants':0
+							'breadth_external_path': [0, 1],
+							'internal_path': [0, 'children', 1]
+							'leaf':False
+							'leaf_sons':2
+							'non_leaf_sons':0
+							'leaf_descendants':2
+							'non_leaf_descendants':0
 						}  
 					},  
 					2: {  # this mean the 2st  hierarchy
@@ -248,8 +248,8 @@ key = "Pair"
 							'breadth_path': [0, 1, 0],
 							'hdict_path': [0, 'children', 1, 'children', 0]
 							'leaf':True
-					                'leaf_sons':0
-					                'non_leaf_sons':0
+							'leaf_sons':0
+							'non_leaf_sons':0
 							'leaf_descendants':0
 							'non_leaf_descendants':0
 						 },
@@ -258,8 +258,8 @@ key = "Pair"
 							'breadth_path': [0, 1, 1],  
 							'hdict_path': [0, 'children', 1, 'children', 1]  
 							'leaf':True
-					                'leaf_sons':0
-					                'non_leaf_sons':0
+							'leaf_sons':0
+							'non_leaf_sons':0
 							'leaf_descendants':0
 							'non_leaf_descendants':0
 						 }  
