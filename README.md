@@ -204,8 +204,8 @@ key = "Pair"
 							'breadth_path': [0],  
 							'hdict_path': [0]  
 							'leaf':False
-					                'leaf_sons':0
-					                'non_leaf_sons':2
+							'leaf_sons':0
+							'non_leaf_sons':2
 							'leaf_descendants':3
 							'non_leaf_descendants':2
 						}  
@@ -216,8 +216,8 @@ key = "Pair"
 							'breadth_path': [0, 0],  
 							'hdict_path': [0, 'children', 0]  
 							'leaf':False
-					                'leaf_sons':1
-					                'non_leaf_sons':0
+							'leaf_sons':1
+							'non_leaf_sons':0
 							'leaf_descendants':1
 							'non_leaf_descendants':0
 						},  
@@ -226,8 +226,8 @@ key = "Pair"
 							'breadth_external_path': [0, 1],  
 							 'internal_path': [0, 'children', 1]  
 							 'leaf':False
-					                 'leaf_sons':2
-					                 'non_leaf_sons':0
+							 'leaf_sons':2
+							 'non_leaf_sons':0
 							 'leaf_descendants':2
 							 'non_leaf_descendants':0
 						}  
@@ -238,8 +238,8 @@ key = "Pair"
 							'breadth_path': [0, 0, 0],  
 							'hdict_path': [0, 'children', 0, 'children', 0]  
 							'leaf':True
-					                'leaf_sons':0
-					                'non_leaf_sons':0
+							'leaf_sons':0
+							'non_leaf_sons':0
 							'leaf_descendants':0
 							'non_leaf_descendants':0
 						},  
