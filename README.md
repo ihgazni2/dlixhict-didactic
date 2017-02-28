@@ -29,7 +29,7 @@ the corresponding list\_tuple\_dict of this array is :
 
 				{    #each <element> is a dict with the follwing format:
 					'depth': 2,   
-					'external_path': ['html','body','Error'],  
+					'orig_obj_path': ['html','body','Error'],  
 					'siblings_seq': 1,  
 					'path': [0,'children',1,'children',1], 
 					'attrib': {  
@@ -71,8 +71,8 @@ meta breadth = 0, Success breadth =1,Error breadth =2;
 head siblings_seq = 0, body siblings_seq = 1;  
 meta siblings_seq = 0, Success siblings_seq =0,Error siblings_seq =1; 
 
->>>>'external\_path': the absolute path consist of tags splited into a array,just like the ancestors-and-self chain in html  
->>>>>Error external\_path = ['html','body','Error']  
+>>>>'orig\_obj\_path': the absolute path consist of tags splited into a array,just like the ancestors-and-self chain in html  
+>>>>>Error orig\_obj\_path = ['html','body','Error']  
 
 >>>>'path': the absolute path consist of siblings\_seq and 'children' splited into a array  
 >>>>>html path = [0] ;  
@@ -98,7 +98,7 @@ key = "Pair"
 
 					{  
 						'depth': 3,  
-						'external_path': ['Value', 'RuleInfo', 'Rule', 'Pair'],  
+						'orig_obj_path': ['Value', 'RuleInfo', 'Rule', 'Pair'],  
 						'siblings_seq': 0,  
 						'path': [0, 'children', 2, 'children', 1, 'children', 0],  
 						'attrib': {  
@@ -110,7 +110,7 @@ key = "Pair"
 						'children': {  
 							0: {  
 								'depth': 4,  
-								'external_path': ['Value', 'RuleInfo', 'Rule', 'Pair', 0],  
+								'orig_obj_path': ['Value', 'RuleInfo', 'Rule', 'Pair', 0],  
 								'siblings_seq': 0,  
 								'path': [0, 'children', 2, 'children', 1, 'children', 0, 'children', 0],  
 								'attrib': {  
@@ -123,7 +123,7 @@ key = "Pair"
 							},  
 							1: {  
 								'depth': 4,  
-								'external_path': ['Value', 'RuleInfo', 'Rule', 'Pair', 1],  
+								'orig_obj_path': ['Value', 'RuleInfo', 'Rule', 'Pair', 1],  
 								'siblings_seq': 1,  
 								'path': [0, 'children', 2, 'children', 1, 'children', 0, 'children', 1],  
 								'attrib': {  
