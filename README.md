@@ -185,14 +185,20 @@ key = "Pair"
 				{  
 					'orig_obj_path': ['html', 'body', 'Error'],#the same meaning as orig_obj_path explained in 1.2.1
 					'breadth_path': [0, 1, 0], #the array after poping all 'children's of hdict_path
-					'hdict_path': [0, 'children', 1, 'children', 0]#the same meaning as path explained in 1.2.1  
-					'leaf':True
-					'leaf_sons':0
-					'non_leaf_sons':0
-					'leaf_descendants':0
-					'non_leaf_descendants':0
-					
-					
+					'hdict_path': [0, 'children', 1, 'children', 0],#the same meaning as path explained in 1.2.1  
+					'leaf':True,
+					'leaf_sons':0,
+					'non_leaf_sons':0,
+					'leaf_descendants':0,
+					'non_leaf_descendants':0,  
+					'hdict_lsib_path': [], #the hdict_path of the left sibling  
+					'hdict_lcin_path': [0.'children',0,'children',0], #the hdict_path of the left cousin (non-common parent)
+					'hdict_rsib_path': [0, 'children', 1, 'children', 1], #the hdict_path of the right sibling
+					'hdict_rcin_path': [], #the hdict_path of the right cousin (non-common parent)  
+					'orig_lsib_path': [], #the orig_obj_path of the left sibling
+					'orig_lcin_path': ['html','head','meta'], #the orig_obj_path of the left cousin (non-common parent)
+					'orig_rsib_path': ['html','body','Success'], #the orig_obj_path of the right sibling
+					'orig_rcin_path': [], #the orig_obj_path of the right cousin (non-common parent)  
 				 }
 		
 
@@ -202,70 +208,159 @@ key = "Pair"
 						 0: {  # this mean the 0st in the 0st hierarchy
 							'orig_obj_path': ['html'],  
 							'breadth_path': [0],  
-							'hdict_path': [0]  
-							'leaf':False
-							'leaf_sons':0
-							'non_leaf_sons':2
-							'leaf_descendants':3
-							'non_leaf_descendants':2
+							'hdict_path': [0],  
+							'leaf':False,
+							'leaf_sons':0,
+							'non_leaf_sons':2,
+							'leaf_descendants':3,
+							'non_leaf_descendants':2,
+							'hdict_lsib_path':[],
+							'hdict_rsib_path':[],
+							'hdict_lcin_path':[],
+							'hdict_rcin_path':[],
+							'orig_lsib_path':[],
+							'orig_rsib_path':[],
+							'orig_lcin_path':[],
+							'orig_rcin_path':[]
+							
 						}  
 					}  
 					1: {  # this mean the 1st  hierarchy
 						0: {  # this mean the 0st in 1st the hierarchy
 							'orig_obj_path': ['html', 'head'],  
 							'breadth_path': [0, 0],  
-							'hdict_path': [0, 'children', 0]  
-							'leaf':False
-							'leaf_sons':1
-							'non_leaf_sons':0
-							'leaf_descendants':1
-							'non_leaf_descendants':0
+							'hdict_path': [0, 'children', 0],  
+							'leaf':False,
+							'leaf_sons':1,
+							'non_leaf_sons':0,
+							'leaf_descendants':1,
+							'non_leaf_descendants':0,
+							'hdict_lsib_path':[],
+							'hdict_rsib_path':[0,'children',1],
+							'hdict_lcin_path':[],
+							'hdict_rcin_path':[],
+							'orig_lsib_path':[],
+							'orig_rsib_path':['html','body'],
+							'orig_lcin_path':[],
+							'orig_rcin_path':[],
 						},  
 						1: {  # this mean the 1st in the 1st hierarchy
 							'external_path': ['html', 'body'],  
 							'breadth_external_path': [0, 1],
-							'internal_path': [0, 'children', 1]
-							'leaf':False
-							'leaf_sons':2
-							'non_leaf_sons':0
-							'leaf_descendants':2
-							'non_leaf_descendants':0
+							'internal_path': [0, 'children', 1],
+							'leaf':False,
+							'leaf_sons':2,
+							'non_leaf_sons':0,
+							'leaf_descendants':2,
+							'non_leaf_descendants':0,
+							'hdict_lsib_path':[0, 'children', 0],
+							'hdict_rsib_path':[],
+							'hdict_lcin_path':[],
+							'hdict_rcin_path':[],
+							'orig_lsib_path':['html','head'],
+							'orig_rsib_path':[],
+							'orig_lcin_path':[],
+							'orig_rcin_path':[]
 						}  
 					},  
 					2: {  # this mean the 2st  hierarchy
 						0: {  # this mean the 0st in the 2st hierarchy
 							'orig_obj_path': ['html', 'head', 'meta'],  
 							'breadth_path': [0, 0, 0],  
-							'hdict_path': [0, 'children', 0, 'children', 0]  
-							'leaf':True
-							'leaf_sons':0
-							'non_leaf_sons':0
-							'leaf_descendants':0
-							'non_leaf_descendants':0
+							'hdict_path': [0, 'children', 0, 'children', 0],  
+							'leaf':True,
+							'leaf_sons':0,
+							'non_leaf_sons':0,
+							'leaf_descendants':0,
+							'non_leaf_descendants':0,
+							'hdict_lsib_path':[],
+							'hdict_rsib_path':[],
+							'hdict_lcin_path':[],
+							'hdict_rcin_path':[0,'children',1,'children',0],
+							'orig_lsib_path':[],
+							'orig_rsib_path':[],
+							'orig_lcin_path':[],
+							'orig_rcin_path':['html','body','Error']
 						},  
 						1: {  # this mean the 1st in the 2st hierarchy
 							'orig_obj_path': ['html', 'body', 'Error'],
 							'breadth_path': [0, 1, 0],
-							'hdict_path': [0, 'children', 1, 'children', 0]
-							'leaf':True
-							'leaf_sons':0
-							'non_leaf_sons':0
-							'leaf_descendants':0
-							'non_leaf_descendants':0
+							'hdict_path': [0, 'children', 1, 'children', 0],
+							'leaf':True,
+							'leaf_sons':0,
+							'non_leaf_sons':0,
+							'leaf_descendants':0,
+							'non_leaf_descendants':0,
+							'hdict_lsib_path':[],
+							'hdict_rsib_path':[0,'children',1,'children',1],
+							'hdict_lcin_path':[0,'children',0,'children',0],
+							'hdict_rcin_path':[],
+							'orig_lsib_path':[],
+							'orig_rsib_path':['html','body','Success'],
+							'orig_lcin_path':['html','head','meta'],
+							'orig_rcin_path':[]
 						 },
 						2: {  # this mean the 2st in the 2st hierarchy
 							'orig_obj_path': ['html', 'body', 'Success'],  
 							'breadth_path': [0, 1, 1],  
-							'hdict_path': [0, 'children', 1, 'children', 1]  
-							'leaf':True
-							'leaf_sons':0
-							'non_leaf_sons':0
-							'leaf_descendants':0
-							'non_leaf_descendants':0
+							'hdict_path': [0, 'children', 1, 'children', 1],  
+							'leaf':True,
+							'leaf_sons':0,
+							'non_leaf_sons':0,
+							'leaf_descendants':0,
+							'non_leaf_descendants':0,
+							'hdict_lsib_path':[0, 'children', 1, 'children', 0],
+							'hdict_rsib_path':[],
+							'hdict_lcin_path':[],
+							'hdict_rcin_path':[],
+							'orig_lsib_path':['html','body','Error'],
+							'orig_rsib_path':[],
+							'orig_lcin_path':[],
+							'orig_rcin_path':[]
 						 }  
 					}  
 				}  
 
+
+  
+>1.4 paths\_relations\_dict:  
+
+>>the paths\_relations\_dict is a two dimension dict with the format:  
+
+		{
+			'h:o': { # key = tuple(hdict_path) : value = orig_obj_path
+					(0,): ['html'],
+					(0, 'children', 0): ['html', 'head'],
+					(0, 'children', 1): ['html', 'body'],
+					(0, 'children', 0, 'children', 0): ['html', 'head', 'meta'],
+					(0, 'children', 1, 'children', 0): ['html', 'body', 'Error'],
+					(0, 'children', 1, 'children', 1): ['html', 'body', 'Success']
+				},
+			'b:h': {# key = tuple(breadth_path) : value = orig_obj_path
+					(0,): [0],
+					(0,0): [0, 'children', 0],
+					(0,1): [0, 'children', 1],
+					(0,0,0): [0, 'children', 0, 'children', 0],
+					(0,1,1): [0, 'children', 1, 'children', 0],
+					(0,1,2): [0, 'children', 1, 'children', 1]
+				},
+			'o:h': {# key = tuple(orig_obj_path) : value = hdict_path
+					('html'): [0],
+					('html', 'head'): [0, 'children', 0],
+					('html', 'body'): [0, 'children', 1],
+					('html', 'head', 'meta'): [0, 'children', 0, 'children', 0],
+					('html', 'body', 'Error'): [0, 'children', 1, 'children', 0],
+					('html', 'body', 'Success'): [0, 'children', 1, 'children', 1]
+				},
+			'h:b': {# key = tuple(hdict_path) : value = breadth_path
+					(0,): (0,),
+					(0, 'children', 0): (0,0),
+					(0, 'children', 1): (0,1),
+					(0, 'children', 0, 'children', 0): (0,0,0),
+					(0, 'children', 1, 'children', 0): (0,1,1),
+					(0, 'children', 1, 'children', 1): (0,1,2)
+				}
+		}
 
 
 
@@ -274,6 +369,7 @@ key = "Pair"
 >2.1  list\_tuple\_dict : [ltdict](ltdict.md)  
 2.2   html\_dict: hdict  
 2.3   structure\_description\_dict: sdict  
+2.4   paths\_relations\_dict: prdict
 
 
 		
