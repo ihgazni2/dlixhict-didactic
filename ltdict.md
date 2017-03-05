@@ -50,6 +50,8 @@
 
  25. ltdict_insert(ltdict,index,value,**kwargs)  
 
+ 26. ltdict_comprise(ltdict1,ltdict2,**kwargs) 
+
  27. ltdict_insert_ltdict(ltdict_1,index,ltdict_2,**kwargs)  
 
  28. ltdict_include(ltdict,value,**kwargs)  
