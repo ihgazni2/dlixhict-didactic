@@ -29,9 +29,11 @@
 5. path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0)
 
 ##string
-1. def loose_str_to_bool(str)  
-2. def str_lstrip(s,char,count)  
-3. def str_rstrip(s,char,count)  
+1. loose_str_to_bool(str)  
+2. str_lstrip(s,char,count)  
+3. str_rstrip(s,char,count)  
+4. str_prepend(s,char,count)
+5. str_append(s,char,count)
 
 ##dict list tuple
 1. creat_default_list_with_len(len,element=None)  
