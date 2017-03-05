@@ -72,3 +72,4 @@
 
  37. ltdict_sort(ltdict,**kwargs)  
 
+ 38. ltdict_comprise(ltdict1,ltdict2,**kwargs)  
