@@ -52,5 +52,5 @@
 52. orig_lcin(hdict,path_list_or_path_string,**kwargs)  
 53. orig_rcin(hdict,path_list_or_path_string,**kwargs)  
 54. hdict_to_obj(hdict,sdict,prdict,**kwargs)  
-
+55. creat_xml_tag_line_label(sdict,**kwargs)  
 
