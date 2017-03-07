@@ -367,7 +367,7 @@ key = "Pair"
 2 . Abbreviations:
 
 >2.1  list\_tuple\_dict : [ltdict](ltdict.md)  
-2.2   html\_dict: hdict  
+2.2   html\_dict: hdict   [hdict_object](hdict_object.md)
 2.3   structure\_description\_dict: sdict  
 2.4   paths\_relations\_dict: prdict
 
