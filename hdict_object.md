@@ -53,4 +53,8 @@
 53. orig_rcin(hdict,path_list_or_path_string,**kwargs)  
 54. hdict_to_obj(hdict,sdict,prdict,**kwargs)  
 55. creat_xml_tag_line_label(sdict,**kwargs)  
+56. xml_indent_prepend(path_list_or_path_string,**kwargs)
+57. attrib_dict_to_str(attrib)  
+58. hdict_to_xml(hdict,**kwargs)
+59. obj_to_xml(obj,**kwargs)
 
