@@ -9,9 +9,12 @@
 9. cmdlines_to_ltdict(cmdlines,**kwargs)
 10. cmdlines_to_deep_ltdict(cmdlines,**kwargs)
 11. deep_ltdict_to_cmdlines(deep_ltdict,**kwargs)
-12. show_prompt(cmd,cmdlines,**kwargs)
+12. show_prompt_cmdlines(cmd,cmdlines,**kwargs)
 13. show(cmd,obj,**kwargs)
 14. cmdlines_to_obj(cmdlines,**kwargs)
 15. cmdlines_to_xml(cmdlines,**kwargs)  
-16. xml_to_cmdline(**kwargs)  
+16. xml_to_cmdline_ltdict(**kwargs)  
+17. show_prompt_cmdlines_ltdict(cmd,cmdlines_ltdict,**kwargs)  
+18. show_xml(cmd,**kwargs)  
+
 
