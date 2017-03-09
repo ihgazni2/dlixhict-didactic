@@ -44,17 +44,40 @@
 
 ## char encode decode  
 1. unpack_unicode_char_bytes(two_bytes)  
+![](Images/utils.unpack_unicode_char_bytes.png)  
+
 2. pack_unicode_char_str(char_str)  
+![](Images/utils.pack_unicode_char_str.png)  
+
 3. unpack_unicode_bytes_stream(Bs)  
+![](Images/utils.unpack_unicode_bytes_stream.png)  
+
 4. pack_unicode_str(str)  
+![](Images/utils.pack_unicode_str.png) 
+
 5. char_to_slash_u_str(ch,with_slash_u=1)  
+![](Images/utils.char_to_slash_u_str.png) 
+
 6. slash_u_str_to_char(slash_u_str)  
+![](Images/utils.slash_u_str_to_char.png) 
+
 7. str_to_slash_u_str(a_string,with_slash_u=1)  
+![](Images/utils.str_to_slash_u_str.png)
+
 8. slash_u_str_to_str(slash_us)  
+![](Images/utils.slash_u_str_to_str.png)
+
 9. char_str_to_unicode_num(char_str)  
+![](Images/utils.char_str_to_unicode_num.png)
+
 10. unicode_num_to_char_str(unicode_num)  
+![](Images/utils.unicode_num_to_char_str.png)
+
 11. str_to_unicode_num_array(a_string)  
+![](Images/utils.str_to_unicode_num_array.png)
+
 12. unicode_num_array_to_str(num_arr)  
+![](Images/utils.unicode_num_array_to_str.png)
 
 
 
