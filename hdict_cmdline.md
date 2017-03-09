@@ -16,5 +16,7 @@
 16. xml_to_cmdline_ltdict(**kwargs)  
 17. show_prompt_cmdlines_ltdict(cmd,cmdlines_ltdict,**kwargs)  
 18. show_xml(cmd,**kwargs)  
+![](Images/hdict_cmdline.show_xml.png)  
+
 
 
