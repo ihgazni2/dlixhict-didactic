@@ -12,4 +12,6 @@
 12. show_prompt(cmd,cmdlines,**kwargs)
 13. show(cmd,obj,**kwargs)
 14. cmdlines_to_obj(cmdlines,**kwargs)
-15. cmdlines_to_xml(cmdlines,**kwargs)
+15. cmdlines_to_xml(cmdlines,**kwargs)  
+16. xml_to_cmdline(**kwargs)  
+
