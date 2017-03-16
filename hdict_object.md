@@ -58,5 +58,7 @@
 56. xml_indent_prepend(path_list_or_path_string,**kwargs)
 57. attrib_dict_to_str(attrib)  
 58. hdict_to_xml(hdict,**kwargs)
-59. obj_to_xml(obj,**kwargs)
+59. obj_to_xml(obj,**kwargs)  
+60. path_list_to_console_key_str(pl)  
+
 
