@@ -441,6 +441,210 @@ def get_all_sons_full_key_path_list(d,full_key_path):
     return(all_sons_full_key_path_list)
 
 
+
+def dict_array_description(dora):
+    description_dict = {}
+    all_leafs = 0
+    unhandled_now = {0:''}
+    unhandled_next = {}
+    while(all_leafs == 0):
+        temp = 0
+        description_dict_len = description_dict.__len__()
+        description_dict[description_dict_len] = {}
+        desc_layer_dict = description_dict[description_dict_len]
+        unhandled_now_len = unhandled_now.__len__()
+        for i in range(0,unhandled_now_len):
+            value = get_dict_value_from_full_key_path(dora,unhandled_now[i])
+            value_type = type(value)
+            desc_layer_dict_len = desc_layer_dict.__len__()
+            desc_layer_dict[desc_layer_dict_len] = unhandled_now[i]
+            if( value_type == type([])):
+                all_sons_fkp_list = get_all_sons_full_key_path_list(dora,unhandled_now[i])
+                llen = all_sons_fkp_list.__len__()
+                for i in range(0,llen):
+                    unhandled_next_len = unhandled_next.__len__()
+                    unhandled_next[unhandled_next_len] = all_sons_fkp_list[i]
+                temp = temp | 1
+            elif(value_type == type({})):
+                all_sons_fkp_list = get_all_sons_full_key_path_list(dora,unhandled_now[i])
+                llen = all_sons_fkp_list.__len__()
+                for i in range(0,llen):
+                    unhandled_next_len = unhandled_next.__len__()
+                    unhandled_next[unhandled_next_len] = all_sons_fkp_list[i]
+                temp = temp | 1
+            else:
+                temp = temp | 0
+        if(temp == 0):
+            all_leafs = 1
+        unhandled_now = unhandled_next
+        unhandled_next = {}
+    return(description_dict)
+
+def get_desc_parent_dict(description_dict):
+    desc_len = description_dict.__len__()
+    parent_dict = {}
+    for i in range(0,desc_len):
+        each_level_len = description_dict[i].__len__()
+        next_level_cursor = 0
+        if(i == 0):
+            parent_dict[i] = {}
+            parent_dict[i+1] = {}
+            next_level_len = description_dict[i+1].__len__()
+        elif(i == (desc_len - 1)):
+            pass
+        else:
+            parent_dict[i+1] = {}
+            next_level_len = description_dict[i+1].__len__()
+        for j in range(0,each_level_len):
+            if(i == 0):
+                parent_dict[i][j] = -1
+            if(i == (desc_len - 1)):
+                pass
+            else:
+                for k in range(next_level_cursor,next_level_len):
+                    if(is_parent_path(description_dict[i+1][k],description_dict[i][j])):
+                        parent_dict[i+1][k] = j
+                        next_level_cursor = next_level_cursor + 1
+                    else:
+                        break
+    return(parent_dict)
+
+def tree_desc(description_dict):
+    parent_dict = get_desc_parent_dict(description_dict)
+    total_count = 0
+    desc_len = description_dict.__len__()
+    lvseq_dict = {}
+    travel_sign_dict = {}
+    for i in range(0,desc_len):
+        lvseq_dict[i] = 0
+        travel_sign_dict[i] = {}
+        each_level_len = description_dict[i].__len__()
+        for j in range(0,each_level_len):
+            travel_sign_dict[i][j] = 0
+            total_count = total_count + 1
+    indent = '    '
+    text = ''
+    prev_level = -1
+    prev_seq = -1
+    curr_level = 0
+    curr_seq = 0
+    count = 0
+    deep_search_path = []
+    while(count < total_count):
+        each_level_len = description_dict[curr_level].__len__()
+        full_key_path = description_dict[curr_level][curr_seq]
+        if(curr_level > prev_level):
+            text = ''.join((text,'\n',indent * curr_level,full_key_path))
+            curr_location = (curr_level,curr_seq)
+            deep_search_path.append(curr_location)
+            count = count + 1
+            lvseq_dict[curr_level] = curr_seq
+            if(get_all_sons_full_key_path_list(nhome,full_key_path) == []):
+                travel_sign_dict[curr_level][curr_seq] = 2
+                if(curr_seq < (each_level_len - 1)):
+                    prev_seq = curr_seq
+                    prev_level = curr_level
+                    next_seq = curr_seq + 1
+                    cond = (parent_dict[curr_level][curr_seq] == parent_dict[curr_level][next_seq])
+                    lvseq_dict[curr_level] = curr_seq + 1
+                    if(cond):
+                        curr_level = curr_level
+                        curr_seq = curr_seq + 1
+                    else:
+                        curr_level = curr_level - 1
+                        curr_seq = lvseq_dict[curr_level]
+                else:
+                    prev_seq = curr_seq
+                    prev_level = curr_level
+                    curr_level = curr_level - 1
+                    curr_seq = lvseq_dict[curr_level]
+            else:
+                prev_level = curr_level 
+                curr_level = curr_level + 1
+                prev_seq = curr_seq
+                curr_seq = lvseq_dict[curr_level]
+                travel_sign_dict[curr_level][curr_seq] = 1
+        elif(curr_level == prev_level):
+            text = ''.join((text,'\n',indent * curr_level,full_key_path))
+            curr_location = (curr_level,curr_seq)
+            deep_search_path.append(curr_location)
+            count = count + 1
+            lvseq_dict[curr_level] = curr_seq
+            if(get_all_sons_full_key_path_list(nhome,full_key_path) == []):
+                travel_sign_dict[curr_level][curr_seq] = 2
+                if(curr_seq < (each_level_len - 1)):
+                    prev_seq = curr_seq
+                    prev_level = curr_level
+                    next_seq = curr_seq + 1
+                    cond = (parent_dict[curr_level][curr_seq] == parent_dict[curr_level][next_seq])
+                    lvseq_dict[curr_level] = curr_seq + 1
+                    if(cond):
+                        curr_level = curr_level
+                        curr_seq = curr_seq + 1
+                    else:
+                        curr_level = curr_level - 1
+                        curr_seq = lvseq_dict[curr_level]
+                else:
+                    prev_seq = curr_seq
+                    prev_level = curr_level
+                    curr_level = curr_level - 1
+                    curr_seq = lvseq_dict[curr_level]
+            else:
+                prev_level = curr_level 
+                curr_level = curr_level + 1
+                prev_seq = curr_seq
+                curr_seq = lvseq_dict[curr_level]
+                travel_sign_dict[curr_level][curr_seq] = 1
+        else:
+            travel_sign_dict[curr_level][curr_seq] = 2
+            if(curr_seq < (each_level_len - 1)):
+                prev_seq = curr_seq
+                prev_level = curr_level
+                next_seq = curr_seq + 1
+                cond = (parent_dict[curr_level][curr_seq] == parent_dict[curr_level][next_seq])
+                lvseq_dict[curr_level] = curr_seq + 1
+                if(cond):
+                    curr_level = curr_level
+                    curr_seq = curr_seq + 1
+                else:
+                    curr_level = curr_level - 1
+                    curr_seq = lvseq_dict[curr_level]
+            else:
+                prev_seq = curr_seq
+                prev_level = curr_level
+                curr_level = curr_level - 1
+                curr_seq = lvseq_dict[curr_level]
+    rslt = {}
+    rslt['text'] = text
+    rslt['parent_dict'] = parent_dict
+    rslt['deep_search_path'] =  deep_search_path
+    return(rslt)
+
+def dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to=''):
+    if(fr == ''):
+        fr = 0
+    text = ''
+    dsp_len = deep_search_path.__len__()
+    if(to == ''):
+        to = dsp_len
+    for i in range(0,dsp_len):
+        x = deep_search_path[i][0]
+        y = deep_search_path[i][1]
+        ele = description_dict[x][y]
+        if(full_path_display):
+            line = ele
+        else:
+            indent = get_parent_path(ele)
+            indent = indent.replace('/','')
+            indent = ' ' * indent.__len__()
+            rel = get_rel_path(ele)
+            line = ''.join((indent,rel))
+        if((i >= fr) & (i <= to)):
+            text = ''.join((text,'\n',line))
+    return(text)
+
+
+
     
 # char encode decode
 
