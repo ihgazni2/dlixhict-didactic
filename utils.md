@@ -20,6 +20,7 @@
 19. is_unhashable_type(obj):
 20. is_json(obj,strict=False):
 21. get_type_name(obj):
+22. is_number_str(obj):
 
 ##path string
 1. is_slash_end(path_string,delimiter='/')  
