@@ -221,6 +221,40 @@ def path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0):
     return(path_str)
     
 
+def is_parent_path(son,parent):
+    son = son.rstrip('/')
+    parent = parent.rstrip('/')
+    sks = son.split('/')
+    pks = parent.split('/')
+    if(pks.__len__() >= sks.__len__()):
+        return(0)
+    if((sks.__len__() - pks.__len__()) == 1):
+        for i in range(0,pks.__len__()):
+            if(sks[i] == pks[i]):
+                pass
+            else:
+                return(0)
+        return(1)
+    else:
+        return(0)
+
+def get_parent_path(son):
+    if(son == ''):
+        son = '/'
+    regex = re.compile('(.*)/(.*?)')
+    m = regex.search(son)
+    return(m.group(1))
+
+def get_rel_path(abs):
+    if(abs == ''):
+        abs = '/'
+    regex = re.compile('(.*)/([^/]*)')
+    m = regex.search(abs)
+    return(m.group(2))
+
+
+    
+    
 #string
 
 
