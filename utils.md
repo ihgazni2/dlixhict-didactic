@@ -27,6 +27,10 @@
 3. get_dir_string_tail(self,path_string,delimiter='/')  
 4. path_str_to_path_list(path_str,sp="/",keep_head_sp=0,keep_end_sp=0)
 5. path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0)
+6. is_parent_path(son,parent)
+7. get_parent_path(son)
+8. get_rel_path(abs)
+
 
 ##string
 1. loose_str_to_bool(str)  
