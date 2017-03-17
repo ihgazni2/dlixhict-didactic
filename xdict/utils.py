@@ -2,32 +2,6 @@
 import re
 import struct
 
-    # '''
-        ##for object type judgement
-        # is_list(obj)
-        # is_tuple(obj)
-        # is_dict(obj)
-        # is_str(obj)
-        # is_int(obj)
-        # is_float(obj)
-        # is_bool(obj)
-        # is_none(obj)
-        # is_recursive_type(obj)
-        # is_module_type(obj)
-        # is_non_buildin_function(obj)
-        # is_buildin_function(obj)
-        # is_function_type(obj)
-        # is_type(obj)
-        # is_customer_defined_type(obj)
-        # is_hashable_type(obj)
-        # is_unhashable_type(obj)
-        # get_type_name(obj)
-        ##path string
-        # is_slash_end(path_string,delimiter='/')
-        # get_dir_string_head(path_string,delimiter='/')
-        # get_dir_string_tail(self,path_string,delimiter='/')
-    # '''
-    
 #Utils
 ## for object type judgement
 
@@ -397,6 +371,40 @@ def get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
         this = this.__getitem__(key)
     return(this)
 
+#get_dict_value_from_full_key_path(nhome,"updates/useRmvWithMentions")
+def get_dict_value_from_full_key_path(d,full_key_path):
+    full_key_path = full_key_path.strip("/")
+    if(full_key_path == ''):
+        return(d)
+    keys = full_key_path.split("/")
+    now = d
+    klen = keys.__len__()
+    for i in range(0,klen):
+        try:
+            now = now.__getitem__(keys[i])
+        except Exception as err:
+            now = now.__getitem__(int(keys[i]))
+    return(now)
+
+
+#get_all_sons_full_key_path
+def get_all_sons_full_key_path_list(d,full_key_path):
+    all_sons_full_key_path_list = []
+    value = get_dict_value_from_full_key_path(d,full_key_path)
+    value_type = type(value)
+    if(value_type == type([])):
+        v_len = value.__len__()
+        for i in range(0,v_len):
+            kp = ''.join((full_key_path.rstrip("/"),"/",str(i)))
+            all_sons_full_key_path_list.append(kp)
+    elif(value_type == type({})):
+        v_len = value.__len__()
+        for each in value:
+            kp = ''.join((full_key_path.rstrip("/"),"/",each))
+            all_sons_full_key_path_list.append(kp)
+    else:
+        pass
+    return(all_sons_full_key_path_list)
 
 
     
