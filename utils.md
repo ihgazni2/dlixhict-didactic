@@ -42,6 +42,10 @@
 3. path_list_in_dict(external_dict,path_list,n2s=0,s2n=0)  
 4. set_dict_items_via_path_list(external_dict,path_list,value,n2s=0,s2n=0)  
 5. get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
+6. get_dict_value_from_full_key_path(d,full_key_path)  
+7. get_all_sons_full_key_path_list(d,full_key_path)  
+
+
 
 ## char encode decode  
 1. unpack_unicode_char_bytes(two_bytes)  
