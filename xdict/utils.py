@@ -150,6 +150,7 @@ def get_type_name(obj):
     m = regex.search(class_str)
     return(m.group(1))
 
+
 #path string 
 def is_slash_end(path_string,delimiter='/'):
     if(path_string == ''):
@@ -248,6 +249,8 @@ def path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0):
 
 #string
 
+
+
 def loose_str_to_bool(str):
     if((str == 'False') | (str == 'false')):
         return(False)
@@ -294,6 +297,15 @@ def str_apppend(s,char,n):
     for i in range(1,n+1):
         append = ''.join((append,char))
     return(''.join((s,append)))
+
+def is_number_str(old_index):
+    try:
+        int(old_index)
+    except:
+        return(False)
+    else:
+        return(True)
+
 
 #list dict tuple
 
@@ -638,10 +650,4 @@ def unicode_num_array_to_str(num_arr):
         rslt = ''.join((rslt,ch))
     return(rslt)
 
-def is_number_str(old_index):
-    try:
-        int(old_index)
-    except:
-        return(False)
-    else:
-        return(True)
+
