@@ -48,6 +48,10 @@
 5. get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
 6. get_dict_value_from_full_key_path(d,full_key_path)  
 7. get_all_sons_full_key_path_list(d,full_key_path)  
+8. dict_array_description(dora)
+9. get_desc_parent_dict(description_dict)
+10. tree_desc(description_dict)
+11. dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to='')
 
 
 
