@@ -638,3 +638,10 @@ def unicode_num_array_to_str(num_arr):
         rslt = ''.join((rslt,ch))
     return(rslt)
 
+def is_number_str(old_index):
+    try:
+        int(old_index)
+    except:
+        return(False)
+    else:
+        return(True)
