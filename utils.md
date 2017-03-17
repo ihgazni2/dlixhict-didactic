@@ -20,7 +20,6 @@
 19. is_unhashable_type(obj):
 20. is_json(obj,strict=False):
 21. get_type_name(obj):
-22. is_number_str(obj):
 
 ##path string
 1. is_slash_end(path_string,delimiter='/')  
@@ -34,7 +33,8 @@
 2. str_lstrip(s,char,count)  
 3. str_rstrip(s,char,count)  
 4. str_prepend(s,char,count)
-5. str_append(s,char,count)
+5. str_append(s,char,count)  
+6. is_number_str(obj)
 
 ##dict list tuple
 1. creat_default_list_with_len(len,element=None)  
