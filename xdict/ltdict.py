@@ -567,14 +567,14 @@ def ltdict_last_continuous_indexes_slice(ltdict,value,**kwargs):
         start = ltdict.__len__()-1
     rslt = []
     begin = 0
-    for i in range(start,0,-1):
+    for i in range(start,-1,-1):
         if(ltdict[i] == value):
             rslt.append(i)
             begin = i-1
             break
         else:
             pass
-    for i in range(begin,0,-1):
+    for i in range(begin,-1,-1):
         if(ltdict[i] == value):
             rslt.append(i)
         else:
