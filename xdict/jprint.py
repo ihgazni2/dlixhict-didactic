@@ -1027,7 +1027,7 @@ def get_line_color_sec(line,path,**kwargs):
         ("INIT",regex_ops) : (do_op,"INIT"),
         ("INIT",regex_others) : (do_open_var,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
-        ("OTHER",regex_others_with_quotes) : (None,"OTHER"),
+        ("OTHER",regex_others_and_quotes) : (None,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
         ("OTHER",regex_colons) : (do_close_var_colon,"INIT"),
         ("OTHER",regex_commas) : (do_close_var,"INIT"),
