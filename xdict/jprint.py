@@ -17,9 +17,6 @@ import copy
 
 
 __doc__ = '''
-    not support chr(0) ~ chr(5)
-    not support chr(128) ~ chr(256)
-    these are used as internal control characters
 '''
 
 #-----------------------------------------------
