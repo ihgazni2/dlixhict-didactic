@@ -933,7 +933,7 @@ def get_line_color_sec(line,path,**kwargs):
     regex_ops = creat_regex(ops)
     regex_others = creat_others_regexes(quotes,colons,ops,commas,spaces)
     ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
-    regex_others_and_quotes = creat_others_regexes([],colons,ops,commas,spaces)
+    regex_b = re.compile('b')
     ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #-------------------------------------------------------------------
     head = utils.get_dir_string_head(path)
@@ -941,14 +941,14 @@ def get_line_color_sec(line,path,**kwargs):
     head_last = utils.str_rstrip(head_last," ",1)
     head_last = head_last[-1]
     #------------------------------------------------------
-    def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor 
         curr_color = default_color
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor + 1
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_close_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_close_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
         if(colon_meeted):
             curr_color = value_color
@@ -966,14 +966,18 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec_seq = color_sec_seq + 1
         si = cursor
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
+        if(prev_symbol == 'b'):
+            ei = ei - 1
+        else:
+            pass
         curr_color = default_color
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
         if(colon_meeted):
             curr_color = value_color
@@ -991,10 +995,10 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec_seq = color_sec_seq + 1
         si = cursor
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_colons(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_colons(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         colon_meeted = 1
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
         curr_color = default_color
         if(ei >= si):
@@ -1016,7 +1020,7 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec_seq = color_sec_seq + 1
         si = cursor + 1
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted):
+    def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         colon_meeted = 1
         return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted))
     #----------------------------------------------------------------------------------------
@@ -1027,8 +1031,10 @@ def get_line_color_sec(line,path,**kwargs):
         ("INIT",regex_ops) : (do_op,"INIT"),
         ("INIT",regex_others) : (do_open_var,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
-        ("OTHER",regex_others_and_quotes) : (None,"OTHER"),
+        ("INIT",regex_b) : (None,"BYTES"),
+        ("BYTES",regex_others) : (do_open_var,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+        ("OTHER",regex_others) : (None,"OTHER"),
         ("OTHER",regex_colons) : (do_close_var_colon,"INIT"),
         ("OTHER",regex_commas) : (do_close_var,"INIT"),
         ("OTHER",regex_spaces) : (do_close_var,"INIT")
@@ -1051,6 +1057,26 @@ def get_line_color_sec(line,path,**kwargs):
         k = (sn,regex_nonqses_array[i])
         v = (None,sn)
         fsm_dict[k] = v
+    #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+    for i in range(0,regex_quotes_array.__len__()):
+        k = ("BYTES",regex_quotes_array[i])
+        sn = ''.join(("BQ",'_',str(i)))
+        v = (do_open_quote,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_quotes_array[i])
+        v = (do_close_quote,"INIT")
+        fsm_dict[k] = v
+        bpisiq = ''.join(("BPISIQ",'_',str(i)))
+        k = (sn,re.compile("\\\\"))
+        v = (None,bpisiq)
+        fsm_dict[k] = v
+        k = (bpisiq,re.compile("."))
+        v = (None,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_nonqses_array[i])
+        v = (None,sn)
+        fsm_dict[k] = v
+    #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #----------------------------------------------------------------
     def search_fsm(curr_state,input_symbol,fsm_dict):
         for key in fsm_dict:
@@ -1063,26 +1089,34 @@ def get_line_color_sec(line,path,**kwargs):
                 pass
         return(None)
     curr_state = "INIT"
+    prev_symbol = ''
     for i in range(0,line.__len__()):
         cursor = i
         input_symbol = line[i]
         temp = search_fsm(curr_state,input_symbol,fsm_dict)
         action = temp[0]
         if(action):
-            si,ei,color_sec,color_sec_seq,colon_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted)
+            si,ei,color_sec,color_sec_seq,colon_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
         else:
             pass
         curr_state = temp[1]
+        prev_symbol = input_symbol
+    #-------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"--------------------------------
+    if(curr_state == "BYTES"):
+        cursor = cursor + 1
+        si,ei,color_sec,color_sec_seq,colon_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+        curr_state = "INIT"
+    #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"-------------------------------
     if(curr_state == "OTHER"):
         cursor = cursor + 1
-        si,ei,color_sec,color_sec_seq,colon_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted)
+        si,ei,color_sec,color_sec_seq,colon_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
         curr_state = "INIT"
     if(curr_state == "INIT"):
         cursor = cursor + 1
         if(is_op(input_symbol)):
             pass
         else:
-            si,ei,color_sec,color_sec_seq,colon_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted)
+            si,ei,color_sec,color_sec_seq,colon_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
         curr_state = "INIT"
     return(color_sec)
 
