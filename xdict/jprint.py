@@ -932,6 +932,9 @@ def get_line_color_sec(line,path,**kwargs):
     #-------------------------------------------------------------------------------------
     regex_ops = creat_regex(ops)
     regex_others = creat_others_regexes(quotes,colons,ops,commas,spaces)
+    ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+    regex_others_and_quotes = creat_others_regexes(colons,ops,commas,spaces)
+    ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #-------------------------------------------------------------------
     head = utils.get_dir_string_head(path)
     head_last = utils.str_rstrip(head,sp,1)
@@ -1023,7 +1026,9 @@ def get_line_color_sec(line,path,**kwargs):
         ("INIT",regex_spaces) : (None,"INIT"),
         ("INIT",regex_ops) : (do_op,"INIT"),
         ("INIT",regex_others) : (do_open_var,"OTHER"),
-        ("OTHER",regex_others) : (None,"OTHER"),
+        ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+        ("OTHER",regex_others_with_quotes) : (None,"OTHER"),
+        ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
         ("OTHER",regex_colons) : (do_close_var_colon,"INIT"),
         ("OTHER",regex_commas) : (do_close_var,"INIT"),
         ("OTHER",regex_spaces) : (do_close_var,"INIT")
