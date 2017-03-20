@@ -124,6 +124,12 @@ def get_type_name(obj):
     m = regex.search(class_str)
     return(m.group(1))
 
+def is_bytes(obj):
+    if(type(obj)==type(b'x')):
+        return(True)
+    else:
+        return(False)
+
 
 #path string 
 def is_slash_end(path_string,delimiter='/'):
