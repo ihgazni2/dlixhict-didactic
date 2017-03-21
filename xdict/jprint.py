@@ -1022,7 +1022,7 @@ def get_line_color_sec(line,path,**kwargs):
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
     def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         colon_meeted = 1
-        return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted))
+        return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol))
     #----------------------------------------------------------------------------------------
     fsm_dict = {
         ("INIT",regex_colons) : (do_colons,"INIT"),
