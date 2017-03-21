@@ -119,6 +119,7 @@ def kv_list_to_tuple_list(klist,vlist,**kwargs):
         else:
             return(None)
         if(klist.__len__()==vlist.__len__()):
+            pass
         else:
             return(None)
     else:
