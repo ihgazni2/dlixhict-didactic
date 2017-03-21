@@ -1,4 +1,3 @@
-git pull origin master
 python3 setup.py install --record install.txt
 cat install.txt | xargs rm -rf
 rm -r dist
