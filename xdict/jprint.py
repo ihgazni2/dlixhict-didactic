@@ -738,7 +738,10 @@ def get_print_lines_and_paths(j_str,block_op_pairs_dict = get_block_op_pairs("{}
     #step 1: line 0 
     prev_lv = int(j_lv_str[line_start_indexes[0]])
     prev_path = line_to_path_init(orig_lines[0],block_op_pairs_dict,sp,commas,colons)
-    new_lines[0] = html.unescape(orig_lines[0])
+    #----------should not unescape here for secarino:{'resp_body_bytes': b'&#39;c'}
+    #          which will cause {'resp_body_bytes': b''c'}
+    new_lines[0] = orig_lines[0]
+    #----------should not unescape here 
     paths = {}
     paths = {0: prev_path}
     for i in range(1, orig_lines.__len__()):
@@ -746,10 +749,14 @@ def get_print_lines_and_paths(j_str,block_op_pairs_dict = get_block_op_pairs("{}
         curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
         paths[i] = curr_path
         curr_head = utils.get_dir_string_head(curr_path,delimiter=sp).replace(sp,'')
+        #---escaped to calculate the real prepend spaces
         curr_head = html.unescape(curr_head)
+        #---escaped to calculate the real prepend spaces
         curr_head_len = curr_head.__len__()
         prepend = " " * curr_head_len
-        new_lines[i] = ''.join((prepend,html.unescape(orig_lines[i])))
+        #------------should not unescape here
+        new_lines[i] = ''.join((prepend,orig_lines[i]))
+        #------------should not unescape here
         prev_lv = curr_lv
         prev_path = curr_path
     return({'lines':new_lines,'paths':paths})
@@ -1239,8 +1246,13 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
+            painted_string = html.unescape(painted_string)
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
         else:
-            painted_string = line
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
+            painted_string = html.unescape(line)
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
         #not implemented yet
         # if(fixed_indent):
            # indent_num = paths[i].split(sp).__len__()
@@ -1362,8 +1374,13 @@ def print_j_str(j_str,**kwargs):
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
+            painted_string = html.unescape(painted_string)
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
         else:
-            painted_string = line
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
+            painted_string = html.unescape(line)
+            #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
         #not implemented yet
         # if(fixed_indent):
             # indent_num = paths[i].split(sp).__len__()
