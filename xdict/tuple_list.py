@@ -789,14 +789,14 @@ def tuple_list_include(tuple_list,**kwargs):
             return(None)
     else:
         pass
-    if(mode ='key'):
+    if(mode =='key'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
             v = temp[1]
             if(k = key):
                 return(True)
-    elif(mode = 'value'):
+    elif(mode == 'value'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
@@ -834,14 +834,14 @@ def tuple_list_count(tuple_list,**kwargs):
     else:
         pass
     num = 0
-    if(mode ='key'):
+    if(mode =='key'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
             v = temp[1]
             if(k = key):
                 num = num + 1
-    elif(mode = 'value'):
+    elif(mode == 'value'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
@@ -1018,7 +1018,7 @@ def tuple_list_remove_first(tuple_list,**kwargs):
     else:
         new = tuple_list
     len = new.__len__()
-    if(mode ='key'):
+    if(mode =='key'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
@@ -1026,7 +1026,7 @@ def tuple_list_remove_first(tuple_list,**kwargs):
             if(k = key):
                 new.remove(temp)
                 break
-    elif(mode = 'value'):
+    elif(mode == 'value'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
@@ -1073,7 +1073,7 @@ def tuple_list_remove_last(tuple_list,**kwargs):
     else:
         new = tuple_list
     len = new.__len__()
-    if(mode ='key'):
+    if(mode =='key'):
         for i in range(len-1,-1,-1):
             temp = tuple_list[i]
             k = temp[0]
@@ -1081,7 +1081,7 @@ def tuple_list_remove_last(tuple_list,**kwargs):
             if(k = key):
                 new.remove(temp)
                 break
-    elif(mode = 'value'):
+    elif(mode == 'value'):
         for i in range(len-1,-1,-1):
             temp = tuple_list[i]
             k = temp[0]
@@ -1129,14 +1129,14 @@ def tuple_list_remove_all(tuple_list,**kwargs):
         new = tuple_list
     len = new.__len__()
     i = 0
-    if(mode ='key'):
+    if(mode =='key'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
             v = temp[1]
             if(k = key):
                 new.remove(temp)
-    elif(mode = 'value'):
+    elif(mode == 'value'):
         for i in range(0,tuple_list.__len__()):
             temp = tuple_list[i]
             k = temp[0]
