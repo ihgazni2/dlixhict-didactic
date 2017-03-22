@@ -25,5 +25,6 @@
 23. get_jdict_token_set(block_op_pairs_dict=get_block_op_pairs('{}[]()'))  
 24. convert_token_in_quote(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'))  
 25. pobj(obj,**kwargs)  
-![](/Images/jprint.pobj.png)
+![](/Images/jprint.pobj_1.png)
+![](/Images/jprint.pobj_2.png)
 
