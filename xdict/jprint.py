@@ -1095,13 +1095,13 @@ def get_line_color_sec(line,path,**kwargs):
         input_symbol = line[i]
         temp = search_fsm(curr_state,input_symbol,fsm_dict)
         #----debug----
-        print("------------------")
-        print(line)
-        print(prev_symbol)
-        print(cursor)
-        print(input_symbol)
-        print(temp)
-        print("------------------")
+        #print("------------------")
+        #print(line)
+        #print(prev_symbol)
+        #print(cursor)
+        #print(input_symbol)
+        #print(temp)
+        #print("------------------")
         #----debug----
         action = temp[0]
         if(action):
