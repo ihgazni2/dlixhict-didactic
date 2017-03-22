@@ -907,7 +907,7 @@ def get_line_color_sec(line,path,**kwargs):
             regex_quote_str = ''.join((regex_quote_str,'\\',quotes[i]))
         regex_quote_str = ''.join((regex_quote_str,']'))
         return(re.compile(regex_quote_str))
-    def creat_others_regexes(quotes,colons,ops,commas,spaces):
+    def creat_others_regexes(quotes,colons,ops,commas,spaces,bchars):
         non_regex_qco_str = '[^'
         for i in range(0,quotes.__len__()):
             non_regex_qco_str = ''.join((non_regex_qco_str,quotes[i]))
@@ -919,6 +919,8 @@ def get_line_color_sec(line,path,**kwargs):
             non_regex_qco_str = ''.join((non_regex_qco_str,commas[i]))
         for i in range(0,spaces.__len__()):
             non_regex_qco_str = ''.join((non_regex_qco_str,spaces[i]))
+        for i in range(0,bchars.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,bchars[i]))
         non_regex_qco_str = ''.join((non_regex_qco_str,']'))
         non_regex_qco = re.compile(non_regex_qco_str)
         return(non_regex_qco)
@@ -931,9 +933,10 @@ def get_line_color_sec(line,path,**kwargs):
     regex_spaces = creat_regex(spaces)
     #-------------------------------------------------------------------------------------
     regex_ops = creat_regex(ops)
-    regex_others = creat_others_regexes(quotes,colons,ops,commas,spaces)
+    regex_others = creat_others_regexes(quotes,colons,ops,commas,spaces,[])
     ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     regex_b = re.compile('b')
+    regex_others_without_b = creat_others_regexes(quotes,colons,ops,commas,spaces,['b'])
     ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #-------------------------------------------------------------------
     head = utils.get_dir_string_head(path)
@@ -1029,7 +1032,7 @@ def get_line_color_sec(line,path,**kwargs):
         ("INIT",regex_commas) : (None,"INIT"),
         ("INIT",regex_spaces) : (None,"INIT"),
         ("INIT",regex_ops) : (do_op,"INIT"),
-        ("INIT",regex_others) : (do_open_var,"OTHER"),
+        ("INIT",regex_others_without_b) : (do_open_var,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
         ("INIT",regex_b) : (None,"BYTES"),
         ("BYTES",regex_others) : (do_open_var,"OTHER"),
