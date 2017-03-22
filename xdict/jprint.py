@@ -1094,6 +1094,12 @@ def get_line_color_sec(line,path,**kwargs):
         cursor = i
         input_symbol = line[i]
         temp = search_fsm(curr_state,input_symbol,fsm_dict)
+        #----debug----
+        print(prev_symbol)
+        print(cursor)
+        print(input_symbol)
+        print(temp)
+        #----debug----
         action = temp[0]
         if(action):
             si,ei,color_sec,color_sec_seq,colon_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
