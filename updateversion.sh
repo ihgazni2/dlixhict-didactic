@@ -1,7 +1,4 @@
 pip3 uninstall xdict
-rm -r dist
-rm -r build
-rm -r xdict.egg-info
 git rm -r dist
 git rm -r build
 git rm -r xdict.egg-info
