@@ -1209,7 +1209,7 @@ def tuple_list_sort(tuple_list,**kwargs):
     else:
         new = tuple_list
     len = new.__len__()
-    if(mode = 'key'):
+    if(mode == 'key'):
         new = sorted(new,reverse=inverse)
     else:
         sorted(new, key=itemgetter(1),reverse=inverse)
