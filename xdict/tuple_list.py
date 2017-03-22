@@ -808,7 +808,7 @@ def tuple_list_include(tuple_list,**kwargs):
             temp = tuple_list[i]
             key = temp[0]
             value = temp[1]
-            if((k=key)&(v=value)):
+            if((k==key)&(v==value)):
                 return(True)
     return(False)
 
@@ -853,7 +853,7 @@ def tuple_list_count(tuple_list,**kwargs):
             temp = tuple_list[i]
             key = temp[0]
             value = temp[1]
-            if((k=key)&(v=value)):
+            if((k==key)&(v==value)):
                 num = num + 1
     return(num)
 
@@ -1039,7 +1039,7 @@ def tuple_list_remove_first(tuple_list,**kwargs):
             temp = tuple_list[i]
             key = temp[0]
             value = temp[1]
-            if((k=key)&(v=value)):
+            if((k==key)&(v==value)):
                 new.remove(temp)
                 break
     return(new)
@@ -1094,7 +1094,7 @@ def tuple_list_remove_last(tuple_list,**kwargs):
             temp = tuple_list[i]
             key = temp[0]
             value = temp[1]
-            if((k=key)&(v=value)):
+            if((k==key)&(v==value)):
                 new.remove(temp)
                 break
     return(new)
@@ -1148,7 +1148,7 @@ def tuple_list_remove_all(tuple_list,**kwargs):
             temp = tuple_list[i]
             key = temp[0]
             value = temp[1]
-            if((k=key)&(v=value)):
+            if((k==key)&(v==value)):
                 new.remove(temp)
     return(new)
 
