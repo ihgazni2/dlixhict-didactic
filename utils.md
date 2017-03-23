@@ -54,6 +54,7 @@
 9. get_desc_parent_dict(description_dict)
 10. tree_desc(description_dict)
 11. dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to='')
+12. dict_extend_just_intersection(dict1,dict2)
 
 
 
