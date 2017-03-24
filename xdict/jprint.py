@@ -548,21 +548,23 @@ def get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=get_
     curr_seq = curr_seq + 1
     return(curr_lv,curr_lv,curr_seq)
 
-def get_j_str_lvs_str(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()")):
+def get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()")):
     j_str_len = j_str.__len__()
-    j_str_lv_str = ''
+    j_str_lvs_dict = {}
     if( j_str_len == 0):
-        j_str_lv_str =''
+        j_str_lvs_dict = {}
     elif(j_str_len == 1):
-        j_str_lv_str = '1'
+        j_str_lvs_dict = {0:1}
     else:
         curr_lv = 1
-        j_str_lv_str = '1'
+        j_str_lvs_dict = {0:1}
+        seq = 1
         curr_seq = 0
         while(curr_seq < j_str_len - 1):
             level,curr_lv,curr_seq = get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict)
-            j_str_lv_str = ''.join((j_str_lv_str,str(level)))
-    return(j_str_lv_str)
+            j_str_lvs_dict[seq] =level
+            seq = seq + 1
+    return(j_str_lvs_dict)
 
 def get_line_start_index_in_j_str(orig_lines):
     line_start_indexes = {}
@@ -731,7 +733,7 @@ def get_print_lines_and_paths(j_str,block_op_pairs_dict = get_block_op_pairs("{}
         path_sps = ['/']
     j_str = convert_token_in_quote(j_str,block_op_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     j_str = format_j_str(j_str,block_op_pairs_dict)
-    j_lv_str = get_j_str_lvs_str(j_str,block_op_pairs_dict)
+    j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
     orig_lines = j_str.split('\n')
     line_start_indexes = get_line_start_index_in_j_str(orig_lines)
     new_lines = {}
