@@ -11,7 +11,7 @@
 10. is_colon(ch)  
 11. get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))  
 12. get_j_str_lv_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))  
-13. get_j_str_lvs_str(j_str_lv_dict)  
+13. get_j_str_lvs_dict(j_str_lv_dict)  
 14. get_line_start_index_in_j_str(orig_lines)  
 15. line_to_path_init(line,block_op_pairs_dict = get_block_op_pairs("{}[]"))  
 16. line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_op_pairs("{}[]"))  
