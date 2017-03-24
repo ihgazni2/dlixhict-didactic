@@ -19,6 +19,8 @@
 ![](Images/hdict_cmdline.show_xml.png)  
 19. obj_to_cmdlines_dict(obj)
 20. show_obj(cmd,obj,**kwargs)
+![](Images/hdict_cmdline.show_obj_1.png) 
+![](Images/hdict_cmdline.show_obj_2.png) 
 21. show_hdict(cmd,hdict,**kwargs)
 
 
