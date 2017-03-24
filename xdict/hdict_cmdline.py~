@@ -93,7 +93,7 @@ def cmdlines_ltdict_to_deep(cmdlines_ltdict,**kwargs):
         lines[i] = line_lt
     return(lines)
 
-def hdict_to_cmdlines_ltdict(hdict,**kwargs):
+def hdict_to_cmdlines_dict(hdict,**kwargs):
     if('cmd_sp' in kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
@@ -330,7 +330,7 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
     print(rslt)
     return(orig_seqs)
 
-def show_obj(cmd,obj,**kwargs):
+def get_obj_value_from_cmd(cmd,obj,**kwargs):
     if('sp' in kwargs):
         sp = kwargs['sp']
     else:
@@ -419,7 +419,7 @@ def cmdlines_to_xml(cmdlines,**kwargs):
     return(rslt)
 
 #
-def xml_to_cmdline_ltdict(**kwargs):
+def xml_to_cmdline_dict(**kwargs):
     if('html_file_path' in kwargs):
         html_file_path = kwargs['html_file_path']
         fd = open(html_file_path,'r') 
@@ -463,7 +463,7 @@ def xml_to_cmdline_ltdict(**kwargs):
         disable_type = kwargs['disable_type']
     else:
         disable_type = 0
-    rslt = hdict_to_cmdlines_ltdict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp)
+    rslt = hdict_to_cmdlines_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp)
     if('save' in kwargs):
        if(kwargs['save']==1):
         cmds = ''
@@ -591,7 +591,7 @@ def show_xml(cmd,**kwargs):
     if(handled):
         temp = handled
     else:
-        temp = xml_to_cmdline_ltdict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=cmd_sp,line_sp=line_sp)
+        temp = xml_to_cmdline_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=cmd_sp,line_sp=line_sp)
     cmdlines_ltdict = temp['cmds']
     results = temp['results']
     attribs = temp['attribs']
@@ -621,4 +621,71 @@ def show_xml(cmd,**kwargs):
                 seq = rslt_seqs[i]
                 rslt = ''.join((rslt,cmdlines_ltdict[seq],line_sp))
             print(jprint.paint_str(rslt,single_color='yellow'))
-            return({'rslt':rslt, 'seqs':rslt_seqs})                
+            return({'rslt':rslt, 'seqs':rslt_seqs})    
+
+
+
+
+def obj_to_cmdlines_dict(obj):
+    #cmdlines,results,attribs = obj_to_cmdlines(obj)
+    temp = hdict_object.obj_to_hdict(obj)
+    hdict = temp['hdict']
+    cmdlines_dict = hdict_to_cmdlines_dict(hdict)
+    cmdlines = cmdlines_dict['cmds']
+    results = cmdlines_dict['results']
+    attribs = cmdlines_dict['attribs']
+    return(cmdlines_dict)
+
+def show_obj(cmd,obj,**kwargs):
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    cmdlines_dict = obj_to_cmdlines_dict(obj)
+    cmdlines = cmdlines_dict['cmds']
+    results = cmdlines_dict['results']
+    attribs = cmdlines_dict['attribs']    
+    try:
+        rslt = get_obj_value_from_cmd(cmd,obj,line_sp=line_sp,cmd_sp=cmd_sp)
+    except:
+        prompt = show_prompt_cmdlines_ltdict(cmd,cmdlines)
+        return(prompt)
+    else:
+        return(rslt)
+
+
+def show_hdict(cmd,hdict,**kwargs):
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('prdict' in kwargs):
+        prdict = kwargs['prdict']
+    else:
+        prdict = hdict_object.hdict_get_paths_relationship(hdict)
+    cmdlines_dict = hdict_to_cmdlines_dict(obj)
+    cmdlines = cmdlines_dict['cmds']
+    results = cmdlines_dict['results']
+    attribs = cmdlines_dict['attribs']    
+    try:
+        pl = cmd_to_path_list(cmd,cmd_sp=cmd_sp)
+        rslt =hdict_get_value(hdict,pl,prdict=prdict) 
+    except:
+        prompt = show_prompt_cmdlines_ltdict(cmd,cmdlines)
+        return(prompt)
+    else:
+        return(rslt)
+        
+        
+
+
+
+            
