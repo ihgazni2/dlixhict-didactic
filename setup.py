@@ -7,6 +7,15 @@ setup(
       url="https://github.com/ihgazni2/dlixhict-didactic",
       author_email='terryinzaghi@163.com', 
       license="MIT",
+      long_description = "refer to .md files in https://github.com/ihgazni2/dlixhict-didactic",
+      classifiers=[
+          'Environment :: Console',
+          'Environment :: Web Environment',
+          'Intended Audience :: End Users/Desktop',
+          'Intended Audience :: Developers',
+          'Intended Audience :: System Administrators',
+          'Programming Language :: Python',
+          ],
       packages= find_packages(),
       py_modules=['xdict'], 
       )
