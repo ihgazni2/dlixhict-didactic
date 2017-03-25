@@ -312,16 +312,19 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                 if(lb2>cmdpl2_len - 1):
                     return((False,0,distance))
                 else:
-                    for i in range(1,cmdpl1_len-1):
-                        index = i + distance
-                        if(index > (cmdpl2_len -1)):
-                            return((False,i,distance))
-                        else:
-                            if(cmdpl1[i]==cmdpl2[index]):
-                                pass
-                            else:
+                    if((cmdpl1_len-1)<=1):
+                        return((True,0,distance))
+                    else:
+                        for i in range(1,cmdpl1_len-1):
+                            index = i + distance
+                            if(index > (cmdpl2_len -1)):
                                 return((False,i,distance))
-                    return((True,i,distance))
+                            else:
+                                if(cmdpl1[i]==cmdpl2[index]):
+                                    pass
+                                else:
+                                    return((False,i,distance))
+                        return((True,i,distance))
             #---------debug--------#
             
             lb2 = 0
