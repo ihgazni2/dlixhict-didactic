@@ -319,6 +319,25 @@ def is_number_str(old_index):
         return(False)
     else:
         return(True)
+    
+ def str_at_begin_of_str(str1,str2):
+    len1 = str1.__len__()
+    begin = str2[:len1]
+    if(str1 == begin):
+        return(True)
+    else:
+        return(False)
+
+
+
+def str_at_end_of_str(str1,str2):
+    len1 = str1.__len__()
+    end = str2[len1:]
+    if(str1 == end):
+        return(True)
+    else:
+        return(False)
+
 
 
 #list dict tuple
