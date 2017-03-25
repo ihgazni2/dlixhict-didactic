@@ -120,19 +120,20 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                 else:
                     return(False)
             #---------debug--------#
-            print(cmdpl1)
-            print(cmdpl2)
-            print(lb1)
-            print(lb2)
-            print(distance)
-            #---------debug--------#
-            end1 = cmdpl1[cmdpl1_len-1]
-            end2 = cmdpl2[cmdpl1_len-1+distance]
-            cond = utils.str_at_begin_of_str(end1,end2)
-            if(cond):
-                return(True)
-            else:
+            if(lb2>cmdpl2_len - 1):
                 return(False)
+            else:
+                end1 = cmdpl1[cmdpl1_len-1]
+                end2 = cmdpl2[cmdpl1_len-1+distance]
+                cond = utils.str_at_begin_of_str(end1,end2)
+                if(cond):
+                    return(True)
+                else:
+                    return(False)
+
+
+
+            
 
 
 
