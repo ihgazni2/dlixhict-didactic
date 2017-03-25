@@ -8,6 +8,119 @@ from xdict import jprint
 
 
 
+def cmd_in_cmd(cmd1,cmd2,**kwargs):
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = 'strict'
+    if('cmd1_sp' in kwargs):
+        cmd1_sp = kwargs['cmd1_sp']
+    else:
+        cmd1_sp = ' '
+    if('cmd2_sp' in kwargs):
+        cmd2_sp = kwargs['cmd2_sp']
+    else:
+        cmd2_sp = ' '
+    cmd1 = format_cmd(cmd1,cmd_sp=cmd_sp1)
+    cmd2 = format_cmd(cmd2,cmd_sp=cmd_sp2)
+    cmd1_pl = cmd1.split(cmd1_sp))
+    cmd2_pl = cmd2.split(cmd2_sp))
+    return(cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode=mode)
+
+
+
+
+def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
+    '''
+    cmdpl2 ={0: 'client', 1: 'userImage', 2: 'default', 3: 'size222'}
+    secarino1:
+        cmdpl1=['ent', 'userImage', 'default', 'size']
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode='loose') == True
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2) == False
+    secarino2:
+        cmdpl1=[]
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode='loose') == True
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2) == True
+    secarino3:
+        cmdpl1=['cli']
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode='loose') == True
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2) == True
+    secarino4:
+        cmdpl1=['erIma']
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode='loose') == True
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2) == False
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = 'strict'
+    cmdpl1_len = cmdpl1.__len__()
+    cmdpl2_len = cmdpl2.__len__()
+    if(cmdpl1_len > cmdpl2_len):
+        return(False)
+    else:
+        pass
+    if(mode == 'strict'):
+        if(cmdpl1_len == 0):
+            return(True)
+        elif(cmdpl1_len==1):
+            start1 = cmdpl1[0]
+            start2 = cmdpl2[0]
+            cond = utils.str_at_begin_of_str(start1,start2)
+            if(cond):
+                return(True)
+            else:
+                return(False)
+        else:
+            for i in range(0,cmdpl1_len-1):
+                if(cmdpl1[i]==cmdpl2[i]):
+                    pass
+                else:
+                    return(False)
+            end1 = cmdpl1[cmdpl1_len-1]
+            end2 = cmdpl2[cmdpl1_len-1]
+            cond = utils.str_at_begin_of_str(end1,end2)
+            if(cond):
+                return(True)
+            else:
+                return(False)
+    else:
+        if(cmdpl1_len == 0):
+            return(True)
+        elif(cmdpl1_len==1):
+            ele1 = cmdpl1[0]
+            for i in range(0,cmdpl2_len):
+                ele2 = cmdpl2[i]
+                cond = (ele1 in ele2)
+                if(cond):
+                    return(True)
+                else:
+                    pass
+            return(False)
+        else:
+            start1 = cmdpl1[0]
+            start2 = cmdpl2[0]
+            cond = utils.str_at_end_of_str(start1,start2)
+            if(cond):
+                pass
+            else:
+                return(False)
+            for i in range(1,cmdpl1_len-1):
+                if(cmdpl1[i]==cmdpl2[i]):
+                    pass
+                else:
+                    return(False)
+            end1 = cmdpl1[cmdpl1_len-1]
+            end2 = cmdpl2[cmdpl1_len-1]
+            cond = utils.str_at_begin_of_str(end1,end2)
+            if(cond):
+                return(True)
+            else:
+                return(False)
+
+
+
+
 def format_cmd(cmd,cmd_sp=' '):
     regex_str = ''.join(('[',cmd_sp,']','+'))
     regex = re.compile(regex_str)
