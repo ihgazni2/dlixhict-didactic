@@ -486,8 +486,8 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             rsi = get_real_si_from_char_position_desc(si,cpdesc)
             cmd_len = cmd.__len__()
             s1 = line[:rsi]
-            s2 = paint_str(line[rsi:si],single_color=single_color_rsi)
-            s3 = paint_str(cmd,single_color=single_color_cmd)
+            s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
+            s3 = jprint.paint_str(cmd,single_color=single_color_cmd)
             s4 = line[si+cmd_len]
             line = ''.join((s1,s2,s3,s4))
             #-----------paint---------------           
