@@ -7,6 +7,32 @@ from xdict import hdict_xml
 from xdict import jprint
 
 
+def get_cmd_char_position_desc(cmdpl,cmd_sp=' '):
+    sp_len = cmd_sp.__len__()
+    desc = []
+    curr = 0
+    for i in range(0,cmdpl.__len__()):
+        supp = sp_len * i
+        kw = cmdpl[i]
+        l = kw.__len__()
+        end = curr + l - 1 
+        desc.append((curr+supp,end+supp))
+        curr = end + 1
+    return(desc)
+
+cpdesc = get_cmd_char_position_desc(cmdpl1,cmd_sp='')
+
+def get_real_si_from_char_position_desc(si,cpdesc):
+    for i in range(0,cpdesc.__len__()):
+        rsi = cpdesc[i][0]
+        rei = cpdesc[i][1]
+        if((si>=rsi) & (si<=rei)):
+            return(rsi)
+        else:
+            pass
+    return(None)
+
+
 
 def cmd_in_cmd(cmd1,cmd2,**kwargs):
     if('mode' in kwargs):
@@ -412,6 +438,7 @@ def deep_ltdict_to_cmdlines(deep_ltdict,**kwargs):
     lines = ltdict_to_cmdlines(cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
     return(lines)
 
+
 def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
     if('line_sp' in kwargs):
         line_sp = kwargs['line_sp']
@@ -425,6 +452,14 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
         mode = kwargs['mode']
     else:
         mode = 'loose'
+    if('single_color' in kwargs):
+        single_color_cmd = kwargs['single_color_cmd']
+    else:
+        single_color_cmd = 'green'
+    if('single_color' in kwargs):
+        single_color_rsi = kwargs['single_color_rsi']
+    else:
+        single_color_rsi = 'blue'
     cmd = format_cmd(cmd,cmd_sp=cmd_sp)
     cmd_nocaps = cmd.lower()
     cmd_pl = cmd.split(cmd_sp)
@@ -446,6 +481,17 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             for k in range(0,full_cmdpl_len):
                 line = ''.join((line,pnoc[k],cmd_sp))
             line = utils.str_rstrip(line,cmd_sp,1)
+            #-----------paint---------------
+            si = line.find(cmd)
+            cpdesc = get_cmd_char_position_desc(cmdpl,cmd_sp=cmd_sp)
+            rsi = get_real_si_from_char_position_desc(si,cpdesc)
+            cmd_len = cmd.__len__()
+            s1 = line[:rsi]
+            s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
+            s3 = jprint.paint_str(cmd,single_color=single_color_cmd)
+            s4 = line[si+cmd_len]
+            line = ''.join((s1,s2,s3,s4))
+            #-----------paint---------------
             rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
         else:
@@ -455,70 +501,7 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
     return(orig_seqs)
 
 
-def show_prompt_cmdlines_obseleted(cmd,cmdlines,**kwargs):
-    if('line_sp' in kwargs):
-        line_sp = kwargs['line_sp']
-    else:
-        line_sp = '\n'
-    if('cmd_sp' in kwargs):
-        cmd_sp = kwargs['cmd_sp']
-    else:
-        cmd_sp = ' '
-    cmd = format_cmd(cmd,cmd_sp=cmd_sp)
-    cmd_nocaps = cmd.lower()
-    cmd_pl = cmd.split(cmd_sp)
-    len_1 = cmd_pl.__len__()
-    cmd_nocaps_pl = cmd_nocaps.split(cmd_sp.lower())
-    cmdlines_deep = cmdlines_to_deep_ltdict(cmdlines,cmd_sp=cmd_sp,line_sp=line_sp)
-    cmdlines_nocaps = cmdlines.lower()
-    cmdlines_nocaps_deep = cmdlines_to_deep_ltdict(cmdlines_nocaps,cmd_sp=cmd_sp.lower(),line_sp=line_sp.lower())
-    len_2  = cmdlines_nocaps_deep.__len__()
-    rslt = ''
-    orig_seqs = []
-    for i in range(0,len_2):
-        p = cmdlines_nocaps_deep[i]
-        pnoc = cmdlines_deep[i]
-        len_3 = p.__len__()
-        if(len_1 > len_3):
-            pass
-        else:
-            cond = 1
-            tab = 0
-            for j in range(0,len_1-1):
-                if(p[j]==cmd_nocaps_pl[j]):
-                    pass
-                else:
-                    cond = 0
-                    break
-            str_len = cmd_nocaps_pl[len_1-1].__len__()
-            if(str_len > p[len_1-1].__len__()):
-                cond = 0
-            elif(str_len == p[len_1-1].__len__()):
-                if(cmd_nocaps_pl[len_1-1] == p[len_1-1]):
-                    pass
-                else:
-                    cond = 0
-            else:
-                if(cmd_nocaps_pl[len_1-1] == p[len_1-1][:str_len]):
-                    tab = 1
-                else:
-                    cond = 0
-            if(cond == 0):
-                pass
-            else:
-                if(tab == 0):
-                    start = len_1
-                else:
-                    start = len_1 - 1
-                line = ''
-                for k in range(start,len_3):
-                    line = ''.join((line,pnoc[k],cmd_sp))
-                line = utils.str_rstrip(line,cmd_sp,1)
-                rslt = ''.join((rslt,line,line_sp))
-                orig_seqs.append(i)
-    rslt = utils.str_rstrip(rslt,line_sp,1)
-    print(rslt)
-    return(orig_seqs)
+
 
 def get_obj_value_from_cmd(cmd,obj,**kwargs):
     if('sp' in kwargs):
