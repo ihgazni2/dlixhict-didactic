@@ -28,8 +28,6 @@ def cmd_in_cmd(cmd1,cmd2,**kwargs):
     return(cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode=mode)
 
 
-
-
 def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
     '''
     cmdpl2 ={0: 'client', 1: 'userImage', 2: 'default', 3: 'size222'}
@@ -47,6 +45,10 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
         cmdpl_in_cmdpl(cmdpl1,cmdpl2) == True
     secarino4:
         cmdpl1=['erIma']
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode='loose') == True
+        cmdpl_in_cmdpl(cmdpl1,cmdpl2) == False
+    secarino5:
+        cmdpl1=['client','use']
         cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode='loose') == True
         cmdpl_in_cmdpl(cmdpl1,cmdpl2) == False
     '''
@@ -98,25 +100,33 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                     pass
             return(False)
         else:
-            start1 = cmdpl1[0]
-            start2 = cmdpl2[0]
-            cond = utils.str_at_end_of_str(start1,start2)
-            if(cond):
-                pass
-            else:
-                return(False)
-            for i in range(1,cmdpl1_len-1):
-                if(cmdpl1[i]==cmdpl2[i]):
+            lb1 = 0
+            lb2 = 0
+            for i in range(0,cmdpl1_len-1):
+                start1 = cmdpl1[i]
+                for j in range(0,cmdpl2_len):
+                    start2 = cmdpl2[j]
+                    cond = utils.str_at_end_of_str(start1,start2)
+                    if(cond):
+                        lb1 = i+1
+                        lb2 = j+1
+                        break
+                    else:
+                        pass
+            distance = lb2 - lb1
+            for i in range(lb1,cmdpl1_len-1):
+                if(cmdpl1[i]==cmdpl2[i+distance]):
                     pass
                 else:
                     return(False)
             end1 = cmdpl1[cmdpl1_len-1]
-            end2 = cmdpl2[cmdpl1_len-1]
+            end2 = cmdpl2[cmdpl1_len-1+distance]
             cond = utils.str_at_begin_of_str(end1,end2)
             if(cond):
                 return(True)
             else:
                 return(False)
+
 
 
 
