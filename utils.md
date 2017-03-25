@@ -41,6 +41,8 @@
 4. str_prepend(s,char,count)
 5. str_append(s,char,count)  
 6. is_number_str(obj)
+7. str_at_begin_of_str(start1,start2)
+8. str_at_end_of_str(start1,start2)
 
 ##dict list tuple
 1. creat_default_list_with_len(len,element=None)  
