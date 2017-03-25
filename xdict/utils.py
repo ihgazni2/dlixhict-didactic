@@ -332,7 +332,8 @@ def is_number_str(old_index):
 
 def str_at_end_of_str(str1,str2):
     len1 = str1.__len__()
-    end = str2[len1:]
+    len2 = str2.__len__()
+    end = str2[(len2-len1):]
     if(str1 == end):
         return(True)
     else:
