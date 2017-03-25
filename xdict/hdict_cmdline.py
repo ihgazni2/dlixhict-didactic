@@ -488,7 +488,7 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
         full_cmdpl_len = p.__len__()
         cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
         print("cmd_nocaps_pl:{0}".format(cmd_nocaps_pl))
-        print("p:{0}".formate(p))
+        print("p:{0}".format(p))
         if(cond):
             line = ''
             for k in range(0,full_cmdpl_len):
