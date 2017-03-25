@@ -487,8 +487,8 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
         pnoc = cmdlines_deep[i]
         full_cmdpl_len = p.__len__()
         cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
-        print(cmd_nocaps_pl)
-        print(p)
+        print("cmd_nocaps_pl:{0}".format(cmd_nocaps_pl))
+        print("p:{0}".formate(p))
         if(cond):
             line = ''
             for k in range(0,full_cmdpl_len):
@@ -512,6 +512,7 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             print(s3)
             print(s4)
             print(s5)
+            print("===============")
             #-----------paint---------------           
             rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
