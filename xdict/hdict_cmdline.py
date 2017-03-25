@@ -20,7 +20,6 @@ def get_cmd_char_position_desc(cmdpl,cmd_sp=' '):
         curr = end + 1
     return(desc)
 
-cpdesc = get_cmd_char_position_desc(cmdpl1,cmd_sp='')
 
 def get_real_si_from_char_position_desc(si,cpdesc):
     for i in range(0,cpdesc.__len__()):
