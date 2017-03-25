@@ -482,15 +482,15 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             line = utils.str_rstrip(line,cmd_sp,1)
             #-----------paint---------------
             si = line.find(cmd)
-            cpdesc = get_cmd_char_position_desc(cmd_pl,cmd_sp=cmd_sp)
+            cpdesc = get_cmd_char_position_desc(pnoc,cmd_sp=cmd_sp)
             rsi = get_real_si_from_char_position_desc(si,cpdesc)
             cmd_len = cmd.__len__()
             s1 = line[:rsi]
-            s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
-            s3 = jprint.paint_str(cmd,single_color=single_color_cmd)
+            s2 = paint_str(line[rsi:si],single_color=single_color_rsi)
+            s3 = paint_str(cmd,single_color=single_color_cmd)
             s4 = line[si+cmd_len]
             line = ''.join((s1,s2,s3,s4))
-            #-----------paint---------------
+            #-----------paint---------------           
             rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
         else:
