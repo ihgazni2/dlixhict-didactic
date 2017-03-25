@@ -22,7 +22,7 @@
 ![](Images/hdict_cmdline.show_obj_1.png) 
 ![](Images/hdict_cmdline.show_obj_2.png) 
 21. show_hdict(cmd,hdict,**kwargs)
-
-
+22. cmd_in_cmd(cmd1,cmd2,**kwargs)
+23. cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs)
 
 
