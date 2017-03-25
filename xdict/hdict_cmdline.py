@@ -482,7 +482,7 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             line = utils.str_rstrip(line,cmd_sp,1)
             #-----------paint---------------
             si = line.find(cmd)
-            cpdesc = get_cmd_char_position_desc(cmdpl,cmd_sp=cmd_sp)
+            cpdesc = get_cmd_char_position_desc(cmd_pl,cmd_sp=cmd_sp)
             rsi = get_real_si_from_char_position_desc(si,cpdesc)
             cmd_len = cmd.__len__()
             s1 = line[:rsi]
