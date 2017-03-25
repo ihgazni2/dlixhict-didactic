@@ -25,7 +25,7 @@ def cmd_in_cmd(cmd1,cmd2,**kwargs):
     cmd2 = format_cmd(cmd2,cmd_sp=cmd_sp2)
     cmd1_pl = cmd1.split(cmd1_sp)
     cmd2_pl = cmd2.split(cmd2_sp)
-    return(cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode=mode)
+    return(cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode=mode))
 
 
 def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
