@@ -114,11 +114,14 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                     else:
                         pass
             distance = lb2 - lb1
-            for i in range(lb1,cmdpl1_len-1):
-                if(cmdpl1[i]==cmdpl2[i+distance]):
-                    pass
-                else:
-                    return(False)
+            if(lb2>cmdpl2_len - 1):
+                for i in range(lb1,cmdpl1_len-1):
+                    if(cmdpl1[i]==cmdpl2[i+distance]):
+                        pass
+                    else:
+                        return(False)
+            else:
+                return(False)
             #---------debug--------#
             if(lb2>cmdpl2_len - 1):
                 return(False)
