@@ -119,6 +119,13 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                     pass
                 else:
                     return(False)
+            #---------debug--------#
+            print(cmdpl1)
+            print(cmdpl2)
+            print(lb1)
+            print(lb2)
+            print(distance)
+            #---------debug--------#
             end1 = cmdpl1[cmdpl1_len-1]
             end2 = cmdpl2[cmdpl1_len-1+distance]
             cond = utils.str_at_begin_of_str(end1,end2)
