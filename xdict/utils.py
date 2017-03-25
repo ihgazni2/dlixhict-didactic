@@ -320,7 +320,7 @@ def is_number_str(old_index):
     else:
         return(True)
     
- def str_at_begin_of_str(str1,str2):
+def str_at_begin_of_str(str1,str2):
     len1 = str1.__len__()
     begin = str2[:len1]
     if(str1 == begin):
