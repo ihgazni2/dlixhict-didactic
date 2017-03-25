@@ -65,6 +65,7 @@ def cmd_in_cmd(cmd1,cmd2,**kwargs):
     return(cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode=mode))
 
 
+
 def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
     '''
     cmdpl2 ={0: 'client', 1: 'userImage', 2: 'default', 3: 'size222'}
@@ -137,38 +138,43 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                     pass
             return(False)
         else:
-            lb1 = 0
-            lb2 = 0
-            bklb = 0
-            for i in range(0,cmdpl1_len-1):
-                if(bklb):
-                    break
-                else:
-                    start1 = cmdpl1[i]
-                    for j in range(0,cmdpl2_len):
-                        start2 = cmdpl2[j]
-                        cond = utils.str_at_end_of_str(start1,start2)
-                        if(cond):
-                            lb1 = i+1
-                            lb2 = j+1
-                            bklb = 1
-                            break
-                        else:
-                            pass
-            distance = lb2 - lb1
-            if(lb2>cmdpl2_len - 1):
-                return(False)
-            else:
-                for i in range(lb1,cmdpl1_len-1):
-                    index = i + distance
-                    if(index > (cmdpl2_len -1)):
-                        return(False)
-                    else:
-                        if(cmdpl1[i]==cmdpl2[index]):
-                            pass
-                        else:
-                            return(False)
             #---------debug--------#
+            def try_to_find_match(lb2,cmdpl1_len,cmdpl2_len,cmdpl1,cmdpl2):
+                distance = lb2 - 1
+                if(lb2>cmdpl2_len - 1):
+                    return((False,0,distance))
+                else:
+                    for i in range(1,cmdpl1_len-1):
+                        index = i + distance
+                        if(index > (cmdpl2_len -1)):
+                            return((False,i,distance))
+                        else:
+                            if(cmdpl1[i]==cmdpl2[index]):
+                                pass
+                            else:
+                                return((False,i,distance))
+                    return((True,i,distance))
+            #---------debug--------#
+            
+            lb2 = 0
+            finded = 0 
+            start1 = cmdpl1[0]
+            for j in range(0,cmdpl2_len):
+                start2 = cmdpl2[j]
+                cond = utils.str_at_end_of_str(start1,start2)
+                if(cond):
+                    lb2 = j+1
+                    finded,lb1,distance = try_to_find_match(lb2,cmdpl1_len,cmdpl2_len,cmdpl1,cmdpl2)
+                    if(finded):
+                        break
+                    else:
+                        pass
+                else:
+                    pass
+            if(finded):
+                pass
+            else:
+                return(False)
             if(lb2>cmdpl2_len - 1):
                 return(False)
             else:
@@ -182,11 +188,7 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                     if(cond):
                         return(True)
                     else:
-                        return(False)
-
-
-
-            
+                        return(False)            
 
 
 
@@ -487,8 +489,8 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
         pnoc = cmdlines_deep[i]
         full_cmdpl_len = p.__len__()
         cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
-        print("cmd_nocaps_pl:{0}".format(cmd_nocaps_pl))
-        print("p:{0}".format(p))
+        #print("cmd_nocaps_pl:{0}".format(cmd_nocaps_pl))
+        #print("p:{0}".format(p))
         if(cond):
             line = ''
             for k in range(0,full_cmdpl_len):
@@ -507,12 +509,12 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
             s5 = line[(rei+1):]
             line = ''.join((s1,s2,s3,s4,s5))
-            print(s1)
-            print(s2)
-            print(s3)
-            print(s4)
-            print(s5)
-            print("===============")
+            #print(s1)
+            #print(s2)
+            #print(s3)
+            #print(s4)
+            #print(s5)
+            #print("===============")
             #-----------paint---------------           
             rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
