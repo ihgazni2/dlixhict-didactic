@@ -305,6 +305,9 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
         else:
             #---------debug--------#
             def try_to_find_match(lb2,cmdpl1_len,cmdpl2_len,cmdpl1,cmdpl2):
+                print(lb2)
+                print(cmdpl1)
+                print(cmdpl2)
                 distance = lb2 - 1
                 if(lb2>cmdpl2_len - 1):
                     return((False,0,distance))
