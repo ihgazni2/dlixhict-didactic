@@ -102,17 +102,22 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
         else:
             lb1 = 0
             lb2 = 0
+            bklb = 0
             for i in range(0,cmdpl1_len-1):
-                start1 = cmdpl1[i]
-                for j in range(0,cmdpl2_len):
-                    start2 = cmdpl2[j]
-                    cond = utils.str_at_end_of_str(start1,start2)
-                    if(cond):
-                        lb1 = i+1
-                        lb2 = j+1
-                        break
-                    else:
-                        pass
+                if(bklb):
+                    break
+                else:
+                    start1 = cmdpl1[i]
+                    for j in range(0,cmdpl2_len):
+                        start2 = cmdpl2[j]
+                        cond = utils.str_at_end_of_str(start1,start2)
+                        if(cond):
+                            lb1 = i+1
+                            lb2 = j+1
+                            bklb = 1
+                            break
+                        else:
+                            pass
             distance = lb2 - lb1
             if(lb2>cmdpl2_len - 1):
                 return(False)
