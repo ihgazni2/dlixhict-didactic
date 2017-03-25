@@ -1,4 +1,5 @@
-1. format_cmd(cmd,cmd_sp=' ')  
+1. format_cmd_str(cmd_str,cmd_sp=' ')
+![](Images/hdict_cmdline.format_cmd_str_1.png)  
 2. path_list_to_cmd(path_list_or_path_string,**kwargs)  
 3. cmd_to_path_list(cmd,**kwargs)
 4. cmd_to_path_str(cmd,**kwargs)
