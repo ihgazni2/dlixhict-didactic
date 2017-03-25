@@ -32,6 +32,18 @@ def get_real_si_from_char_position_desc(si,cpdesc):
     return(None)
 
 
+def get_real_ei_from_char_position_desc(ei,cpdesc):
+    for i in range(0,cpdesc.__len__()):
+        rsi = cpdesc[i][0]
+        rei = cpdesc[i][1]
+        if((ei>=rsi) & (ei<=rei)):
+            return(rei)
+        else:
+            pass
+    return(None)
+
+
+
 
 def cmd_in_cmd(cmd1,cmd2,**kwargs):
     if('mode' in kwargs):
@@ -482,14 +494,17 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
             line = utils.str_rstrip(line,cmd_sp,1)
             #-----------paint---------------
             si = line.find(cmd)
+            ei = si+cmd.__len__()-1
             cpdesc = get_cmd_char_position_desc(pnoc,cmd_sp=cmd_sp)
             rsi = get_real_si_from_char_position_desc(si,cpdesc)
+            rei = get_real_ei_from_char_position_desc(ei,cpdesc)
             cmd_len = cmd.__len__()
             s1 = line[:rsi]
             s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
             s3 = jprint.paint_str(cmd,single_color=single_color_cmd)
-            s4 = line[(si+cmd_len):]
-            line = ''.join((s1,s2,s3,s4))
+            s4 = jprint.paint_str(line[(si+cmd_len):(ei+1)],single_color=single_color_rsi)
+            s5 = line[(ei+1):]
+            line = ''.join((s1,s2,s3,s4,s5))
             #-----------paint---------------           
             rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
