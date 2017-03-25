@@ -397,6 +397,49 @@ def show_prompt_cmdlines(cmd,cmdlines,**kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
         cmd_sp = ' '
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = 'loose'
+    cmd = format_cmd(cmd,cmd_sp=cmd_sp)
+    cmd_nocaps = cmd.lower()
+    cmd_pl = cmd.split(cmd_sp)
+    cmdpl_len = cmd_pl.__len__()
+    cmd_nocaps_pl = cmd_nocaps.split(cmd_sp.lower())
+    cmdlines_deep = cmdlines_to_deep_ltdict(cmdlines,cmd_sp=cmd_sp,line_sp=line_sp)
+    cmdlines_nocaps = cmdlines.lower()
+    cmdlines_nocaps_deep = cmdlines_to_deep_ltdict(cmdlines_nocaps,cmd_sp=cmd_sp.lower(),line_sp=line_sp.lower())
+    cmdlines_len  = cmdlines_nocaps_deep.__len__()
+    rslt = ''
+    orig_seqs = []
+    for i in range(0,cmdlines_len):
+        p = cmdlines_nocaps_deep[i]
+        pnoc = cmdlines_deep[i]
+        full_cmdpl_len = p.__len__()
+        cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
+        if(cond):
+            line = ''
+            for k in range(0,full_cmdpl_len):
+                line = ''.join((line,pnoc[k],cmd_sp))
+            line = utils.str_rstrip(line,cmd_sp,1)
+            rslt = ''.join((rslt,line,line_sp))
+            orig_seqs.append(i)
+        else:
+            pass
+    rslt = utils.str_rstrip(rslt,line_sp,1)
+    print(rslt)
+    return(orig_seqs)
+
+
+def show_prompt_cmdlines_obseleted(cmd,cmdlines,**kwargs):
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
     cmd = format_cmd(cmd,cmd_sp=cmd_sp)
     cmd_nocaps = cmd.lower()
     cmd_pl = cmd.split(cmd_sp)
