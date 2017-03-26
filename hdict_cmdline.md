@@ -35,12 +35,12 @@
 ![](Images/hdict_cmdline.hdict_to_cmdlines_full_dict_2.png)
 ![](Images/hdict_cmdline.hdict_to_cmdlines_full_dict_3.png)
 ![](Images/hdict_cmdline.hdict_to_cmdlines_full_dict_4.png)
-19. obj_to_cmdlines_dict(obj)
-20. show_obj(cmd,obj,**kwargs)
+# 19. obj_to_cmdlines_dict(obj)
+# 20. show_obj(cmd,obj,**kwargs)
 ![](Images/hdict_cmdline.show_obj_1.png) 
 ![](Images/hdict_cmdline.show_obj_2.png) 
-21. show_hdict(cmd,hdict,**kwargs)
-22. cmd_in_cmd(cmd1,cmd2,**kwargs)
-23. cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs)
+# 21. show_hdict(cmd,hdict,**kwargs)
+# 22. cmd_in_cmd(cmd1,cmd2,**kwargs)
+# 23. cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs)
 
 
