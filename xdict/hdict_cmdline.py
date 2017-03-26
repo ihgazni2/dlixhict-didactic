@@ -1097,6 +1097,11 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     lines = {}
     values = {}
     attribs = {}
+    stagns = {}
+    etagns = {}
+    slines = {}
+    elines = {}
+    tlines = {}
     temp = []
     seq = 0
     #-----------------need fix-------------------
