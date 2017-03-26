@@ -32,6 +32,10 @@
 6. is_parent_path(son,parent)
 7. get_parent_path(son)
 8. get_rel_path(abs)
+9. is_parent_path_list(parent_pl,son_pl)
+10. is_son_path_list(son_pl,parent_pl)
+11. is_ancestor_path_list(ances_pl,des_pl)
+12. is_descedant_path_list(des_pl,ances_pl)
 
 
 ##string
