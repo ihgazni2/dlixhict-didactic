@@ -1098,6 +1098,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     values = {}
     attribs = {}
     stagns = {}
+    textns = {}
     etagns = {}
     slines = {}
     elines = {}
@@ -1170,12 +1171,16 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         slines[i] = t[6]
         elines[i] = t[7]
         tlines[i] = t[8]
+        if(tlines[i] == None):
+            textns[i] = None
+        else:
+            textns[i] = stagns[i] + 1
     if('keep_order_info' in kwargs):
         keep_order_info = kwargs['keep_order_info']
     else:
         keep_order_info = 0
     if(keep_order_info):
-        return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines})
+        return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines,'textns':textns})
     else:
         return({'cmds':lines,'results':values,'attribs':attribs})
 
