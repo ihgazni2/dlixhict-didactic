@@ -1273,6 +1273,7 @@ def creat_xml_tag_line_label(sdict,**kwargs):
                 #
                 if(None == d['text']):
                     html_text = ''
+                    prepend = ''
                 else:
                     html_text = cgi.escape(str(d['text']))
                 #
