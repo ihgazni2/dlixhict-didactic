@@ -1086,7 +1086,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     if('reorder' in kwargs):
         reorder = kwargs['reorder']
     else:
-        reorder = 1
+        reorder = 0
     #-----
     cxtll = hdict_object.creat_xml_tag_line_label(sdict)
     sdict = cxtll['sdict']
@@ -1158,9 +1158,9 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
             temp.append((cmd_pl_len,line,value,attrib,start_tagn,end_tagn,start_html_line,end_html_line,text_html_line))
             seq = seq + 1
     if(reorder):
-        temp.sort(key=itemgetter(0))
+        temp.sort(key=itemgetter(1))
     else:
-        pass
+        temp.sort(key=itemgetter(4))
     for i in range(0,temp.__len__()):
         t = temp[i]
         lines[i] = t[1]
