@@ -1292,7 +1292,7 @@ def hdict_to_xml(hdict,**kwargs):
     sdict = tmp['sdict']
     tag_lines = tmp['html_lines']
     rslt = ''
-    for i in range(0,taglines.__len__()):
+    for i in range(0,tag_lines.__len__()):
         rslt = ''.join((rslt,tag_lines[i],line_sp))
     rslt = utils.str_rstrip(rslt,line_sp,1)
     return(rslt)
