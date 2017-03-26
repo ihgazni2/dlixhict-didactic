@@ -1,4 +1,4 @@
-1. <font color=#00ffff size=3>format_cmd_str(cmd_str,cmd_sp=' ')</font>
+<font color=#00ffff size=3>1. format_cmd_str(cmd_str,cmd_sp=' ')</font>
 ![](Images/hdict_cmdline.format_cmd_str_1.png)  
 2. <font color=#00ffff size=3>cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' ')</font>
 ![](Images/hdict_cmdline.cmd_str_to_cmd_pl_1.png)
