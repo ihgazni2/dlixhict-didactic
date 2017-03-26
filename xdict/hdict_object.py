@@ -395,6 +395,9 @@ def get_sdict_and_prdict_from_hdict(hdict,**kwargs):
             sdict[depth][e['breadth']]['hdict_path'] = e['path']
             sdict[depth][e['breadth']]['siblings_seq_path'] = hdict_path_to_siblings_seq_path(e['path'])
             sdict[depth][e['breadth']]['orig_obj_path'] = e['orig_obj_path']
+            #
+            sdict[depth][e['breadth']]['attrib'] = e['attrib']
+            #
             if(disable_type):
                 sdict[depth][e['breadth']]['type'] = None
             else:
