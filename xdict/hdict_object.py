@@ -1270,7 +1270,12 @@ def creat_xml_tag_line_label(sdict,**kwargs):
             if(d['leaf']):
                 ol = copy.deepcopy(d['orig_obj_path'])
                 prepend = xml_indent_prepend(ol)
-                html_text = cgi.escape(str(d['text']))
+                #
+                if(None == d['text']):
+                    html_text = ''
+                else:
+                    html_text = cgi.escape(str(d['text']))
+                #
                 html_lines[d['start_tagn']+1] = ''.join((prepend,html_text))
             else:
                 pass
