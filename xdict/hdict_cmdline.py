@@ -5,6 +5,8 @@ from xdict import ltdict
 from xdict import hdict_object
 from xdict import hdict_xml
 from xdict import jprint
+from operator import itemgetter
+
 
 def format_cmd_str(cmd_str,cmd_sp=' '):
     '''
@@ -309,19 +311,16 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                 if(lb2>cmdpl2_len - 1):
                     return((False,0,distance))
                 else:
-                    if((cmdpl1_len-1)<=1):
-                        return((True,0,distance))
-                    else:
-                        for i in range(1,cmdpl1_len-1):
-                            index = i + distance
-                            if(index > (cmdpl2_len -1)):
-                                return((False,i,distance))
+                    for i in range(1,cmdpl1_len-1):
+                        index = i + distance
+                        if(index > (cmdpl2_len -1)):
+                            return((False,i,distance))
+                        else:
+                            if(cmdpl1[i]==cmdpl2[index]):
+                                pass
                             else:
-                                if(cmdpl1[i]==cmdpl2[index]):
-                                    pass
-                                else:
-                                    return((False,i,distance))
-                        return((True,i,distance))
+                                return((False,i,distance))
+                    return((True,i,distance))
             #---------debug--------#
             
             lb2 = 0
@@ -671,9 +670,42 @@ def cmdlines_deep_to_str(deep_ltdict,**kwargs):
     lines = cmdlines_ltdict_to_str(cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
     return(lines)
 
-#-------------------------------
 
 def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
+    '''
+        >>> 
+        >>> print(cmdlines_str)
+        client
+        client defaultActivityID
+        client formattingOptions
+        client formattingOptions decimalSeparator
+        client formattingOptions language
+        client formattingOptions startOfWeek
+        client formattingOptions unitSystem
+        client gender
+        client geoIPLocation
+        client geoIPLocation lat
+        >>> 
+        >>> cmd_str = "formatting"
+        >>> show_prompt_from_cmdlines_str(cmd_str,cmdlines_str)
+        client formattingOptions
+        client formattingOptions decimalSeparator
+        client formattingOptions language
+        client formattingOptions startOfWeek
+        client formattingOptions unitSystem
+        [2, 3, 4, 5, 6]
+        >>> 
+        >>> cmd_str = "client formatting"
+        >>> show_prompt_from_cmdlines_str(cmd_str,cmdlines_str)
+        client formattingOptions
+        client formattingOptions decimalSeparator
+        client formattingOptions language
+        client formattingOptions startOfWeek
+        client formattingOptions unitSystem
+        [2, 3, 4, 5, 6]
+    >>> 
+    
+    '''
     if('line_sp' in kwargs):
         line_sp = kwargs['line_sp']
     else:
@@ -739,7 +771,41 @@ def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
 
 
 
-def show_prompt_cmdlines_ltdict(cmd,cmdlines_ltdict,**kwargs):
+def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
+    '''
+        >>> 
+        >>> pobj(cmdlines_ltdict)
+        {
+         0: 'client', 
+         1: 'client defaultActivityID', 
+         2: 'client formattingOptions', 
+         3: 'client formattingOptions decimalSeparator', 
+         4: 'client formattingOptions language', 
+         5: 'client formattingOptions startOfWeek', 
+         6: 'client formattingOptions unitSystem', 
+         7: 'client gender', 
+         8: 'client geoIPLocation', 
+         9: 'client geoIPLocation lat'
+        }
+        >>> cmd_str = "formatting"
+        >>> show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict)
+        client formattingOptions
+        client formattingOptions decimalSeparator
+        client formattingOptions language
+        client formattingOptions startOfWeek
+        client formattingOptions unitSystem
+        [2, 3, 4, 5, 6]
+        >>> 
+        >>> cmd_str = "client formatting"
+        >>> show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict)
+        client formattingOptions
+        client formattingOptions decimalSeparator
+        client formattingOptions language
+        client formattingOptions startOfWeek
+        client formattingOptions unitSystem
+        [2, 3, 4, 5, 6]
+        >>> 
+    '''
     if('line_sp' in kwargs):
         line_sp = kwargs['line_sp']
     else:
@@ -748,74 +814,233 @@ def show_prompt_cmdlines_ltdict(cmd,cmdlines_ltdict,**kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
         cmd_sp = ' '
-    cmd = format_cmd_str(cmd,cmd_sp=cmd_sp)
-    cmd_nocaps = cmd.lower()
-    cmd_pl = cmd.split(cmd_sp)
-    len_1 = cmd_pl.__len__()
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = 'loose'
+    if('single_color' in kwargs):
+        single_color_cmd = kwargs['single_color_cmd']
+    else:
+        single_color_cmd = 'green'
+    if('single_color' in kwargs):
+        single_color_rsi = kwargs['single_color_rsi']
+    else:
+        single_color_rsi = 'blue'
+    cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
+    cmd_nocaps = cmd_str.lower()
+    cmd_pl = cmd_str.split(cmd_sp)
+    cmdpl_len = cmd_pl.__len__()
     cmd_nocaps_pl = cmd_nocaps.split(cmd_sp.lower())
     cmdlines_deep = cmdlines_ltdict_to_deep(cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
-    cmdlines_nocaps_ltdict = {}
-    for i in range(0,cmdlines_ltdict.__len__()):
-        cmdlines_nocaps_ltdict[i] = cmdlines_ltdict[i].lower()
-    cmdlines_nocaps_deep = cmdlines_ltdict_to_deep(cmdlines_nocaps_ltdict,cmd_sp=cmd_sp.lower(),line_sp=line_sp.lower())
-    len_2  = cmdlines_nocaps_deep.__len__()
+    cmdlines_nocaps = copy.deepcopy(cmdlines_ltdict)
+    for seq in cmdlines_nocaps:
+        cmdlines_nocaps[seq] = cmdlines_nocaps[seq].lower()
+    cmdlines_nocaps_deep = cmdlines_ltdict_to_deep(cmdlines_nocaps,cmd_sp=cmd_sp.lower(),line_sp=line_sp.lower())
+    cmdlines_len  = cmdlines_nocaps_deep.__len__()
     rslt = ''
     orig_seqs = []
-    for i in range(0,len_2):
+    for i in range(0,cmdlines_len):
         p = cmdlines_nocaps_deep[i]
         pnoc = cmdlines_deep[i]
-        len_3 = p.__len__()
-        if(len_1 > len_3):
-            pass
+        full_cmdpl_len = p.__len__()
+        cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
+        if(cond):
+            line = ''
+            for k in range(0,full_cmdpl_len):
+                line = ''.join((line,pnoc[k],cmd_sp))
+            line = utils.str_rstrip(line,cmd_sp,1)
+            #-----------paint---------------
+            si = line.find(cmd_str)
+            ei = si+cmd_str.__len__()-1
+            cpdesc = get_cmd_char_position_desc(pnoc,cmd_sp=cmd_sp)
+            rsi = get_interval_si_from_char_position_desc(si,cpdesc)
+            rei = get_interval_ei_from_char_position_desc(ei,cpdesc)
+            cmd_len = cmd_str.__len__()
+            s1 = line[:rsi]
+            s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
+            s3 = jprint.paint_str(cmd_str,single_color=single_color_cmd)
+            s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
+            s5 = line[(rei+1):]
+            line = ''.join((s1,s2,s3,s4,s5))
+            #-----------paint---------------           
+            rslt = ''.join((rslt,line,line_sp))
+            orig_seqs.append(i)
         else:
-            cond = 1
-            tab = 0
-            for j in range(0,len_1-1):
-                if(p[j]==cmd_nocaps_pl[j]):
-                    pass
-                else:
-                    cond = 0
-                    break
-            str_len = cmd_nocaps_pl[len_1-1].__len__()
-            if(str_len > p[len_1-1].__len__()):
-                cond = 0
-            elif(str_len == p[len_1-1].__len__()):
-                if(cmd_nocaps_pl[len_1-1] == p[len_1-1]):
-                    pass
-                else:
-                    cond = 0
-            else:
-                if(cmd_nocaps_pl[len_1-1] == p[len_1-1][:str_len]):
-                    tab = 1
-                else:
-                    cond = 0
-            if(cond == 0):
-                pass
-            else:
-                if(tab == 0):
-                    start = len_1
-                else:
-                    start = len_1 - 1
-                line = ''
-                for k in range(start,len_3):
-                    line = ''.join((line,pnoc[k],cmd_sp))
-                line = utils.str_rstrip(line,cmd_sp,1)
-                rslt = ''.join((rslt,line,line_sp))
-                orig_seqs.append(i)
+            pass
     rslt = utils.str_rstrip(rslt,line_sp,1)
     print(rslt)
     return(orig_seqs)
 
 
-
-# -------------------------------------------->
-
-
-
-
-
-
-def hdict_to_cmdlines_dict(hdict,**kwargs):
+def hdict_to_cmdlines_full_dict(hdict,**kwargs):
+    '''
+        >>> 
+        >>> html_text = 
+        ... <html class="" lang="zh">
+        ... <head>
+        ... <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1" />
+        ... </head>
+        ... <body class="zh" >
+        ...     <header id="ctl00_leftColumn_PersonalSectionTitle" class="section-heading accordion-title">
+        ...         <a name="personal"></a>
+        ...         <ul>
+        ...             <li class="row-flex row-flex--middle">
+        ...               <div>
+        ...                 <div class="accordion-icons">
+        ...                   <i class="icon-159"></i>
+        ...                   <i class="icon-160"></i>
+        ...                 </div>
+        ...               </div>
+        ...               <div class="row-flex row-flex--middle">
+        ...                   <div class="fl0 fs12">
+        ...                       <div class="h4">personal settings</div>
+        ...                   </div>
+        ...                   <div class="align--right fs12"></div>
+        ...               </div>
+        ...             </li>
+        ...         </ul>
+        ...     </header>
+        ...     <script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99"></script>
+        ... </body>
+        ... </html>
+        ... 
+        >>> 
+        
+        >>> 
+        >>> temp = html_to_hdict(html_text=html_text)
+        >>> hdict = temp['hdict']
+        >>> sdict = temp['sdict']
+        >>> prdict = temp['prdict']
+        >>> cmdlines_full_dict = hdict_to_cmdlines_full_dict(hdict)
+        >>> cmdlines_full_dict.keys()
+        dict_keys(['attribs', 'results', 'cmds'])
+        >>> cmdlines_ltdict = cmdlines_full_dict['cmds']
+        >>> pobj(cmdlines_ltdict)
+            {
+                0: 'html', 
+                1: 'html body', 
+                2: 'html head', 
+                3: 'html body header', 
+                4: 'html head meta', 
+                5: 'html body script', 
+                6: 'html body header ul', 
+                7: 'html body header a', 
+                8: 'html body header ul li', 
+                9: 'html body header ul li div', 
+                10: 'html body header ul li div', 
+                11: 'html body header ul li div div', 
+                12: 'html body header ul li div div', 
+                13: 'html body header ul li div div', 
+                14: 'html body header ul li div div i', 
+                15: 'html body header ul li div div i', 
+                16: 'html body header ul li div div div'
+            }
+        >>> 
+    >>> results = cmdlines_full_dict['results']
+    >>> pobj(results)
+        {
+         0: 
+            {}, 
+         1: 
+            {}, 
+         2: 
+            {}, 
+         3: 
+            {}, 
+         4: None, 
+         5: None, 
+         6: 
+            {}, 
+         7: None, 
+         8: 
+            {}, 
+         9: 
+            {}, 
+         10: 
+             {}, 
+         11: 
+             {}, 
+         12: 
+             {}, 
+         13: None, 
+         14: None, 
+         15: None, 
+         16: 'personal settings'
+        }
+    >>> 
+    >>> 
+        >>> attribs = cmdlines_full_dict['attribs']
+        >>> pobj(attribs)
+        {
+         0: 
+            {
+             'lang': 'zh', 
+             'class': ''
+            }, 
+         1: 
+            {
+             'class': 'zh'
+            }, 
+         2: 
+            {}, 
+         3: 
+            {
+             'id': 'ctl00_leftColumn_PersonalSectionTitle', 
+             'class': 'section-heading accordion-title'
+            }, 
+         4: 
+            {
+             'content': 'IE=EDGE,chrome=1', 
+             'http-equiv': 'X-UA-Compatible'
+            }, 
+         5: 
+            {
+             'type': 'text/javascript', 
+             'src': '//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99'
+            }, 
+         6: 
+            {}, 
+         7: 
+            {
+             'name': 'personal'
+            }, 
+         8: 
+            {
+             'class': 'row-flex row-flex--middle'
+            }, 
+         9: 
+            {}, 
+         10: 
+             {
+              'class': 'row-flex row-flex--middle'
+             }, 
+         11: 
+             {
+              'class': 'accordion-icons'
+             }, 
+         12: 
+             {
+              'class': 'fl0 fs12'
+             }, 
+         13: 
+             {
+              'class': 'align--right fs12'
+             }, 
+         14: 
+             {
+              'class': 'icon-160'
+             }, 
+         15: 
+             {
+              'class': 'icon-159'
+             }, 
+         16: 
+             {
+              'class': 'h4'
+             }
+        }
+    >>> 
+    '''
     if('cmd_sp' in kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
@@ -861,14 +1086,16 @@ def hdict_to_cmdlines_dict(hdict,**kwargs):
     lines = {}
     values = {}
     attribs = {}
-    temp = {}
+    temp = []
     seq = 0
-    for key in  prdict['o:h']:
-        if(key == ()):
+    #-----------------need fix-------------------
+    for hpath in  prdict['h:o']:
+        opath = prdict['h:o'][hpath]
+        if(hpath == ()):
             pass
         else:
-            line = path_to_cmd_str(list(key),cmd_sp=cmd_sp)
-            hp = prdict['o:h'][key]
+            line = path_to_cmd_str(list(opath),cmd_sp=cmd_sp)
+            hp = hpath
             bp = prdict['h:b'][tuple(hp)]
             r,c = hdict_object.breadth_path_to_sdict_location(bp)
             leaf = sdict[r][c]['leaf']
@@ -903,14 +1130,21 @@ def hdict_to_cmdlines_dict(hdict,**kwargs):
                         value = value['text']
             else:
                 value = {}
-            temp[line]=(value,attrib)
+            cmd_pl_len = opath.__len__() 
+            temp.append((cmd_pl_len,line,value,attrib))
             seq = seq + 1
-    lines = ltdict.list_to_ltdict(sorted(temp))
-    for i in range(0,lines.__len__()):
-        values[i] = temp[lines[i]][0]
-        attribs[i] = temp[lines[i]][1]
+    temp.sort(key=itemgetter(0))
+    for i in range(0,temp.__len__()):
+        t = temp[i]
+        lines[i] = t[1]
+        values[i] = t[2]
+        attribs[i] = t[3]
     return({'cmds':lines,'results':values,'attribs':attribs})
 
+
+
+
+#-------------------------------------------
 
 def get_obj_value_from_cmd(cmd,obj,**kwargs):
     if('sp' in kwargs):
@@ -1045,7 +1279,7 @@ def xml_to_cmdline_dict(**kwargs):
         disable_type = kwargs['disable_type']
     else:
         disable_type = 0
-    rslt = hdict_to_cmdlines_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp)
+    rslt = hdict_to_cmdlines_full_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp)
     if('save' in kwargs):
        if(kwargs['save']==1):
         cmds = ''
@@ -1111,7 +1345,7 @@ def show_xml(cmd,**kwargs):
     cmdlines_ltdict = temp['cmds']
     results = temp['results']
     attribs = temp['attribs']
-    rslt_seqs = show_prompt_cmdlines_ltdict(cmd,cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
+    rslt_seqs = show_prompt_from_cmdlines_ltdict(cmd,cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
     if(get_all):
             rslt = {}
             for i in range(0,rslt_seqs.__len__()):
@@ -1146,7 +1380,7 @@ def obj_to_cmdlines_dict(obj):
     #cmdlines,results,attribs = obj_to_cmdlines(obj)
     temp = hdict_object.obj_to_hdict(obj)
     hdict = temp['hdict']
-    cmdlines_dict = hdict_to_cmdlines_dict(hdict)
+    cmdlines_dict = hdict_to_cmdlines_full_dict(hdict)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']
@@ -1168,7 +1402,7 @@ def show_obj(cmd,obj,**kwargs):
     try:
         rslt = get_obj_value_from_cmd(cmd,obj,line_sp=line_sp,cmd_sp=cmd_sp)
     except:
-        prompt = show_prompt_cmdlines_ltdict(cmd,cmdlines)
+        prompt = show_prompt_from_cmdlines_ltdict(cmd,cmdlines)
         return(prompt)
     else:
         return(rslt)
@@ -1187,7 +1421,7 @@ def show_hdict(cmd,hdict,**kwargs):
         prdict = kwargs['prdict']
     else:
         prdict = hdict_object.hdict_get_paths_relationship(hdict)
-    cmdlines_dict = hdict_to_cmdlines_dict(obj)
+    cmdlines_dict = hdict_to_cmdlines_full_dict(obj)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']    
@@ -1195,7 +1429,7 @@ def show_hdict(cmd,hdict,**kwargs):
         pl = cmd_str_to_cmd_pl(cmd,cmd_sp)
         rslt =hdict_get_value(hdict,pl,prdict=prdict) 
     except:
-        prompt = show_prompt_cmdlines_ltdict(cmd,cmdlines)
+        prompt = show_prompt_from_cmdlines_ltdict(cmd,cmdlines)
         return(prompt)
     else:
         return(rslt)
