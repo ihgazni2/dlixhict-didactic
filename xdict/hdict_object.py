@@ -1267,6 +1267,10 @@ def creat_xml_tag_line_label(sdict,**kwargs):
                 attrib = attrib_dict_to_str(d['attrib'])
             html_lines[d['start_tagn']] = ''.join((prepend,'<',str(tag),attrib,'>'))
             html_lines[d['end_tagn']] = ''.join((prepend,'</',str(tag),'>'))
+            #
+            d['start_html_line'] = html_lines[d['start_tagn']]
+            d['end_html_line'] = html_lines[d['end_tagn']]
+            #
             if(d['leaf']):
                 ol = copy.deepcopy(d['orig_obj_path'])
                 prepend = xml_indent_prepend(ol)
@@ -1278,8 +1282,13 @@ def creat_xml_tag_line_label(sdict,**kwargs):
                     html_text = cgi.escape(str(d['text']))
                 #
                 html_lines[d['start_tagn']+1] = ''.join((prepend,html_text))
+                #
+                d['text_html_line'] = html_lines[d['start_tagn']+1]
+                #
             else:
-                pass
+                #
+                d['text_html_line'] = None
+                #
     return({'sdict':sdict,'html_lines':html_lines})
 
 def hdict_to_xml(hdict,**kwargs):
