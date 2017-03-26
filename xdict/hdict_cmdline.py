@@ -1083,6 +1083,17 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         temp = hdict_object.get_sdict_and_prdict_from_hdict(hdict,disable_type =disable_type)
         sdict = temp['sdict']
         prdict = temp['prdict']
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 1
+    #-----
+    cxtll = creat_xml_tag_line_label(sdict)
+    sdict = cxtll['sdict']
+    html_lines = cxtll['html_lines']
+    
+    
+    #-----
     lines = {}
     values = {}
     attribs = {}
@@ -1099,6 +1110,13 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
             bp = prdict['h:b'][tuple(hp)]
             r,c = hdict_object.breadth_path_to_sdict_location(bp)
             leaf = sdict[r][c]['leaf']
+            #
+            start_tagn = sdict[r][c]['start_tagn']
+            end_tagn = sdict[r][c]['end_tagn']
+            start_html_line = sdict[r][c]['start_html_line']
+            end_html_line = sdict[r][c]['end_html_line']
+            text_html_line = sdict[r][c]['text_html_line']
+            #
             attrib = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)['attrib']
             if(leaf):
                 if(ignore_type):
@@ -1131,17 +1149,40 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
             else:
                 value = {}
             cmd_pl_len = opath.__len__() 
-            temp.append((cmd_pl_len,line,value,attrib))
+            temp.append((cmd_pl_len,line,value,attrib,start_tagn,end_tagn,start_html_line,end_html_line,text_html_line))
             seq = seq + 1
-    temp.sort(key=itemgetter(0))
+    if(reorder):
+        temp.sort(key=itemgetter(0))
+    else:
+        pass
     for i in range(0,temp.__len__()):
         t = temp[i]
         lines[i] = t[1]
         values[i] = t[2]
         attribs[i] = t[3]
-    return({'cmds':lines,'results':values,'attribs':attribs})
+        stagns[i] = t[4]
+        etagns[i] = t[5]
+        slines[i] = t[6]
+        elines[i] = t[7]
+        tlines[i] = t[8]
+    if('keep_order_info' in kwargs):
+        keep_order_info = kwargs['keep_order_info']
+    else:
+        keep_order_info = 0
+    if(keep_order_info):
+        return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines})
+    else:
+        return({'cmds':lines,'results':values,'attribs':attribs})
 
 
+
+
+#------------------------------------------------------------
+def cmdlines_full_dict_to_hdict(cmdlines_full_dict,**kwargs):
+    cmdlines_ltdict = cmdlines_full_dict['cmds']
+    results = cmdlines_full_dict['results']
+    attribs = cmdlines_full_dict['attribs']
+#---------------------------------------------------------
 
 
 #-------------------------------------------
