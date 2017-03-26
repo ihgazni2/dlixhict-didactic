@@ -1,4 +1,4 @@
-1. diff'''+ __format_cmd_str(cmd_str,cmd_sp=' ')__'''
+1.# __format_cmd_str(cmd_str,cmd_sp=' ')__
 ![](Images/hdict_cmdline.format_cmd_str_1.png)  
 2. cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' ')
 ![](Images/hdict_cmdline.cmd_str_to_cmd_pl_1.png)
