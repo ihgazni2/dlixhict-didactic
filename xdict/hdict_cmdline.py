@@ -1088,7 +1088,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     else:
         reorder = 1
     #-----
-    cxtll = creat_xml_tag_line_label(sdict)
+    cxtll = hdict_object.creat_xml_tag_line_label(sdict)
     sdict = cxtll['sdict']
     html_lines = cxtll['html_lines']
     
