@@ -258,6 +258,59 @@ def get_rel_path(abs):
     m = regex.search(abs)
     return(m.group(2))
 
+def is_parent_path_list(parent_pl,son_pl):
+    sl_len = son_pl.__len__()
+    pl_len = parent_pl.__len__()
+    if((sl_len - 1) == pl_len):
+        for i in range(0,pl_len):
+            if(parent_pl[i] == son_pl[i]):
+                pass
+            else:
+                return(False)
+        return(True)
+    else:
+        return(False)
+
+
+def is_son_path_list(son_pl,parent_pl):
+    sl_len = son_pl.__len__()
+    pl_len = parent_pl.__len__()
+    if((sl_len - 1) == pl_len):
+        for i in range(0,pl_len):
+            if(parent_pl[i] == son_pl[i]):
+                pass
+            else:
+                return(False)
+        return(True)
+    else:
+        return(False)
+
+def is_ancestor_path_list(ances_pl,des_pl):
+    dl_len = des_pl.__len__()
+    al_len = ances_pl.__len__()
+    if(dl_len > al_len):
+        for i in range(0,al_len):
+            if(ances_pl[i] == des_pl[i]):
+                pass
+            else:
+                return(False)
+        return(True)
+    else:
+        return(False)
+
+
+def is_descedant_path_list(des_pl,ances_pl):
+    dl_len = des_pl.__len__()
+    al_len = ances_pl.__len__()
+    if(dl_len > al_len):
+        for i in range(0,al_len):
+            if(ances_pl[i] == des_pl[i]):
+                pass
+            else:
+                return(False)
+        return(True)
+    else:
+        return(False)
 
     
     
