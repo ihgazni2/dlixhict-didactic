@@ -978,10 +978,15 @@ def ltdict_pop(ltdict,index,**kwargs):
     else:
         new = ltdict
     len = ltdict.__len__()
+    if(index < 0):
+        index = len + index
+    else:
+        pass
     if(index in range(0,len)):
         rslt = new[index]
     else:
         rslt = None
+        return(rslt)
     for i in range(index,len-1):
         new[i] = new[i+1]
     del new[len-1]

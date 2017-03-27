@@ -1180,7 +1180,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     else:
         keep_order_info = 0
     if(keep_order_info):
-        return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines,'textns':textns})
+        return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines,'textns':textns,'html_lines':html_lines})
     else:
         return({'cmds':lines,'results':values,'attribs':attribs})
 
