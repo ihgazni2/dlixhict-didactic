@@ -1103,6 +1103,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     slines = {}
     elines = {}
     tlines = {}
+    #-----
     temp = []
     seq = 0
     #-----------------need fix-------------------
@@ -1185,13 +1186,894 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         return({'cmds':lines,'results':values,'attribs':attribs})
 
 
+def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
+    '''
+        >>> pobj(cmds)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> 
+
+    '''
+    def increase_seqs_after(stagns,index):
+        for i in range(index,stagns.__len__()):
+            stagns[i] = stagns[i] + 1
+    ##################################################################################
+    deep = cmdlines_ltdict_to_deep(cmdlines_ltdict)
+    stagns = list(deep.keys())
+    etagns = {}
+    prev_pl = copy.deepcopy(deep[0])
+    #----------------------------------------------------------->
+    lefted = copy.deepcopy(deep)
+    #初始和cursor一起指向当前要处理的cmd
+    #回溯寻找parent过程中，始终指向已经检查过的那一条
+    find_parent_cursor = 1
+    cursor = 1
+    ################################################################################
+    while(cursor<deep.__len__()):
+        curr_pl = deep[cursor]
+        cond = utils.is_parent_path_list(prev_pl,curr_pl)
+        #如果上一条cmd是当前cmd的parent,没有结束tag的插入,stagns etagns的序号不变
+        if(cond):
+            prev_pl = copy.deepcopy(deep[find_parent_cursor])
+            find_parent_cursor = find_parent_cursor + 1
+            cursor = cursor + 1
+        # 
+        #如果上一条cmd不是当前cmd的parent,那么上一条cmd需要闭合,要在当前cursor所在位置之前插入一条闭合
+        #此时find_parent_cursor 和 cursor  均指向当前cmd 
+        else:
+            ##added
+            #例如:
+            #{ 
+            #  0: [html,head]
+            #  1: [html,head,meta]
+            #  2: [html,head,meta,x]
+            #  next = 3
+            #}
+            #初次闭合会加1: added = 1
+            #{ 
+            #  0 [html,head]
+            #  1 [html,head,meta]
+            #  2 [html,head,meta,x]----
+            #  3 [html,head,meta,/x]--- 2+ 1(added) = 3
+            #  next = 4
+            #}
+            #后续闭合会加2: added = added + 2 = 3
+            #{ 
+            #  0 [html,head]
+            #  1 [html,head,meta]--------
+            #  2 [html,head,meta,x]
+            #  3 [html,head,meta,/x]
+            #  4 [html,head,/meta] ------1+3(added) = 4 
+            #  next = 5
+            #}
+            #后续闭合会加2: added = added + 2 = 5
+            #{ 
+            #  0 [html,head]--------------0
+            #  1 [html,head,meta]
+            #  2 [html,head,meta,x]
+            #  3 [html,head,meta,/x]
+            #  4 [html,head,/meta] 
+            #  5 [html,/head] ------------0 + 5(added) = 5
+            #  next = 6
+            #}
+            
+            #added  初始为1
+            added = 1
+            while((find_parent_cursor>=1) & (cond == False)):
+                etagn_cursor = find_parent_cursor - 1
+                if(etagn_cursor in etagns):
+                    pass
+                else:
+                    increase_seqs_after(stagns,cursor)
+                    etagns[etagn_cursor] = stagns[etagn_cursor] + added 
+                    del lefted[etagn_cursor]
+                #每闭合一次 距离会加2
+                added = added + 2
+                find_parent_cursor = etagn_cursor
+                next_etagn_cursor = find_parent_cursor - 1
+                prev_pl = copy.deepcopy(deep[next_etagn_cursor])
+                cond = utils.is_parent_path_list(prev_pl,curr_pl)
+            cursor = cursor+1
+            find_parent_cursor = cursor
+            prev_pl = copy.deepcopy(curr_pl)
+        #--------------------------------------------------------#
+    last_line = stagns[deep.__len__() - 1]
+    lefted_len = lefted.__len__()
+    lefted_seqs = []
+    for seq in lefted:
+        lefted_seqs.append(seq)
+    lefted_seqs = sorted(lefted_seqs)
+    for i in range(0,lefted_len):
+        etagns[lefted_seqs[i]] = last_line + lefted_len -i
+    stagns = ltdict.list_to_ltdict(stagns)
+    return({'stagns':stagns,'etagns':etagns})
+
+def get_cmdlines_ltdict_open_close_structute(cmdlines_ltdict,stagns,etagns):
+    '''
+        >>> pobj(cmds)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> pobj(stagns)
+        {
+         0: 0, 
+         1: 1, 
+         2: 2, 
+         3: 5, 
+         4: 6, 
+         5: 7, 
+         6: 9, 
+         7: 10, 
+         8: 11, 
+         9: 12, 
+         10: 13, 
+         11: 15, 
+         12: 19, 
+         13: 20, 
+         14: 21, 
+         15: 24, 
+         16: 30
+        }
+        >>> pobj(etagns)
+        {
+         0: 33, 
+         1: 4, 
+         2: 3, 
+         3: 32, 
+         4: 29, 
+         5: 8, 
+         6: 28, 
+         7: 27, 
+         8: 18, 
+         9: 17, 
+         10: 14, 
+         11: 16, 
+         12: 26, 
+         13: 23, 
+         14: 22, 
+         15: 25, 
+         16: 31
+        }
+        >>> 
+        >>> x = get_cmdlines_open_close_structute(cmds,stagns,etagns)
+        {
+         0: '<<<<html', 
+         1: '<<<<html head', 
+         2: '<<<<html head meta', 
+         3: 'html head meta>>>>', 
+         4: 'html head>>>>', 
+         5: '<<<<html body', 
+         6: '<<<<html body header', 
+         7: '<<<<html body header a', 
+         8: 'html body header a>>>>', 
+         9: '<<<<html body header ul', 
+         10: '<<<<html body header ul li', 
+         11: '<<<<html body header ul li div', 
+         12: '<<<<html body header ul li div div', 
+         13: '<<<<html body header ul li div div i', 
+         14: 'html body header ul li div div i>>>>', 
+         15: '<<<<html body header ul li div div i', 
+         16: 'html body header ul li div div i>>>>', 
+         17: 'html body header ul li div div>>>>', 
+         18: 'html body header ul li div>>>>', 
+         19: '<<<<html body header ul li div', 
+         20: '<<<<html body header ul li div div', 
+         21: '<<<<html body header ul li div div div', 
+         22: 'html body header ul li div div div>>>>', 
+         23: 'html body header ul li div div>>>>', 
+         24: '<<<<html body header ul li div div', 
+         25: 'html body header ul li div div>>>>', 
+         26: 'html body header ul li div>>>>', 
+         27: 'html body header ul li>>>>', 
+         28: 'html body header ul>>>>', 
+         29: 'html body header>>>>', 
+         30: '<<<<html body script', 
+         31: 'html body script>>>>', 
+         32: 'html body>>>>', 
+         33: 'html>>>>'
+        }
+        >>> 
+    '''
+    rslt = {}
+    for i in range(0,cmdlines_ltdict.__len__()):
+        si = stagns[i]
+        ei = etagns[i]
+        scmd = ''.join(('<<<<',cmdlines_ltdict[i]))
+        ecmd = ''.join((cmdlines_ltdict[i],'>>>>'))
+        rslt[si] = scmd
+        rslt[ei] = ecmd
+    pobj(rslt)
+    return(rslt)
+
+def update_tags_info_with_results(stagns,etagns,results):
+    '''
+        tmp = get_tags_info_from_cmdlines_ltdict(cmds)
+        stagns = tmp['stagns']
+        etagns = tmp['etagns']
+        >>> pobj(stagns)
+        {
+         0: 0, 
+         1: 1, 
+         2: 2, 
+         3: 5, 
+         4: 6, 
+         5: 7, 
+         6: 9, 
+         7: 10, 
+         8: 11, 
+         9: 12, 
+         10: 13, 
+         11: 15, 
+         12: 19, 
+         13: 20, 
+         14: 21, 
+         15: 24, 
+         16: 30
+        }
+        >>> pobj(etagns)
+        {
+         0: 33, 
+         1: 4, 
+         2: 3, 
+         3: 32, 
+         4: 29, 
+         5: 8, 
+         6: 28, 
+         7: 27, 
+         8: 18, 
+         9: 17, 
+         10: 14, 
+         11: 16, 
+         12: 26, 
+         13: 23, 
+         14: 22, 
+         15: 25, 
+         16: 31
+        }
+        >>> pobj(results)
+        {
+         0: 
+            {}, 
+         1: 
+            {}, 
+         2: None, 
+         3: 
+            {}, 
+         4: 
+            {}, 
+         5: None, 
+         6: 
+            {}, 
+         7: 
+            {}, 
+         8: 
+            {}, 
+         9: 
+            {}, 
+         10: None, 
+         11: None, 
+         12: 
+             {}, 
+         13: 
+             {}, 
+         14: 'personal settings', 
+         15: None, 
+         16: None
+        }
+        >>> 
+        tmp = update_tags_info_with_results(stagns,etagns,results)
+        {'stagns': {0: 0, 1: 1, 2: 2, 3: 5, 4: 6, 5: 7, 6: 9, 7: 10, 8: 11, 9: 12, 10: 13, 11: 15, 12: 19, 13: 20, 14: 21, 15: 25, 16: 31}, 'etagns': {0: 34, 1: 4, 2: 3, 3: 33, 4: 30, 5: 8, 6: 29, 7: 28, 8: 18, 9: 17, 10: 14, 11: 16, 12: 27, 13: 24, 14: 23, 15: 26, 16: 32}, 'textns': {0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None, 9: None, 10: None, 11: None, 12: None, 13: None, 14: 22, 15: None, 16: None}}
+        pobj(tmp)
+                {
+         'stagns': 
+                   {
+                    0: 0, 
+                    1: 1, 
+                    2: 2, 
+                    3: 5, 
+                    4: 6, 
+                    5: 7, 
+                    6: 9, 
+                    7: 10, 
+                    8: 11, 
+                    9: 12, 
+                    10: 13, 
+                    11: 15, 
+                    12: 19, 
+                    13: 20, 
+                    14: 21, 
+                    15: 25, 
+                    16: 31
+                   }, 
+         'etagns': 
+                   {
+                    0: 34, 
+                    1: 4, 
+                    2: 3, 
+                    3: 33, 
+                    4: 30, 
+                    5: 8, 
+                    6: 29, 
+                    7: 28, 
+                    8: 18, 
+                    9: 17, 
+                    10: 14, 
+                    11: 16, 
+                    12: 27, 
+                    13: 24, 
+                    14: 23, 
+                    15: 26, 
+                    16: 32
+                   }, 
+         'textns': 
+                   {
+                    0: None, 
+                    1: None, 
+                    2: None, 
+                    3: None, 
+                    4: None, 
+                    5: None, 
+                    6: None, 
+                    7: None, 
+                    8: None, 
+                    9: None, 
+                    10: None, 
+                    11: None, 
+                    12: None, 
+                    13: None, 
+                    14: 22, 
+                    15: None, 
+                    16: None
+                   }
+        }
+    '''
+    textns = {}
+    for i in range(0,results.__len__()):
+        if((results[i] == None) | (results[i] == {})):
+            textns[i] = None
+        else:
+            textns[i] = stagns[i] + 1
+            label = stagns[i]
+            for j in range(0,results.__len__()):
+                if(stagns[j]>label):
+                    stagns[j] = stagns[j] + 1
+                if(etagns[j]>label):
+                    etagns[j] = etagns[j] + 1
+    rslt = {}
+    rslt['stagns'] = stagns
+    rslt['etagns'] = etagns
+    rslt['textns'] = textns
+    return(rslt)
+
+def get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results,attribs,**kwargs):
+    '''
+        tmp = get_tags_info_from_cmdlines_ltdict(cmds)
+        stagns = tmp['stagns']    
+        etagns = tmp['etagns']        
+        >>> pobj(cmds)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> 
+        >>> 
+        >>> pobj(stagns)
+        {
+         0: 0, 
+         1: 1, 
+         2: 2, 
+         3: 5, 
+         4: 6, 
+         5: 7, 
+         6: 9, 
+         7: 10, 
+         8: 11, 
+         9: 12, 
+         10: 13, 
+         11: 15, 
+         12: 19, 
+         13: 20, 
+         14: 21, 
+         15: 24, 
+         16: 30
+        }
+        >>> 
+        >>> 
+        >>> pobj(etagns)
+        {
+         0: 33, 
+         1: 4, 
+         2: 3, 
+         3: 32, 
+         4: 29, 
+         5: 8, 
+         6: 28, 
+         7: 27, 
+         8: 18, 
+         9: 17, 
+         10: 14, 
+         11: 16, 
+         12: 26, 
+         13: 23, 
+         14: 22, 
+         15: 25, 
+         16: 31
+        }
+        >>> 
+        >>> 
+        >>> 
+        >>> pobj(attribs)
+        {
+         0: 
+            {
+             'class': '', 
+             'lang': 'zh'
+            }, 
+         1: 
+            {}, 
+         2: 
+            {
+             'http-equiv': 'X-UA-Compatible', 
+             'content': 'IE=EDGE,chrome=1'
+            }, 
+         3: 
+            {
+             'class': 'zh'
+            }, 
+         4: 
+            {
+             'class': 'section-heading accordion-title', 
+             'id': 'ctl00_leftColumn_PersonalSectionTitle'
+            }, 
+         5: 
+            {
+             'name': 'personal'
+            }, 
+         6: 
+            {}, 
+         7: 
+            {
+             'class': 'row-flex row-flex--middle'
+            }, 
+         8: 
+            {}, 
+         9: 
+            {
+             'class': 'accordion-icons'
+            }, 
+         10: 
+             {
+              'class': 'icon-159'
+             }, 
+         11: 
+             {
+              'class': 'icon-160'
+             }, 
+         12: 
+             {
+              'class': 'row-flex row-flex--middle'
+             }, 
+         13: 
+             {
+              'class': 'fl0 fs12'
+             }, 
+         14: 
+             {
+              'class': 'h4'
+             }, 
+         15: 
+             {
+              'class': 'align--right fs12'
+             }, 
+         16: 
+             {
+              'type': 'text/javascript', 
+              'src': '//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99'
+             }
+        }
+        >>> 
+        >>> 
+        >>> 
+        >>> pobj(results)
+        {
+         0: 
+            {}, 
+         1: 
+            {}, 
+         2: None, 
+         3: 
+            {}, 
+         4: 
+            {}, 
+         5: None, 
+         6: 
+            {}, 
+         7: 
+            {}, 
+         8: 
+            {}, 
+         9: 
+            {}, 
+         10: None, 
+         11: None, 
+         12: 
+             {}, 
+         13: 
+             {}, 
+         14: 'personal settings', 
+         15: None, 
+         16: None
+        }
+        >>> 
+        
+        >>> html_lines = get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results,attribs)
+        >>> pobj(html_lines)
+        {
+         0: '      <html class lang="zh">', 
+         1: '            <head>', 
+         2: '                  <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1">', 
+         3: '                  </meta>', 
+         4: '            </head>', 
+         5: '            <body class="zh">', 
+         6: '                    <header class="section-heading accordion-title" id="ctl00_leftColumn_PersonalSectionTitle">', 
+         7: '                       <a name="personal">', 
+         8: '                       </a>', 
+         9: '                        <ul>', 
+         10: '                            <li class="row-flex row-flex--middle">', 
+         11: '                                 <div>', 
+         12: '                                      <div class="accordion-icons">', 
+         13: '                                         <i class="icon-159">', 
+         14: '                                         </i>', 
+         15: '                                         <i class="icon-160">', 
+         16: '                                         </i>', 
+         17: '                                      </div>', 
+         18: '                                 </div>', 
+         19: '                                 <div class="row-flex row-flex--middle">', 
+         20: '                                      <div class="fl0 fs12">', 
+         21: '                                           <div class="h4">', 
+         22: '                                                personal settings', 
+         23: '                                           </div>', 
+         24: '                                      </div>', 
+         25: '                                      <div class="align--right fs12">', 
+         26: '                                      </div>', 
+         27: '                                 </div>', 
+         28: '                            </li>', 
+         29: '                        </ul>', 
+         30: '                    </header>', 
+         31: '                    <script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99">', 
+         32: '                    </script>', 
+         33: '            </body>', 
+         34: '      </html>'
+        }
+        >>> 
+    '''
+    if('fixed_indent' in kwargs):
+        fixed_indent = kwargs['fixed_indent']
+    else:
+        fixed_indent = 0
+    if('indent' in kwargs):
+        indent = kwargs['indent']
+    else:
+        indent = 4
+    if('path_sp' in kwargs):
+        path_sp = kwargs['path_sp']
+    else:
+        path_sp = '/'
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    #
+    max_stagns = max(ltdict.ltdict_to_list(stagns))
+    max_etagns = max(ltdict.ltdict_to_list(etagns))
+    max_seq = max(max_stagns,max_etagns)
+    cond = max_seq -  (stagns.__len__() + etagns.__len__() - 1)
+    if(cond == 0):
+        updated = update_tags_info_with_results(stagns,etagns,results)
+        textns = updated['textns']
+    else:
+        textns = kwargs['textns']
+    html_lines = {}
+    for i in range(0,cmds.__len__()):
+        cmd_pl = cmds[i].split(cmd_sp)
+        pl = hdict_object.get_path_list(cmd_pl,path_sp)
+        prepend = hdict_object.xml_indent_prepend(pl)
+        tag = pl[-1]
+        stagn = stagns[i]
+        etagn = etagns[i]
+        attrib = attribs[i]
+        if(utils.is_dict(attrib)):
+            attrib = attrib_dict_to_str(attrib)
+        else:
+            pass
+        textn = textns[i]
+        html_lines[stagn] = ''.join((prepend,'<',str(tag),attrib,'>'))
+        html_lines[etagn] = ''.join((prepend,'</',str(tag),'>'))
+        if(textn == None):
+            pass
+        else:
+            prepend = ''.join((prepend,' '*(str(tag).__len__()+2)))
+            html_lines[textn] = ''.join((prepend,str(results[i])))
+    return(html_lines)
 
 
-#------------------------------------------------------------
-def cmdlines_full_dict_to_hdict(cmdlines_full_dict,**kwargs):
-    cmdlines_ltdict = cmdlines_full_dict['cmds']
-    results = cmdlines_full_dict['results']
-    attribs = cmdlines_full_dict['attribs']
+
+def cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs):
+    '''
+    >>> 
+    >>> cmdlines_full_dict.keys()
+        dict_keys(['results', 'attribs', 'cmds'])
+        >>> pobj(cmdlines_full_dict['cmds'])
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+
+        >>> >>> 
+        >>> pobj(cmdlines_full_dict['attribs'])
+        {
+         0: 
+            {
+             'class': '', 
+             'lang': 'zh'
+            }, 
+         1: 
+            {}, 
+         2: 
+            {
+             'http-equiv': 'X-UA-Compatible', 
+             'content': 'IE=EDGE,chrome=1'
+            }, 
+         3: 
+            {
+             'class': 'zh'
+            }, 
+         4: 
+            {
+             'class': 'section-heading accordion-title', 
+             'id': 'ctl00_leftColumn_PersonalSectionTitle'
+            }, 
+         5: 
+            {
+             'name': 'personal'
+            }, 
+         6: 
+            {}, 
+         7: 
+            {
+             'class': 'row-flex row-flex--middle'
+            }, 
+         8: 
+            {}, 
+         9: 
+            {
+             'class': 'accordion-icons'
+            }, 
+         10: 
+             {
+              'class': 'icon-159'
+             }, 
+         11: 
+             {
+              'class': 'icon-160'
+             }, 
+         12: 
+             {
+              'class': 'row-flex row-flex--middle'
+             }, 
+         13: 
+             {
+              'class': 'fl0 fs12'
+             }, 
+         14: 
+             {
+              'class': 'h4'
+             }, 
+         15: 
+             {
+              'class': 'align--right fs12'
+             }, 
+         16: 
+             {
+              'type': 'text/javascript', 
+              'src': '//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99'
+             }
+        }
+        >>> 
+        >>> 
+        >>> pobj(cmdlines_full_dict['results'])
+        {
+         0: 
+            {}, 
+         1: 
+            {}, 
+         2: None, 
+         3: 
+            {}, 
+         4: 
+            {}, 
+         5: None, 
+         6: 
+            {}, 
+         7: 
+            {}, 
+         8: 
+            {}, 
+         9: 
+            {}, 
+         10: None, 
+         11: None, 
+         12: 
+             {}, 
+         13: 
+             {}, 
+         14: 'personal settings', 
+         15: None, 
+         16: None
+        }
+        >>> 
+        >>> 
+        >>> 
+    '''
+    def html_ltdict_to_html_text(html_lines,line_sp):
+        html_text = ''
+        for i in range(0,html_lines.__len__()):
+            if(html_lines[i] == ''):
+                pass
+            else:
+                html_text = ''.join((html_text,html_lines[i],line_sp))
+        html_text = utils.str_rstrip(html_text,line_sp,1)
+        return(html_text)
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('html_lines' in cmdlines_full_dict):
+        html_lines = cmdlines_full_dict['html_lines']
+        html_text = html_ltdict_to_html_text(html_lines,line_sp)
+        return(html_text)
+    elif(('slines' in cmdlines_full_dict) & ('elines' in cmdlines_full_dict) & ('tlines' in cmdlines_full_dict)):
+        stagns =  cmdlines_full_dict['stagns']
+        textns = cmdlines_full_dict['textns']
+        etagns = cmdlines_full_dict['etagns']
+        slines = cmdlines_full_dict['slines']
+        elines = cmdlines_full_dict['elines']
+        tlines = cmdlines_full_dict['tlines']
+        html_lines = {}
+        for i in range(0,stagns.__len__()):
+            seq = stagns[i]
+            line = slines[i]
+            html_lines[seq] = line
+            seq = etagns[i]
+            line = elines[i]
+            html_lines[seq] = line
+            seq = textns[i]
+            line = tlines[i]
+            if(seq == None):
+                pass
+            else:
+                html_lines[seq] = line
+        html_text = html_ltdict_to_html_text(html_lines,line_sp)
+        return(html_text)
+    elif('stagns' in cmdlines_full_dict):
+        stagns =  cmdlines_full_dict['stagns']
+        cmds = cmdlines_full_dict['cmds']
+        results = cmdlines_full_dict['results']
+        attribs = cmdlines_full_dict['attribs']
+        tmp = []
+        for i in range(0,stagns.__len__()):
+            t = (stagns[i],cmds[i],results[i],attribs[i])
+            tmp.append(t)
+        tmp.sort(key=itemgetter(0))
+        for i in range(0,tmp.__len__()):
+            cmd = tmp[i][1]
+            result = tmp[i][2]
+            attrib = tmp[i][3]
+            if(type(attrib) == type({})):
+                attrib = hdict_object.attrib_dict_to_str(attrib)
+            else:
+                pass
+            cmds[i] = cmd
+            results[i] = result
+            attribs[i] = attrib
+        tmp = get_tags_info_from_cmdlines_ltdict(cmds)
+        stagns = tmp['stagns']
+        etagns = tmp['etagns']
+        html_lines = get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results,attribs)
+        html_text = html_ltdict_to_html_text(html_lines,line_sp)
+        return(html_text)
+    else:
+        if(reorder):
+            cmds = cmdlines_full_dict['cmds']
+            ltdict.ltdict_sort(cmds)
+        else:
+            cmds = cmdlines_full_dict['cmds']
+        results = cmdlines_full_dict['results']
+        attribs = cmdlines_full_dict['attribs']
+        tmp = get_tags_info_from_cmdlines_ltdict(cmds)
+        stagns = tmp['stagns']
+        etagns = tmp['etagns']
+        for i in range(0,attribs.__len__()):
+            if(type(attribs[i]) == type({})):
+                attribs[i] = hdict_object.attrib_dict_to_str(attribs[i])
+            else:
+                pass
+        html_lines = get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results,attribs)
+        html_text = html_ltdict_to_html_text(html_lines,line_sp)
+        return(html_text)
+
+
 #---------------------------------------------------------
 
 
