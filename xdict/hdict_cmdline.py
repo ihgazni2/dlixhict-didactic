@@ -396,7 +396,7 @@ def cmd_in_cmd(cmd1,cmd2,**kwargs):
     cmd2 = format_cmd_str(cmd2,cmd_sp=cmd2_sp)
     cmd1_pl = cmd1.split(cmd1_sp)
     cmd2_pl = cmd2.split(cmd2_sp)
-    return(cmdpl_in_cmdpl(cmdpl1,cmdpl2,mode=mode))
+    return(cmdpl_in_cmdpl(cmd1_pl,cmd2_pl,mode=mode))
 
 
 def cmdlines_str_to_ltdict(cmdlines_str,**kwargs):
