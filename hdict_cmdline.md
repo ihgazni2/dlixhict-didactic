@@ -65,6 +65,14 @@
 ![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_3.png) 
 ![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_4.png) 
 # 24. __cmdlines_full_dict_to_hdict(cmdlines_full_dict,**kwargs)__
+# 25. __get_obj_value_via_cmd(cmd,obj,**kwargs)__
+![](Images/hdict_cmdline.get_obj_value_via_cmd.png) 
+# 26. __get_cmdlines_ltdict_duplines_stats(cmdlines_ltdict)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_2.png) 
+# 27. __get_cmdlines_ltdict_leaf_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_2.png) 
 
 
 
