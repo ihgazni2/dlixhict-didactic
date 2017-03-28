@@ -59,6 +59,12 @@
 ![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_4.png) 
 ![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_5.png) 
 ![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_6.png) 
-# 23. 
+# 23. __cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs)__
+![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_1.png) 
+![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_2.png) 
+![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_3.png) 
+![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_4.png) 
+# 24. __cmdlines_full_dict_to_hdict(cmdlines_full_dict,**kwargs)__
+
 
 
