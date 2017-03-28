@@ -1166,11 +1166,11 @@ def xml_indent_prepend(path_list_or_path_string,**kwargs):
         indent = kwargs['indent']
     else:
         indent = 4
-    if('sp' in kwargs):
-        sp = kwargs['sp']
+    if('path_sp' in kwargs):
+        path_sp = kwargs['path_sp']
     else:
-        sp = '/'
-    pl = get_path_list(path_list_or_path_string,sp)
+        path_sp = '/'
+    pl = get_path_list(path_list_or_path_string,path_sp)
     if(fixed_indent):
         prepend = ' '*4*pl.__len__()
     else:
