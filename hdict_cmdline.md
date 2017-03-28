@@ -44,8 +44,21 @@
 ![](Images/hdict_cmdline.get_tags_info_from_cmdlines_ltdict_1.png) 
 ![](Images/hdict_cmdline.get_tags_info_from_cmdlines_ltdict_2.png)
 ![](Images/hdict_cmdline.get_tags_info_from_cmdlines_ltdict_3.png)
-# 21. show_hdict(cmd,hdict,**kwargs)
-# 22. cmd_in_cmd(cmd1,cmd2,**kwargs)
-# 23. cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs)
+# 21. __update_tags_info_with_results(stagns,etagns,results)__
+![](Images/hdict_cmdline.update_tags_info_with_results_1.png) 
+![](Images/hdict_cmdline.update_tags_info_with_results_2.png)
+![](Images/hdict_cmdline.update_tags_info_with_results_3.png) 
+![](Images/hdict_cmdline.update_tags_info_with_results_4.png) 
+![](Images/hdict_cmdline.update_tags_info_with_results_5.png) 
+![](Images/hdict_cmdline.update_tags_info_with_results_6.png) 
+![](Images/hdict_cmdline.update_tags_info_with_results_7.png) 
+# 22. __get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results,attribs,**kwargs)__
+![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_1.png) 
+![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_2.png)
+![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_3.png) 
+![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_4.png) 
+![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_5.png) 
+![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_6.png) 
+# 23. 
 
 
