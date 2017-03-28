@@ -72,7 +72,11 @@
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_2.png) 
 # 27. __get_cmdlines_ltdict_leaf_stats(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_2.png) 
-
-
+![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_2.png)  
+# 28. __get_cmdlines_ltdict_parent_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_2.png)
+# 29. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
+![](Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
 
