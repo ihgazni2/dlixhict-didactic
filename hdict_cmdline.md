@@ -76,7 +76,10 @@
 # 28. __get_cmdlines_ltdict_parent_stats(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_1.png) 
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_2.png)
-# 29. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
+# 29. __get_cmdlines_ltdict_son_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_2.png)
+# 30. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
 
