@@ -104,7 +104,14 @@
 # 38. __cmdlines_str_to_obj(cmdlines_str,**kwargs)__
 ![](Images/hdict_cmdline.cmdlines_str_to_obj_1.png) 
 ![](Images/hdict_cmdline.cmdlines_str_to_obj_2.png)
-# 39. 
+# 39. __cmdlines_str_to_html_text(cmdlines_str,**kwargs)__
+![](Images/hdict_cmdline.cmdlines_str_to_html_text_1.png) 
+![](Images/hdict_cmdline.cmdlines_str_to_html_text_2.png)
+# 40. __html_text_to_cmdlines_full_dict(**kwargs)__
+![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_1.png) 
+![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_2.png)
+![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_3.png)
+# 41. 
 
 
 
