@@ -92,7 +92,19 @@
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_2.png)
 # 34. __get_cmdlines_ltdict_roots_stats(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_roots_stats.png) 
-# 35. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
+# 35. __get_cmdlines_ltdict_siblings_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_2.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_3.png) 
+# 36. __get_cmdlines_ltdict_depths_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_depths_stats.png) 
+# 37. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
+# 38. __cmdlines_str_to_obj(cmdlines_str,**kwargs)__
+![](Images/hdict_cmdline.cmdlines_str_to_obj_1.png) 
+![](Images/hdict_cmdline.cmdlines_str_to_obj_2.png)
+# 39. 
+
+
 
