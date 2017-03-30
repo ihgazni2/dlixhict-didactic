@@ -79,7 +79,19 @@
 # 29. __get_cmdlines_ltdict_son_stats(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_1.png) 
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_2.png)
-# 30. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
+# 30. __get_cmdlines_ltdict_hierarchy_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_hierarchy_stats_1.png)
+![](Images/hdict_cmdline.get_cmdlines_ltdict_hierarchy_stats_2.png)
+# 31. __get_cmdlines_ltdict_breadth_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_breadth_stats.png)
+# 32. __get_cmdlines_ltdict_ancestors_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_ancestors_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_ancestors_stats_2.png)
+# 33. __get_cmdlines_ltdict_descedants_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_1.png) 
+![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_2.png)
+
+# 34. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
 
