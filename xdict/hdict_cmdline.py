@@ -311,6 +311,7 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
                 if(lb2>cmdpl2_len - 1):
                     return((False,0,distance))
                 else:
+                    i = -1
                     for i in range(1,cmdpl1_len-1):
                         index = i + distance
                         if(index > (cmdpl2_len -1)):
@@ -670,7 +671,6 @@ def cmdlines_deep_to_str(deep_ltdict,**kwargs):
     lines = cmdlines_ltdict_to_str(cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
     return(lines)
 
-
 def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
     '''
         >>> 
@@ -768,8 +768,6 @@ def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
     rslt = utils.str_rstrip(rslt,line_sp,1)
     print(rslt)
     return(orig_seqs)
-
-
 
 def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
     '''
@@ -870,7 +868,6 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
     rslt = utils.str_rstrip(rslt,line_sp,1)
     print(rslt)
     return(orig_seqs)
-
 
 def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     '''
@@ -1184,7 +1181,6 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines,'textns':textns,'html_lines':html_lines})
     else:
         return({'cmds':lines,'results':values,'attribs':attribs})
-
 
 def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
     '''
@@ -1829,7 +1825,9 @@ def get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results
     for i in range(0,cmds.__len__()):
         cmd_pl = cmds[i].split(cmd_sp)
         pl = hdict_object.get_path_list(cmd_pl,path_sp)
-        prepend = hdict_object.xml_indent_prepend(pl)
+        ppl = copy.deepcopy(pl)
+        ppl.pop(-1)
+        prepend = hdict_object.xml_indent_prepend(ppl)
         tag = pl[-1]
         stagn = stagns[i]
         etagn = etagns[i]
@@ -1847,8 +1845,6 @@ def get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results
             prepend = ''.join((prepend,' '*(str(tag).__len__()+2)))
             html_lines[textn] = ''.join((prepend,str(results[i])))
     return(html_lines)
-
-
 
 def cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs):
     '''
@@ -1980,6 +1976,44 @@ def cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs):
         }
         >>> 
         >>> 
+        >>> html_text = cmdlines_full_dict_to_html_text(cmdlines_full_dict)
+        >>> print(html_text)
+              <html class lang="zh">
+                    <head>
+                          <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1">
+                          </meta>
+                    </head>
+                    <body class="zh">
+                            <header class="section-heading accordion-title" id="ctl00_leftColumn_PersonalSectionTitle">
+                               <a name="personal">
+                               </a>
+                                <ul>
+                                    <li class="row-flex row-flex--middle">
+                                         <div>
+                                              <div class="accordion-icons">
+                                                 <i class="icon-159">
+                                                 </i>
+                                                 <i class="icon-160">
+                                                 </i>
+                                              </div>
+                                         </div>
+                                         <div class="row-flex row-flex--middle">
+                                              <div class="fl0 fs12">
+                                                   <div class="h4">
+                                                        personal settings
+                                                   </div>
+                                              </div>
+                                              <div class="align--right fs12">
+                                              </div>
+                                         </div>
+                                    </li>
+                                </ul>
+                            </header>
+                            <script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99">
+                            </script>
+                    </body>
+              </html>
+        >>> 
         >>> 
     '''
     def html_ltdict_to_html_text(html_lines,line_sp):
@@ -2073,13 +2107,39 @@ def cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs):
         html_text = html_ltdict_to_html_text(html_lines,line_sp)
         return(html_text)
 
+def cmdlines_full_dict_to_hdict(cmdlines_full_dict,**kwargs):
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    html_text = cmdlines_full_dict_to_html_text(cmdlines_full_dict)
+    hdict = hdict_xml.html_to_hdict(html_text=html_text)
+    return(hdict)
 
-#---------------------------------------------------------
-
-
-#-------------------------------------------
-
-def get_obj_value_from_cmd(cmd,obj,**kwargs):
+def get_obj_value_via_cmd(cmd,obj,**kwargs):
+    '''
+        >>> 
+        >>> 
+        >>> d.keys()
+        dict_keys(['userDeviceId', 'defaultComponents', 'customModeSortingEnabled', 'config', 'guideModal2', 'device', 'client', 'userActivityIds', 'deviceFields', 'graphDeviceFieldIds', 'limitations', 'compatibleApps', 'guideModal'])
+        >>> d['client'].keys()
+        dict_keys(['id', 'username', 'defaultActivityID', 'formattingOptions', 'publicity', 'userActivityIDs', 'userImage', 'gender', 'geoIPLocation', 'isCoach', 'mapProvider'])
+        >>> d['client']['formattingOptions'].keys()
+        dict_keys(['unitSystem', 'startOfWeek', 'decimalSeparator', 'language'])
+        >>> 
+        >>> get_obj_value_via_cmd('client formattingOptions language',d)
+        'en'
+        >>> get_obj_value_via_cmd('client formattingOptions unitSystem',d)
+        'metric'
+        >>> get_obj_value_via_cmd('client formattingOptions startOfWeek',d)
+        1
+        >>> 
+        >>> 
+    '''
     if('sp' in kwargs):
         sp = kwargs['sp']
     else:
@@ -2099,10 +2159,963 @@ def get_obj_value_from_cmd(cmd,obj,**kwargs):
     cmd = format_cmd_str(cmd,cmd_sp=cmd_sp)
     path_list = cmd.split(cmd_sp)
     rslt = utils.get_dict_items_via_path_list(obj,path_list,n2s=n2s,s2n=s2n)
-    print(rslt)
     return(rslt)
 
-def cmdlines_to_obj(cmdlines,**kwargs):
+def get_cmdlines_ltdict_duplines_stats(cmdlines_ltdict):
+    '''
+        >>> pobj(cmds)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> vkltd = get_cmdlines_ltdict_duplines_stats(cmds)
+        >>> pobj(vkltd,fixed_indent=1)
+        {
+            'html body header ul li div div': [9, 13, 15],
+            'html head meta': [2],
+            'html body header ul': [6],
+            'html body header': [4],
+            'html body header a': [5],
+            'html': [0],
+            'html body header ul li div div i': [10, 11],
+            'html body': [3],
+            'html body script': [16],
+            'html head': [1],
+            'html body header ul li div': [8, 12],
+            'html body header ul li div div div': [14],
+            'html body header ul li': [7]
+        }
+    '''
+    ltd = cmdlines_ltdict
+    vkltd = {}
+    for i in range(0,ltd.__len__()):
+        k = ltd[i]
+        if(k in vkltd):
+            vkltd[k].append(i)
+        else:
+            vkltd[k] = [i]
+    return(vkltd)
+
+def get_cmdlines_ltdict_leaf_stats(cmdlines_ltdict,**kwargs):
+    '''
+    
+    >>> pobj(get_cmdlines_ltdict_leaf_stats(cmds))
+    {
+     0: 0, 
+     1: 0, 
+     2: 1, 
+     3: 0, 
+     4: 0, 
+     5: 1, 
+     6: 0, 
+     7: 0, 
+     8: 0, 
+     9: 0, 
+     10: 1, 
+     11: 1, 
+     12: 0, 
+     13: 0, 
+     14: 1, 
+     15: 1, 
+     16: 1
+    }
+    >>> 
+    
+    '''
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    leaf_dict = {}
+    prev_cmd = ltd[0]
+    leaf_dict[0] = 1
+    for i in range(1,ltd.__len__()):
+        curr_cmd = ltd[i]
+        prev_pl = cmd_str_to_cmd_pl(prev_cmd,cmd_sp = cmd_sp)
+        curr_pl = cmd_str_to_cmd_pl(curr_cmd,cmd_sp = cmd_sp)
+        cond = utils.is_parent_path_list(prev_pl,curr_pl)
+        if(cond):
+            leaf_dict[i-1] = 0
+        else:
+            leaf_dict[i-1] = 1
+        prev_cmd = curr_cmd
+    leaf_dict[ltd.__len__() - 1] = 1
+    return(leaf_dict)
+
+def get_cmdlines_ltdict_parent_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> 
+        >>> 
+        >>> 
+        >>> pobj(get_cmdlines_ltdict_parent_stats(ltd))
+        {
+         1: 0, 
+         2: 1, 
+         3: 0, 
+         4: 3, 
+         5: 4, 
+         6: 4, 
+         7: 6, 
+         8: 7, 
+         9: 8, 
+         10: 9, 
+         11: 9, 
+         12: 7, 
+         13: 12, 
+         14: 13, 
+         15: 12, 
+         16: 3
+        }
+        >>> 
+    '''
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    parent_dict = {}
+    for i in range(0,ltd.__len__()):
+        curr_cmd = ltd[i]
+        curr_pl = cmd_str_to_cmd_pl(curr_cmd,cmd_sp = cmd_sp)
+        for j in range(0,i):
+            prev_cmd = ltd[j]
+            prev_pl = cmd_str_to_cmd_pl(prev_cmd,cmd_sp = cmd_sp)
+            cond = utils.is_parent_path_list(prev_pl,curr_pl)
+            if(cond):
+                parent_dict[i] = j
+            else:
+                pass
+    for i in range(0,ltd.__len__()):
+        if(i in parent_dict):
+            pass
+        else:
+            parent_dict[i] = None
+    return(parent_dict)
+
+def get_cmdlines_ltdict_son_stats(cmdlines_ltdict,**kwargs):
+    '''>>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> sltd = get_cmdlines_ltdict_son_stats(ltd)
+        >>> pobj(sltd,fixed_indent=1)
+        {
+            0: [1, 3],
+            1: [2],
+            3: [4, 16],
+            4: [5, 6],
+            6: [7],
+            7: [8, 12],
+            8: [9],
+            9: [10, 11],
+            12: [13, 15],
+            13: [14]
+        }
+        >>> 
+    >>> 
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
+    sltd = {}
+    for k in pltd:
+        p = pltd[k]
+        if(p in sltd):
+            sltd[p].append(k)
+        else:
+            sltd[p] = [k]
+    return(sltd)
+
+def get_cmdlines_ltdict_hierarchy_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> 
+        >>> root = get_cmdlines_ltdict_hierarchy_stats(ltd)
+        >>> pobj(root)
+        [
+         [
+          [
+           2
+          ], 
+          [
+           [
+            5, 
+            [
+             [
+              [
+               [
+                10, 
+                11
+               ]
+              ], 
+              [
+               [
+                14
+               ], 
+               15
+              ]
+             ]
+            ]
+           ], 
+           16
+          ]
+         ]
+        ]
+        >>> 
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
+    sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
+    root = ltdict.list_to_ltdict(list(ltd.keys()))
+    for k in pltd:
+        del root[k]
+    root = ltdict.ltdict_to_list(root)
+    next_unhandled_layer = [root]
+    nlen = next_unhandled_layer.__len__()
+    while(nlen >0):
+        new_next_unhandled_layer = []
+        for i in range(0,nlen):
+            unhandled = next_unhandled_layer[i]
+            for j in range(0,unhandled.__len__()):
+                p = unhandled[j]
+                if(p in sltd):
+                    unhandled[j] = sltd[p]
+                    new_next_unhandled_layer.append(sltd[p])
+        next_unhandled_layer = new_next_unhandled_layer
+        nlen = next_unhandled_layer.__len__()
+    return(root)
+
+def get_cmdlines_ltdict_breadth_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> breadths = get_cmdlines_ltdict_breadth_stats(ltd)
+        >>> pobj(breadths,fixed_indent=1)
+        {
+            0: [0],
+            1: [1, 3],
+            2: [2, 4, 16],
+            3: [5, 6],
+            4: [7],
+            5: [8, 12],
+            6: [9, 13, 15],
+            7: [10, 11, 14]
+        }
+        >>> 
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
+    sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
+    root = ltdict.list_to_ltdict(list(ltd.keys()))
+    for k in pltd:
+        del root[k]
+    root = ltdict.ltdict_to_list(root)
+    next_unhandled_layer = [root]
+    nlen = next_unhandled_layer.__len__()
+    depth = 0
+    breadths = {}
+    while(nlen >0):
+        breadths[depth] = []
+        new_next_unhandled_layer = []
+        for i in range(0,nlen):
+            unhandled = next_unhandled_layer[i]
+            for j in range(0,unhandled.__len__()):
+                p = unhandled[j]
+                breadths[depth].append(p)
+                if(p in sltd):
+                    new_next_unhandled_layer.append(sltd[p])
+        next_unhandled_layer = new_next_unhandled_layer
+        nlen = next_unhandled_layer.__len__()
+        depth = depth + 1
+    return(breadths)
+ 
+def get_cmdlines_ltdict_ancestors_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> ltd = copy.deepcopy(cmds)
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> altd = get_cmdlines_ltdict_ancestors_stats(ltd)
+        >>> 
+        >>> pobj(altd,fixed_indent=1)
+        {
+            0: [],
+            1: [0],
+            2: [1, 0],
+            3: [0],
+            4: [3, 0],
+            5: [4, 3, 0],
+            6: [4, 3, 0],
+            7: [6, 4, 3, 0],
+            8: [7, 6, 4, 3, 0],
+            9: [8, 7, 6, 4, 3, 0],
+            10: [9, 8, 7, 6, 4, 3, 0],
+            11: [9, 8, 7, 6, 4, 3, 0],
+            12: [7, 6, 4, 3, 0],
+            13: [12, 7, 6, 4, 3, 0],
+            14: [13, 12, 7, 6, 4, 3, 0],
+            15: [12, 7, 6, 4, 3, 0],
+            16: [3, 0]
+        }
+        
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    altd = {}
+    pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
+    for seq in cmdlines_ltdict:
+        if(seq in pltd):
+            p = pltd[seq]
+            altd[seq] = [p]
+            while(p in pltd):
+                p = pltd[p]
+                altd[seq].append(p)
+        else:
+            altd[seq] = []
+    return(altd)
+
+def get_cmdlines_ltdict_descedants_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> 
+        >>> ltd = copy.deepcopy(cmds)
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> 
+        >>> 
+        >>> dltd = get_cmdlines_ltdict_descedants_stats(ltd)
+        >>> pobj(dltd,fixed_indent=1)
+        {
+            0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+            1: [2],
+            3: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+            4: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            6: [7, 8, 9, 10, 11, 12, 13, 14, 15],
+            7: [8, 9, 10, 11, 12, 13, 14, 15],
+            8: [9, 10, 11],
+            9: [10, 11],
+            12: [13, 14, 15],
+            13: [14]
+        }
+        >>> 
+
+
+
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
+    altd = get_cmdlines_ltdict_ancestors_stats(ltd)
+    dltd = {}
+    for seq in altd:
+        al = altd[seq]
+        for i in range(0,al.__len__()):
+            a = al[i]
+            if(a in dltd):
+                dltd[a].append(seq)
+            else:
+                dltd[a] = [seq]
+    return(dltd)
+
+def get_cmdlines_ltdict_roots_stats(cmdlines_ltdict,**kwargs):
+    '''
+    >>> 
+    >>> 
+    >>> pobj(ltd)
+    {
+     0: 'html', 
+     1: 'html head', 
+     2: 'html head meta', 
+     3: 'html body', 
+     4: 'html body header', 
+     5: 'html body header a', 
+     6: 'html body header ul', 
+     7: 'html body header ul li', 
+     8: 'html body header ul li div', 
+     9: 'html body header ul li div div', 
+     10: 'html body header ul li div div i', 
+     11: 'html body header ul li div div i', 
+     12: 'html body header ul li div', 
+     13: 'html body header ul li div div', 
+     14: 'html body header ul li div div div', 
+     15: 'html body header ul li div div', 
+     16: 'html body script'
+    }
+    >>> 
+    >>> roots = get_cmdlines_ltdict_roots_stats(ltd)
+    >>> roots
+    [0]
+    >>> 
+    >>> 
+
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('only_dup' in kwargs):
+        only_dup = kwargs['only_dup']
+    else:
+        only_dup = 0
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
+    root = ltdict.list_to_ltdict(list(ltd.keys()))
+    for k in pltd:
+        del root[k]
+    root = ltdict.ltdict_to_list(root)
+    return(root)
+
+def get_cmdlines_ltdict_siblings_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> 
+        >>> ltd = copy.deepcopy(cmds)
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> sibltd = get_cmdlines_ltdict_siblings_stats(ltd)
+        >>> pobj(sibltd)
+        {
+         0: 0, 
+         1: 0, 
+         2: 0, 
+         3: 1, 
+         4: 0, 
+         5: 0, 
+         6: 1, 
+         7: 0, 
+         8: 0, 
+         9: 0, 
+         10: 0, 
+         11: 1, 
+         12: 1, 
+         13: 0, 
+         14: 0, 
+         15: 1, 
+         16: 1
+        }
+
+        >>> 
+        >>> sibltd = get_cmdlines_ltdict_siblings_stats(ltd,only_dup=1)
+        >>> pobj(sibltd,fixed_indent=1)
+        {
+            0: None,
+            1: None,
+            2: None,
+            3: None,
+            4: None,
+            5: None,
+            6: None,
+            7: None,
+            8: 0,
+            9: None,
+            10: 0,
+            11: 1,
+            12: 1,
+            13: 0,
+            14: None,
+            15: 1,
+            16: None
+        }
+        >>> 
+        
+        >>> 
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('only_dup' in kwargs):
+        only_dup = kwargs['only_dup']
+    else:
+        only_dup = 0
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
+    #
+    roots = get_cmdlines_ltdict_roots_stats(ltd)
+    #
+    sibltd = {}
+    for i in range(0,roots.__len__()):
+        sibltd[roots[i]] = 0
+    for each in sltd:
+        sons = sltd[each]
+        for i in range(0,sons.__len__()):
+            seq = sons[i]
+            if(only_dup):
+                if(sons.__len__()==1):
+                    sibltd[seq] = None
+                else:
+                    sibltd[seq] = i
+            else:
+                sibltd[seq] = i
+    if(only_dup):
+        vkltd = get_cmdlines_ltdict_stats(ltd)
+        undup_seqs = []
+        for cmd in vkltd:
+            seqs = vkltd[cmd]
+            for i in range(0,seqs.__len__()):
+                seq = seqs[i]
+                if(seqs.__len__()==1):
+                    pass
+                else:
+                    if(seq in undup_seqs):
+                        pass
+                    else:
+                        undup_seqs.append(seq)
+        undup_seqs = sorted(undup_seqs)
+        for useq in ltd:
+            if(useq in undup_seqs):
+                pass
+            else:
+                sibltd[useq] = None
+        for i in range(0,roots.__len__()):
+            sibltd[roots[i]] = None
+    else:
+        pass
+    return(sibltd)
+
+def get_cmdlines_ltdict_depths_stats(cmdlines_ltdict,**kwargs):
+    '''
+        >>> 
+        >>> ltd = copy.deepcopy(cmds)
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> depths_desc = get_cmdlines_ltdict_depths_stats(ltd)
+        >>> pobj(depths_desc,fixed_indent=1)
+        {
+            0: [0],
+            1: [1, 3],
+            2: [2, 4, 16],
+            3: [5, 6],
+            4: [7],
+            5: [8, 12],
+            6: [9, 13, 15],
+            7: [10, 11, 14]
+        }
+        >>> 
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('only_dup' in kwargs):
+        only_dup = kwargs['only_dup']
+    else:
+        only_dup = 0
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    depths_desc = {}
+    for seq in ltd:
+        cmd_str = ltd[seq]
+        cmd_pl = cmd_str_to_cmd_pl(cmd_str,cmd_sp=cmd_sp)
+        depth = cmd_pl.__len__() - 1
+        if(depth in depths_desc):
+            depths_desc[depth].append(seq)
+        else:
+            depths_desc[depth] =[seq]
+    return(depths_desc)
+
+def undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs):
+    '''
+        >>> ltd = copy.deepcopy(cmds)
+        >>> pobj(ltd)
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div', 
+         9: 'html body header ul li div div', 
+         10: 'html body header ul li div div i', 
+         11: 'html body header ul li div div i', 
+         12: 'html body header ul li div', 
+         13: 'html body header ul li div div', 
+         14: 'html body header ul li div div div', 
+         15: 'html body header ul li div div', 
+         16: 'html body script'
+        }
+        >>> 
+        >>> 
+        >>> pobj(undup_cmdlines_ltdict(ltd))
+        {
+         0: 'html', 
+         1: 'html head', 
+         2: 'html head meta', 
+         3: 'html body', 
+         4: 'html body header', 
+         5: 'html body header a', 
+         6: 'html body header ul', 
+         7: 'html body header ul li', 
+         8: 'html body header ul li div [0]', 
+         9: 'html body header ul li div [0] div', 
+         10: 'html body header ul li div [0] div i [0]', 
+         11: 'html body header ul li div [0] div i [1]', 
+         12: 'html body header ul li div [1]', 
+         13: 'html body header ul li div [1] div [0]', 
+         14: 'html body header ul li div [1] div [0] div', 
+         15: 'html body header ul li div [1] div [1]', 
+         16: 'html body script'
+        }
+
+        >>> 
+    '''
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if(reorder):
+        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+    else:
+        ltd = cmdlines_ltdict
+    vkltd = get_cmdlines_ltdict_stats(ltd)
+    pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
+    # sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
+    # bltd = get_cmdlines_ltdict_breadth_stats(ltd,cmd_sp = cmd_sp)
+    # dltd = get_cmdlines_ltdict_descedants_stats(ltd,cmd_sp = cmd_sp)
+    sibltd = get_cmdlines_ltdict_siblings_stats(ltd,cmd_sp = cmd_sp,only_dup=1)
+    dpltd = get_cmdlines_ltdict_depths_stats(ltd,cmd_sp = cmd_sp)
+    ltd_s1 = copy.deepcopy(ltd)
+    for depth in range(0,dpltd.__len__()):
+        layer = dpltd[depth]
+        for i in range(0,layer.__len__()):
+            seq = layer[i]
+            sibseq = sibltd[seq]
+            if(sibseq == None):
+                if(seq in pltd):
+                    p = pltd[seq]
+                    if(sibltd[p]==None):
+                        pass
+                    else:
+                        tag = cmd_str_to_cmd_pl(ltd_s1[seq],cmd_sp=cmd_sp)[-1]
+                        ltd_s1[seq] = ''.join((ltd_s1[p],cmd_sp,tag))
+                else:
+                    pass
+            else:
+                p = pltd[seq]
+                cmd_str = ltd[p]
+                bs = vkltd[cmd_str]
+                if(bs.__len__() == 1):
+                    ltd_s1[seq] = ''.join((ltd_s1[seq],cmd_sp,'[',str(sibseq),']'))
+                else:
+                    tag = cmd_str_to_cmd_pl(ltd_s1[seq],cmd_sp=cmd_sp)[-1]
+                    ltd_s1[seq] = ''.join((ltd_s1[p],cmd_sp,tag,cmd_sp,'[',str(sibseq),']'))
+    return(ltd_s1)
+
+def cmdlines_str_to_obj(cmdlines_str,**kwargs):
+    '''
+        >>> 
+        >>> print(cmdlines_str)
+        html
+        html head
+        html head meta
+        html body
+        html body header
+        html body header a
+        html body header ul
+        html body header ul li
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div i
+        html body header ul li div div i
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div div
+        html body header ul li div div
+        html body script
+        >>> obj = cmdlines_str_to_obj(cmdlines_str)
+        >>> 
+        >>> obj
+        >>> pobj(obj,fixed_indent=1)
+        {
+            'html': {
+                'body': {
+                    'script': {},
+                    'header': {
+                        'a': {},
+                        'ul': {
+                            'li': {
+                                'div': {
+                                    '[0]': {
+                                        'div': {
+                                            'i': {
+                                                '[0]': {},
+                                                '[1]': {}
+                                            }
+                                        }
+                                    },
+                                    '[1]': {
+                                        'div': {
+                                            '[0]': {
+                                                'div': {}
+                                            },
+                                            '[1]': {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'head': {
+                    'meta': {}
+                }
+            }
+        }
+        >>> 
+        >>> 
+        
+    '''
     if('results' in kwargs):
         results = kwargs['results']
     else:
@@ -2127,7 +3140,23 @@ def cmdlines_to_obj(cmdlines,**kwargs):
         lt = kwargs['ltdict']
     else:
         lt = 1
-    ltd = cmdlines_str_to_ltdict(cmdlines,line_sp=line_sp,ltdict=lt)
+    if('keep_order' in kwargs):
+        keep_order = kwargs['keep_order']
+    else:
+        keep_order = 1
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    if('undup' in kwargs):
+        undup = kwargs['undup']
+    else:
+        undup = 1
+    ltd = cmdlines_str_to_ltdict(cmdlines_str,line_sp=line_sp)
+    if(undup):
+        ltd = undup_cmdlines_ltdict(ltd,reorder=reorder,cmd_sp=cmd_sp)
+    else:
+        pass
     obj = {}
     for i in range(0,ltd.__len__()):
         pl = hdict_object.get_path_list(ltd[i],sp=cmd_sp)
@@ -2135,10 +3164,73 @@ def cmdlines_to_obj(cmdlines,**kwargs):
         if(results=={}):
             pass
         else:
-            utils.set_dict_items_via_path_list(obj,pl,results[i],n2s=n2s,s2n=s2n)
+            if(results[i] == {}):
+                pass
+            else:
+                utils.set_dict_items_via_path_list(obj,pl,results[i],n2s=n2s,s2n=s2n)
     return(obj)
 
-def cmdlines_to_xml(cmdlines,**kwargs):
+
+
+def cmdlines_str_to_html_text(cmdlines_str,**kwargs):
+    '''
+    >>> print(cmdlines_str)
+        html
+        html head
+        html head meta
+        html body
+        html body header
+        html body header a
+        html body header ul
+        html body header ul li
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div i
+        html body header ul li div div i
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div div
+        html body header ul li div div
+        html body script
+        >>> 
+        >>> html_text = cmdlines_str_to_html_text(cmdlines_str)
+        >>> print(html_text)
+              <html>
+                    <head>
+                          <meta>
+                          </meta>
+                    </head>
+                    <body>
+                            <header>
+                               <a>
+                               </a>
+                                <ul>
+                                    <li>
+                                         <div>
+                                              <div>
+                                                 <i>
+                                                 </i>
+                                                 <i>
+                                                 </i>
+                                              </div>
+                                         </div>
+                                         <div>
+                                              <div>
+                                                   <div>
+                                                   </div>
+                                              </div>
+                                              <div>
+                                              </div>
+                                         </div>
+                                    </li>
+                                </ul>
+                            </header>
+                            <script>
+                            </script>
+                    </body>
+              </html>
+        >>> 
+    '''
     if('results' in kwargs):
         results = kwargs['results']
     else:
@@ -2163,12 +3255,149 @@ def cmdlines_to_xml(cmdlines,**kwargs):
         lt = kwargs['ltdict']
     else:
         lt = 1
-    obj = cmdlines_to_obj(cmdlines,results=results,n2s=n2s,s2n=s2n,line_sp=line_sp,cmd_sp=cmd_sp,lt=lt)
-    rslt = obj_to_xml(obj,n2s=n2s,s2n=s2n,line_sp=line_sp)
-    return(rslt)
+    cmdlines_ltdict = cmdlines_str_to_ltdict(cmdlines_str,line_sp=line_sp)
+    cmdlines_full_dict = {}
+    cmdlines_full_dict['cmds'] = cmdlines_ltdict
+    cmdlines_full_dict['attribs'] = {}
+    cmdlines_full_dict['results'] = {}
+    for seq in cmdlines_ltdict:
+        cmdlines_full_dict['attribs'][seq] = {}
+        cmdlines_full_dict['results'][seq] = {}
+    html_text = cmdlines_full_dict_to_html_text(cmdlines_full_dict,line_sp=line_sp)
+    return(html_text)
 
-#
-def xml_to_cmdline_dict(**kwargs):
+def html_text_to_cmdlines_full_dict(**kwargs):
+    '''
+         >>> print(html_text)
+               <html>
+                     <head>
+                           <meta>
+                           </meta>
+                     </head>
+                     <body>
+                             <header>
+                                <a>
+                                </a>
+                                 <ul>
+                                     <li>
+                                          <div>
+                                               <div>
+                                                  <i>
+                                                  </i>
+                                                  <i>
+                                                  </i>
+                                               </div>
+                                          </div>
+                                          <div>
+                                               <div>
+                                                    <div>
+                                                    </div>
+                                               </div>
+                                               <div>
+                                               </div>
+                                          </div>
+                                     </li>
+                                 </ul>
+                             </header>
+                             <script>
+                             </script>
+                     </body>
+               </html>
+         >>> 
+        >>> cfd = html_text_to_cmdlines_full_dict(html_text=html_text)
+        >>> pobj(cfd)
+        {
+         'results': 
+                    {
+                     0: 
+                        {}, 
+                     1: 
+                        {}, 
+                     2: None, 
+                     3: 
+                        {}, 
+                     4: 
+                        {}, 
+                     5: '\n                       ', 
+                     6: 
+                        {}, 
+                     7: 
+                        {}, 
+                     8: 
+                        {}, 
+                     9: 
+                        {}, 
+                     10: '\n                                         ', 
+                     11: '\n                                         ', 
+                     12: 
+                         {}, 
+                     13: 
+                         {}, 
+                     14: '\n                                           ', 
+                     15: '\n                                      ', 
+                     16: '\n                    '
+                    }, 
+         'attribs': 
+                    {
+                     0: 
+                        {}, 
+                     1: 
+                        {}, 
+                     2: 
+                        {}, 
+                     3: 
+                        {}, 
+                     4: 
+                        {}, 
+                     5: 
+                        {}, 
+                     6: 
+                        {}, 
+                     7: 
+                        {}, 
+                     8: 
+                        {}, 
+                     9: 
+                        {}, 
+                     10: 
+                         {}, 
+                     11: 
+                         {}, 
+                     12: 
+                         {}, 
+                     13: 
+                         {}, 
+                     14: 
+                         {}, 
+                     15: 
+                         {}, 
+                     16: 
+                         {}
+                    }, 
+         'cmds': 
+                 {
+                  0: 'html', 
+                  1: 'html head', 
+                  2: 'html head meta', 
+                  3: 'html body', 
+                  4: 'html body header', 
+                  5: 'html body header a', 
+                  6: 'html body header ul', 
+                  7: 'html body header ul li', 
+                  8: 'html body header ul li div', 
+                  9: 'html body header ul li div div', 
+                  10: 'html body header ul li div div i', 
+                  11: 'html body header ul li div div i', 
+                  12: 'html body header ul li div', 
+                  13: 'html body header ul li div div', 
+                  14: 'html body header ul li div div div', 
+                  15: 'html body header ul li div div', 
+                  16: 'html body script'
+                 }
+        }
+        >>> 
+        
+    '''
     if('html_file_path' in kwargs):
         html_file_path = kwargs['html_file_path']
         fd = open(html_file_path,'r') 
@@ -2235,8 +3464,9 @@ def xml_to_cmdline_dict(**kwargs):
         pass
     return(rslt)
 
+#------------------------------------------------------------>
 
-def show_xml(cmd,**kwargs):
+def show_html_text_via_cmd(cmd,**kwargs):
     if('html_file_path' in kwargs):
         html_file_path = kwargs['html_file_path']
         fd = open(html_file_path,'r') 
@@ -2247,10 +3477,7 @@ def show_xml(cmd,**kwargs):
         html_text = kwargs['html_text']
         root = etree.HTML(html_text)
     else:
-        if('handled' in kwargs):
-            pass
-        else:
-            root = kwargs['root']
+        pass
     if('n2s' in kwargs):
         n2s = kwargs['n2s']
     else:
@@ -2271,10 +3498,10 @@ def show_xml(cmd,**kwargs):
         get_all = kwargs['get_all']
     else:
         get_all = 0
-    if(handled):
-        temp = handled
+    if('cmdlines_full_dict' in kwargs):
+        temp = kwargs['cmdlines_full_dict']
     else:
-        temp = xml_to_cmdline_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=cmd_sp,line_sp=line_sp)
+        temp = html_text_to_cmdlines_full_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=cmd_sp,line_sp=line_sp)
     cmdlines_ltdict = temp['cmds']
     results = temp['results']
     attribs = temp['attribs']
@@ -2333,7 +3560,7 @@ def show_obj(cmd,obj,**kwargs):
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']    
     try:
-        rslt = get_obj_value_from_cmd(cmd,obj,line_sp=line_sp,cmd_sp=cmd_sp)
+        rslt = get_obj_value_via_cmd(cmd,obj,line_sp=line_sp,cmd_sp=cmd_sp)
     except:
         prompt = show_prompt_from_cmdlines_ltdict(cmd,cmdlines)
         return(prompt)
