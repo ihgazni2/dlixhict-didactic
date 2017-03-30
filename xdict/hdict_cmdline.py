@@ -3433,7 +3433,7 @@ def html_text_to_cmdlines_full_dict(**kwargs):
         sdict = kwargs['sdict']
     else:
         sdict = {}
-    temp = html_to_hdict(root=root)
+    temp = hdict_xml.html_to_hdict(root=root)
     hdict=temp['hdict']
     sdict=temp['sdict']
     prdict=temp['prdict']
