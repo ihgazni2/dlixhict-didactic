@@ -90,8 +90,9 @@
 # 33. __get_cmdlines_ltdict_descedants_stats(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_1.png) 
 ![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_2.png)
-
-# 34. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
+# 34. __get_cmdlines_ltdict_roots_stats(cmdlines_ltdict,**kwargs)__
+![](Images/hdict_cmdline.get_cmdlines_ltdict_roots_stats.png) 
+# 35. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
 ![](Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
 
