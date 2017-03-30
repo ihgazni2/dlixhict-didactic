@@ -6,7 +6,7 @@ from xdict import hdict_object
 from xdict import hdict_xml
 from xdict import jprint
 from operator import itemgetter
-
+from lxml import etree
 
 def format_cmd_str(cmd_str,cmd_sp=' '):
     '''
