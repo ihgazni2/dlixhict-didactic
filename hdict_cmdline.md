@@ -111,7 +111,11 @@
 ![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_1.png) 
 ![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_2.png)
 ![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_3.png)
-# 41. 
+# 41. __show_html_text_via_cmd(cmd,**kwargs)__
+![](Images/hdict_cmdline.show_html_text_via_cmd_1.png) 
+![](Images/hdict_cmdline.show_html_text_via_cmd_2.png)
+![](Images/hdict_cmdline.show_html_text_via_cmd_3.png)
+# 42. 
 
 
 
