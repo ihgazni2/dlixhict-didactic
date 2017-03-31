@@ -388,16 +388,16 @@ key = "Pair"
 2 . Abbreviations:
 
 >2.1  list\_tuple\_dict :  [ltdict](ReadMeDetailed/ltdict.md)  
-2.2   html\_dict: hdict   [hdict_object](ReadMeDetailed/hdict_object.md)  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  [hdict_xml](ReadMeDetailed/hdict_xml.md)  
-2.3   structure\_description\_dict: sdict  [hdict_object](ReadMeDetailed/hdict_object.md)  
-2.4   paths\_relations\_dict: prdict  [hdict_object](ReadMeDetailed/hdict_object.md)  
+2.2   html\_dict: [hdict](ReadMeDetailed/hdict_object.md)  
+2.3   structure\_description\_dict: [sdict](ReadMeDetailed/hdict_object.md)  
+2.4   paths\_relations\_dict: [prdict](ReadMeDetailed/hdict_object.md)  
 2.5   
->>seperator of command line: cmd_sp  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
-command line: cmd_str  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
-command line in list pattern: cmd_pl [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
-cmdlines\_ltdict: clt  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
-cmdlines\_deep\_ltdict: cdlt [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
-cmdlines\_full\_ltdict: cflt [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
+>>seperator of command line: [cmd_sp](ReadMeDetailed/hdict_cmdline.md)  
+command line: [cmd_str](ReadMeDetailed/hdict_cmdline.md)  
+command line in list pattern: [cmd_pl](ReadMeDetailed/hdict_cmdline.md)  
+cmdlines\_ltdict: [clt](ReadMeDetailed/hdict_cmdline.md)  
+cmdlines\_deep\_ltdict: [cdlt](ReadMeDetailed/hdict_cmdline.md)  
+cmdlines\_full\_ltdict: [cflt](ReadMeDetailed/hdict_cmdline.md)  
      
 
 
