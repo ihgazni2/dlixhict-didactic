@@ -389,8 +389,8 @@ key = "Pair"
 
 >2.1  list\_tuple\_dict :  [ltdict](ReadMeDetailed/ltdict.md)  
 2.2   html\_dict: hdict   [hdict_object](ReadMeDetailed/hdict_object.md)  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  [hdict_xml](ReadMeDetailed/hdict_xml.md)  
-2.3   structure\_description\_dict: sdict  
-2.4   paths\_relations\_dict: prdict  
+2.3   structure\_description\_dict: sdict  [hdict_object](ReadMeDetailed/hdict_object.md)  
+2.4   paths\_relations\_dict: prdict  [hdict_object](ReadMeDetailed/hdict_object.md)  
 2.5   
 >>seperator of command line: cmd_sp  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
 command line: cmd_str  [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)  
