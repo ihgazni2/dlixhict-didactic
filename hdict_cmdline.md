@@ -1,6 +1,123 @@
+INTRODUCES:
+===========
+>cmd_sp = ' '
+cmd_str = 'defaultComponents header    props navigation menu items 2   link disabled' 
+cmd_sp = '#'
+cmd_str = 'defaultComponents##header##prop##navigation##men##items##2##link##disabled' 
+cmd_pl = ['defaultComponents', 'header', 'props', 'navigation', 'menu', 'items', '2', 'link', 'disabled']
+
+>cmdlines_str
+>>> cmdlines_str = '''client
+... client defaultActivityID
+... client formattingOptions
+... client formattingOptions decimalSeparator
+... client formattingOptions language
+... client formattingOptions startOfWeek
+... client formattingOptions unitSystem
+... client gender
+... client geoIPLocation
+... client geoIPLocation lat'''
+
+#cmdlines_ltdict
+##{
+## 0: 'client', 
+## 1: 'client defaultActivityID', 
+## 2: 'client formattingOptions', 
+## 3: 'client formattingOptions decimalSeparator', 
+## 4: 'client formattingOptions language', 
+## 5: 'client formattingOptions startOfWeek', 
+## 6: 'client formattingOptions unitSystem', 
+## 7: 'client gender', 
+## 8: 'client geoIPLocation', 
+## 9: 'client geoIPLocation lat'
+##}
+
+#cmdlines_deep_ltdict
+#{
+# 0: {0: 'client'}, 
+# 1: {0: 'client', 1: 'defaultActivityID'}, 
+# 2: {0: 'client', 1: 'formattingOptions'}, 
+# 3: {0: 'client', 1: 'formattingOptions', 2: 'decimalSeparator'}, 
+# 4: {0: 'client', 1: 'formattingOptions', 2: 'language'}, 
+# 5: {0: 'client', 1: 'formattingOptions', 2: 'startOfWeek'}, 
+# 6: {0: 'client', 1: 'formattingOptions', 2: 'unitSystem'}, 
+# 7: {0: 'client', 1: 'gender'}, 
+# 8: {0: 'client', 1: 'geoIPLocation'}, 
+# 9: {0: 'client', 1: 'geoIPLocation', 2: 'lat'}
+#}
+
+#cmdlines_full_dict
+##cmdlines_full_dict = {
+##    'cmds': {......}
+##    'attribs':{......}
+##    'results':{......}
+##}
+##
+#cmdlines_full_dict['cmds'])
+##{
+## 0: 'html', 
+## 1: 'html body', 
+## 2: 'html head', 
+## 3: 'html body header', 
+## 4: 'html head meta', 
+## 5: 'html body script', 
+## 6: 'html body header ul', 
+## 7: 'html body header a', 
+## 8: 'html body header ul li', 
+## 9: 'html body header ul li div', 
+## 10: 'html body header ul li div', 
+## 11: 'html body header ul li div div', 
+## 12: 'html body header ul li div div', 
+## 13: 'html body header ul li div div', 
+## 14: 'html body header ul li div div i', 
+## 15: 'html body header ul li div div i', 
+## 16: 'html body header ul li div div div'
+##}
+
+#cmdlines_full_dict['results']
+##{
+##    0: {}, 
+##    1: {}, 
+##    2: {}, 
+##    3: {}, 
+##    4: None, 
+##    5: None, 
+##    6: {}, 
+##    7: None, 
+##    8: {}, 
+##    9: {}, 
+##    10: {}, 
+##    11: {}, 
+##    12: {}, 
+##    13: None, 
+##    14: None, 
+##    15: None, 
+##    16: 'personal settings'
+##}
+
+#cmdlines_full_dict['attribs']
+##{
+##    0: {'lang': 'zh', 'class': ''}, 
+##    1: {'class': 'zh'}, 
+##    2: {}, 
+##    3: {'id': 'ctl00_leftColumn_PersonalSectionTitle', 'class': 'section-heading accordion-title'}, 
+##    4: {'content': 'IE=EDGE,chrome=1', 'http-equiv': 'X-UA-Compatible'}, 
+##    5: {'type': 'text/javascript', 'src': '//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99'}, 
+##    6: {}, 
+##    7: {'name': 'personal'}, 
+##    8: {'class': 'row-flex row-flex--middle'}, 
+##    9: {}, 
+##    10: {'class': 'row-flex row-flex--middle'}, 
+##    11: {'class': 'accordion-icons'}, 
+##    12: {'class': 'fl0 fs12'}, 
+##    13: {'class': 'align--right fs12'}, 
+##    14: {'class': 'icon-160'}, 
+##    15: {'class': 'icon-159'}, 
+##    16: {'class': 'h4'}
+##}
 
 
-Functions:
+FUNCTIONS:
 ==========
 # 1. __format_cmd_str(cmd_str,cmd_sp=' ')__
 ![](Images/hdict_cmdline.format_cmd_str_1.png)  
