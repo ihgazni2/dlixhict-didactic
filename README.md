@@ -1,5 +1,26 @@
 # dlixhict-didactic
 >transform and converting between html,json,python-dict,command-line,dir-path  
+# install
+> pip3 install xdict
+
+# INTRODUCE:
+
+for detailed usage and functions please refer to:
+-------------------------------------------------
+				ReadMeDetailed/
+				├── console_color.md
+				├── CrtableReadMe
+				│   └── crtable.md
+				├── hdict_cmdline.md
+				├── hdict_object.md
+				├── hdict_xml.md
+				├── jprint.md
+				├── ltdict.md
+				├── TestReadMe
+				│   └── genrand.md
+				├── tuple_list.md
+				└── utils.md
+
 
 1. Definition:  
 
@@ -366,10 +387,18 @@ key = "Pair"
 
 2 . Abbreviations:
 
->2.1  list\_tuple\_dict :  [ltdict](ltdict.md)  
-2.2   html\_dict: hdict   [hdict_object](hdict_object.md)  [hdict_cmdline](hdict_cmdline.md)  [hdict_xml](hdict_xml.md)  
-2.3   structure\_description\_dict: sdict  
-2.4   paths\_relations\_dict: prdict
+>2.1  list\_tuple\_dict :  [ltdict](ReadMeDetailed/ltdict.md)  
+2.2   html\_dict: [hdict](ReadMeDetailed/hdict_object.md)  
+2.3   structure\_description\_dict: [sdict](ReadMeDetailed/hdict_object.md)  
+2.4   paths\_relations\_dict: [prdict](ReadMeDetailed/hdict_object.md)  
+2.5   
+>>seperator of command line: [cmd_sp](ReadMeDetailed/hdict_cmdline.md)  
+command line: [cmd_str](ReadMeDetailed/hdict_cmdline.md)  
+command line in list pattern: [cmd_pl](ReadMeDetailed/hdict_cmdline.md)  
+cmdlines\_ltdict: [clt](ReadMeDetailed/hdict_cmdline.md)  
+cmdlines\_deep\_ltdict: [cdlt](ReadMeDetailed/hdict_cmdline.md)  
+cmdlines\_full\_ltdict: [cflt](ReadMeDetailed/hdict_cmdline.md)  
+     
 
 
 		
