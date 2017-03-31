@@ -1,52 +1,58 @@
 INTRODUCES:
 ===========
->cmd_sp = ' '  
+cmd_sp,cmd_str,cmd_pl 
+---------------------
+>>cmd_sp = ' '  
 cmd_str = 'defaultComponents header    props navigation menu items 2   link disabled'  
 cmd_sp = '#'  
 cmd_str = 'defaultComponents##header##prop##navigation##men##items##2##link##disabled'  
-cmd_pl = ['defaultComponents', 'header', 'props', 'navigation', 'menu', 'items', '2', 'link', 'disabled']  
+cmd_pl = ['defaultComponents', 'header', 'props', 'navigation', 'menu', 'items', '2', 'link', 'disabled'] 
+
+cmdlines_str,cmdlines_ltdict,cmdlines_deep_ltdict
+-------------------------------------------------
+>>cmdlines_str  
+>>> cmdlines_str = '''client  
+... client defaultActivityID  
+... client formattingOptions  
+... client formattingOptions decimalSeparator  
+... client formattingOptions language  
+... client formattingOptions startOfWeek  
+... client formattingOptions unitSystem  
+... client gender  
+... client geoIPLocation  
+... client geoIPLocation lat'''  
+
+>>cmdlines_ltdict  
+>>>{  
+ 0: 'client',   
+ 1: 'client defaultActivityID',  
+ 2: 'client formattingOptions',   
+ 3: 'client formattingOptions decimalSeparator',   
+ 4: 'client formattingOptions language',   
+ 5: 'client formattingOptions startOfWeek',   
+ 6: 'client formattingOptions unitSystem',   
+ 7: 'client gender',   
+ 8: 'client geoIPLocation',   
+ 9: 'client geoIPLocation lat'  
+}  
+
+>>cmdlines_deep_ltdict  
+>>>{  
+ 0: {0: 'client'},   
+ 1: {0: 'client', 1: 'defaultActivityID'},   
+ 2: {0: 'client', 1: 'formattingOptions'},   
+ 3: {0: 'client', 1: 'formattingOptions', 2: 'decimalSeparator'},   
+ 4: {0: 'client', 1: 'formattingOptions', 2: 'language'},   
+ 5: {0: 'client', 1: 'formattingOptions', 2: 'startOfWeek'},   
+ 6: {0: 'client', 1: 'formattingOptions', 2: 'unitSystem'}, 
+ 7: {0: 'client', 1: 'gender'},   
+ 8: {0: 'client', 1: 'geoIPLocation'},   
+ 9: {0: 'client', 1: 'geoIPLocation', 2: 'lat'}  
+}  
 
 
->cmdlines_str
->>> cmdlines_str = '''client
-... client defaultActivityID
-... client formattingOptions
-... client formattingOptions decimalSeparator
-... client formattingOptions language
-... client formattingOptions startOfWeek
-... client formattingOptions unitSystem
-... client gender
-... client geoIPLocation
-... client geoIPLocation lat'''
-
-#cmdlines_ltdict
-##{
-## 0: 'client', 
-## 1: 'client defaultActivityID', 
-## 2: 'client formattingOptions', 
-## 3: 'client formattingOptions decimalSeparator', 
-## 4: 'client formattingOptions language', 
-## 5: 'client formattingOptions startOfWeek', 
-## 6: 'client formattingOptions unitSystem', 
-## 7: 'client gender', 
-## 8: 'client geoIPLocation', 
-## 9: 'client geoIPLocation lat'
-##}
-
-#cmdlines_deep_ltdict
-#{
-# 0: {0: 'client'}, 
-# 1: {0: 'client', 1: 'defaultActivityID'}, 
-# 2: {0: 'client', 1: 'formattingOptions'}, 
-# 3: {0: 'client', 1: 'formattingOptions', 2: 'decimalSeparator'}, 
-# 4: {0: 'client', 1: 'formattingOptions', 2: 'language'}, 
-# 5: {0: 'client', 1: 'formattingOptions', 2: 'startOfWeek'}, 
-# 6: {0: 'client', 1: 'formattingOptions', 2: 'unitSystem'}, 
-# 7: {0: 'client', 1: 'gender'}, 
-# 8: {0: 'client', 1: 'geoIPLocation'}, 
-# 9: {0: 'client', 1: 'geoIPLocation', 2: 'lat'}
-#}
-
+cmdlines_full_dict
+------------------
 #cmdlines_full_dict
 ##cmdlines_full_dict = {
 ##    'cmds': {......}
