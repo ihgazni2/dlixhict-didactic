@@ -5,8 +5,9 @@ from xdict import ltdict
 from xdict import hdict_object
 from xdict import hdict_xml
 from xdict import jprint
-from operator import itemgetter
 from lxml import etree
+from operator import itemgetter
+
 
 def format_cmd_str(cmd_str,cmd_sp=' '):
     '''
@@ -3170,8 +3171,6 @@ def cmdlines_str_to_obj(cmdlines_str,**kwargs):
                 utils.set_dict_items_via_path_list(obj,pl,results[i],n2s=n2s,s2n=s2n)
     return(obj)
 
-
-
 def cmdlines_str_to_html_text(cmdlines_str,**kwargs):
     '''
     >>> print(cmdlines_str)
@@ -3464,9 +3463,100 @@ def html_text_to_cmdlines_full_dict(**kwargs):
         pass
     return(rslt)
 
-#------------------------------------------------------------>
 
 def show_html_text_via_cmd(cmd,**kwargs):
+    '''
+        >>> print(html_text)
+        <html>
+              <head>
+                    <meta>
+                    </meta>
+              </head>
+              <body>
+                      <header>
+                         <a>
+                         </a>
+                          <ul>
+                              <li>
+                                   <div>
+                                        <div>
+                                           <i>
+                                           </i>
+                                           <i>
+                                           </i>
+                                        </div>
+                                   </div>
+                                   <div>
+                                        <div>
+                                             <div>
+                                             </div>
+                                        </div>
+                                        <div>
+                                        </div>
+                                   </div>
+                              </li>
+                          </ul>
+                      </header>
+                      <script>
+                      </script>
+              </body>
+        </html>
+        >>> 
+        >>> tmp = show_html_text_via_cmd('html body',html_text=html_text)
+        html body
+        html body header
+        html body header a
+        html body header ul
+        html body header ul li
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div i
+        html body header ul li div div i
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div div
+        html body header ul li div div
+        html body script
+        html body
+        html body header
+        html body header a
+        html body header ul
+        html body header ul li
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div i
+        html body header ul li div div i
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div div
+        html body header ul li div div
+        html body script
+        
+        >>> 
+        >>> 
+        >>> tmp.keys()
+        dict_keys(['seqs', 'rslt'])
+        >>> print(tmp['rslt'])
+        html body
+        html body header
+        html body header a
+        html body header ul
+        html body header ul li
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div i
+        html body header ul li div div i
+        html body header ul li div
+        html body header ul li div div
+        html body header ul li div div div
+        html body header ul li div div
+        html body script
+        
+        >>> print(tmp['seqs'])
+        [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        >>> 
+
+    '''
     if('html_file_path' in kwargs):
         html_file_path = kwargs['html_file_path']
         fd = open(html_file_path,'r') 
@@ -3533,10 +3623,205 @@ def show_html_text_via_cmd(cmd,**kwargs):
             print(jprint.paint_str(rslt,single_color='yellow'))
             return({'rslt':rslt, 'seqs':rslt_seqs})    
 
+def obj_to_cmdlines_full_dict(obj):
+    '''
+        >>> pobj(obj)
+        {
+         'userActivityIDs': 
+                            [], 
+         'username': 'Ihgazni', 
+         'gender': 'm', 
+         'weight': 80.0, 
+         'publicity': 2, 
+         'id': 1489059, 
+         'isCoach': False, 
+         'geoIPLocation': 
+                          {
+                           'lat': 35.0, 
+                           'lon': 105.0
+                          }, 
+         'mapProvider': 'amap', 
+         'height': 1.71, 
+         'defaultActivityID': 1, 
+         'userImage': 
+                      {
+                       'default': 
+                                  {
+                                   'size128': 
+                                              {
+                                               'url': '//content.static.movescount.cn/1a344c5/img/members/member_m_128.png'
+                                              }, 
+                                   'size222': 
+                                              {
+                                               'url': '//content.static.movescount.cn/1a344c5/img/members/member_m_222.png'
+                                              }, 
+                                   'size60': 
+                                             {
+                                              'url': '//content.static.movescount.cn/1a344c5/img/members/member_m.png'
+                                             }
+                                  }
+                      }, 
+         'birthDate': '1980-12-03T00:00:00Z'
+        }
+        >>> 
+        >>> obj=d['client']
+        >>> cfd = obj_to_cmdlines_full_dict(obj)
+        >>> cfd.keys()
+        dict_keys(['attribs', 'cmds', 'results'])
+        >>> pobj(cfd['cmds'])
+        {
+         0: 'userActivityIDs', 
+         1: 'username', 
+         2: 'gender', 
+         3: 'weight', 
+         4: 'publicity', 
+         5: 'id', 
+         6: 'isCoach', 
+         7: 'geoIPLocation', 
+         8: 'geoIPLocation lat', 
+         9: 'geoIPLocation lon', 
+         10: 'mapProvider', 
+         11: 'height', 
+         12: 'defaultActivityID', 
+         13: 'userImage', 
+         14: 'userImage default', 
+         15: 'userImage default size128', 
+         16: 'userImage default size128 url', 
+         17: 'userImage default size222', 
+         18: 'userImage default size222 url', 
+         19: 'userImage default size60', 
+         20: 'userImage default size60 url', 
+         21: 'birthDate'
+        }
+        >>> 
+        >>> pobj(cfd['attribs'])
+        {
+         0: 
+            {
+             'type': 'list'
+            }, 
+         1: 
+            {
+             'type': 'str'
+            }, 
+         2: 
+            {
+             'type': 'str'
+            }, 
+         3: 
+            {
+             'type': 'float'
+            }, 
+         4: 
+            {
+             'type': 'int'
+            }, 
+         5: 
+            {
+             'type': 'int'
+            }, 
+         6: 
+            {
+             'type': 'bool'
+            }, 
+         7: 
+            {
+             'type': 'dict'
+            }, 
+         8: 
+            {
+             'type': 'float'
+            }, 
+         9: 
+            {
+             'type': 'float'
+            }, 
+         10: 
+             {
+              'type': 'str'
+             }, 
+         11: 
+             {
+              'type': 'float'
+             }, 
+         12: 
+             {
+              'type': 'int'
+             }, 
+         13: 
+             {
+              'type': 'dict'
+             }, 
+         14: 
+             {
+              'type': 'dict'
+             }, 
+         15: 
+             {
+              'type': 'dict'
+             }, 
+         16: 
+             {
+              'type': 'str'
+             }, 
+         17: 
+             {
+              'type': 'dict'
+             }, 
+         18: 
+             {
+              'type': 'str'
+             }, 
+         19: 
+             {
+              'type': 'dict'
+             }, 
+         20: 
+             {
+              'type': 'str'
+             }, 
+         21: 
+             {
+              'type': 'str'
+             }
+        }
+        >>> 
+        
+        >>> pobj(cfd['results'])
+        {
+         0: 
+            [], 
+         1: 'Ihgazni', 
+         2: 'm', 
+         3: 80.0, 
+         4: 2, 
+         5: 1489059, 
+         6: False, 
+         7: 
+            {}, 
+         8: 35.0, 
+         9: 105.0, 
+         10: 'amap', 
+         11: 1.71, 
+         12: 1, 
+         13: 
+             {}, 
+         14: 
+             {}, 
+         15: 
+             {}, 
+         16: '//content.static.movescount.cn/1a344c5/img/members/member_m_128.png', 
+         17: 
+             {}, 
+         18: '//content.static.movescount.cn/1a344c5/img/members/member_m_222.png', 
+         19: 
+             {}, 
+         20: '//content.static.movescount.cn/1a344c5/img/members/member_m.png', 
+         21: '1980-12-03T00:00:00Z'
+        }
+        >>> 
 
-
-
-def obj_to_cmdlines_dict(obj):
+    '''
     #cmdlines,results,attribs = obj_to_cmdlines(obj)
     temp = hdict_object.obj_to_hdict(obj)
     hdict = temp['hdict']
@@ -3546,7 +3831,36 @@ def obj_to_cmdlines_dict(obj):
     attribs = cmdlines_dict['attribs']
     return(cmdlines_dict)
 
-def show_obj(cmd,obj,**kwargs):
+def show_obj_via_cmd(cmd,obj,**kwargs):
+    '''
+        >>> 
+        >>> obj
+        {'userActivityIDs': [], 'username': 'Ihgazni', 'gender': 'm', 'weight': 80.0, 'publicity': 2, 'id': 1489059, 'isCoach': False, 'geoIPLocation': {'lat': 35.0, 'lon': 105.0}, 'mapProvider': 'amap', 'height': 1.71, 'defaultActivityID': 1, 'userImage': {'default': {'size128': {'url': '//content.static.movescount.cn/1a344c5/img/members/member_m_128.png'}, 'size222': {'url': '//content.static.movescount.cn/1a344c5/img/members/member_m_222.png'}, 'size60': {'url': '//content.static.movescount.cn/1a344c5/img/members/member_m.png'}}}, 'birthDate': '1980-12-03T00:00:00Z'}
+        >>> show_obj_via_cmd('erImage default',obj)
+        userImage default
+        userImage default size128
+        userImage default size128 url
+        userImage default size222
+        userImage default size222 url
+        userImage default size60
+        userImage default size60 url
+        [14, 15, 16, 17, 18, 19, 20]
+        >>> show_obj_via_cmd('userImage default size128 url',obj)
+        '//content.static.movescount.cn/1a344c5/img/members/member_m_128.png'
+        >>> show_obj_via_cmd('size',obj)
+        userImage default size128
+        userImage default size128 url
+        userImage default size222
+        userImage default size222 url
+        userImage default size60
+        userImage default size60 url
+        [15, 16, 17, 18, 19, 20]
+        >>> show_obj_via_cmd('geoIPLocation lat',obj)
+        35.0
+        >>> show_obj_via_cmd('geoIPLocation lon',obj)
+        105.0
+        >>> 
+    '''
     if('line_sp' in kwargs):
         line_sp = kwargs['line_sp']
     else:
@@ -3555,7 +3869,7 @@ def show_obj(cmd,obj,**kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
         cmd_sp = ' '
-    cmdlines_dict = obj_to_cmdlines_dict(obj)
+    cmdlines_dict = obj_to_cmdlines_full_dict(obj)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']    
@@ -3567,8 +3881,38 @@ def show_obj(cmd,obj,**kwargs):
     else:
         return(rslt)
 
-
-def show_hdict(cmd,hdict,**kwargs):
+def show_hdict_via_cmd(cmd,hdict,**kwargs):
+    '''
+        >>> 
+        >>> show_hdict_via_cmd('clien',hdict)
+        client
+        client userActivityIDs
+        client username
+        client gender
+        client weight
+        client publicity
+        client id
+        client isCoach
+        client geoIPLocation
+        client geoIPLocation lat
+        client geoIPLocation lon
+        client mapProvider
+        client height
+        client defaultActivityID
+        client userImage
+        client userImage default
+        client userImage default size128
+        client userImage default size128 url
+        client userImage default size222
+        client userImage default size222 url
+        client userImage default size60
+        client userImage default size60 url
+        client birthDate
+        [1513, 1514, 1515, 1516, 1517, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531, 1532, 1533, 1534, 1535]
+        >>> show_hdict_via_cmd('client id',hdict)
+        {'text': 1489059, 'siblings_seq': 5, 'tag': 'id', 'breadth_path': [4, 10], 'path': [4, 'children', 5], 'orig_obj_path': ['client', 'id'], 'children': {}, 'attrib': {'type': 'int'}, 'breadth': 10, 'depth': 1}
+        >>> 
+    '''
     if('line_sp' in kwargs):
         line_sp = kwargs['line_sp']
     else:
@@ -3581,20 +3925,20 @@ def show_hdict(cmd,hdict,**kwargs):
         prdict = kwargs['prdict']
     else:
         prdict = hdict_object.hdict_get_paths_relationship(hdict)
-    cmdlines_dict = hdict_to_cmdlines_full_dict(obj)
-    cmdlines = cmdlines_dict['cmds']
-    results = cmdlines_dict['results']
-    attribs = cmdlines_dict['attribs']    
+    cmdlines_full_dict = hdict_to_cmdlines_full_dict(hdict)
+    cmdlines = cmdlines_full_dict['cmds']
+    results = cmdlines_full_dict['results']
+    attribs = cmdlines_full_dict['attribs']    
     try:
         pl = cmd_str_to_cmd_pl(cmd,cmd_sp)
-        rslt =hdict_get_value(hdict,pl,prdict=prdict) 
+        rslt = hdict_object.hdict_get_value(hdict,pl,prdict=prdict) 
     except:
         prompt = show_prompt_from_cmdlines_ltdict(cmd,cmdlines)
         return(prompt)
     else:
         return(rslt)
-        
-        
+
+
 
 
 
