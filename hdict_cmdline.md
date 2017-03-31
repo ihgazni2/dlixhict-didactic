@@ -1,5 +1,5 @@
-INTRODUCES:
-===========
+DEFINITIONS:
+============
 cmd_sp,cmd_str,cmd_pl 
 ---------------------
 >>cmd_sp = ' '  
