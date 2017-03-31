@@ -1,13 +1,9 @@
 INTRODUCES:
 ===========
 >cmd_sp = ' '  
-
 cmd_str = 'defaultComponents header    props navigation menu items 2   link disabled'  
-
 cmd_sp = '#'  
-
 cmd_str = 'defaultComponents##header##prop##navigation##men##items##2##link##disabled'  
-
 cmd_pl = ['defaultComponents', 'header', 'props', 'navigation', 'menu', 'items', '2', 'link', 'disabled']  
 
 
