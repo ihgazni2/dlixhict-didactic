@@ -82,5 +82,7 @@ keys\_crossref\_dict: kcd
 			'expire': 3
 		}  
 
+# crossref_dict
 __1. is_crossref_dict(crossref_dict):__  
 --------------------------------------- 
+![](Images/crtable.is_crossref_dict.png) 
