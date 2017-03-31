@@ -53,13 +53,13 @@ cmdlines_str,cmdlines_ltdict,cmdlines_deep_ltdict
 
 cmdlines_full_dict
 ------------------
-#cmdlines_full_dict
-##cmdlines_full_dict = {
-##    'cmds': {......}
-##    'attribs':{......}
-##    'results':{......}
-##}
-##
+>cmdlines_full_dict
+    cmdlines_full_dict = {
+    'cmds': {......}
+    'attribs':{......}
+    'results':{......}
+}
+
 #cmdlines_full_dict['cmds'])
 ##{
 ## 0: 'html', 
