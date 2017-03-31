@@ -37,18 +37,18 @@ or used as a light-weight small database
 >each column is a attrib, all columns are called attribs:
 >>nameattribs: size,color,language,expire  
 indexattribs:0,1,2,3
-attribs\_crossref\_dict:acd  
+attribs\_crossref\_dict: acd  
 
-    {
-      0: 'size', 
-      1: 'color', 
-      2: 'language', 
-      3: 'expire', 
-      'size': 0, 
-      'language': 2, 
-      'color': 1, 
-      'expire': 3
-    }
+	{
+		0: 'size', 
+		1: 'color', 
+		2: 'language', 
+		3: 'expire', 
+		'size': 0, 
+		'language': 2, 
+		'color': 1, 
+		'expire': 3
+	}
 
 >keys are a subset of attribs,  
 values are a subset of attribs,
@@ -58,6 +58,23 @@ attribs consist of keys and values:
 indexkeys:1,2  
 namevalues: size,expire  
 indexvalues:0,3  
+keys\_crossref\_dict: kcd  
+
+		{
+			1: 'color', 
+			2: 'language', 
+			'language': 2, 
+			'color': 1
+		}
+
+values\_crossref\_dict: vcd  
+
+		{
+			0: 'size', 
+			3: 'expire', 
+			'size': 0, 
+			'expire': 3
+		}  
 
 
 
