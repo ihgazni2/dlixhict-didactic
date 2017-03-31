@@ -1,5 +1,26 @@
 # dlixhict-didactic
 >transform and converting between html,json,python-dict,command-line,dir-path  
+# install
+>
+
+# INTRODUCE:
+
+for detailed usage and functions please refer to:
+-------------------------------------------------
+				ReadMeDetailed/
+				├── console_color.md
+				├── CrtableReadMe
+				│   └── crtable.md
+				├── hdict_cmdline.md
+				├── hdict_object.md
+				├── hdict_xml.md
+				├── jprint.md
+				├── ltdict.md
+				├── TestReadMe
+				│   └── genrand.md
+				├── tuple_list.md
+				└── utils.md
+
 
 1. Definition:  
 
