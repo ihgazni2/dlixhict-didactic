@@ -1,3 +1,7 @@
+
+
+Functions:
+==========
 # 1. __format_cmd_str(cmd_str,cmd_sp=' ')__
 ![](Images/hdict_cmdline.format_cmd_str_1.png)  
 # 2. __cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' ')__
@@ -120,4 +124,8 @@
 ![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_2.png)
 ![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_3.png)
 ![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_4.png)
+# 43. __show_obj_via_cmd(cmd,obj,**kwargs)__
+![](Images/hdict_cmdline.show_obj_via_cmd.png)
+# 44. __show_hdict_via_cmd(cmd,hdict,**kwargs)__
+![](Images/hdict_cmdline.show_hdict_via_cmd.png)
 
