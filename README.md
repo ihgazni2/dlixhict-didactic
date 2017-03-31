@@ -1,7 +1,7 @@
 # dlixhict-didactic
->transform and converting between html,json,python-dict,command-line,dir-path  
+>__transform and converting between html,json,python-dict,command-line,dir-path__  
 # install
-> pip3 install xdict
+> __pip3 install xdict__
 
 # INTRODUCE:
 
