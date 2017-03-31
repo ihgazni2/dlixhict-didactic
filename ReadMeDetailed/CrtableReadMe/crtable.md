@@ -50,11 +50,11 @@ attribs\_crossref\_dict: acd
 		'expire': 3
 	}
 
->keys are a subset of attribs,  
-values are a subset of attribs,
-keys have no intersection with values,
-attribs consist of keys and values:  
->>namekeys: color,language  
+>keys are a subset of attribs,    
+values are a subset of attribs,  
+keys have no intersection with values,  
+attribs consist of keys and values:    
+>>namekeys: color,language    
 indexkeys:1,2  
 namevalues: size,expire  
 indexvalues:0,3  
