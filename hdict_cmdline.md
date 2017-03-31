@@ -53,75 +53,77 @@ cmdlines_str,cmdlines_ltdict,cmdlines_deep_ltdict
 
 cmdlines_full_dict
 ------------------
->cmdlines_full_dict
-    cmdlines_full_dict = {
-    'cmds': {......}
-    'attribs':{......}
-    'results':{......}
-}
+>>cmdlines_full_dict  
+>>>cmdlines_full_dict = {  
+    'cmds': {......}  
+    'attribs':{......}  
+    'results':{......}  
+}  
 
-#cmdlines_full_dict['cmds'])
-##{
-## 0: 'html', 
-## 1: 'html body', 
-## 2: 'html head', 
-## 3: 'html body header', 
-## 4: 'html head meta', 
-## 5: 'html body script', 
-## 6: 'html body header ul', 
-## 7: 'html body header a', 
-## 8: 'html body header ul li', 
-## 9: 'html body header ul li div', 
-## 10: 'html body header ul li div', 
-## 11: 'html body header ul li div div', 
-## 12: 'html body header ul li div div', 
-## 13: 'html body header ul li div div', 
-## 14: 'html body header ul li div div i', 
-## 15: 'html body header ul li div div i', 
-## 16: 'html body header ul li div div div'
-##}
+>>cmdlines_full_dict['cmds'])
+>>>{  
+ 0: 'html',   
+ 1: 'html body',   
+ 2: 'html head',   
+ 3: 'html body header',   
+ 4: 'html head meta',   
+ 5: 'html body script',   
+ 6: 'html body header ul',   
+ 7: 'html body header a',   
+ 8: 'html body header ul li',   
+ 9: 'html body header ul li div',   
+ 10: 'html body header ul li div',   
+ 11: 'html body header ul li div div',    
+ 12: 'html body header ul li div div',   
+ 13: 'html body header ul li div div',   
+ 14: 'html body header ul li div div i',   
+ 15: 'html body header ul li div div i',   
+ 16: 'html body header ul li div div div'  
+}  
 
-#cmdlines_full_dict['results']
-##{
-##    0: {}, 
-##    1: {}, 
-##    2: {}, 
-##    3: {}, 
-##    4: None, 
-##    5: None, 
-##    6: {}, 
-##    7: None, 
-##    8: {}, 
-##    9: {}, 
-##    10: {}, 
-##    11: {}, 
-##    12: {}, 
-##    13: None, 
-##    14: None, 
-##    15: None, 
-##    16: 'personal settings'
-##}
 
-#cmdlines_full_dict['attribs']
-##{
-##    0: {'lang': 'zh', 'class': ''}, 
-##    1: {'class': 'zh'}, 
-##    2: {}, 
-##    3: {'id': 'ctl00_leftColumn_PersonalSectionTitle', 'class': 'section-heading accordion-title'}, 
-##    4: {'content': 'IE=EDGE,chrome=1', 'http-equiv': 'X-UA-Compatible'}, 
-##    5: {'type': 'text/javascript', 'src': '//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99'}, 
-##    6: {}, 
-##    7: {'name': 'personal'}, 
-##    8: {'class': 'row-flex row-flex--middle'}, 
-##    9: {}, 
-##    10: {'class': 'row-flex row-flex--middle'}, 
-##    11: {'class': 'accordion-icons'}, 
-##    12: {'class': 'fl0 fs12'}, 
-##    13: {'class': 'align--right fs12'}, 
-##    14: {'class': 'icon-160'}, 
-##    15: {'class': 'icon-159'}, 
-##    16: {'class': 'h4'}
-##}
+>>cmdlines_full_dict['results']
+>>>{  
+    0: {},   
+    1: {},   
+    2: {},   
+    3: {},   
+    4: None,   
+    5: None,   
+    6: {},   
+    7: None,   
+    8: {},   
+    9: {},   
+    10: {},   
+    11: {},   
+    12: {},   
+    13: None,   
+    14: None,   
+    15: None,   
+    16: 'personal settings'  
+}  
+
+
+>>cmdlines_full_dict['attribs']  
+>>>{  
+    0: {'lang': 'zh', 'class': ''},   
+    1: {'class': 'zh'},   
+    2: {},   
+    3: {'id': 'ctl00_leftColumn_PersonalSectionTitle', 'class': 'section-heading accordion-title'},   
+    4: {'content': 'IE=EDGE,chrome=1', 'http-equiv': 'X-UA-Compatible'},   
+    5: {'type': 'text/javascript', 'src': '//webapi.amap.com/maps?v=1.3&key=efbfdf421dca99bfa5b703841c57ee99'},   
+    6: {},   
+    7: {'name': 'personal'},   
+    8: {'class': 'row-flex row-flex--middle'},   
+    9: {},   
+    10: {'class': 'row-flex row-flex--middle'},   
+    11: {'class': 'accordion-icons'},   
+    12: {'class': 'fl0 fs12'},   
+    13: {'class': 'align--right fs12'},   
+    14: {'class': 'icon-160'},   
+    15: {'class': 'icon-159'},   
+    16: {'class': 'h4'}  
+}  
 
 
 FUNCTIONS:
