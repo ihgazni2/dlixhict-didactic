@@ -183,75 +183,75 @@ FUNCTIONS:
 ![](../Images/hdict_cmdline.update_tags_info_with_results_6.png) 
 ![](../Images/hdict_cmdline.update_tags_info_with_results_7.png) 
 # 22. __get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results,attribs,**kwargs)__
-![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_1.png) 
-![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_2.png)
-![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_3.png) 
-![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_4.png) 
-![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_5.png) 
-![](Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_6.png) 
+![](../Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_1.png) 
+![](../Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_2.png)
+![](../Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_3.png) 
+![](../Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_4.png) 
+![](../Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_5.png) 
+![](../Images/hdict_cmdline.get_html_lines_from_cmdlines_ltdict_and_tags_info_6.png) 
 # 23. __cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs)__
-![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_1.png) 
-![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_2.png) 
-![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_3.png) 
-![](Images/hdict_cmdline.cmdlines_full_dict_to_html_text_4.png) 
+![](../Images/hdict_cmdline.cmdlines_full_dict_to_html_text_1.png) 
+![](../Images/hdict_cmdline.cmdlines_full_dict_to_html_text_2.png) 
+![](../Images/hdict_cmdline.cmdlines_full_dict_to_html_text_3.png) 
+![](../Images/hdict_cmdline.cmdlines_full_dict_to_html_text_4.png) 
 # 24. __cmdlines_full_dict_to_hdict(cmdlines_full_dict,**kwargs)__
 # 25. __get_obj_value_via_cmd(cmd,obj,**kwargs)__
-![](Images/hdict_cmdline.get_obj_value_via_cmd.png) 
+![](../Images/hdict_cmdline.get_obj_value_via_cmd.png) 
 # 26. __get_cmdlines_ltdict_duplines_stats(cmdlines_ltdict)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_2.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_duplines_stats_2.png) 
 # 27. __get_cmdlines_ltdict_leaf_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_2.png)  
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_leaf_stats_2.png)  
 # 28. __get_cmdlines_ltdict_parent_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_2.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_parent_stats_2.png)
 # 29. __get_cmdlines_ltdict_son_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_2.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_son_stats_2.png)
 # 30. __get_cmdlines_ltdict_hierarchy_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_hierarchy_stats_1.png)
-![](Images/hdict_cmdline.get_cmdlines_ltdict_hierarchy_stats_2.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_hierarchy_stats_1.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_hierarchy_stats_2.png)
 # 31. __get_cmdlines_ltdict_breadth_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_breadth_stats.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_breadth_stats.png)
 # 32. __get_cmdlines_ltdict_ancestors_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_ancestors_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_ancestors_stats_2.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_ancestors_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_ancestors_stats_2.png)
 # 33. __get_cmdlines_ltdict_descedants_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_2.png)
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_descedants_stats_2.png)
 # 34. __get_cmdlines_ltdict_roots_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_roots_stats.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_roots_stats.png) 
 # 35. __get_cmdlines_ltdict_siblings_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_1.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_2.png) 
-![](Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_3.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_1.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_2.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_siblings_stats_3.png) 
 # 36. __get_cmdlines_ltdict_depths_stats(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.get_cmdlines_ltdict_depths_stats.png) 
+![](../Images/hdict_cmdline.get_cmdlines_ltdict_depths_stats.png) 
 # 37. __undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs)__
-![](Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
-![](Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
+![](../Images/hdict_cmdline.undup_cmdlines_ltdict_1.png) 
+![](../Images/hdict_cmdline.undup_cmdlines_ltdict_2.png)
 # 38. __cmdlines_str_to_obj(cmdlines_str,**kwargs)__
-![](Images/hdict_cmdline.cmdlines_str_to_obj_1.png) 
-![](Images/hdict_cmdline.cmdlines_str_to_obj_2.png)
+![](../Images/hdict_cmdline.cmdlines_str_to_obj_1.png) 
+![](../Images/hdict_cmdline.cmdlines_str_to_obj_2.png)
 # 39. __cmdlines_str_to_html_text(cmdlines_str,**kwargs)__
-![](Images/hdict_cmdline.cmdlines_str_to_html_text_1.png) 
-![](Images/hdict_cmdline.cmdlines_str_to_html_text_2.png)
+![](../Images/hdict_cmdline.cmdlines_str_to_html_text_1.png) 
+![](../Images/hdict_cmdline.cmdlines_str_to_html_text_2.png)
 # 40. __html_text_to_cmdlines_full_dict(**kwargs)__
-![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_1.png) 
-![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_2.png)
-![](Images/hdict_cmdline.html_text_to_cmdlines_full_dict_3.png)
+![](../Images/hdict_cmdline.html_text_to_cmdlines_full_dict_1.png) 
+![](../Images/hdict_cmdline.html_text_to_cmdlines_full_dict_2.png)
+![](../Images/hdict_cmdline.html_text_to_cmdlines_full_dict_3.png)
 # 41. __show_html_text_via_cmd(cmd,**kwargs)__
-![](Images/hdict_cmdline.show_html_text_via_cmd_1.png) 
-![](Images/hdict_cmdline.show_html_text_via_cmd_2.png)
-![](Images/hdict_cmdline.show_html_text_via_cmd_3.png)
+![](../Images/hdict_cmdline.show_html_text_via_cmd_1.png) 
+![](../Images/hdict_cmdline.show_html_text_via_cmd_2.png)
+![](../Images/hdict_cmdline.show_html_text_via_cmd_3.png)
 # 42. __obj_to_cmdlines_full_dict(obj)__
-![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_1.png) 
-![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_2.png)
-![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_3.png)
-![](Images/hdict_cmdline.obj_to_cmdlines_full_dict_4.png)
+![](../Images/hdict_cmdline.obj_to_cmdlines_full_dict_1.png) 
+![](../Images/hdict_cmdline.obj_to_cmdlines_full_dict_2.png)
+![](../Images/hdict_cmdline.obj_to_cmdlines_full_dict_3.png)
+![](../Images/hdict_cmdline.obj_to_cmdlines_full_dict_4.png)
 # 43. __show_obj_via_cmd(cmd,obj,**kwargs)__
-![](Images/hdict_cmdline.show_obj_via_cmd.png)
+![](../Images/hdict_cmdline.show_obj_via_cmd.png)
 # 44. __show_hdict_via_cmd(cmd,hdict,**kwargs)__
-![](Images/hdict_cmdline.show_hdict_via_cmd.png)
+![](../Images/hdict_cmdline.show_hdict_via_cmd.png)
 
