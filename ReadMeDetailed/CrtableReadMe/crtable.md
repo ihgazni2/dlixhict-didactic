@@ -92,5 +92,15 @@ __2. creat_crossref_dict_from_refdict(refdict):__
 ![](Images/crtable.creat_crossref_dict_from_refdict_1.png)
 ![](Images/crtable.creat_crossref_dict_from_refdict_2.png)  
 
-__3.
+__3. get_indexonly_refdict(refdict,**kwargs)__
+----------------------------------------------  
+
+__4. get_nameonly_refdict(refdict,**kwargs)__
+---------------------------------------------
+![](Images/crtable.get_nameonly_refdict.png)  
+
+
+
+
+
 
