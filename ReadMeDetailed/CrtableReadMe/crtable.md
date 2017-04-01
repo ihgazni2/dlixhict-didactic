@@ -85,4 +85,12 @@ keys\_crossref\_dict: kcd
 # crossref_dict
 __1. is_crossref_dict(crossref_dict):__  
 --------------------------------------- 
-![](Images/crtable.is_crossref_dict.png) 
+![](Images/crtable.is_crossref_dict.png)  
+
+__2. creat_crossref_dict_from_refdict(refdict):__
+-------------------------------------------------
+![](Images/crtable.creat_crossref_dict_from_refdict_1.png)
+![](Images/crtable.creat_crossref_dict_from_refdict_2.png)  
+
+__3.
+
