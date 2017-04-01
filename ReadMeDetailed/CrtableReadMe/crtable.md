@@ -81,13 +81,16 @@ keys\_crossref\_dict: kcd
 			'size': 0, 
 			'expire': 3
 		}  
+  
+  
+> crtable is a dict as below: 
 
->crtable is a dict as below:  
-		crtable = {'table': {...two-dimension ltdict...},
-		           'acd': {...attribs_crossref_dict...},
-				   'kcd': {...keys_crossref_dict...},
-				   'vcd': {...values_crossref_dict...}
-				   }
+	crtable = {  
+			'table': {...two-dimension ltdict...}, 
+			'acd': {...attribs_crossref_dict...},  
+			'kcd': {...keys_crossref_dict...},    
+			'vcd': {...values_crossref_dict...}  
+		}
 
 
 
