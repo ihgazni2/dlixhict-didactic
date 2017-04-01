@@ -127,6 +127,14 @@ __8. get_the_other_crossref_dict_via_nameslist(names_list,attribs_crossref_dict)
 ----------------------------------------------------------------------------------
 ![](Images/crtable.get_the_other_crossref_dict_via_nameslist.png)  
 
+__9. nameattribs_to_indexattribs(attribs,attribs_crossref_dict)__
+-----------------------------------------------------------------
+![](Images/crtable.nameattribs_to_indexattribs.png)  
+
+__10. indexattribs_to_nameattribs(attribs,attribs_crossref_dict)__
+------------------------------------------------------------------
+![](Images/crtable.indexattribs_to_nameattribs.png)  
+
 
 
 
