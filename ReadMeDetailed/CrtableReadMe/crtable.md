@@ -99,6 +99,24 @@ __4. get_nameonly_refdict(refdict,**kwargs)__
 ---------------------------------------------
 ![](Images/crtable.get_nameonly_refdict.png)  
 
+__5. get_crossref_dict_via_indexeslist(indexes_list,attribs_crossref_dict)__
+---------------------------------------------------------------------------- 
+![](Images/crtable.get_crossref_dict_via_indexeslist.png)  
+
+__6. get_crossref_dict_via_nameslist(names_list,attribs_crossref_dict)__
+------------------------------------------------------------------------
+![](Images/crtable.get_crossref_dict_via_nameslist.png)  
+
+__7. get_the_other_crossref_dict_via_indexeslist(indexes_list,attribs_crossref_dict)__
+--------------------------------------------------------------------------------------  
+![](Images/crtable.get_the_other_crossref_dict_via_indexeslist.png)  
+
+__8. get_the_other_crossref_dict_via_nameslist(names_list,attribs_crossref_dict)__
+----------------------------------------------------------------------------------
+![](Images/crtable.get_the_other_crossref_dict_via_nameslist.png)  
+
+
+
 
 
 
