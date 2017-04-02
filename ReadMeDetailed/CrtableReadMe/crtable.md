@@ -123,7 +123,13 @@ __4. get_nameonly_refdict(refdict,**kwargs)__
 ---------------------------------------------
 ![](Images/crtable.get_nameonly_refdict.png)  
 
+__5. get_mirror_dict_via_indexeslist(indexes_list,attribs_name_index_mirror_dict)__
+---------------------------------------------------------------------------- 
+![](Images/crtable.get_mirror_dict_via_indexeslist.png)  
 
+__6. get_mirror_dict_via_nameslist(names_list,attribs_name_index_mirror_dict)__
+------------------------------------------------------------------------
+![](Images/crtable.get_mirror_dict_via_nameslist.png)  
 
 
 
