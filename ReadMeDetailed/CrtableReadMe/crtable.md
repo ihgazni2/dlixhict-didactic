@@ -105,7 +105,7 @@ key\_name\_index\_mirror\_dict: knimd
 6.
 
 # Functions  
-## name_index_mirror_dict
+## part_1: name_index_mirror_dict
 __1. is_name_index_mirror_dict(name_index_mirror_dict)__  
 -------------------------------------------------------- 
 ![](Images/crtable.is_name_index_mirror_dict.png) 
