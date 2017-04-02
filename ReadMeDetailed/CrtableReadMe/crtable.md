@@ -34,8 +34,9 @@ or used as a light-weight small database
     {0: 500, 1: 'green', 2: 'english', 3: '2017-oct-01'}
     >>>
  
->each column is a attrib, all columns are called attribs:
->>attribnames: size,color,language,expire  
+>for each row :each column is a attrib, all columns are called attribs:
+>>attribs: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'} 
+attribnames: size,color,language,expire  
 each attribname must be string  
 attribindexes:0,1,2,3  
 each attribindex must be int  
@@ -52,10 +53,10 @@ attrib\_name\_index\_mirror\_dict: animd
 		'expire': 3
 	}
 
->keys are a subset of attribs,    
-values are a subset of attribs,  
+>keys are a subset of attribs: {1:'green',2:'espanol'},    
+values are a subset of attribs: {0:'500',3:'2018-dec-01'},    
 keys have no intersection with values,  
-attribs consist of keys and values:    
+attribs consist of keys and values: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'},       
 >>keynames: color,language  
 each keyname must be string  
 keyindexes:1,2  
