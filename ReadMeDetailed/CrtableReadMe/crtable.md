@@ -110,6 +110,12 @@ __1. is_name_index_mirror_dict(name_index_mirror_dict)__
 -------------------------------------------------------- 
 ![](Images/crtable.is_name_index_mirror_dict.png) 
 
+__2. creat_mirror_dict(refdict):__
+----------------------------------
+![](Images/crtable.creat_mirror_dict_1.png)
+![](Images/crtable.creat_mirror_dict_2.png)  
+![](Images/crtable.creat_mirror_dict_3.png)
+
 
 
 
