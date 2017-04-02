@@ -160,3 +160,41 @@ __2. indexattribs_to_nameattribs(attribs,attribs_name_index_mirror_dict)__
 --------------------------------------------------------------------------
 ![](Images/crtable.indexattribs_to_nameattribs.png) 
 
+__3. format_attribs_indexdominant(attribs,attribs_name_index_mirror_dict)__
+---------------------------------------------------------------------------
+__4. format_keys_indexdominant(keys,attribs_name_index_mirror_dict)__
+---------------------------------------------------------------------
+__5. format_values_indexdominant(values,attribs_name_index_mirror_dict)__
+-------------------------------------------------------------------------
+![](Images/crtable.format_attribs_indexdominant.png)  
+
+__6. format_attribs_namedominant(attribs,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------
+__7. format_keys_namedominant(keys,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------
+__8. format_values_namedominant(values,attribs_name_index_mirror_dict)__
+------------------------------------------------------------------------
+![](Images/crtable.format_attribs_indexdominant.png) 
+
+__9. format_attribs_to_indexkeyonly(attribs,attribs_name_index_mirror_dict,**kwargs)__
+--------------------------------------------------------------------------------------
+__10. format_keys_to_indexkeyonly(keys,attribs_name_index_mirror_dict)__
+------------------------------------------------------------------------
+__11. format_values_to_indexkeyonly(values,attribs_name_index_mirror_dict)__
+----------------------------------------------------------------------------
+![](Images/crtable.format_attribs_to_indexkeyonly.png)  
+
+__12. format_attribs_to_namekeyonly(attribs,attribs_name_index_mirror_dict,**kwargs)__
+--------------------------------------------------------------------------------------
+__13. format_keys_to_namekeyonly(keys,attribs_name_index_mirror_dict)__
+-----------------------------------------------------------------------
+__14. format_values_to_namekeyonly(values,attribs_name_index_mirror_dict)__
+---------------------------------------------------------------------------
+![](Images/crtable.format_attribs_to_namekeyonly.png)  
+
+
+
+
+
+
+
