@@ -153,7 +153,9 @@ __14. get_the_other_names_list_via_names_list(names_list,attribs_name_index_mirr
 ------------------------------------------------------------------------------------------
 ![](Images/crtable.get_the_other_names_list_via_names_list.png)  
 
-
-
-
-
+## part_2:attribs_keys_values
+__1. nameattribs_to_indexattribs(attribs,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------
+__2. indexattribs_to_nameattribs(attribs,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------
+![](Images/crtable.indexattribs_to_nameattribs.png) 
