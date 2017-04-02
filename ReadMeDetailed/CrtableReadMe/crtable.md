@@ -1,4 +1,4 @@
-# crtable
+# Introduce
 >two-dimension ltdict  used as a multi-keys/multi-values  dict  
 or used as a light-weight small database  
 	
@@ -96,6 +96,19 @@ key\_name\_index\_mirror\_dict: knimd
 
 
 
+# QuickStart
+1.
+2.
+3.
+4.
+5.
+6.
+
+# Functions  
+## part_1: name_index_mirror_dict
+__1. is_name_index_mirror_dict(name_index_mirror_dict)__  
+-------------------------------------------------------- 
+![](Images/crtable.is_name_index_mirror_dict.png) 
 
 
 
