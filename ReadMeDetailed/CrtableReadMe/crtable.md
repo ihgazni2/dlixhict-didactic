@@ -35,7 +35,7 @@ or used as a light-weight small database
     >>>
  
 >for each row :each column is a attrib, all columns are called attribs:
->>attribs: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'} 
+>>attribs: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}  
 attribnames: size,color,language,expire  
 each attribname must be string  
 attribindexes:0,1,2,3  
