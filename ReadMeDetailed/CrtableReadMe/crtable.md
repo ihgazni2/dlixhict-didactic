@@ -131,6 +131,14 @@ __6. get_mirror_dict_via_nameslist(names_list,attribs_name_index_mirror_dict)__
 ------------------------------------------------------------------------
 ![](Images/crtable.get_mirror_dict_via_nameslist.png)  
 
+__7. get_the_other_mirror_dict_via_indexeslist(indexes_list,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------------------  
+![](Images/crtable.get_the_other_mirror_dict_via_indexeslist.png)  
+
+__8. get_the_other_mirror_dict_via_nameslist(names_list,attribs_name_index_mirror_dict)__
+----------------------------------------------------------------------------------
+![](Images/crtable.get_the_other_mirror_dict_via_nameslist.png)  
+
 
 
 
