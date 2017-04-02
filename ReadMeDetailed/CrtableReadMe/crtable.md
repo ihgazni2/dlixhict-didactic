@@ -198,6 +198,12 @@ __1. get_seqslist_via_attribs(attribs,crtable)__
 ------------------------------------------------
 ![](Images/crtable.get_seqslist_via_attribs.png)  
 
+__2. get_seqslist_via_keys(keys,crtable)__
+------------------------------------------
+__3. get_seqslist_via_values(values,crtable)__
+----------------------------------------------
+![](Images/crtable.get_seqslist_via_keys.png)  
+
 
 
 
