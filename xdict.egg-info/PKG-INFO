@@ -1,0 +1,16 @@
+Metadata-Version: 1.1
+Name: xdict
+Version: 0.39
+Summary: tools for transform between html,dict and cmdline
+Home-page: https://github.com/ihgazni2/dlixhict-didactic
+Author: dapeli
+Author-email: terryinzaghi@163.com
+License: MIT
+Description: refer to .md files in https://github.com/ihgazni2/dlixhict-didactic
+Platform: UNKNOWN
+Classifier: Environment :: Console
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Programming Language :: Python
