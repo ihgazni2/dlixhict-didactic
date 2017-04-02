@@ -117,6 +117,14 @@ __2. creat_mirror_dict(refdict):__
 ![](Images/crtable.creat_mirror_dict_3.png)
 
 
+__3. get_indexonly_refdict(refdict,**kwargs)__
+----------------------------------------------  
+__4. get_nameonly_refdict(refdict,**kwargs)__
+---------------------------------------------
+![](Images/crtable.get_nameonly_refdict.png)  
+
+
+
 
 
 
