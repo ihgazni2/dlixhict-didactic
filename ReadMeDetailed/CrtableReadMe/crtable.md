@@ -34,12 +34,13 @@ or used as a light-weight small database
     {0: 500, 1: 'green', 2: 'english', 3: '2017-oct-01'}
     >>>
  
->each column is a attrib, all columns are called attribs:
->>attribnames: size,color,language,expire  
+>for each row :each column is a attrib, all columns are called attribs:
+>>attribs: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}  
+attribnames: size,color,language,expire  
 each attribname must be string  
 attribindexes:0,1,2,3  
 each attribindex must be int  
-attribs\_crossref\_dict: acd  
+attrib\_name\_index\_mirror\_dict: animd  
 
 	{
 		0: 'size', 
@@ -52,10 +53,10 @@ attribs\_crossref\_dict: acd
 		'expire': 3
 	}
 
->keys are a subset of attribs,    
-values are a subset of attribs,  
+>keys are a subset of attribs: {1:'green',2:'espanol'},    
+values are a subset of attribs: {0:'500',3:'2018-dec-01'},    
 keys have no intersection with values,  
-attribs consist of keys and values:    
+attribs consist of keys and values: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'},       
 >>keynames: color,language  
 each keyname must be string  
 keyindexes:1,2  
@@ -64,7 +65,7 @@ valunames: size,expire
 each valuename must be string  
 valueindexes:0,3  
 each valueindex must be int  
-keys\_crossref\_dict: kcd  
+key\_name\_index\_mirror\_dict: knimd  
 
 		{
 			1: 'color', 
@@ -73,7 +74,7 @@ keys\_crossref\_dict: kcd
 			'color': 1
 		}
 
->>values\_crossref\_dict: vcd  
+>>value\_name\_index\_mirror_dict: vnimd  
 
 		{
 			0: 'size', 
@@ -87,53 +88,12 @@ keys\_crossref\_dict: kcd
 
 	crtable = {  
 			'table': {...two-dimension ltdict...}, 
-			'acd': {...attribs_crossref_dict...},  
-			'kcd': {...keys_crossref_dict...},    
-			'vcd': {...values_crossref_dict...}  
+			'animd': {...attrib_name_index_mirror_dict...},  
+			'knimd': {...key_name_index_mirror_dict...},    
+			'vnimd': {...value_name_index_mirror_dict...}  
 		}
 
 
-
-# crossref_dict
-__1. is_crossref_dict(crossref_dict):__  
---------------------------------------- 
-![](Images/crtable.is_crossref_dict.png)  
-
-__2. creat_crossref_dict_from_refdict(refdict):__
--------------------------------------------------
-![](Images/crtable.creat_crossref_dict_from_refdict_1.png)
-![](Images/crtable.creat_crossref_dict_from_refdict_2.png)  
-
-__3. get_indexonly_refdict(refdict,**kwargs)__
-----------------------------------------------  
-
-__4. get_nameonly_refdict(refdict,**kwargs)__
----------------------------------------------
-![](Images/crtable.get_nameonly_refdict.png)  
-
-__5. get_crossref_dict_via_indexeslist(indexes_list,attribs_crossref_dict)__
----------------------------------------------------------------------------- 
-![](Images/crtable.get_crossref_dict_via_indexeslist.png)  
-
-__6. get_crossref_dict_via_nameslist(names_list,attribs_crossref_dict)__
-------------------------------------------------------------------------
-![](Images/crtable.get_crossref_dict_via_nameslist.png)  
-
-__7. get_the_other_crossref_dict_via_indexeslist(indexes_list,attribs_crossref_dict)__
---------------------------------------------------------------------------------------  
-![](Images/crtable.get_the_other_crossref_dict_via_indexeslist.png)  
-
-__8. get_the_other_crossref_dict_via_nameslist(names_list,attribs_crossref_dict)__
-----------------------------------------------------------------------------------
-![](Images/crtable.get_the_other_crossref_dict_via_nameslist.png)  
-
-__9. nameattribs_to_indexattribs(attribs,attribs_crossref_dict)__
------------------------------------------------------------------
-![](Images/crtable.nameattribs_to_indexattribs.png)  
-
-__10. indexattribs_to_nameattribs(attribs,attribs_crossref_dict)__
-------------------------------------------------------------------
-![](Images/crtable.indexattribs_to_nameattribs.png)  
 
 
 
