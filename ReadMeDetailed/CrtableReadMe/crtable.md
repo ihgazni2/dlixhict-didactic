@@ -139,6 +139,20 @@ __8. get_the_other_mirror_dict_via_nameslist(names_list,attribs_name_index_mirro
 ----------------------------------------------------------------------------------
 ![](Images/crtable.get_the_other_mirror_dict_via_nameslist.png)  
 
+__9. get_indexes_list_via_names_list(names_list,attribs_name_index_mirror_dict)__
+---------------------------------------------------------------------------------
+__10. get_names_list_via_indexes_list(indexes_list,attribs_name_index_mirror_dict)__
+------------------------------------------------------------------------------------
+__11. get_the_other_indexes_list_via_indexes_list(indexes_list,attribs_name_index_mirror_dict)__
+------------------------------------------------------------------------------------------------
+__12. get_the_other_indexes_list_via_names_list(names_list,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------------------------
+__13. get_the_other_names_list_via_indexes_list(indexes_list,attribs_name_index_mirror_dict)__
+----------------------------------------------------------------------------------------------
+__14. get_the_other_names_list_via_names_list(names_list,attribs_name_index_mirror_dict)__
+------------------------------------------------------------------------------------------
+![](Images/crtable.get_the_other_names_list_via_names_list.png)  
+
 
 
 
