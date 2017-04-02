@@ -159,3 +159,4 @@ __1. nameattribs_to_indexattribs(attribs,attribs_name_index_mirror_dict)__
 __2. indexattribs_to_nameattribs(attribs,attribs_name_index_mirror_dict)__
 --------------------------------------------------------------------------
 ![](Images/crtable.indexattribs_to_nameattribs.png) 
+
