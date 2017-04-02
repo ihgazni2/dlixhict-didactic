@@ -204,6 +204,10 @@ __3. get_seqslist_via_values(values,crtable)__
 ----------------------------------------------
 ![](Images/crtable.get_seqslist_via_keys.png)  
 
-
+__4. get_values_in_attribs(keys,attribs,attribs_name_index_mirror_dict,**kwargs)__
+----------------------------------------------------------------------------------
+__5. get_keys_in_attribs(values,attribs,attribs_name_index_mirror_dict,**kwargs)__
+----------------------------------------------------------------------------------
+![](Images/crtable.get_values_in_attribs.png)
 
 
