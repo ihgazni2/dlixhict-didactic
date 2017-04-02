@@ -96,7 +96,15 @@ key\_name\_index\_mirror\_dict: knimd
 
 
 
-#QuickStart
+# QuickStart
+1.
+2.
+3.
+4.
+5.
+6.
+
+# Functions
 
 
 
