@@ -192,8 +192,11 @@ __14. format_values_to_namekeyonly(values,attribs_name_index_mirror_dict)__
 ---------------------------------------------------------------------------
 ![](Images/crtable.format_attribs_to_namekeyonly.png)  
 
+## part_3: basic_select
 
-
+__1. get_seqslist_via_attribs(attribs,crtable)__
+------------------------------------------------
+![](Images/crtable.get_seqslist_via_attribs.png)  
 
 
 
