@@ -101,5 +101,11 @@
 12. unicode_num_array_to_str(num_arr)  
 ![](/Images/utils.unicode_num_array_to_str.png)
 
+## bitmap
+1. bitmaplist_to_num(bitmaplist)
+2. num_to_bitmaplist(num,bitmap_size)
+3. bitmaplist_bitsum(bitmaplist)
+4. subset_bitmap(n,k)
+
 
 
