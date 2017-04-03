@@ -234,6 +234,14 @@ __13. get_seqslist_of_column_via_attribname(name,crtable)__
 -----------------------------------------------------------
 ![](Images/crtable.get_seqslist_of_column_via_attribname.png)  
 
+__14. get_domainset_of_column_via_attribindex(index,crtable)__
+--------------------------------------------------------------
+__15. get_domainset_of_column_via_attribname(name,crtable)__
+------------------------------------------------------------
+![](Images/crtable.get_domainset_of_column_via_attribname.png)  
+
+
+
 
 
 
