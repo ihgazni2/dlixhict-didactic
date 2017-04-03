@@ -208,6 +208,14 @@ __4. get_values_in_attribs(keys,attribs,attribs_name_index_mirror_dict,**kwargs)
 ----------------------------------------------------------------------------------
 __5. get_keys_in_attribs(values,attribs,attribs_name_index_mirror_dict,**kwargs)__
 ----------------------------------------------------------------------------------
-![](Images/crtable.get_values_in_attribs.png)
+![](Images/crtable.get_values_in_attribs.png)  
+
+__6. get_valueslist_via_keys(keys,crtable,**kwargs)__
+-----------------------------------------------------
+__7. get_keyslist_via_values(values,crtable,**kwargs)__
+-------------------------------------------------------
+![](Images/crtable.get_valueslist_via_keys.png)  
+
+
 
 
