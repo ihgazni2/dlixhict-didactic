@@ -216,6 +216,28 @@ __7. get_keyslist_via_values(values,crtable,**kwargs)__
 -------------------------------------------------------
 ![](Images/crtable.get_valueslist_via_keys.png)  
 
+__8. get_column_via_attribindex(index,crtable)__
+------------------------------------------------
+__9. get_column_via_attribname(name,crtable)__
+----------------------------------------------
+![](Images/crtable.get_column_via_attribname.png)  
+
+__10. get_attribslist_of_column_via_attribindex(index,crtable)__
+----------------------------------------------------------------
+__11. get_attribslist_of_column_via_attribname(name,crtable)__
+--------------------------------------------------------------
+![](Images/crtable.get_attribslist_of_column_via_attribname.png)
+
+__12. get_seqslist_of_column_via_attribindex(index,crtable)__
+-------------------------------------------------------------
+__13. get_seqslist_of_column_via_attribname(name,crtable)__
+-----------------------------------------------------------
+![](Images/crtable.get_seqslist_of_column_via_attribname.png)  
+
+
+
+
+
 
 
 
