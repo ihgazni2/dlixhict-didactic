@@ -240,6 +240,80 @@ __15. get_domainset_of_column_via_attribname(name,crtable)__
 ------------------------------------------------------------
 ![](Images/crtable.get_domainset_of_column_via_attribname.png)  
 
+## part4: creat,init,add,del,modify
+
+__1. creat_empty_crtable(column_name_dict,**kwargs)__
+-----------------------------------------------------
+![](Images/crtable.creat_empty_crtable.png) 
+
+__2. expand_part_attribs(attribs,attribs_name_index_mirror_dict,**kwargs)__
+---------------------------------------------------------------------------
+![](Images/crtable.expand_part_attribs.png) 
+
+__3. add_row(row,crtable)__
+---------------------------
+![](Images/crtable.add_row.png)
+
+__4. add_col(col,crtable)__
+---------------------------
+![](Images/crtable.add_col.png)  
+
+__5. add_rows(rows,crtable)__
+-----------------------------
+![](Images/crtable.add_rows.png) 
+
+__6. add_cols(cols,crtable)__
+-----------------------------
+![](Images/crtable.add_cols.png) 
+
+__7. del_col_via_colnum(colnum,crtable)__
+-----------------------------------------
+![](Images/crtable.del_col_via_colnum.png)
+
+__8. del_col_via_colname(colname,crtable)__
+-------------------------------------------
+![](Images/crtable.del_col_via_colname.png)  
+
+__9. del_cols_via_colnumslist(colnumlist,crtable)__
+---------------------------------------------------
+![](Images/crtable.del_cols_via_colnumslist.png)  
+
+__10. del_cols_via_colnameslist(colnameslist,crtable)__
+-------------------------------------------------------
+![](Images/crtable.del_cols_via_colnameslist.png)  
+
+__11. del_rows_via_attribs(attribs,crtable)__
+---------------------------------------------
+__12. del_rows_via_keys(keys,crtable)__
+---------------------------------------
+__13. del_rows_via_values(values,crtable)__
+-------------------------------------------
+![](Images/crtable.del_rows_via_keys.png) 
+
+
+__14. modify_rows_via_seq(seq,crtable,modified_to)__
+----------------------------------------------------
+![](Images/crtable.modify_rows_via_seq.png)
+
+__15. modify_rows_via_attribs(attribs,crtable,modified_to)__
+-------------------------------------------------------------
+
+__16. modify_rows_via_keys(keys,crtable,modified_to,**kwargs)__
+---------------------------------------------------------------
+
+__17. modify_rows_via_values(values,crtable,modified_to,**kwargs)__
+-------------------------------------------------------------------
+![](Images/crtable.modify_rows_via_keys.png)
+
+__18. modify_col_via_colnum(colnum,crtable,modified_to)__
+---------------------------------------------------------
+
+__19. modify_col_via_colname(colname,crtable,modified_to)__
+-----------------------------------------------------------
+![](Images/crtable. modify_col_via_colname.png) 
+
+
+## part5: relationship 
 
 
 
