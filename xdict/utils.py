@@ -979,4 +979,41 @@ def unicode_num_array_to_str(num_arr):
         rslt = ''.join((rslt,ch))
     return(rslt)
 
+# bitmap
+def bitmaplist_to_num(bitmaplist):
+    num = 0
+    for i in range(0,bitmaplist.__len__()):
+        num = num + 2 **i * bitmaplist[i]
+    return(num)
+
+def num_to_bitmaplist(num,bitmap_size):
+    bitmaplist = []
+    s = bin(num)[2:]
+    s_len = s.__len__() 
+    for i in range(0,s_len):
+        b = s[s_len-i-1]
+        bitmaplist.append(int(b))
+    for i in range(s_len,bitmap_size):
+        bitmaplist.append(0)
+    return(bitmaplist)
+
+def bitmaplist_bitsum(bitmaplist):
+    sum = 0
+    for i in range(0,bitmaplist.__len__()):
+        sum = sum + bitmaplist[i]
+    return(sum)
+
+def subset_bitmap(n,k):
+    rslt = {}
+    size = bin(2**n).__len__() - 2
+    seq = 0 
+    for i in range(0,2**n):
+        bitmaplist = num_to_bitmaplist(i,size)
+        sum = bitmaplist_bitsum(bitmaplist)
+        if(sum == k):
+            rslt[seq] = bitmaplist
+            seq = seq + 1
+        else:
+            pass
+    return(rslt)
 
