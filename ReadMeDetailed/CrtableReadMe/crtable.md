@@ -309,11 +309,31 @@ __18. modify_col_via_colnum(colnum,crtable,modified_to)__
 ---------------------------------------------------------
 
 __19. modify_col_via_colname(colname,crtable,modified_to)__
------------------------------------------------------------
-![](Images/crtable. modify_col_via_colname.png) 
+-----------------------------------------------------------  
+![](Images/crtable.modify_col_via_colname.png) 
 
 
 ## part5: relationship 
+
+__1.  product_mirror_dicts(mds)__
+---------------------------------
+![](Images/crtable.product_mirror_dicts.png)  
+
+__2. product_two_table(table_1,table_2)__
+-----------------------------------------
+![](Images/crtable.product_two_table.png) 
+
+__3. product_tables(tables)__
+-----------------------------
+![](Images/crtable.product_tables.png)  
+
+__4. product_crtables(crtables)__
+---------------------------------
+![](Images/crtable.product_crtables.png)  
+
+
+
+
 
 
 
