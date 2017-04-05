@@ -317,7 +317,8 @@ __19. modify_col_via_colname(colname,crtable,modified_to)__
 
 __1.  product_mirror_dicts(mds)__
 ---------------------------------
-![](Images/crtable.product_mirror_dicts.png)  
+![](Images/crtable.product_mirror_dicts_1.png)  
+![](Images/crtable.product_mirror_dicts_2.png)
 
 __2. product_two_table(table_1,table_2)__
 -----------------------------------------
