@@ -297,12 +297,12 @@ __14. del_cols_via_colnameslist(colnameslist,crtable,**kwargs)__
  ![](Images/crtable.del_col_via_colname.png)   
  
  
-__15. del_rows_via_attribs(attribs,crtable)__
----------------------------------------------
-__16. del_rows_via_keys(keys,crtable)__
----------------------------------------
-__17. del_rows_via_values(values,crtable)__
--------------------------------------------
+__15. del_rows_via_attribs(attribs,crtable,**kwargs)__
+------------------------------------------------------
+__16. del_rows_via_keys(keys,crtable,**kwargs)__
+------------------------------------------------
+__17. del_rows_via_values(values,crtable,**kwargs)__
+----------------------------------------------------
 ![](Images/crtable.del_rows_via_keys.png) 
 
 
