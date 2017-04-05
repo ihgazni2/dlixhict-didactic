@@ -327,6 +327,22 @@ __23. modify_col_via_colname(colname,crtable,modified_to)__
 -----------------------------------------------------------  
 ![](Images/crtable.modify_col_via_colname.png) 
 
+__24. insert_col(colnum,colname,col,crtable,**kwargs)__
+-------------------------------------------------------
+![](Images/crtable.insert_col.png) 
+
+__25. insert_cols(colnumlist,colnamelist,cols,crtable,**kwargs)__
+------------------------------------------------------------------
+![](Images/crtable.insert_cols.png)
+
+__26. insert_row(rownum,row,crtable)__
+--------------------------------------
+![](Images/crtable.insert_row.png)
+
+__27. insert_rows(rownumlist,rows,crtable,**kwargs)__
+-----------------------------------------------------
+![](Images/crtable.insert_rows.png)
+
 
 ## part5: relationship 
 
