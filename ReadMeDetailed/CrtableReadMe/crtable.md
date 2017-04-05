@@ -266,6 +266,23 @@ __6. append_cols(cols,crtable)__
 --------------------------------
 ![](Images/crtable.append_cols.png) 
 
+__7. prepend_row(row,crtable)__
+------------------------------
+![](Images/crtable.prepend_row.png)
+
+__8. prepend_col(col,crtable)__
+------------------------------
+![](Images/crtable.prepend_col.png)  
+
+__9. prepend_rows(rows,crtable)__
+--------------------------------
+![](Images/crtable.prepend_rows.png) 
+
+__10. prepend_cols(cols,crtable)__
+--------------------------------
+![](Images/crtable.prepend_cols.png) 
+
+
 __7. del_col_via_colnum(colnum,crtable)__
 -----------------------------------------
 ![](Images/crtable.del_col_via_colnum.png)
