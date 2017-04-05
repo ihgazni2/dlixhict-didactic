@@ -240,7 +240,7 @@ __15. get_domainset_of_column_via_attribname(name,crtable)__
 ------------------------------------------------------------
 ![](Images/crtable.get_domainset_of_column_via_attribname.png)  
 
-## part4: creat,init,add,del,modify
+## part4: creat,init,append,prepend,del,modify,insert
 
 __1. creat_empty_crtable(column_name_dict,**kwargs)__
 -----------------------------------------------------
@@ -250,21 +250,21 @@ __2. expand_part_attribs(attribs,attribs_name_index_mirror_dict,**kwargs)__
 ---------------------------------------------------------------------------
 ![](Images/crtable.expand_part_attribs.png) 
 
-__3. add_row(row,crtable)__
----------------------------
-![](Images/crtable.add_row.png)
+__3. append_row(row,crtable)__
+------------------------------
+![](Images/crtable.append_row.png)
 
-__4. add_col(col,crtable)__
----------------------------
-![](Images/crtable.add_col.png)  
+__4. append_col(col,crtable)__
+------------------------------
+![](Images/crtable.append_col.png)  
 
-__5. add_rows(rows,crtable)__
------------------------------
-![](Images/crtable.add_rows.png) 
+__5. append_rows(rows,crtable)__
+--------------------------------
+![](Images/crtable.append_rows.png) 
 
-__6. add_cols(cols,crtable)__
------------------------------
-![](Images/crtable.add_cols.png) 
+__6. append_cols(cols,crtable)__
+--------------------------------
+![](Images/crtable.append_cols.png) 
 
 __7. del_col_via_colnum(colnum,crtable)__
 -----------------------------------------
