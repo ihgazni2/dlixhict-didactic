@@ -283,49 +283,47 @@ __10. prepend_cols(cols,crtable)__
 ![](Images/crtable.prepend_cols.png) 
 
 
-__7. del_col_via_colnum(colnum,crtable)__
------------------------------------------
+__11. del_col_via_colnum(colnum,crtable,**kwargs)__
+---------------------------------------------------
+__12. del_cols_via_colnumslist(colnumlist,crtable,**kwargs)__
+-------------------------------------------------------------
 ![](Images/crtable.del_col_via_colnum.png)
 
-__8. del_col_via_colname(colname,crtable)__
--------------------------------------------
-![](Images/crtable.del_col_via_colname.png)  
 
-__9. del_cols_via_colnumslist(colnumlist,crtable)__
----------------------------------------------------
-![](Images/crtable.del_cols_via_colnumslist.png)  
-
-__10. del_cols_via_colnameslist(colnameslist,crtable)__
--------------------------------------------------------
-![](Images/crtable.del_cols_via_colnameslist.png)  
-
-__11. del_rows_via_attribs(attribs,crtable)__
+__13. del_col_via_colname(colname,crtable,**kwargs)__
+-----------------------------------------------------
+__14. del_cols_via_colnameslist(colnameslist,crtable,**kwargs)__
+----------------------------------------------------------------
+ ![](Images/crtable.del_col_via_colname.png)   
+ 
+ 
+__15. del_rows_via_attribs(attribs,crtable)__
 ---------------------------------------------
-__12. del_rows_via_keys(keys,crtable)__
+__16. del_rows_via_keys(keys,crtable)__
 ---------------------------------------
-__13. del_rows_via_values(values,crtable)__
+__17. del_rows_via_values(values,crtable)__
 -------------------------------------------
 ![](Images/crtable.del_rows_via_keys.png) 
 
 
-__14. modify_rows_via_seq(seq,crtable,modified_to)__
+__18. modify_rows_via_seq(seq,crtable,modified_to)__
 ----------------------------------------------------
 ![](Images/crtable.modify_rows_via_seq.png)
 
-__15. modify_rows_via_attribs(attribs,crtable,modified_to)__
+__19. modify_rows_via_attribs(attribs,crtable,modified_to)__
 -------------------------------------------------------------
 
-__16. modify_rows_via_keys(keys,crtable,modified_to,**kwargs)__
+__20. modify_rows_via_keys(keys,crtable,modified_to,**kwargs)__
 ---------------------------------------------------------------
 
-__17. modify_rows_via_values(values,crtable,modified_to,**kwargs)__
+__21. modify_rows_via_values(values,crtable,modified_to,**kwargs)__
 -------------------------------------------------------------------
 ![](Images/crtable.modify_rows_via_keys.png)
 
-__18. modify_col_via_colnum(colnum,crtable,modified_to)__
+__22. modify_col_via_colnum(colnum,crtable,modified_to)__
 ---------------------------------------------------------
 
-__19. modify_col_via_colname(colname,crtable,modified_to)__
+__23. modify_col_via_colname(colname,crtable,modified_to)__
 -----------------------------------------------------------  
 ![](Images/crtable.modify_col_via_colname.png) 
 
