@@ -351,9 +351,9 @@ __1.  product_mirror_dicts(mds)__
 ![](Images/crtable.product_mirror_dicts_1.png)  
 ![](Images/crtable.product_mirror_dicts_2.png)
 
-__2. product_two_table(table_1,table_2)__
------------------------------------------
-![](Images/crtable.product_two_table.png) 
+__2. product_two_tables(table_1,table_2)__
+------------------------------------------
+![](Images/crtable.product_two_tables.png) 
 
 __3. product_tables(tables)__
 -----------------------------
@@ -375,6 +375,26 @@ __6. project_table(colnumslist,table,**kwargs)__
 __7. project_crtable(colnameslist,crtable,**kwargs)__
 -----------------------------------------------------
 ![](Images/crtable.project_crtable.png)  
+
+
+__8. row_in_crtable(row,crtable)__
+----------------------------------
+![](Images/crtable.row_in_crtable.png) 
+
+__9. col_in_crtable(col,crtable,**kwargs)__
+-------------------------------------------
+![](Images/crtable.col_in_crtable.png)  
+
+__10. unique_crtable(crtable,**kwargs)__
+----------------------------------------
+![](Images/crtable.unique_crtable.png)  
+
+__11. union_crtables(crtables)__
+--------------------------------
+![](Images/crtable.union_crtables.png) 
+
+
+
 
 
 
