@@ -61,7 +61,8 @@
 10. tree_desc(description_dict)
 11. dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to='')
 12. dict_extend_just_intersection(dict1,dict2)
-
+13. dict_unique_value(d)  
+14. list_unique_value(l)  
 
 
 ## char encode decode  
