@@ -364,6 +364,22 @@ __4. product_crtables(crtables)__
 ![](Images/crtable.product_crtables.png)  
 
 
+__5. project_mirror_dict(md,colnameslist)__
+-------------------------------------------
+![](Images/crtable.project_mirror_dict.png)  
+
+__6. project_table(colnumslist,table,**kwargs)__
+------------------------------------------------
+![](Images/crtable.project_table.png)  
+
+__7. project_crtable(colnameslist,crtable,**kwargs)__
+-----------------------------------------------------
+![](Images/crtable.project_crtable.png)  
+
+
+
+
+
 
 
 
