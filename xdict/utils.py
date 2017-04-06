@@ -728,6 +728,75 @@ def dict_extend_just_intersection(dict1,dict2):
             dict1[key] = dict2[key]
     return(dict2)
 
+
+
+def dict_unique_value(d):
+    '''
+        >>> 
+        >>> d
+        {0: 1, 1: 2, 2: 2}
+        >>> dict_unique_value(d)
+        {0: 1, 1: 2}
+        >>> 
+    '''
+    pt = copy.deepcopy(d)
+    seqs_for_del =[]
+    vset = set({})
+    for k in pt:
+        vset.add(pt[k])
+    tslen = vset.__len__()
+    freq = {}
+    for k in pt:
+        v = pt[k]
+        if(v in freq):
+            freq[v] = freq[v] + 1
+            seqs_for_del.append(k)
+        else:
+            freq[v] = 0
+    npt = {}
+    for k in pt:
+        if(k in seqs_for_del):
+            pass
+        else:
+            npt[k] = pt[k]
+    pt = npt
+    return(npt)
+
+
+def list_unique_value(l):
+    '''
+        >>> 
+        >>> l
+        [1, 2, 2]
+        >>> list_unique_value(l)
+        [1, 2]
+        >>> 
+    '''
+    pt = copy.deepcopy(l)
+    seqs_for_del =[]
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    tslen = vset.__len__()
+    freq = {}
+    for i in range(0,pt.__len__()):
+        v = pt[i]
+        if(v in freq):
+            freq[v] = freq[v] + 1
+            seqs_for_del.append(i)
+        else:
+            freq[v] = 0
+    npt = []
+    for i in range(0,pt.__len__()):
+        if(i in seqs_for_del):
+            pass
+        else:
+            npt.append(pt[i])
+    pt = npt
+    return(npt)
+
+
+
     
 # char encode decode
 
