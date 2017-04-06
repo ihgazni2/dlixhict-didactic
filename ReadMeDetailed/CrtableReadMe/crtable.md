@@ -393,6 +393,14 @@ __11. union_crtables(crtables)__
 --------------------------------
 ![](Images/crtable.union_crtables.png) 
 
+__12. intersec_two_crtables(crtable_1,crtable_2,**kwargs)__
+-----------------------------------------------------------
+![](Images/crtable.intersec_two_crtables.png)  
+
+__13. intersec_crtables(crtables,**kwargs)__
+--------------------------------------------
+![](Images/crtable.intersec_crtables.png)  
+
 
 
 
