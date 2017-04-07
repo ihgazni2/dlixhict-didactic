@@ -1123,7 +1123,7 @@ def get_valueslist_via_keys(keys,crtable,**kwargs):
         valueslist.append(values)
     return(valueslist)
 
-get_keyslist_via_values(values,crtable,**kwargs)
+get_keyslist_via_values = get_valueslist_via_keys
 
 def get_column_via_attribindex(index,crtable):
     '''
