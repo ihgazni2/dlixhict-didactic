@@ -797,6 +797,66 @@ def list_unique_value(l):
 
 
 
+def list_comprise(list1,list2,**kwargs):
+    '''
+        >>> 
+        >>> list_comprise([1,2,3,4,5],[2,3,4],strict=0)
+        True
+        >>> list_comprise([1,2,3,4,5],[2,3,4])
+        True
+        >>> list_comprise([1,2,3,4,5],[2,3,4],strict=1)
+        False
+        >>> list_comprise([1,2,3,4,5],[1,2,3,4],strict=1)
+        True
+        >>> 
+    '''
+    if('strict' in kwargs):
+        strict = kwargs['strict']
+    else:
+        strict = 0
+    len_1 = list1.__len__()
+    len_2 = list2.__len__()
+    if(len_2>len_1):
+        return(False)
+    else:
+        if(strict):
+            if(list2 == list1[:len_2]):
+                return(True)
+            else:
+                return(False)
+        else:
+            end = len_1 - len_2
+            for i in range(0,end+1):
+                if(list2 == list1[i:(i+len_2)]):
+                    return(True)
+                else:
+                    pass
+    return(False)
+
+def dict_comprise(dict1,dict2,**kwargs):
+    '''
+        >>> 
+        >>> dict_comprise({'a':1,'b':2,'c':3,'d':4},{'b':2,'c':3})
+        True
+        >>> 
+    '''
+    len_1 = dict1.__len__()
+    len_2 = dict2.__len__()
+    if(len_2>len_1):
+        return(False)
+    else:
+        for k2 in dict2:
+            v2 = dict2[k2]
+            if(k2 in dict1):
+                v1 = dict1[k2]
+                if(v1 == v2):
+                    return(True)
+                else:
+                    return(False)
+            else:
+                return(False)
+
+
     
 # char encode decode
 
