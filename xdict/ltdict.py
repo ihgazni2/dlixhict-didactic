@@ -1338,8 +1338,7 @@ def ltdict_comprise(ltdict1,ltdict2,**kwargs):
             end = len_1 - len_2
             for i in range(0,end+1):
                 if(ltdict2 == ltdict1[i:(i+len_2)]):
-                    print(i)
-                    return(i)
+                    return(True)
                 else:
                     pass
             return(False)
