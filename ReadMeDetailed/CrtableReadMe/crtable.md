@@ -153,6 +153,10 @@ __14. get_the_other_names_list_via_names_list(names_list,attribs_name_index_mirr
 ------------------------------------------------------------------------------------------
 ![](Images/crtable.get_the_other_names_list_via_names_list.png)  
 
+__15. naturalize_refdict(refdict,**kwargs)__
+--------------------------------------------
+![](Images/crtable.naturalize_refdict.png)
+
 ## part_2:attribs_keys_values
 __1. nameattribs_to_indexattribs(attribs,attribs_name_index_mirror_dict)__
 --------------------------------------------------------------------------
@@ -409,6 +413,16 @@ __14. intersec_two_crtables(crtable_1,crtable_2,**kwargs)__
 __15. intersec_crtables(crtables,**kwargs)__
 --------------------------------------------
 ![](Images/crtable.intersec_crtables.png)  
+
+__16. naturalize_table(table)__
+-------------------------------
+![](Images/crtable.naturalize_table.png)  
+
+__17. naturalize_crtable(crtable)__
+-----------------------------------
+![](Images/crtable.naturalize_crtable.png)  
+
+
 
 
 
