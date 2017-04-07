@@ -422,6 +422,18 @@ __17. naturalize_crtable(crtable)__
 -----------------------------------
 ![](Images/crtable.naturalize_crtable.png)  
 
+__18. comprise_table(table_1,table_2)__
+---------------------------------------
+![](Images/crtable.comprise_table.png)  
+
+__19. equal(crtable_1,crtable_2,**kwargs)__
+-------------------------------------------
+![](Images/crtable.equal.png)  
+
+
+
+
+
 
 
 
