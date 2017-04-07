@@ -63,6 +63,8 @@
 12. dict_extend_just_intersection(dict1,dict2)
 13. dict_unique_value(d)  
 14. list_unique_value(l)  
+15. list_comprise(list1,list2,**kwargs) 
+16. dict_comprise(dict1,dict2,**kwargs)
 
 
 ## char encode decode  
