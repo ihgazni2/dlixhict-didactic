@@ -39,6 +39,7 @@ from xdict import utils
         # ltdict_remove_all(ltdict,value,**kwargs)
         # ltdict_reverse(ltdict,**kwargs)
         # ltdict_sort(ltdict,**kwargs)
+        # ltdict_naturalize_intkeydict(ikd)
     # '''
 #ListTupleDict
 
@@ -1342,4 +1343,12 @@ def ltdict_comprise(ltdict1,ltdict2,**kwargs):
                 else:
                     pass
             return(False)
-            
+           
+
+def ltdict_naturalize_intkeydict(ikd):
+    ltd = {}
+    ks = sorted(list(ikd.keys()))
+    for i in range(0,ks.__len__()):
+        ltd[i] = ikd[ks[i]]
+    return(ltd)
+ 
