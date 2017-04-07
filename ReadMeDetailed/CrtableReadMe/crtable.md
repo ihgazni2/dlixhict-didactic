@@ -385,19 +385,28 @@ __9. col_in_crtable(col,crtable,**kwargs)__
 -------------------------------------------
 ![](Images/crtable.col_in_crtable.png)  
 
-__10. unique_crtable(crtable,**kwargs)__
+__10. partlyrow_in_crtable(row,crtable)__
+------------------------------------------
+![](Images/crtable.partlyrow_in_crtable.png) 
+
+__11. partlycol_in_crtable(col,crtable,**kwargs)__
+---------------------------------------------------
+![](Images/crtable.partlycol_in_crtable.png) 
+
+
+__12. unique_crtable(crtable,**kwargs)__
 ----------------------------------------
 ![](Images/crtable.unique_crtable.png)  
 
-__11. union_crtables(crtables)__
+__13. union_crtables(crtables)__
 --------------------------------
 ![](Images/crtable.union_crtables.png) 
 
-__12. intersec_two_crtables(crtable_1,crtable_2,**kwargs)__
+__14. intersec_two_crtables(crtable_1,crtable_2,**kwargs)__
 -----------------------------------------------------------
 ![](Images/crtable.intersec_two_crtables.png)  
 
-__13. intersec_crtables(crtables,**kwargs)__
+__15. intersec_crtables(crtables,**kwargs)__
 --------------------------------------------
 ![](Images/crtable.intersec_crtables.png)  
 
