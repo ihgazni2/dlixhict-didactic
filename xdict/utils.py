@@ -1,6 +1,7 @@
 #https://github.com/ihgazni2/dlixhict-didactic/blob/master/utils.md
 import re
 import struct
+import copy
 
 #Utils
 ## for object type judgement
