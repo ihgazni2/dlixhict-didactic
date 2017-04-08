@@ -438,6 +438,10 @@ __21. get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs)__
 -----------------------------------------------------------------------
 ![](Images/crtable.get_newcrtable_via_colnameslist.png)  
 
+__22. diff_two_crtables(crtable_1,crtable_2,**kwargs)__
+-------------------------------------------------------
+![](Images/crtable.diff_two_crtables.png)  
+
 
 
 
