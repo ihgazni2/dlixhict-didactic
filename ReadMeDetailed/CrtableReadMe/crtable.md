@@ -430,6 +430,16 @@ __19. equal(crtable_1,crtable_2,**kwargs)__
 -------------------------------------------
 ![](Images/crtable.equal.png)  
 
+__20. get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs)__
+--------------------------------------------------------------------
+![](Images/crtable.get_newcrtable_via_colnumslist.png)  
+
+__21. get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs)__
+-----------------------------------------------------------------------
+![](Images/crtable.get_newcrtable_via_colnameslist.png)  
+
+
+
 
 
 
