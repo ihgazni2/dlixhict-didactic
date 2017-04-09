@@ -447,6 +447,17 @@ __23. thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,t
 ![](Images/crtable.thetajoin_two_crtables_1.png)
 ![](Images/crtable.thetajoin_two_crtables_2.png)  
 
+__24. equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kwargs)__
+-----------------------------------------------------------------------------------------
+![](Images/crtable.equijoin_two_crtables.png) 
+
+__25. naturaljoin_mirror_dict(md)__
+-----------------------------------
+![](Images/crtable.naturaljoin_mirror_dict.png)  
+
+
+
+
 
 
 
