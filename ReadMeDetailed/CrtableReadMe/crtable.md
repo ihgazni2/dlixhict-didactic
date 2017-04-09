@@ -442,6 +442,13 @@ __22. diff_two_crtables(crtable_1,crtable_2,**kwargs)__
 -------------------------------------------------------
 ![](Images/crtable.diff_two_crtables.png)  
 
+__23. thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,theta_function,**kwargs)__
+----------------------------------------------------------------------------------------------------------
+![](Images/crtable.thetajoin_two_crtables_1.png)
+![](Images/crtable.thetajoin_two_crtables_2.png)  
+
+
+
 
 
 
