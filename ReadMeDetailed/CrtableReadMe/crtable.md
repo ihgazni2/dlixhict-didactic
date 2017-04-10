@@ -487,6 +487,20 @@ __4. padding_cols(COLs)__
 -------------------------
 ![](Images/crtable.padding_cols.png)  
 
+__5. rows_to_cols(ROWs)__
+-------------------------
+__6. cols_to_rows(COLs)__
+-------------------------
+__7. display_table_via_rows(ROWs)__
+-----------------------------------
+__8. display_table_via_cols(COLs)__
+-----------------------------------
+![](Images/crtable.display_table_via_cols.png)
+
+__9. show_crtable(crtable)__
+----------------------------
+![](Images/crtable.show_crtable.png)
+
 
 
 
