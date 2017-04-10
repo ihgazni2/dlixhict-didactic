@@ -414,6 +414,7 @@ def string_display_width(s):
     return(width)
 
 def prepend_spaces_before_str_basedon_displaywidth(s,mw):
+    s = str(s)
     w = string_display_width(s)
     space_Len = mw - w
     new_S = ''
