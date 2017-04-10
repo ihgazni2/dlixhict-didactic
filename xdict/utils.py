@@ -1135,7 +1135,7 @@ def bitmaplist_bitsum(bitmaplist):
 
 def subset_bitmap(n,k):
     rslt = {}
-    size = bin(2**n).__len__() - 2
+    size = bin(2**n-1).__len__() - 2
     seq = 0 
     for i in range(0,2**n):
         bitmaplist = num_to_bitmaplist(i,size)
