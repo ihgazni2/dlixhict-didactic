@@ -463,6 +463,21 @@ __17. divide_two_crtables(crtable_1,crtable_2,colnameslist,**kwargs)__
 ----------------------------------------------------------------------
 ![](Images/crtable.divide_two_crtables.png)  
 
+__18. is_single_candidate_key(crtable,name)__
+---------------------------------------------
+![](Images/crtable.is_single_candidate_key.png) 
+
+__19. is_candidate_key_combo(crtable,colnameslist)__
+----------------------------------------------------
+![](Images/crtable.is_candidate_key_combo.png) 
+
+__20. get_all_candidate_key_combo(crtable)__
+--------------------------------------------
+![](Images/crtable.get_all_candidate_key_combo.png)  
+
+
+
+
 
 
 
