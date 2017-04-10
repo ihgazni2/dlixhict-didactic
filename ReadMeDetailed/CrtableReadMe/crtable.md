@@ -455,6 +455,19 @@ __25. naturaljoin_mirror_dict(md)__
 -----------------------------------
 ![](Images/crtable.naturaljoin_mirror_dict.png)  
 
+__16. get_image_sets_dict(crtable,colnameslist)__
+-------------------------------------------------
+![](Images/crtable.get_image_sets_dict.png)  
+
+__17. divide_two_crtables(crtable_1,crtable_2,colnameslist,**kwargs)__
+----------------------------------------------------------------------
+![](Images/crtable.divide_two_crtables.png)  
+
+
+
+
+
+
 
 
 
