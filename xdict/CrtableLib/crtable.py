@@ -612,6 +612,41 @@ def get_the_other_names_list_via_names_list(names_list,attribs_name_index_mirror
     the_other_names_list = get_names_list_via_indexes_list(the_other_indexes_list,attribs_name_index_mirror_dict)
     return(the_other_names_list)
 
+def naturalize_refdict(refdict,**kwargs):
+    '''
+        refdict = {
+         0: 'size', 
+         4: 'color', 
+         7: 'language', 
+         8: 'expire', 
+         'size': 0, 
+         'language': 7, 
+         'color': 4, 
+         'expire': 8
+        }
+        pobj(naturalize_refdict(refdict))
+        {
+         0: 'size', 
+         1: 'color', 
+         'language': 2, 
+         3: 'expire', 
+         'color': 1, 
+         'expire': 3, 
+         'size': 0, 
+         2: 'language'
+        }
+    '''
+    if('index_dominant' in kwargs):
+        index_dominant = kwargs['index_dominant']
+    else:
+        index_dominant = 1
+    refd = get_indexonly_refdict(refdict,index_dominant=index_dominant)
+    nrefd = {}
+    ks = sorted(list(refd.keys()))
+    for i in range(0,ks.__len__()):
+        nrefd[i] = refd[ks[i]]
+    nrefd = creat_mirror_dict(nrefd,index_dominant=index_dominant)
+    return(nrefd)
 
 
 
@@ -1496,6 +1531,7 @@ def append_row(row,crtable):
     '''
         >>> 
         >>> 
+            crtable = {}
             crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
             crtable['table'] = {}
             crtable['table'][0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
@@ -1866,7 +1902,6 @@ def del_cols_via_colnameslist(colnameslist,crtable,**kwargs):
         reorder = 1
     colnumslist = get_indexes_list_via_names_list(colnameslist,crtable['animd'])
     return(del_cols_via_colnumslist(colnumlist,crtable,reorder=reorder))
-
 
 def del_rows_via_attribs(attribs,crtable,**kwargs):
     '''
@@ -2539,6 +2574,7 @@ def project_table(colnumslist,table,**kwargs):
 
 def project_crtable(colnameslist,crtable,**kwargs):
     '''
+        crtable = {}
         crtable['table'] = {}
         crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
         crtable['table'][0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
@@ -2581,10 +2617,10 @@ def project_crtable(colnameslist,crtable,**kwargs):
         unique = kwargs['unique']
     else:
         unique = 1
+    colnumslist = get_indexes_list_via_names_list(colnameslist,crtable['animd'])
     crtable['animd'] = project_mirror_dict(crtable['animd'],colnameslist)
-    crtable['table'] = project_table(colnumslist,table,reorder=reorder,unique=unique)
+    crtable['table'] = project_table(colnumslist,crtable['table'],reorder=reorder,unique=unique)
     return(crtable)
-
 
 def row_in_crtable(row,crtable):
     '''
@@ -2666,6 +2702,85 @@ def col_in_crtable(col,crtable,**kwargs):
         for colname in refd:
             colist = get_column_via_attribname(colname,crtable)
             cond = (cl == colist)
+            if(cond):
+                return(True)
+            else:
+                pass
+        return(False)
+
+def partlyrow_in_crtable(row,crtable):
+    '''
+        crtable = {}
+        crtable['table'] = {}
+        crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
+        crtable['table'][0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
+        crtable['table'][1] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
+        crtable['table'][2] = {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
+        crtable['table'][3] = {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
+        row = {'color': 'green', 'language': 'espanol'}
+        >>> partlyrow_in_crtable(row,crtable)
+        True
+    '''
+    nr = nameattribs_to_indexattribs(row,crtable['animd'])
+    cond = 0
+    for rownum in crtable['table']:
+        row = crtable['table'][rownum]
+        cond = utils.dict_comprise(row,nr)
+        if(cond):
+            return(True)
+    return(False)
+
+def partlycol_in_crtable(col,crtable,**kwargs):
+    '''
+        crtable['table'] = {}
+        crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
+        crtable['table'][0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
+        crtable['table'][1] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
+        crtable['table'][2] = {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
+        crtable['table'][3] = {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
+        col = {'size':[74,300]}
+        >>> partlycol_in_crtable(col,crtable)
+        True
+        >>> col = {'length':[74,300]}
+        >>> partlycol_in_crtable(col,crtable)
+        False
+        >>> partlycol_in_crtable(col,crtable,strict=0)
+        1
+        True
+        >>> 
+        >>> 
+    '''
+    if('strict' in kwargs):
+        strict = kwargs['strict']
+    else:
+        strict = 1
+    if(strict):
+        name = list(col.keys())[0]
+        refd = get_nameonly_refdict(crtable['animd'])
+        if(name in refd):
+            pass
+        else:
+            return(False)
+        colist = get_column_via_attribname(name,crtable)
+        if(utils.is_list(col[name])):
+            cl = ltdict.list_to_ltdict(col[name])
+        else:
+            cl = col[name]
+        cond = ltdict.ltdict_comprise(colist,cl,strict=0)
+        if(cond):
+            return(True)
+        else:
+            return(False)
+    else:
+        name = list(col.keys())[0]
+        refd = get_nameonly_refdict(crtable['animd'])
+        if(utils.is_list(col[name])):
+            cl = ltdict.list_to_ltdict(col[name])
+        else:
+            cl = col[name]
+        for colname in refd:
+            colist = get_column_via_attribname(colname,crtable)
+            cond = ltdict.ltdict_comprise(colist,cl,strict=0)
             if(cond):
                 return(True)
             else:
@@ -2832,7 +2947,6 @@ def intersec_two_crtables(crtable_1,crtable_2,**kwargs):
             pass
     return(crtable)
 
-
 def intersec_crtables(crtables,**kwargs):
     '''
         table_1 = {
@@ -2875,8 +2989,172 @@ def intersec_crtables(crtables,**kwargs):
         crtable = intersec_two_crtables(crtable,currtb,colname_strict=colname_strict,table_strict=table_strict)
     return(crtable)
 
+def naturalize_table(table):
+    '''        
+        table = {}
+        table[0] = {0: 500, 4: 'green', 8: 'espanol', 7: '2018-dec-01'}
+        table[3] = {0: 74, 4: 'green', 8: 'espanol', 7: '2017-oct-01'}
+        table[5] = {0: 300, 4: 'darkblack', 8: 'spanish', 7: '2017-oct-01'}
+        table[6] = {0: 100000, 4: 'blue', 8: 'english', 7: '2018-dec-01'}
+        >>> table.keys()
+        dict_keys([0, 1, 2, 3])
+        >>> table[0]
+        {0: 500, 1: 'green', 2: '2018-dec-01', 3: 'espanol'}
+        >>> table[1]
+        {0: 74, 1: 'green', 2: '2017-oct-01', 3: 'espanol'}
+        >>> table[2]
+        {0: 300, 1: 'darkblack', 2: '2017-oct-01', 3: 'spanish'}
+        >>> table[3]
+        {0: 100000, 1: 'blue', 2: '2018-dec-01', 3: 'english'}
+        >>> 
+    '''
+    ntb = ltdict.ltdict_naturalize_intkeydict(table)
+    for seq in ntb:
+        row = ntb[seq]
+        ntb[seq] = ltdict.ltdict_naturalize_intkeydict(row)
+    return(ntb)
 
-def partlyrow_in_crtable(row,crtable):
+def naturalize_crtable(crtable):
+    '''
+        crtable = {}
+        crtable['table'] = {}
+        crtable['animd'] = creat_mirror_dict({0: 'size', 4: 'color', 7: 'language', 8: 'expire'})
+        crtable['table'][1] = {0: 500, 4: 'green', 7: 'espanol', 8: '2018-dec-01'}
+        crtable['table'][6] = {0: 74, 4: 'green', 7: 'espanol', 8: '2017-oct-01'}
+        crtable['table'][9] = {0: 300, 4: 'darkblack', 7: 'spanish', 8: '2017-oct-01'}
+        crtable['table'][10] = {0: 100000, 4: 'blue', 7: 'english', 8: '2018-dec-01'}
+        crtable = naturalize_crtable(crtable)
+        >>> crtable['animd']
+        {0: 'size', 1: 'color', 'language': 2, 3: 'expire', 'expire': 3, 'color': 1, 'size': 0, 2: 'language'}
+        >>> crtable['table'][0]
+        {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
+        >>> crtable['table'][1]
+        {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
+        >>> crtable['table'][2]
+        {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
+        >>> crtable['table'][3]
+        {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
+        >>> 
+    '''
+    crtable['animd'] = naturalize_refdict(crtable['animd'])
+    crtable['table'] = naturalize_table(crtable['table'])
+    return(crtable)
+
+def comprise_table(table_1,table_2):
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1',2:'c1'}, 
+                      1: {0: 'a2', 1: 'b2',2:'c2'},
+                      2: {0: 'a3', 1: 'b3',2:'c3'}
+                  }
+        table_2 = {
+                      0: {0: 'b2', 1: 'c2'}, 
+                      1: {0: 'b3', 1: 'c3'} 
+                  }
+        comprise_table(table_1,table_2)
+    '''
+    tb_1 = naturalize_table(table_1)
+    tb_2 = naturalize_table(table_2)
+    width_1 = tb_1[0].__len__()
+    width_2 = tb_2[0].__len__()
+    length_1 = tb_1.__len__()
+    length_2 = tb_2.__len__()
+    for rownum in range(0,length_1-length_2+1):
+        for colnum in range(0,width_1-width_2+1):
+            cond = 1
+            bki = 0
+            for i in range(0,length_2):
+                if(bki):
+                    break
+                else:
+                    for j in range(0,width_2):
+                        if(tb_2[i][j] == tb_1[rownum+i][colnum+j]):
+                            pass
+                        else:
+                            cond = 0
+                            bki = 1
+                            break
+            if(cond):
+                return(True)
+            else:
+                pass
+    return(False)
+
+def equal(crtable_1,crtable_2,**kwargs):
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1'}, 
+                      1: {0: 'a1', 1: 'b2'} 
+                  }
+        table_2 = {
+                      0: {0: 'a1', 1: 'b1'}, 
+                      1: {0: 'a1', 1: 'b2'} 
+                  }
+        table_3 = {
+                      0: {0: 'a1', 1: 'b1'}, 
+                      1: {0: 'a1', 1: 'b3'}
+                  }
+        crtable_1 = {}
+        crtable_2 = {}
+        crtable_3 = {}
+        crtable_1['table'] = table_1
+        crtable_1['animd'] = {0:'A',1:'B','A':0,'B':1}
+        crtable_2['table'] = table_2
+        crtable_2['animd'] = {0:'A',1:'B','A':0,'B':1}
+        crtable_3['table'] = table_3
+        crtable_3['animd'] = {0:'A',1:'B','A':0,'B':1}
+        >>> equal(crtable_1,crtable_2)
+        True
+        >>> equal(crtable_1,crtable_3)
+        False
+        >>> 
+    '''
+    if('colname_strict' in kwargs):
+        colname_strict = kwargs['colname_strict']
+    else:
+        colname_strict = 1
+    if('table_strict' in kwargs):
+        table_strict = kwargs['table_strict']
+    else:
+        table_strict = 0
+    if(colname_strict):
+        if(crtable_1['animd'] == crtable_2['animd']):
+            pass
+        else:
+            return(False)
+    else:
+        pass
+    if(table_strict):
+        if(crtable_1['table'].__len__() == crtable_2['table'].__len__()):
+            for seq in crtable_1['table']:
+                row1 = crtable_1['table'][seq]
+                if(seq in crtable_2['table']):
+                    row2 = crtable_2['table'][seq]
+                    if(row1 == row2):
+                        pass
+                    else:
+                        return(False)
+                else:
+                    return(False)
+            return(True)
+        else:
+            return(False)
+    else:
+        if(crtable_1['table'].__len__() == crtable_2['table'].__len__()):
+            tb_1 = naturalize_table(crtable_1['table'])
+            tb_2 = naturalize_table(crtable_2['table'])
+            for seq in tb_1:
+                row1 = crtable_1['table'][seq]
+                row2 = crtable_2['table'][seq]
+                if(row1 == row2):
+                    pass
+                else:
+                    return(False)
+            return(True)
+        else:
+            return(False)
+
+def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
     '''
         crtable['table'] = {}
         crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
@@ -2884,17 +3162,927 @@ def partlyrow_in_crtable(row,crtable):
         crtable['table'][1] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
         crtable['table'][2] = {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
         crtable['table'][3] = {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
-        row = {'color': 'green', 'language': 'espanol'}
-        
+        colnumslist = [0,2,3]
+        >>> crtable = get_newcrtable_via_colnumslist(colnumslist,crtable)
+        >>> pobj(crtable['animd'])
+        {
+         0: 'size', 
+         1: 'language', 
+         'language': 1, 
+         'expire': 2, 
+         'size': 0, 
+         2: 'expire'
+        }
+        >>> crtable['table'][0]
+        {0: 500, 1: 'espanol', 2: '2018-dec-01'}
+        >>> crtable['table'][1]
+        {0: 74, 1: 'espanol', 2: '2017-oct-01'}
+        >>> crtable['table'][2]
+        {0: 300, 1: 'spanish', 2: '2017-oct-01'}
+        >>> crtable['table'][3]
+        {0: 100000, 1: 'english', 2: '2018-dec-01'}
+        >>> 
     '''
-    nr = nameattribs_to_indexattribs(row,crtable['animd'])
-    cond = 0
+    if('naturalize' in kwargs):
+        naturalize = kwargs['naturalize']
+    else:
+        naturalize = 1
+    refd = get_indexonly_refdict(crtable['animd'])
+    nrefd = {}
+    for index in refd:
+        if(index in colnumslist):
+            nrefd[index] = refd[index]
+        else:
+            pass
+    crtb = {}
+    crtb['animd'] = creat_mirror_dict(nrefd)
+    crtb['table'] = {}
     for rownum in crtable['table']:
         row = crtable['table'][rownum]
-        cond = utils.dict_comprise(row,nr)
-        if(cond):
+        nr = {}
+        for index in row:
+            if(index in colnumslist):
+                nr[index] = row[index]
+            else:
+                pass
+        crtb['table'][rownum] = nr
+    if(naturalize):
+        return(naturalize_crtable(crtb))
+    else:
+        return(crtb)
+
+def get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs):
+    '''
+        crtable['table'] = {}
+        crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
+        crtable['table'][0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
+        crtable['table'][1] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
+        crtable['table'][2] = {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
+        crtable['table'][3] = {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
+        colnameslist = ['size','language','expire']
+        crtable = get_newcrtable_via_colnameslist(colnameslist,crtable)
+        pobj(crtable['animd'])
+        crtable['table'][0]
+        crtable['table'][1]
+        crtable['table'][2]
+        crtable['table'][3]
+        >>> 
+    '''
+    if('naturalize' in kwargs):
+        naturalize = kwargs['naturalize']
+    else:
+        naturalize = 1
+    colnumslist = get_indexes_list_via_names_list(colnameslist,crtable['animd'])
+    crtb = get_newcrtable_via_colnumslist(colnumslist,crtable,naturalize = naturalize)
+    return(crtb)
+
+def diff_two_crtables(crtable_1,crtable_2,**kwargs):
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1'}, 
+                      1: {0: 'a1', 1: 'b2'} 
+                  }
+        table_2 = {
+                      0: {0: 'a1', 1: 'b2'}, 
+                      1: {0: 'a1', 1: 'b3'} 
+                  }
+        crtable_1 = {}
+        crtable_2 = {}
+        crtable_1['table'] = table_1
+        crtable_1['animd'] = {0:'A',1:'B','A':0,'B':1}
+        crtable_2['table'] = table_2
+        crtable_2['animd'] = {0:'A',1:'B','A':0,'B':1}
+        crtable = diff_two_crtables(crtable_1,crtable_2)
+        crtable['table']
+        crtable = diff_two_crtables(crtable_2,crtable_1)
+        crtable['table']
+    '''
+    if('colname_strict' in kwargs):
+        colname_strict = kwargs['colname_strict']
+    else:
+        colname_strict = 1
+    if('rownum_strict' in kwargs):
+        rownum_strict = kwargs['rownum_strict']
+    else:
+        rownum_strict = 0
+    if(colname_strict):
+        if(crtable_1['animd'] == crtable_2['animd']):
+            pass
+        else:
+            return(False)
+    else:
+        pass
+    crtable = {}
+    crtable['animd'] = crtable_1['animd']
+    crtable['table'] = {}
+    if(rownum_strict):
+        tb1 = crtable_1['table']
+        tb2 = crtable_2['table']
+        for rownum in tb1:
+            row = tb1[rownum]
+            if(rownum in tb2):
+                pass
+            else:
+                cond = (tb1['rownum'] == tb2['rownum'])
+                if(cond):
+                    pass
+                else:
+                    crtable['table'][rownum] = row
+    else:
+        tb1 = crtable_1['table']
+        tb2 = crtable_2['table']
+        for rownum in tb1:
+            row = tb1[rownum]
+            cond = row_in_crtable(row,crtable_2)
+            if(cond):
+                pass
+            else:
+                crtable['table'][rownum] = row
+    if('naturalize' in kwargs):
+        naturalize = kwargs['naturalize']
+    else:
+        naturalize = 1
+    if(naturalize):
+        crtable = naturalize_crtable(crtable)
+    else:
+        pass
+    return(crtable)
+
+def thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,theta_function,**kwargs): 
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1', 2: 5}, 
+                      1: {0: 'a1', 1: 'b2', 2: 6},
+                      2: {0: 'a2', 1: 'b3', 2: 8},
+                      3: {0: 'a2', 1: 'b4', 2: 12}
+                  }
+        table_2 = {
+                      0: {0: 'b1', 1: 3}, 
+                      1: {0: 'b2', 1: 7},
+                      2: {0: 'b3', 1: 10},
+                      3: {0: 'b3', 1: 2},
+                      4: {0: 'b5', 1: 2}
+                  }
+        crtable_1 = {}
+        crtable_2 = {}
+        crtable_1['table'] = table_1
+        crtable_1['animd'] = {0:'A',1:'B',2:'C','A':0,'B':1,'C':2}
+        crtable_2['table'] = table_2
+        crtable_2['animd'] = {0:'B',1:'E','B':0,'E':1}
+        colnameslist_1 =['C']
+        colnameslist_2 =['E']
+        def theta_function(subrow_1,subrow_2):
+            k1 = list(subrow_1.keys())[0]
+            k2 = list(subrow_2.keys())[0]
+            if(subrow_1[k1] < subrow_2[k2]):
+                return(True)
+            else:
+                return(False)
+        
+        crtable = thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,theta_function)
+        
+        >>> pobj(crtable['animd'])
+        {
+         0: 'A-0', 
+         1: 'B-0', 
+         2: 'C-0', 
+         3: 'B-1', 
+         'E-1': 4, 
+         'C-0': 2, 
+         'A-0': 0, 
+         4: 'E-1', 
+         'B-1': 3, 
+         'B-0': 1
+        }
+        >>> 
+        >>> crtable['table']
+        {0: {0: 'a1', 1: 'b1', 2: 5, 3: 'b2', 4: 7}, 1: {0: 'a1', 1: 'b1', 2: 5, 3: 'b3', 4: 10}, 2: {0: 'a1', 1: 'b2', 2: 6, 3: 'b2', 4: 7}, 3: {0: 'a1', 1: 'b2', 2: 6, 3: 'b3', 4: 10}, 4: {0: 'a2', 1: 'b3', 2: 8, 3: 'b3', 4: 10}}
+        >>> 
+        
+    '''
+    crtb_1 = naturalize_crtable(crtable_1)
+    crtb_2 = naturalize_crtable(crtable_2)
+    tb_1 =  crtb_1['table']
+    tb_2 =  crtb_2['table']
+    subcrtb_1 = get_newcrtable_via_colnameslist(colnameslist_1,crtb_1,naturalize = 0)
+    subcrtb_2 = get_newcrtable_via_colnameslist(colnameslist_2,crtb_2,naturalize = 0)
+    subtb_1 = subcrtb_1['table']
+    subtb_2 = subcrtb_2['table']
+    crtable = {}
+    crtable['animd'] = product_mirror_dicts([crtable_1['animd'],crtable_2['animd']])
+    crtable['table'] = {} 
+    colnums = int(crtable['animd'].__len__() / 2)
+    seq = 0
+    for rownum1 in subtb_1:
+        subrow_1 = subtb_1[rownum1]
+        for rownum2 in subtb_2:
+            subrow_2 = subtb_2[rownum2]
+            cond = theta_function(subrow_1,subrow_2)
+            if(cond):
+                crtable['table'][seq] = ltdict.ltdict_concat(tb_1[rownum1],tb_2[rownum2])
+                seq = seq + 1
+            else:
+                pass
+    if('naturalize' in kwargs):
+        naturalize = kwargs['naturalize']
+    else:
+        naturalize = 1
+    if(naturalize):
+        crtable = naturalize_crtable(crtable)
+    else:
+        pass
+    return(crtable)
+
+def equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kwargs):
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1', 2: 5}, 
+                      1: {0: 'a1', 1: 'b2', 2: 6},
+                      2: {0: 'a2', 1: 'b3', 2: 8},
+                      3: {0: 'a2', 1: 'b4', 2: 12}
+                  }
+        table_2 = {
+                      0: {0: 'b1', 1: 3}, 
+                      1: {0: 'b2', 1: 7},
+                      2: {0: 'b3', 1: 10},
+                      3: {0: 'b3', 1: 2},
+                      4: {0: 'b5', 1: 2}
+                  }
+        crtable_1 = {}
+        crtable_2 = {}
+        crtable_1['table'] = table_1
+        crtable_1['animd'] = {0:'A',1:'B',2:'C','A':0,'B':1,'C':2}
+        crtable_2['table'] = table_2
+        crtable_2['animd'] = {0:'B',1:'E','B':0,'E':1}
+        colnameslist_1 =['B']
+        colnameslist_2 =['B']
+        >>> crtable = equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2)
+        >>> crtable['animd']
+        {0: 'A-0', 1: 'B-0', 2: 'C-0', 3: 'B-1', 'E-1': 4, 'C-0': 2, 'A-0': 0, 4: 'E-1', 'B-1': 3, 'B-0': 1}
+        >>> crtable['table']
+        {
+         0: {0: 'a1', 1: 'b1', 2: 5, 3: 'b1', 4: 3}, 
+         1: {0: 'a1', 1: 'b2', 2: 6, 3: 'b2', 4: 7}, 
+         2: {0: 'a2', 1: 'b3', 2: 8, 3: 'b3', 4: 10}, 
+         3: {0: 'a2', 1: 'b3', 2: 8, 3: 'b3', 4: 2}
+        }
+        >>> 
+        >>> 
+    '''
+    def theta_function(subrow_1,subrow_2):
+        k1 = list(subrow_1.keys())[0]
+        k2 = list(subrow_2.keys())[0]
+        if(subrow_1[k1] == subrow_2[k2]):
             return(True)
-    return(False)
+        else:
+            return(False)
+    if('naturalize' in kwargs):
+        naturalize = kwargs['naturalize']
+    else:
+        naturalize = 1
+    crtable = thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,theta_function,naturalize = naturalize)
+    return(crtable)
 
-#----------------------------------------------------->
+def naturaljoin_mirror_dict(md):
+    '''
+        md = {
+         0: 'A-0', 
+         1: 'B-0', 
+         2: 'C-0', 
+         3: 'B-1', 
+         'E-1': 4, 
+         'C-0': 2, 
+         'A-0': 0, 
+         4: 'E-1', 
+         'B-1': 3, 
+         'B-0': 1
+        }
+        md = naturaljoin_mirror_dict(md)
+        pobj(md)
+        {
+         0: 'A', 
+         1: 'B', 
+         2: 'C', 
+         3: 'E', 
+         'C': 2, 
+         'E': 3, 
+         'A': 0, 
+         'B': 1
+        }
+    '''
+    refd = get_indexonly_refdict(md)
+    refd = utils.dict_unique_value(refd)
+    regex = re.compile('(.*)\-[0-9]+')
+    nrefd = {}
+    for seq in refd:
+        v = refd[seq]
+        m = regex.search(v)
+        nrefd[seq] = m.group(1)
+    nrefd = utils.dict_unique_value(nrefd)
+    nrefd = ltdict.ltdict_naturalize_intkeydict(nrefd)
+    return(creat_mirror_dict(nrefd))
 
+def naturaljoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kwargs):
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1', 2: 5}, 
+                      1: {0: 'a1', 1: 'b2', 2: 6},
+                      2: {0: 'a2', 1: 'b3', 2: 8},
+                      3: {0: 'a2', 1: 'b4', 2: 12}
+                  }
+        table_2 = {
+                      0: {0: 'b1', 1: 3}, 
+                      1: {0: 'b2', 1: 7},
+                      2: {0: 'b3', 1: 10},
+                      3: {0: 'b3', 1: 2},
+                      4: {0: 'b5', 1: 2}
+                  }
+        crtable_1 = {}
+        crtable_2 = {}
+        crtable_1['table'] = table_1
+        crtable_1['animd'] = {0:'A',1:'B',2:'C','A':0,'B':1,'C':2}
+        crtable_2['table'] = table_2
+        crtable_2['animd'] = {0:'B',1:'E','B':0,'E':1}
+        colnameslist_1 =['B']
+        colnameslist_2 =['B']
+        crtable = naturaljoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2)
+        crtable['animd']
+        crtable['table']
+        >>> crtable['animd']
+        {0: 'A', 1: 'B', 2: 'C', 3: 'E', 'C': 2, 'E': 3, 'A': 0, 'B': 1}
+        >>> crtable['table']
+        {
+         0: {0: 'a1', 1: 'b1', 2: 5, 3: 3}, 
+         1: {0: 'a1', 1: 'b2', 2: 6, 3: 7}, 
+         2: {0: 'a2', 1: 'b3', 2: 8, 3: 10}, 
+         3: {0: 'a2', 1: 'b3', 2: 8, 3: 2}
+         }
+    '''
+    if('naturalize' in kwargs):
+        naturalize = kwargs['naturalize']
+    else:
+        naturalize = 1
+    crtb = equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,naturalize = naturalize)
+    to_be_deleted = get_indexes_list_via_names_list(colnameslist_2,crtable_2['animd'])
+    to_be_deleted = map(lambda x: x + int(crtable_1['animd'].__len__()/2), to_be_deleted)
+    crtable = {}
+    crtable = del_cols_via_colnumslist(to_be_deleted,crtb)
+    crtable['animd'] = naturaljoin_mirror_dict(crtb['animd'])
+    return(crtable)
+
+def get_image_sets_dict(crtable,colnameslist):
+    '''
+        table = {
+                      0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+                      1: {0: 'a2', 1: 'b3', 2: 'c7'},
+                      2: {0: 'a3', 1: 'b4', 2: 'c6'},
+                      3: {0: 'a1', 1: 'b2', 2: 'c3'},
+                      4: {0: 'a4', 1: 'b6', 2: 'c6'}, 
+                      5: {0: 'a2', 1: 'b2', 2: 'c3'},
+                      6: {0: 'a1', 1: 'b2', 2: 'c1'}
+                  }
+        crtable = {'table':table,}
+        crtable['animd'] = {0:'A',1:'B',2:'C','A':0,'B':1,'C':2}
+        colnameslist =['A']
+        image_sets_dict = get_image_sets_dict(crtable,colnameslist)
+        pobj(image_sets_dict,fixed_indent=1)
+        >>> pobj(image_sets_dict,fixed_indent=1)
+        {
+            'mapping': {
+                ('A', ): ['B', 'C']
+            },
+            'image_sets': {
+                ('a1', ): {
+                    ('b1', 'c2'), ('b2', 'c1'), ('b2', 'c3')
+                },
+                ('a3', ): {
+                    ('b4', 'c6')
+                },
+                ('a2', ): {
+                    ('b3', 'c7'), ('b2', 'c3')
+                },
+                ('a4', ): {
+                    ('b6', 'c6')
+                }
+            }
+        }
+        >>> 
+    '''
+    indexes_list = get_indexes_list_via_names_list(colnameslist,crtable['animd'])
+    values_indexes_list = get_the_other_indexes_list_via_indexes_list(indexes_list,crtable['animd'])
+    image_sets = {}
+    for rownum in crtable['table']:
+        row = crtable['table'][rownum]
+        key = []
+        for i in range(0,indexes_list.__len__()):
+            key.append(row[indexes_list[i]])
+        key = tuple(key)
+        value = []
+        for i in range(0,values_indexes_list.__len__()):
+            value.append(row[values_indexes_list[i]])
+        value = tuple(value)
+        if(key in image_sets):
+            image_sets[key].add(value)
+        else:
+            image_sets[key] = {value}
+    mapping = {}
+    key = []
+    for i in range(0,indexes_list.__len__()):
+        key.append(crtable['animd'][indexes_list[i]])
+    key = tuple(key)
+    value = []
+    for i in range(0,values_indexes_list.__len__()):
+        value.append(crtable['animd'][values_indexes_list[i]])
+    mapping[key] = value
+    value = tuple(value)
+    rslt = {'image_sets':image_sets,'mapping':mapping}
+    return(rslt)
+
+def divide_two_crtables(crtable_1,crtable_2,colnameslist,**kwargs):
+    '''
+        table_1 = {
+                      0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+                      1: {0: 'a2', 1: 'b3', 2: 'c7'},
+                      2: {0: 'a3', 1: 'b4', 2: 'c6'},
+                      3: {0: 'a1', 1: 'b2', 2: 'c3'},
+                      4: {0: 'a4', 1: 'b6', 2: 'c6'}, 
+                      5: {0: 'a2', 1: 'b2', 2: 'c3'},
+                      6: {0: 'a1', 1: 'b2', 2: 'c1'}
+                  }
+        table_2 = {
+                      0: {0: 'b1', 1: 'c2', 2: 'd1'}, 
+                      1: {0: 'b2', 1: 'c1', 2: 'd1'},
+                      2: {0: 'b2', 1: 'c3', 2: 'd2'}
+                  }
+        crtable_1 = {}
+        crtable_2 = {}
+        crtable_1['table'] = table_1
+        crtable_1['animd'] = {0:'A',1:'B',2:'C','A':0,'B':1,'C':2}
+        crtable_2['table'] = table_2
+        crtable_2['animd'] = {0:'B',1:'C',2:'D','B':0,'C':1,'D':2}
+        colnameslist =['B','C']
+        crtable = divide_two_crtables(crtable_1,crtable_2,colnameslist)
+        >>> crtable
+        {'animd': {0: 'A', 'A': 0}, 'table': {0: {0: 'a1'}}}
+        >>> 
+    '''
+    crtable_1 = naturalize_crtable(crtable_1)
+    crtable_2 = naturalize_crtable(crtable_2)
+    theothercolnameslist = get_the_other_names_list_via_names_list(colnameslist,crtable_1['animd'])
+    image_sets_dict_1 = get_image_sets_dict(crtable_1,theothercolnameslist)
+    image_sets = image_sets_dict_1['image_sets']
+    mapping = image_sets_dict_1['mapping']
+    projection_2 = project_crtable(colnameslist,crtable_2)
+    projection_set = set({})
+    for rownum in projection_2['table']:
+        row = projection_2['table'][rownum]
+        t = ltdict.ltdict_to_tuple(row)
+        projection_set.add(t)
+    divtb = {}
+    lmk = list(mapping.keys())[0]
+    divtb['animd'] = {}
+    for i in range(0,lmk.__len__()):
+        divtb['animd'][lmk[i]] = i
+        divtb['animd'][i] = lmk[i]
+    divtb['table'] = {}
+    seq = 0
+    for key in image_sets:
+        if(image_sets[key] == projection_set):
+            key = ltdict.tuple_to_ltdict(key)
+            divtb['table'][seq] = key
+    return(divtb)
+
+def is_single_candidate_key(crtable,name):
+    '''
+        crtable = {}
+        crtable['animd'] = {0: 'A', 1: 'B', 2: 'C', 3: 'E', 'C': 2, 'E': 3, 'A': 0, 'B': 1}
+        crtable['table'] = {
+            0: {0: 'a1', 1: 'b1', 2: 5, 3: 3}, 
+            1: {0: 'a1', 1: 'b2', 2: 6, 3: 7}, 
+            2: {0: 'a2', 1: 'b3', 2: 8, 3: 10}, 
+            3: {0: 'a2', 1: 'b3', 2: 8, 3: 2}
+        }
+        is_single_candidate_key(crtable,'A')
+        is_single_candidate_key(crtable,'B')
+        is_single_candidate_key(crtable,'C')
+        is_single_candidate_key(crtable,'E')
+        >>> is_single_candidate_key(crtable,'A')
+        False
+        >>> is_single_candidate_key(crtable,'B')
+        False
+        >>> is_single_candidate_key(crtable,'C')
+        False
+        >>> is_single_candidate_key(crtable,'E')
+        True
+        >>> 
+    '''
+    indexeslist = get_indexes_list_via_names_list([name],crtable['animd'])
+    colnum = indexeslist[0]
+    cond = 1
+    for rownum in crtable['table']:
+        row = crtable['table'][rownum]
+        keys = {colnum:row[colnum]}
+        seqslist = get_seqslist_via_keys(keys,crtable)
+        if(seqslist.__len__()==1):
+            pass
+        else:
+            cond = 0
+            break
+    if(cond):
+        return(True)
+    else:
+        return(False)
+
+def is_candidate_key_combo(crtable,colnameslist):
+    '''
+        crtable = {}
+        crtable['animd'] = {0: 'A', 1: 'B', 2: 'C', 3: 'E', 'C': 2, 'E': 3, 'A': 0, 'B': 1}
+        crtable['table'] = {
+            0: {0: 'a1', 1: 'b1', 2: 5, 3: 3}, 
+            1: {0: 'a1', 1: 'b2', 2: 6, 3: 7}, 
+            2: {0: 'a2', 1: 'b3', 2: 8, 3: 10}, 
+            3: {0: 'a2', 1: 'b3', 2: 8, 3: 2}
+        }
+        colnameslist = ['A']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['B']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['C']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['E']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['B','C']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['C','E']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['A','B','C']
+        is_candidate_key_combo(crtable,colnameslist)
+        colnameslist = ['A','B','E']
+        is_candidate_key_combo(crtable,colnameslist)
+        >>> colnameslist = ['A']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> colnameslist = ['B']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> colnameslist = ['C']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> colnameslist = ['E']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        True
+        >>> colnameslist = ['B','C']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> colnameslist = ['C','E']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> colnameslist = ['A','B','C']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> colnameslist = ['A','B','E']
+        >>> is_candidate_key_combo(crtable,colnameslist)
+        False
+        >>> 
+    '''
+    rslts = []
+    crtable = naturalize_crtable(crtable)
+    total_cols = int(crtable['animd'].__len__() / 2)
+    del_sets = set({})
+    refd = get_indexonly_refdict(crtable['animd'])
+    for k in refd:
+        name = refd[k]
+        cond = is_single_candidate_key(crtable,name)
+        if(cond):
+            bitmap = []
+            for i in range(0,total_cols):
+                if(k == i):
+                    bitmap.append(1)
+                else:
+                    bitmap.append(0)
+            del_sets.add(tuple(bitmap))
+            rslts.append(tuple(name))
+        else:
+            pass
+    for lv in range(2,colnameslist.__len__()+1):
+        unhandled = utils.subset_bitmap(total_cols,lv)
+        for seq in unhandled:
+            bitmap = unhandled[seq]
+            for bm in del_sets:
+                cond = utils.bitmap_contain(bitmap,list(bm))
+                if(cond):
+                    pass
+                else:
+                    keys = {}
+                    names =[]
+                    for colnum in refd:
+                        if(bitmap[colnum] == 1):
+                            keys[colnum] = row[colnum]
+                            names.append(crtable['animd'][colnum])
+                        else:
+                            pass
+                    seqslist = get_seqslist_via_keys(keys,crtable)
+                    if(seqslist.__len__() == 1):
+                        rslts.append(tuple(sorted(names)))
+                        del_sets.add(tuple(bitmap))
+                    else:
+                        pass
+    cond = (tuple(sorted(colnameslist)) in rslts)
+    return(cond)
+
+def get_all_candidate_key_combo(crtable):
+    '''
+        crtable = {}
+        crtable['animd'] = {0: 'A', 1: 'B', 2: 'C', 3: 'E', 'C': 2, 'E': 3, 'A': 0, 'B': 1}
+        crtable['table'] = {
+            0: {0: 'a1', 1: 'b1', 2: 5, 3: 3}, 
+            1: {0: 'a1', 1: 'b2', 2: 6, 3: 7}, 
+            2: {0: 'a2', 1: 'b3', 2: 8, 3: 10}, 
+            3: {0: 'a2', 1: 'b3', 2: 8, 3: 2}
+        }
+        combos = get_all_candidate_key_combo(crtable)
+        pobj(combos,fixed_indent=1)
+        >>> combos = get_all_candidate_key_combo(crtable)
+        >>> pobj(combos,fixed_indent=1)
+        [('E', )]
+        >>> 
+    '''
+    rslts = []
+    crtable = naturalize_crtable(crtable)
+    total_cols = int(crtable['animd'].__len__() / 2)
+    del_sets = set({})
+    refd = get_indexonly_refdict(crtable['animd'])
+    for k in refd:
+        name = refd[k]
+        cond = is_single_candidate_key(crtable,name)
+        if(cond):
+            bitmap = []
+            for i in range(0,total_cols):
+                if(k == i):
+                    bitmap.append(1)
+                else:
+                    bitmap.append(0)
+            del_sets.add(tuple(bitmap))
+            rslts.append(tuple(name))
+        else:
+            pass
+    for lv in range(2,total_cols):
+        unhandled = utils.subset_bitmap(total_cols,lv)
+        for seq in unhandled:
+            bitmap = unhandled[seq]
+            for bm in del_sets:
+                cond = utils.bitmap_contain(bitmap,list(bm))
+                if(cond):
+                    pass
+                else:
+                    keys = {}
+                    names =[]
+                    for colnum in refd:
+                        if(bitmap[colnum] == 1):
+                            keys[colnum] = row[colnum]
+                            names.append(crtable['animd'][colnum])
+                        else:
+                            pass
+                    seqslist = get_seqslist_via_keys(keys,crtable)
+                    if(seqslist.__len__() == 1):
+                        rslts.append(tuple(sorted(names)))
+                        del_sets.add(tuple(bitmap))
+                    else:
+                        pass
+    return(rslts)
+
+def max_rows_in_table_via_cols_dict(COLs):
+    '''
+    COLs = {
+        0: {0: 'TBqESO', 1: 'apxjPB', 2: 'alYhP'}, 
+        1: {0: 'jVymZLRRhj', 1: 'iSdHTH', 2: 'lOST'}, 
+        2: {0: 'VlWVOMszE', 1: 'WuqefeO', 2: 'anQOLA'}
+    }
+    max_rows_in_table_via_cols_dict(COLs)
+    >>> max_rows_in_table_via_cols_dict(COLs)
+    3
+    '''
+    max = 0
+    total_Cols = COLs.__len__()
+    for i in range(0,total_Cols):
+        if(COLs[i].__len__()>max):
+            max = COLs[i].__len__()
+    return(max)
+
+def max_cols_in_table_via_rows_dict(ROWs):
+    '''
+    ROWs = {
+          0: {0: 'TBqESO', 1: 'jVymZLRRhj', 2: 'VlWVOMszE'}, 
+          1: {0: 'apxjPB', 1: 'iSdHTH', 2: 'WuqefeO'}, 
+          2: {0: 'alYhP', 1: 'lOST', 2: 'anQOLA'}
+         }
+    max_cols_in_table_via_rows_dict(ROWs)
+    >>> max_cols_in_table_via_rows_dict(ROWs)
+    3
+    '''
+    
+    max = 0
+    total_Rows = ROWs.__len__()
+    for i in range(0,total_Rows):
+        if(ROWs[i].__len__()>max):
+            max = ROWs[i].__len__()
+    return(max)
+
+def padding_rows(ROWs):
+    '''
+    ROWs = {
+          0: {0: 'TBqESO', 1: 'jVymZLRRhj', 2: 'VlWVOMszE'}, 
+          1: {0: 'apxjPB', 1: 'iSdHTH'}, 
+          2: {0: 'alYhP'}
+         }
+    >>> padding_rows(ROWs)
+    {
+        0: {0: 'TBqESO', 1: 'jVymZLRRhj', 2: 'VlWVOMszE'}, 
+        1: {0: 'apxjPB', 1: 'iSdHTH', 2: ''}, 
+        2: {0: 'alYhP', 1: '', 2: ''}
+    }
+    >>> 
+    '''
+    max = max_cols_in_table_via_rows_dict(ROWs)
+    total_Rows = ROWs.__len__()
+    for i in range(0,total_Rows):
+        if(ROWs[i].__len__()<max):
+            for j in range(0,max):
+                if j in ROWs[i]:
+                    pass
+                else:
+                    ROWs[i][j] = ''
+    return(ROWs)
+
+def padding_cols(COLs):
+    '''
+    COLs = {
+        0: {0: 'TBqESO', 1: 'apxjPB', 2: 'alYhP'}, 
+        1: {0: 'jVymZLRRhj'}, 
+        2: {0: 'VlWVOMszE', 1: 'WuqefeO', 2: 'anQOLA'}
+    }
+    >>> padding_cols(COLs)
+    {
+        0: {0: 'TBqESO', 1: 'apxjPB', 2: 'alYhP'}, 
+        1: {0: 'jVymZLRRhj', 1: '', 2: ''}, 
+        2: {0: 'VlWVOMszE', 1: 'WuqefeO', 2: 'anQOLA'}
+    }
+    >>> 
+    '''
+    max = max_rows_in_table_via_cols_dict(COLs)
+    total_Cols = COLs.__len__()
+    for i in range(0,total_Cols):
+        if(COLs[i].__len__()<max):
+            for j in range(0,max):
+                if j in COLs[i]:
+                    pass
+                else:
+                    COLs[i][j] = ''
+    return(COLs)
+
+def rows_to_cols(ROWs):
+    '''
+    ROWs = {
+          0: {0: 'TBqESO', 1: 'jVymZLRRhj', 2: 'VlWVOMszE'}, 
+          1: {0: 'apxjPB', 1: 'iSdHTH', 2: 'WuqefeO'}, 
+          2: {0: 'alYhP', 1: 'lOST', 2: 'anQOLA'}
+         }
+    COLs = rows_to_cols(ROWs)
+    COLs
+    {
+        0: {0: 'TBqESO', 1: 'apxjPB', 2: 'alYhP'}, 
+        1: {0: 'jVymZLRRhj', 1: 'iSdHTH', 2: 'lOST'}, 
+        2: {0: 'VlWVOMszE', 1: 'WuqefeO', 2: 'anQOLA'}
+    }
+    '''
+    COLs = {}
+    total_Cols = max_cols_in_table_via_rows_dict(ROWs)
+    for i in range(0,total_Cols):
+        COLs[i] = {}
+    total_Rows = ROWs.__len__()
+    for i in range(0,total_Cols):
+        for j in range(0,total_Rows):
+            COLs[i][j] = ROWs[j][i]
+    return(COLs)
+
+def cols_to_rows(COLs):
+    '''
+    COLs = 
+    {
+        0: {0: 'TBqESO', 1: 'apxjPB', 2: 'alYhP'}, 
+        1: {0: 'jVymZLRRhj', 1: 'iSdHTH', 2: 'lOST'}, 
+        2: {0: 'VlWVOMszE', 1: 'WuqefeO', 2: 'anQOLA'}
+    }
+    ROWs = cols_to_rows(COLs)
+    ROWs
+    {
+          0: {0: 'TBqESO', 1: 'jVymZLRRhj', 2: 'VlWVOMszE'}, 
+          1: {0: 'apxjPB', 1: 'iSdHTH', 2: 'WuqefeO'}, 
+          2: {0: 'alYhP', 1: 'lOST', 2: 'anQOLA'}
+    }
+    '''
+    ROWs = {}
+    total_Rows = max_rows_in_table_via_cols_dict(COLs)
+    for i in range(0,total_Rows):
+        ROWs[i] = {}
+    total_Cols = COLs.__len__()
+    for i in range(0,total_Rows):
+        for j in range(0,total_Cols):
+            ROWs[i][j] = COLs[j][i]
+    return(ROWs)
+
+def display_table_via_rows(ROWs):
+    '''
+    ROWs = {
+          0: {0: 'TBqESO', 1: 'jVymZLRRhj', 2: 'VlWVOMszE'}, 
+          1: {0: 'apxjPB', 1: 'iSdHTH', 2: 'WuqefeO'}, 
+          2: {0: 'alYhP', 1: 'lOST', 2: 'anQOLA'}
+         }
+    >>> display_table_via_rows(ROWs)
+    +++++++++++++++++++++++++++++
+    |TBqESO|jVymZLRRhj|VlWVOMszE|
+    +++++++++++++++++++++++++++++
+    |apxjPB|    iSdHTH|  WuqefeO|
+    +++++++++++++++++++++++++++++
+    | alYhP|      lOST|   anQOLA|
+    +++++++++++++++++++++++++++++
+    >>> 
+    '''
+    COLs = rows_to_cols(ROWs)
+    display_COLs = {}
+    widths = {}
+    widths[0] =  utils.max_display_width_in_dict(COLs[0])
+    display_COLs[0] = {}
+    for j in range(0,COLs[1].__len__()):
+        display_COLs[0][j] = '|{0}|'.format(utils.prepend_spaces_before_str_basedon_displaywidth(COLs[0][j],widths[0]))
+    for i in range(1,COLs.__len__()):
+        widths[i] =  utils.max_display_width_in_dict(COLs[i])
+        display_COLs[i] = {}
+        for j in range(0,COLs[i].__len__()):
+            display_COLs[i][j] = '{0}|'.format(utils.prepend_spaces_before_str_basedon_displaywidth(COLs[i][j],widths[i]))
+    boundary = '+'
+    for i in range (0,widths.__len__()):
+        boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
+    print(boundary)
+    for i in range(0,ROWs.__len__()):
+        for j in range(0,COLs.__len__()):
+            print(display_COLs[j][i],end='')
+        print('\n',end='')
+        print(boundary)
+
+def display_table_via_cols(COLs):
+    '''
+    COLs = 
+    {
+        0: {0: 'TBqESO', 1: 'apxjPB', 2: 'alYhP'}, 
+        1: {0: 'jVymZLRRhj', 1: 'iSdHTH', 2: 'lOST'}, 
+        2: {0: 'VlWVOMszE', 1: 'WuqefeO', 2: 'anQOLA'}
+    }
+    >>> display_table_via_cols(COLs)
+    +++++++++++++++++++++++++++++
+    |TBqESO|jVymZLRRhj|VlWVOMszE|
+    +++++++++++++++++++++++++++++
+    |apxjPB|    iSdHTH|  WuqefeO|
+    +++++++++++++++++++++++++++++
+    | alYhP|      lOST|   anQOLA|
+    +++++++++++++++++++++++++++++
+    >>> 
+    '''
+    ROWs = rows_to_cols(COLs)
+    display_COLs = {}
+    widths = {}
+    widths[0] =  utils.max_display_width_in_dict(COLs[0])
+    display_COLs[0] = {}
+    for j in range(0,COLs[1].__len__()):
+        display_COLs[0][j] = '|{0}|'.format(utils.prepend_spaces_before_str_basedon_displaywidth(COLs[0][j],widths[0]))
+    for i in range(1,COLs.__len__()):
+        widths[i] =  utils.max_display_width_in_dict(COLs[i])
+        display_COLs[i] = {}
+        for j in range(0,COLs[i].__len__()):
+            display_COLs[i][j] = '{0}|'.format(utils.prepend_spaces_before_str_basedon_displaywidth(COLs[i][j],widths[i]))
+    boundary = '+'
+    for i in range (0,widths.__len__()):
+        boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
+    print(boundary)
+    for i in range(0,ROWs.__len__()):
+        for j in range(0,COLs.__len__()):
+            print(display_COLs[j][i],end='')
+        print('\n',end='')
+        print(boundary)
+
+def show_crtable(crtable):
+    '''
+        crtable = {}
+        crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
+        crtable['table'] = {}
+        crtable['table'][0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
+        crtable['table'][1] = {0: 74, 1: 'green', 2: 'chinese', 3: '2017-oct-01'}
+        crtable['table'][2] = {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
+        crtable['table'][3] = {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
+    '''
+    crtable = naturalize_crtable(crtable)
+    display_tb = {}
+    display_tb[0] = get_indexonly_refdict(crtable['animd'])
+    for i in range(1,crtable['table'].__len__()+1):
+        display_tb[i] = crtable['table'][i-1]
+    display_table_via_rows(display_tb)
