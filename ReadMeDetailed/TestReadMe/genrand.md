@@ -12,3 +12,4 @@
 11. gen_random_recursive_data(**kwargs)
 12. gen_random_recursive_only_dict_data(**kwargs)
 13. gen_random_recursive_only_list_data(**kwargs)
+14. gen_cowrol_table(total_rows,total_cols)
