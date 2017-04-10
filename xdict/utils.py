@@ -404,6 +404,7 @@ def string_display_width(s):
         2
         >>> 
     '''
+    s= str(s)
     width = 0
     len = s.__len__()
     for i in range(0,len):
