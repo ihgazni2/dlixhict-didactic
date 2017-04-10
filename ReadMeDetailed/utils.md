@@ -108,7 +108,10 @@
 1. bitmaplist_to_num(bitmaplist)
 2. num_to_bitmaplist(num,bitmap_size)
 3. bitmaplist_bitsum(bitmaplist)
-4. subset_bitmap(n,k)
+4. subset_bitmap(n,k)  
+5. bitmap_contain(bm1,bm2)  
+
+
 
 
 
