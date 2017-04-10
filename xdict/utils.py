@@ -1147,3 +1147,10 @@ def subset_bitmap(n,k):
             pass
     return(rslt)
 
+def bitmap_contain(bm1,bm2):
+    bm3 = list(map(lambda x,y:(x|y),bm1,bm2))
+    if(bm3 == bm1):
+        return(True)
+    else:
+        return(False)
+
