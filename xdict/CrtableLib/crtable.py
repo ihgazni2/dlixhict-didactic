@@ -1,5 +1,7 @@
 from xdict import ltdict
 from xdict import utils
+import re
+import copy
 
 
 def is_name_index_mirror_dict(name_index_mirror_dict):
