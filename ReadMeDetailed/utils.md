@@ -47,6 +47,9 @@
 6. is_number_str(obj)
 7. str_at_begin_of_str(start1,start2)
 8. str_at_end_of_str(start1,start2)
+9. string_display_width(s)
+10. prepend_spaces_before_str_basedon_displaywidth(s,mw)
+
 
 ##dict list tuple
 1. creat_default_list_with_len(len,element=None)  
@@ -64,7 +67,9 @@
 13. dict_unique_value(d)  
 14. list_unique_value(l)  
 15. list_comprise(list1,list2,**kwargs) 
-16. dict_comprise(dict1,dict2,**kwargs)
+16. dict_comprise(dict1,dict2,**kwargs)  
+17. max_wordwidth_in_dict(myDict) 
+18. max_display_width_in_dict(myDict)
 
 
 ## char encode decode  
