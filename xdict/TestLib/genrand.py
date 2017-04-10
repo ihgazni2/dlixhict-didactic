@@ -318,4 +318,12 @@ def gen_random_recursive_only_list_data(**kwargs):
 
 
 
+def gen_cowrol_table(total_rows,total_cols):
+    matrix = {}
+    for i in range(0,total_rows):
+        matrix[i] = {}
+        for j in range(0,total_cols):
+            matrix[i][j] = gen_random_word()
+    return(matrix)
+
 

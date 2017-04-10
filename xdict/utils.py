@@ -395,6 +395,34 @@ def str_at_end_of_str(str1,str2):
 
 
 
+
+def string_display_width(s):
+    '''
+        >>> string_display_width('a')
+        1
+        >>> string_display_width('去')
+        2
+        >>> 
+    '''
+    width = 0
+    len = s.__len__()
+    for i in range(0,len):
+        sublen = s[i].encode().__len__()
+        sublen = int(sublen/2 + 1/2)
+        width = width + sublen
+    return(width)
+
+def prepend_spaces_before_str_basedon_displaywidth(s,mw):
+    w = string_display_width(s)
+    space_Len = mw - w
+    new_S = ''
+    for i in range(0,space_Len):
+        new_S = ''.join((' ' , new_S))
+    new_S = ''.join((new_S,s))
+    return(new_S)
+
+
+
 #list dict tuple
 
 def creat_default_list_with_len(len,element=None):
@@ -856,6 +884,24 @@ def dict_comprise(dict1,dict2,**kwargs):
                     return(False)
             else:
                 return(False)
+
+
+def max_wordwidth_in_dict(myDict):
+    maxValueWidth = 0
+    for each in myDict:
+        eachValueWidth = myDict[each].__len__()
+        if(eachValueWidth > maxValueWidth):
+            maxValueWidth = eachValueWidth
+    return(maxValueWidth)
+
+
+def max_display_width_in_dict(myDict):
+    maxValueWidth = 0
+    for each in myDict:
+        eachValueWidth = string_display_width(myDict[each])
+        if(eachValueWidth > maxValueWidth):
+            maxValueWidth = eachValueWidth
+    return(maxValueWidth)
 
 
     
