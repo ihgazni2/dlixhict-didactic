@@ -475,6 +475,18 @@ __20. get_all_candidate_key_combo(crtable)__
 --------------------------------------------
 ![](Images/crtable.get_all_candidate_key_combo.png)  
 
+## part6: show and display
+
+__1. max_rows_in_table_via_cols_dict(COLs)__
+--------------------------------------------
+__2. max_cols_in_table_via_rows_dict(ROWs)__
+--------------------------------------------
+__3. padding_rows(ROWs)__
+-------------------------
+__4. padding_cols(COLs)__
+-------------------------
+![](Images/crtable.padding_cols.png)  
+
 
 
 
