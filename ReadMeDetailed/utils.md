@@ -63,13 +63,14 @@
 9. get_desc_parent_dict(description_dict)
 10. tree_desc(description_dict)
 11. dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to='')
-12. dict_extend_just_intersection(dict1,dict2)
+12. dict_update_just_intersection(dict1,dict2)
 13. dict_unique_value(d)  
 14. list_unique_value(l)  
 15. list_comprise(list1,list2,**kwargs) 
 16. dict_comprise(dict1,dict2,**kwargs)  
 17. max_wordwidth_in_dict(myDict) 
 18. max_display_width_in_dict(myDict)
+19. dict_extend(dict1,dict2,**kwargs)
 
 
 ## char encode decode  
