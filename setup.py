@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 setup(
       name="xdict",
-      version = "0.41",
+      version = "0.42",
       description="tools for transform between html,dict and cmdline",
       author="dapeli",
       url="https://github.com/ihgazni2/dlixhict-didactic",

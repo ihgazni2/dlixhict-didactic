@@ -753,11 +753,11 @@ def dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to=
             text = ''.join((text,'\n',line))
     return(text)
 
-def dict_extend_just_intersection(dict1,dict2):
+def dict_update_just_intersection(dict1,dict2):
     for key in dict2:
         if(key in dict1):
             dict1[key] = dict2[key]
-    return(dict2)
+    return(dict1)
 
 
 
