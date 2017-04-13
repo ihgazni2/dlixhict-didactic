@@ -906,6 +906,33 @@ def max_display_width_in_dict(myDict):
     return(maxValueWidth)
 
 
+
+def dict_extend(dict1,dict2,**kwargs):
+    if('deepcopy' in kwargs):
+        deepcopy=kwargs['deepcopy']
+    else:
+        deepcopy=1
+    if('overwrite' in kwargs):
+        overwrite=kwargs['overwrite']
+    else:
+        overwrite=0
+    if(deepcopy):
+        dict1 = copy.deepcopy(dict1)
+        dict2 = copy.deepcopy(dict2)
+    else:
+        pass
+    d = dict1
+    for key in dict2:
+        if(key in dict1):
+            if(overwrite):
+                d[key] = dict2[key]
+            else:
+                pass
+        else:
+            d[key] = dict2[key]
+    return(d)
+
+
     
 # char encode decode
 
