@@ -426,52 +426,57 @@ __18. comprise_table(table_1,table_2)__
 ---------------------------------------
 ![](Images/crtable.comprise_table.png)  
 
-__19. equal(crtable_1,crtable_2,**kwargs)__
+__19. comprise_crtable(crtable_1,crtable_2,**kwargs)__
+------------------------------------------------------
+![](Images/crtable.comprise_crtable.png)  
+
+
+__20. equal(crtable_1,crtable_2,**kwargs)__
 -------------------------------------------
 ![](Images/crtable.equal.png)  
 
-__20. get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs)__
+__21. get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs)__
 --------------------------------------------------------------------
 ![](Images/crtable.get_newcrtable_via_colnumslist.png)  
 
-__21. get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs)__
+__22. get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs)__
 -----------------------------------------------------------------------
 ![](Images/crtable.get_newcrtable_via_colnameslist.png)  
 
-__22. diff_two_crtables(crtable_1,crtable_2,**kwargs)__
+__23. diff_two_crtables(crtable_1,crtable_2,**kwargs)__
 -------------------------------------------------------
 ![](Images/crtable.diff_two_crtables.png)  
 
-__23. thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,theta_function,**kwargs)__
+__24. thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,theta_function,**kwargs)__
 ----------------------------------------------------------------------------------------------------------
 ![](Images/crtable.thetajoin_two_crtables_1.png)
 ![](Images/crtable.thetajoin_two_crtables_2.png)  
 
-__24. equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kwargs)__
+__25. equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kwargs)__
 -----------------------------------------------------------------------------------------
 ![](Images/crtable.equijoin_two_crtables.png) 
 
-__25. naturaljoin_mirror_dict(md)__
+__26. naturaljoin_mirror_dict(md)__
 -----------------------------------
 ![](Images/crtable.naturaljoin_mirror_dict.png)  
 
-__16. get_image_sets_dict(crtable,colnameslist)__
+__27. get_image_sets_dict(crtable,colnameslist)__
 -------------------------------------------------
 ![](Images/crtable.get_image_sets_dict.png)  
 
-__17. divide_two_crtables(crtable_1,crtable_2,colnameslist,**kwargs)__
+__28. divide_two_crtables(crtable_1,crtable_2,colnameslist,**kwargs)__
 ----------------------------------------------------------------------
 ![](Images/crtable.divide_two_crtables.png)  
 
-__18. is_single_candidate_key(crtable,name)__
+__29. is_single_candidate_key(crtable,name)__
 ---------------------------------------------
 ![](Images/crtable.is_single_candidate_key.png) 
 
-__19. is_candidate_key_combo(crtable,colnameslist)__
+__30. is_candidate_key_combo(crtable,colnameslist)__
 ----------------------------------------------------
 ![](Images/crtable.is_candidate_key_combo.png) 
 
-__20. get_all_candidate_key_combo(crtable)__
+__31. get_all_candidate_key_combo(crtable)__
 --------------------------------------------
 ![](Images/crtable.get_all_candidate_key_combo.png)  
 
