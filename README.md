@@ -102,6 +102,20 @@ __5. select_values__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_values.2.png)  
 
 
+__6. choose_vols__
+------------------
+		crtb
+		colslist = [0,2]
+		subcols = crtb.choose_cols(colslist)
+		xcr.show_crtable(subcols)
+		colslist = ['size','color']
+		subcols = crtb.choose_cols(colslist)
+		xcr.show_crtable(subcols)  
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_vols.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_vols.2.png)  
+
+
 
 
 
