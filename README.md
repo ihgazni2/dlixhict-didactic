@@ -7,7 +7,8 @@
 
 for detailed usage and functions please refer to:
 -------------------------------------------------
-ReadMeDetailed/  
+
+----------------------------------------------------------
 >├── [console_color](ReadMeDetailed/console_color.md)      
 ├── CrtableReadMe  
 >>>>├── [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)  
