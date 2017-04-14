@@ -13,10 +13,10 @@ ReadMeDetailed/
    │   └── [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)    
    ├── [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)    
    ├── [hdict_object](ReadMeDetailed/hdict_object.md)   
-   ├── [hdict_xml](ReadMeDetailed/hdict_xml.md)
+   ├── [hdict_xml](ReadMeDetailed/hdict_xml.md)  
    ├── [jprint](ReadMeDetailed/jprint.md)  
    ├── [ltdict](ReadMeDetailed/ltdict.md)  
-   ├── [structure](ReadMeDetailed/structure.md) 
+   ├── [structure](ReadMeDetailed/structure.md)  
    ├── TestReadMe  
    │   └── [genrand](ReadMeDetailed/genrand.md)  
    ├── [tuple_list](ReadMeDetailed/tuple_list.md)  
