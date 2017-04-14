@@ -24,6 +24,8 @@ ReadMeDetailed/
 >├── [tuple_list](ReadMeDetailed/tuple_list.md)  
 └── [utils](ReadMeDetailed/utils.md)
 
+-------------------------------------------------------
+
 
 ## Part1. [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)
 __1. init__  
