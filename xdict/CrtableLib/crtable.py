@@ -4348,7 +4348,9 @@ class crtable():
             table[0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
             table[1] = {0: 74, 1: 'green', 2: 'chinese', 3: '2017-oct-01'}
             table[2] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
-            crtb = crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
+            crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
+            crtb
+
         '''
         self.crtable = {}
         self.crtable['table'] = {}
@@ -4382,11 +4384,10 @@ class crtable():
         '''
         show_crtable(self.crtable)
         print(jprint.paint_str("====keys====:",single_color='blue'))
-        jprint.pobj(self.crtable['knimd'])
+        print(jprint.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue'))    
         print(jprint.paint_str("====values==:",single_color='yellow'))
-        jprint.pobj(self.crtable['vnimd'])
-        print("======internal data==========:")
-        return(self.crtable.__repr__())
+        print(jprint.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')) 
+        return('')
     ## select
     def __getitem__(self,keys):
         '''
