@@ -4868,7 +4868,8 @@ class crtable():
             colnameslist_2 =  common
         else:
             pass
-        naturaljoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2
+        crtb1.crtable =  naturaljoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2)
+        return(crtb1)
     def candidates(self):
         '''
         '''
