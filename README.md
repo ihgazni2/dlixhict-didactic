@@ -23,7 +23,7 @@ for detailed usage and functions please refer to:
 				└── utils.md
 
 
-## Part1. crtbale
+## Part1. [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)
 __1. init__  
 -----------
 		import xdict.CrtableLib.crtable as xcr
