@@ -56,6 +56,23 @@ __2. getitem__
 		pobj(values_2)  
 
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.2.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.2.png)  
+
+__3. select_rownums__  
+---------------------
+		crtb
+		keysorvalues = {'color':'green'}
+		rownums = crtb.select_rownums(keysorvalues)
+		rownums
+		keysorvalues = {'language':'espanol'}
+		rownums = crtb.select_rownums(keysorvalues)
+		rownums  
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_rownums.png) 
+
+
+
+
+
 
 		
