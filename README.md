@@ -26,9 +26,6 @@ for detailed usage and functions please refer to:
 ## Part1. crtbale
 __1. init__  
 -----------
-![](Images/crtable.__init__.png) 
- 
-
 		import xdict.CrtableLib.crtable as xcr
 		colnameslist = ['size','color','language','expire']
 		keynameslist = ['size','language']
@@ -39,3 +36,4 @@ __1. init__
 		crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
 		crtb
 
+![](Images/crtable.__init__.png) 
