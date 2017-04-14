@@ -25,3 +25,15 @@ for detailed usage and functions please refer to:
 
 Part1. crtbale
 --------------
+__1. __  
+
+		import xdict.CrtableLib.crtable as xcr
+		colnameslist = ['size','color','language','expire']
+		keynameslist = ['size','language']
+		table = {}
+		table[0] = {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}
+		table[1] = {0: 74, 1: 'green', 2: 'chinese', 3: '2017-oct-01'}
+		table[2] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
+		crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
+		crtb
+
