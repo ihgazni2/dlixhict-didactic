@@ -10,7 +10,8 @@ for detailed usage and functions please refer to:
 ReadMeDetailed/  
 >├── [console_color](ReadMeDetailed/console_color.md)      
 ├── CrtableReadMe  
->>├── [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)    
+>>├── [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)  
+
 >├── [hdict_cmdline](ReadMeDetailed/hdict_cmdline.md)    
 ├── [hdict_object](ReadMeDetailed/hdict_object.md)   
 ├── [hdict_xml](ReadMeDetailed/hdict_xml.md)  
@@ -19,7 +20,8 @@ ReadMeDetailed/
 ├── [structure](ReadMeDetailed/structure.md)  
 ├── TestReadMe  
 >>├── [genrand](ReadMeDetailed/genrand.md)  
-├── [tuple_list](ReadMeDetailed/tuple_list.md)  
+
+>├── [tuple_list](ReadMeDetailed/tuple_list.md)  
 └── [utils](ReadMeDetailed/utils.md)
 
 
