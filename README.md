@@ -86,6 +86,21 @@ __4. select_attribs__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.3.png)  
 
 
+__5. select_values__
+--------------------
+		crtb
+		keys = {'language':'espanol'}
+		values = crtb.select_values(keys)
+		pobj(values)
+		keys = {'language':'espanol','size':74}
+		values = crtb.select_values(keys)
+		pobj(values)  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_values.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_values.2.png)  
+
+
+
 
 
 
