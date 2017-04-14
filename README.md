@@ -23,9 +23,11 @@ for detailed usage and functions please refer to:
 				└── utils.md
 
 
-Part1. crtbale
---------------
-__1. __  
+## Part1. crtbale
+__1. init__  
+-----------
+![](Images/crtable.__init__.png) 
+ 
 
 		import xdict.CrtableLib.crtable as xcr
 		colnameslist = ['size','color','language','expire']
