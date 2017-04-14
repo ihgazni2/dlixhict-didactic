@@ -1,5 +1,5 @@
 # dlixhict-didactic
->__transform and converting between html,json,python-dict,command-line,dir-path__
+>__transform and converting between html,json,python-dict,command-line,dir-path__  
 __dict list tuple toolset__
 
 # install
