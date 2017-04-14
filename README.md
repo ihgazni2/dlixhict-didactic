@@ -60,8 +60,8 @@ __2. getitem__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.1.png)  
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.2.png)  
 
-__3. select_rownums__  
----------------------
+__3. .select_rownums(keysorvalues)__  
+------------------------------------
 		crtb
 		keysorvalues = {'color':'green'}
 		rownums = crtb.select_rownums(keysorvalues)
@@ -73,8 +73,8 @@ __3. select_rownums__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_rownums.png) 
 
 
-__4. select_attribs__
----------------------
+__4. .select_attribs(keysorvalues)__
+------------------------------------
 		crtb
 		keysorvalues = {'color':'green'}
 		attribs = crtb.select_attribs(keysorvalues)
@@ -88,8 +88,8 @@ __4. select_attribs__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.3.png)  
 
 
-__5. select_values__
---------------------
+__5. .select_values(keys)__
+---------------------------
 		crtb
 		keys = {'language':'espanol'}
 		values = crtb.select_values(keys)
@@ -102,8 +102,8 @@ __5. select_values__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_values.2.png)  
 
 
-__6. choose_cols__
-------------------
+__6. .choose_cols(colslist)__
+-----------------------------
 		crtb
 		colslist = [0,2]
 		subcols = crtb.choose_cols(colslist)
@@ -116,6 +116,14 @@ __6. choose_cols__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_cols.2.png)  
 
 
+__7. .choose_rows(rownumslist)__
+--------------------------------
+		crtb
+		rownumslist = [1,2]
+		subrows = crtb.choose_rows(rownumslist)
+		xcr.show_crtable(subrows)  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_rows.png) 
 
 
 
