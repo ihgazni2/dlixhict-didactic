@@ -4342,6 +4342,7 @@ def show_crtable(crtable):
 class crtable():
     def __init__(self,**kwargs):
         '''
+            import xdict.CrtableLib.crtable as xcr
             colnameslist = ['size','color','language','expire']
             keynameslist = ['size','language']
             table = {}
@@ -4350,7 +4351,21 @@ class crtable():
             table[2] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
             crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
             crtb
-
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            
+            >>> 
         '''
         self.crtable = {}
         self.crtable['table'] = {}
@@ -4391,10 +4406,52 @@ class crtable():
     ## select
     def __getitem__(self,keys):
         '''
-            keys = {'language':'espanol','color':'green'}
-            pobj(crtb[keys])
-            keys = {'color':'green'}
-            pobj(crtb[keys])
+            from xdict.jprint import pobj
+            keys_1 = {'language':'espanol','color':'green'}
+            values_1 = crtb[keys_1]
+            keys_2 = {'color':'green'}
+            values_2 = crtb[keys_2]
+            values_1
+            pobj(values_1)
+            values_2
+            pobj(values_2)
+            >>> values_1
+            [{'size': 500, 'expire': '2018-dec-01'}, {'size': 74, 'expire': '2017-oct-01'}]
+            >>> pobj(values_1)
+            [
+             {
+              'size': 500, 
+              'expire': '2018-dec-01'
+             }, 
+             {
+              'size': 74, 
+              'expire': '2017-oct-01'
+             }
+            ]
+            >>> 
+            >>> 
+            >>> values_2
+            [{'size': 500, 'language': 'espanol', 'expire': '2018-dec-01'}, {'size': 74, 'language': 'chinese', 'expire': '2017-oct-01'}, {'size': 74, 'language': 'espanol', 'expire': '2017-oct-01'}]
+            >>> pobj(values_2)
+            [
+             {
+              'size': 500, 
+              'language': 'espanol', 
+              'expire': '2018-dec-01'
+             }, 
+             {
+              'size': 74, 
+              'language': 'chinese', 
+              'expire': '2017-oct-01'
+             }, 
+             {
+              'size': 74, 
+              'language': 'espanol', 
+              'expire': '2017-oct-01'
+             }
+            ]
+            >>> 
+
         '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         rslt = []
@@ -4404,11 +4461,108 @@ class crtable():
         return(rslt)
     def select_rownums(self,keys):
         '''
+            crtb
+            keysorvalues = {'color':'green'}
+            rownums = crtb.select_rownums(keysorvalues)
+            rownums
+            keysorvalues = {'language':'espanol'}
+            rownums = crtb.select_rownums(keysorvalues)
+            rownums
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            
+            >>> keysorvalues = {'color':'green'}
+            >>> rownums = crtb.select_rownums(keysorvalues)
+            >>> rownums
+            [0, 1, 2]
+            >>> keysorvalues = {'language':'espanol'}
+            >>> rownums = crtb.select_rownums(keysorvalues)
+            >>> rownums
+            [0, 2]
+            >>> 
         '''
         rownumslist = get_seqslist_via_keys(keys,self.crtable)
         return(rownumslist)
     def select_attribs(self,keys):
         '''
+            crtb
+            keysorvalues = {'color':'green'}
+            attribs = crtb.select_attribs(keysorvalues)
+            pobj(attribs)
+            keysorvalues = {'language':'espanol'}
+            attribs = crtb.select_attribs(keysorvalues)
+            pobj(attribs)
+        >>> crtb
+        +++++++++++++++++++++++++++++++++
+        |size|color|language|     expire|
+        +++++++++++++++++++++++++++++++++
+        | 500|green| espanol|2018-dec-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| chinese|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| espanol|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'size': 0, 'language': 2}
+        ====values==:
+            :{'color': 1, 'expire': 3}
+        
+        >>> keysorvalues = {'color':'green'}
+        >>> attribs = crtb.select_attribs(keysorvalues)
+        >>> pobj(attribs)
+        [
+         {
+          0: 500, 
+          1: 'green', 
+          2: 'espanol', 
+          3: '2018-dec-01'
+         }, 
+         {
+          0: 74, 
+          1: 'green', 
+          2: 'chinese', 
+          3: '2017-oct-01'
+         }, 
+         {
+          0: 74, 
+          1: 'green', 
+          2: 'espanol', 
+          3: '2017-oct-01'
+         }
+        ]
+        >>> keysorvalues = {'language':'espanol'}
+        >>> attribs = crtb.select_attribs(keysorvalues)
+        >>> pobj(attribs)
+        [
+         {
+          0: 500, 
+          1: 'green', 
+          2: 'espanol', 
+          3: '2018-dec-01'
+         }, 
+         {
+          0: 74, 
+          1: 'green', 
+          2: 'espanol', 
+          3: '2017-oct-01'
+         }
+        ]
+        >>> 
+        >>> 
+        
         '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         rslt = []
@@ -4418,6 +4572,54 @@ class crtable():
         return(rslt)
     def select_values(self,keys):
         '''
+            crtb
+            keys = {'language':'espanol'}
+            values = crtb.select_values(keys)
+            pobj(values)
+            keys = {'language':'espanol','size':74}
+            values = crtb.select_values(keys)
+            pobj(values)
+        >>> 
+        >>> crtb
+        +++++++++++++++++++++++++++++++++
+        |size|color|language|     expire|
+        +++++++++++++++++++++++++++++++++
+        | 500|green| espanol|2018-dec-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| chinese|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| espanol|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'size': 0, 'language': 2}
+        ====values==:
+            :{'color': 1, 'expire': 3}
+        
+        >>> keys = {'language':'espanol'}
+        >>> values = crtb.select_values(keys)
+        >>> pobj(values)
+        [
+         {
+          'size': 500, 
+          'color': 'green', 
+          'expire': '2018-dec-01'
+         }, 
+         {
+          'size': 74, 
+          'color': 'green', 
+          'expire': '2017-oct-01'
+         }
+        ]
+        >>> keys = {'language':'espanol','size':74}
+        >>> values = crtb.select_values(keys)
+        >>> pobj(values)
+        [
+         {
+          'color': 'green', 
+          'expire': '2017-oct-01'
+         }
+        ]
+        >>> 
         '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         rslt = []
@@ -4427,6 +4629,54 @@ class crtable():
         return(rslt)
     def choose_cols(self,colslist):
         '''
+        crtb
+        colslist = [0,2]
+        subcols = crtb.choose_cols(colslist)
+        xcr.show_crtable(subcols)
+        colslist = ['size','color']
+        subcols = crtb.choose_cols(colslist)
+        xcr.show_crtable(subcols)
+        >>> 
+        >>> crtb
+        +++++++++++++++++++++++++++++++++
+        |size|color|language|     expire|
+        +++++++++++++++++++++++++++++++++
+        | 500|green| espanol|2018-dec-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| chinese|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| espanol|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'size': 0, 'language': 2}
+        ====values==:
+            :{'color': 1, 'expire': 3}
+        
+        >>> colslist = [0,2]
+        >>> subcols = crtb.choose_cols(colslist)
+        >>> xcr.show_crtable(subcols)
+        +++++++++++++++
+        |size|language|
+        +++++++++++++++
+        | 500| espanol|
+        +++++++++++++++
+        |  74| chinese|
+        +++++++++++++++
+        |  74| espanol|
+        +++++++++++++++
+        >>> colslist = ['size','color']
+        >>> subcols = crtb.choose_cols(colslist)
+        >>> xcr.show_crtable(subcols)
+        ++++++++++++
+        |size|color|
+        ++++++++++++
+        | 500|green|
+        ++++++++++++
+        |  74|green|
+        ++++++++++++
+        |  74|green|
+        ++++++++++++
+        >>> 
         '''
         if(utils.is_int(colslist[0])):
             ncrtb = get_newcrtable_via_colnumslist(colslist,self.crtable)
@@ -4435,13 +4685,17 @@ class crtable():
         return(ncrtb)
     def choose_rows(self,rownumslist):
         '''
+        crtb
+        rownumslist = [1,2]
+        subrows = crtb.choose_rows(rownumslist)
+        xcr.show_crtable(subrows)
         '''
         ncrtb = copy.deepcopy(self.crtable)
         realrownumslist = sorted(list(self.crtable['table'].keys()))
         ncrtb['table'] = {}
         seq = 0
         for i in rownumslist:
-            ncrtb['table'][seq] = self.crtable['table'][realrownumslist[rownumslist[i]]]
+            ncrtb['table'][seq] = self.crtable['table'][realrownumslist[i]]
             seq = seq + 1
         return(ncrtb)
     ## prepend append
