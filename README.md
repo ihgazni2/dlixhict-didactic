@@ -42,3 +42,20 @@ __1. init__
 		crtb
 
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.__init__.png) 
+
+__2. getitem__
+--------------  
+		from xdict.jprint import pobj
+		keys_1 = {'language':'espanol','color':'green'}
+		values_1 = crtb[keys_1]
+		keys_2 = {'color':'green'}
+		values_2 = crtb[keys_2]
+		values_1
+		pobj(values_1)
+		values_2
+		pobj(values_2)  
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.2.png) 
+
+		
