@@ -36,4 +36,4 @@ __1. init__
 		crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
 		crtb
 
-![](Images/crtable.__init__.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.__init__.png) 
