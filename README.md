@@ -71,6 +71,23 @@ __3. select_rownums__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_rownums.png) 
 
 
+__4. select_attribs__
+---------------------
+		crtb
+		keysorvalues = {'color':'green'}
+		attribs = crtb.select_attribs(keysorvalues)
+		pobj(attribs)
+		keysorvalues = {'language':'espanol'}
+		attribs = crtb.select_attribs(keysorvalues)
+		pobj(attribs)  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.3.png)  
+
+
+
+
 
 
 
