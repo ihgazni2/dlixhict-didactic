@@ -2118,6 +2118,32 @@ def insert_col(colnum,col,crtable):
     refd = get_indexonly_refdict(crtable['animd'])
     nrefd = ltdict.ltdict_insert(refd,colnum,col_name)
     crtable['animd'] = creat_mirror_dict(nrefd)
+    #
+    krefd = get_indexonly_refdict(crtable['knimd'])
+    vrefd = get_indexonly_refdict(crtable['knimd'])
+    nkrefd = {}
+    nvrefd = {}
+    for index in krefd:
+        if(index >= colnum):
+            nkrefd[index+1] = krefd[index]
+        else:
+            nkrefd[index] = krefd[index]
+    for index in vrefd:
+        if(index >= colnum):
+            nvrefd[index+1] = vrefd[index]
+        else:
+            nvrefd[index] = vrefd[index]
+    if('as_value' in kwargs):
+        as_value = kwargs['as_value']
+    else:
+        as_value = 1
+    if(as_value):
+        nvrefd[colnum] = col_name
+    else:
+        nkrefd[colnum] = col_name
+    crtable['knimd'] = creat_mirror_dict(nkrefd)
+    crtable['vnimd'] = creat_mirror_dict(nvrefd)
+    #
     for rownum in crtable['table']:
         row = crtable['table'][rownum]
         crtable['table'][rownum] = ltdict.ltdict_insert(crtable['table'][rownum],colnum,col_list[rownum])
