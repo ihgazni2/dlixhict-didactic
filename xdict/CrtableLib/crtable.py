@@ -1982,15 +1982,9 @@ def modify_rows_via_seq(seq,crtable,modified_to):
         >>> 
         >>> 
     '''
-    print(seq)
-    print(crtable)
     for k in modified_to:
-        print(modified_to)
         v = modified_to[k]
         i = crtable['animd'][k]
-        print(k)
-        print(v)
-        print(i)        
         if(i in crtable['table'][seq]):
             crtable['table'][seq][i] = v
     return(crtable)
@@ -4876,21 +4870,21 @@ class crtable():
             pass
         else:
             seq = seqslist[0]
-            self.crtable = modify_rows_via_seq(seq,crtable,values)
+            self.crtable = modify_rows_via_seq(seq,self.crtable,values)
     def modify_last_row(self,keys,values):
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
         else:
             seq = seqslist[-1]
-            self.crtable = modify_rows_via_seq(seq,crtable,values)
+            self.crtable = modify_rows_via_seq(seq,self.crtable,values)
     def modify_specific_row(self,keys,values,whichrow):
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
         else:
             seq = seqslist[whichrow]
-            self.crtable = modify_rows_via_seq(seq,crtable,values)
+            self.crtable = modify_rows_via_seq(seq,self.crtable,values)
     def modify_all_rows(self,keys,values):
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
