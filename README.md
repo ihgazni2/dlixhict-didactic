@@ -183,6 +183,44 @@ __12. .append_col(col)__
 
 
 
+__13. .append_cols(cols)__
+--------------------------
+		crtb
+		cols = [{'id':['2271','2272','2273','2274']},
+        		{'tid':['t1','t2','t3','t4']}]
+		crtb.append_cols(cols)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_cols.png)  
+
+__14. .prepend_col(col)__
+-------------------------
+		crtb
+		col = {'owner':['dli','dli','dli','dli']}
+		crtb.prepend_col(col)
+		crtb 
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_col.png)  
+
+
+__15. .prepend_cols(cols)__
+---------------------------
+		crtb
+		cols = [{'nickname':['kk','vv','tt','dd']},
+		        {'uid':['u1','u2','u3','u4']}]
+
+		crtb.prepend_cols(cols)
+		crtb  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_cols.png) 
+
+
+
+
+
+
+
+
 
 
 
