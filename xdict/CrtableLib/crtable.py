@@ -1675,7 +1675,8 @@ def prepend_row(row,crtable):
         {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
         >>> 
     '''
-    crtable['table'] = ltdict.ltdict_prepend(crtable['table'],row)
+    nrow = expand_part_attribs(row,crtable['animd'],index_dominant=1)
+    crtable['table'] = ltdict.ltdict_prepend(crtable['table'],nrow)
     return(crtable)
 
 def prepend_col(col,crtable):
@@ -4685,10 +4686,36 @@ class crtable():
         return(ncrtb)
     def choose_rows(self,rownumslist):
         '''
-        crtb
-        rownumslist = [1,2]
-        subrows = crtb.choose_rows(rownumslist)
-        xcr.show_crtable(subrows)
+            crtb
+            rownumslist = [1,2]
+            subrows = crtb.choose_rows(rownumslist)
+            xcr.show_crtable(subrows)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> rownumslist = [1,2]
+            >>> subrows = crtb.choose_rows(rownumslist)
+            >>> xcr.show_crtable(subrows)
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            >>> 
         '''
         ncrtb = copy.deepcopy(self.crtable)
         realrownumslist = sorted(list(self.crtable['table'].keys()))
@@ -4701,19 +4728,103 @@ class crtable():
     ## prepend append
     def append_row(self,row):
         '''
+            crtb
             row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
             crtb.append_row(row)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
+            >>> crtb.append_row(row)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 700| pink| espanol|       None|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> 
+            
         '''
         self.crtable = append_row(row,self.crtable)
     def append_rows(self,rows):
         '''
+            crtb
             rows = [{'size': 555, 'color': 'yellow', 'language': 'chinese'},
                     {'size': 555, 'color': 'yellow', 'language': 'korean'}]
             crtb.append_rows(rows)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 700| pink| espanol|       None|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> rows = [{'size': 555, 'color': 'yellow', 'language': 'chinese'},
+            ...         {'size': 555, 'color': 'yellow', 'language': 'korean'}]
+            >>> crtb.append_rows(rows)
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++
+            |size| color|language|     expire|
+            ++++++++++++++++++++++++++++++++++
+            | 500| green| espanol|2018-dec-01|
+            ++++++++++++++++++++++++++++++++++
+            |  74| green| chinese|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++
+            |  74| green| espanol|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++
+            | 700|  pink| espanol|       None|
+            ++++++++++++++++++++++++++++++++++
+            | 555|yellow| chinese|       None|
+            ++++++++++++++++++++++++++++++++++
+            | 555|yellow|  korean|       None|
+            ++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
         '''
         self.crtable = append_rows(rows,self.crtable)
     def prepend_row(self,row):
         '''
+            crtb
+            row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
+            crtb.prepend_row(row)
+            crtb
         '''
         self.crtable = prepend_row(row,self.crtable)
     def prepend_rows(self,rows):
