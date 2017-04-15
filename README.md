@@ -43,7 +43,7 @@ __1. init__
 		crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
 		crtb
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.__init__.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__init__.png) 
 
 __2. getitem__
 --------------  
@@ -57,8 +57,8 @@ __2. getitem__
 		values_2
 		pobj(values_2)  
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.__getitem__.2.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__getitem__.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__getitem__.2.png)  
 
 __3. .select_rownums(keysorvalues)__  
 ------------------------------------
@@ -70,7 +70,7 @@ __3. .select_rownums(keysorvalues)__
 		rownums = crtb.select_rownums(keysorvalues)
 		rownums  
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_rownums.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.select_rownums.png) 
 
 
 __4. .select_attribs(keysorvalues)__
@@ -83,9 +83,9 @@ __4. .select_attribs(keysorvalues)__
 		attribs = crtb.select_attribs(keysorvalues)
 		pobj(attribs)  
 		
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.2.png)
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_attribs.3.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.select_attribs.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.select_attribs.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.select_attribs.3.png)  
 
 
 __5. .select_values(keys)__
@@ -98,8 +98,8 @@ __5. .select_values(keys)__
 		values = crtb.select_values(keys)
 		pobj(values)  
 		
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_values.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.select_values.2.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.select_values.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.select_values.2.png)  
 
 
 __6. .choose_cols(colslist)__
@@ -112,8 +112,8 @@ __6. .choose_cols(colslist)__
 		subcols = crtb.choose_cols(colslist)
 		xcr.show_crtable(subcols)  
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_cols.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_cols.2.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.choose_cols.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.choose_cols.2.png)  
 
 
 __7. .choose_rows(rownumslist)__
@@ -123,7 +123,7 @@ __7. .choose_rows(rownumslist)__
 		subrows = crtb.choose_rows(rownumslist)
 		xcr.show_crtable(subrows)  
 		
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_rows.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.choose_rows.png) 
 
 
 __8. .append_row(row)__
@@ -133,7 +133,7 @@ __8. .append_row(row)__
 		crtb.append_row(row)
 		crtb
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.append_row.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_row.png)
 
 
 __9. .append_rows(rows)__
@@ -144,8 +144,8 @@ __9. .append_rows(rows)__
 		crtb.append_rows(rows)
 		crtb
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.append_rows.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.append_rows.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_rows.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_rows.2.png)
 
 
 
@@ -156,8 +156,8 @@ __10. .prepend_row(row)__
 		crtb.prepend_row(row)
 		crtb
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_row.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_row.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_row.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_row.2.png)
 
 
 __11. .prepend_rows(rows)__
@@ -168,8 +168,8 @@ __11. .prepend_rows(rows)__
 		crtb.prepend_rows(rows)
 		crtb
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_rows.1.png)  
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_rows.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_rows.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_rows.2.png)
 
 
 
