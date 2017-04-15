@@ -4844,7 +4844,7 @@ class crtable():
         '''
         '''
         self.crtable = prepend_col(col,self.crtable)
-    def prepend_cols(self,rows):
+    def prepend_cols(self,cols):
         '''
         '''
         self.crtable = prepend_cols(cols,self.crtable)
