@@ -126,6 +126,50 @@ __7. .choose_rows(rownumslist)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.choose_rows.png) 
 
 
+__8. .append_row(row)__
+-----------------------
+		crtb
+		row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
+		crtb.append_row(row)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.append_row.png)
+
+
+__9. .append_rows(rows)__
+-------------------------
+		crtb
+		rows = [{'size': 555, 'color': 'yellow', 'language': 'chinese'},
+		        {'size': 555, 'color': 'yellow', 'language': 'korean'}]
+		crtb.append_rows(rows)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.append_rows.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.append_rows.2.png)
+
+
+
+__10. .prepend_row(row)__
+-------------------------
+		crtb
+		row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
+		crtb.prepend_row(row)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_row.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_row.2.png)
+
+
+__11. .prepend_rows(rows)__
+---------------------------
+		crtb
+		rows = [{'size': 555, 'color': 'yellow', 'language': 'chinese'},
+		        {'size': 555, 'color': 'yellow', 'language': 'korean'}]
+		crtb.prepend_rows(rows)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_rows.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.prepend_rows.2.png)
 
 
 
