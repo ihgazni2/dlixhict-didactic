@@ -191,7 +191,8 @@ __13. .append_cols(cols)__
 		crtb.append_cols(cols)
 		crtb
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_cols.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_cols.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_cols.2.png)
 
 __14. .prepend_col(col)__
 -------------------------
@@ -212,7 +213,8 @@ __15. .prepend_cols(cols)__
 		crtb.prepend_cols(cols)
 		crtb  
 		
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_cols.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_cols.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_cols.2.png)
 
 
 
