@@ -217,6 +217,38 @@ __15. .prepend_cols(cols)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_cols.2.png)
 
 
+__16. .__setitem__(keys,values)__
+---------------------------------
+		crtb
+		keys = {'size':88,'language':'korean'}
+		values = {'color':'azure'}
+		crtb[keys] = values
+		crtb
+		keys = {'language':'espanol'}
+		values = {'color':'darkblack'}
+		crtb[keys] = values
+		crtb  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__setitem__.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__setitem__.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__setitem__.3.png)
+
+
+__17. .modify_first_row(keys)__
+---------------------------------
+		crtb
+		keys = {'size':74}
+		values = {'color':'purple'}
+		crtb.modify_first_row(keys,values)
+		crtb  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_first_row.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_first_row.2.png)
+
+
+
+
+
 
 
 
