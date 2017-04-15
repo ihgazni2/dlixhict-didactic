@@ -270,6 +270,32 @@ __19. .modify_specific_row(keys)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_specific_row.2.png)
 
 
+__20. .modify_all_rows(keys)__
+------------------------------
+		crtb
+		keys = {'color':'green'}
+		values = {'language':'korean'}
+		crtb.modify_all_rows(keys,values)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_all_rows.png) 
+
+__21. .modify_col(colnum_or_colname,col)__
+------------------------------------------
+		crtb
+		col = {0:50,1:50,2:50}
+		crtb.modify_col(0,col)
+		crtb
+		col = {0:60,1:60}
+		crtb.modify_col('size',col)
+		crtb
+
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_col.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_col.2.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_col.3.png) 
+
+
 
 
 
