@@ -1676,7 +1676,7 @@ def prepend_row(row,crtable):
         >>> 
     '''
     nrow = format_attribs_to_indexkeyonly(row,crtable['animd'],index_dominant=1)
-    nrow = expand_part_attribs(row,crtable['animd'],index_dominant=1)
+    nrow = expand_part_attribs(nrow,crtable['animd'],index_dominant=1)
     crtable['table'] = ltdict.ltdict_prepend(crtable['table'],nrow)
     return(crtable)
 
