@@ -1566,7 +1566,7 @@ def append_col(col,crtable):
         crtable['table'][2] = {0: 300, 1: 'darkblack', 2: 'spanish', 3: '2017-oct-01'}
         crtable['table'][3] = {0: 100000, 1: 'blue', 2: 'english', 3: '2018-dec-01'}
         col = {'owner':['dli','dli','dli','dli']}
-        crtable = add_col(col,crtable)
+        crtable = append_col(col,crtable)
         >>> crtable['table'][0]
         {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01', 4: 'dli'}
         >>> crtable['table'][1]
@@ -1654,7 +1654,7 @@ def append_cols(cols,crtable):
         >>> 
     '''
     for col in cols:
-        add_col(col,crtable)
+        append_col(col,crtable)
     return(crtable)
 
 def prepend_row(row,crtable):
