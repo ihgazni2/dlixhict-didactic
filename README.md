@@ -246,11 +246,28 @@ __17. .modify_first_row(keys)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_first_row.2.png)
 
 
+__18. .modify_last_row(keys)__
+------------------------------
+		crtb
+		keys = {'size':74}
+		values = {'color':'purple'}
+		crtb.modify_last_row(keys,values)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_first_row.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_first_row.2.png)
 
 
+__19. .modify_specific_row(keys)__
+----------------------------------
+		crtb
+		keys = {'color':'green'}
+		values = {'language':'korean'}
+		crtb.modify_specific_row(keys,values,1)
+		crtb
 
-
-
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_specific_row.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.modify_specific_row.2.png)
 
 
 
