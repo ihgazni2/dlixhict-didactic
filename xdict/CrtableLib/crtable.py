@@ -1982,9 +1982,15 @@ def modify_rows_via_seq(seq,crtable,modified_to):
         >>> 
         >>> 
     '''
+    print(seq)
+    print(crtable)
     for k in modified_to:
+        print(modified_to)
         v = modified_to[k]
         i = crtable['animd'][k]
+        print(k)
+        print(v)
+        print(i)        
         if(i in crtable['table'][seq]):
             crtable['table'][seq][i] = v
     return(crtable)
