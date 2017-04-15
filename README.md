@@ -172,6 +172,19 @@ __11. .prepend_rows(rows)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_rows.2.png)
 
 
+__12. .append_col(col)__
+------------------------
+		crtb
+		col = {'owner':['dli','dli','dli','dli']}
+		crtb.append_col(col)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.append_col.png)  
+
+
+
+
+
 
 
 
