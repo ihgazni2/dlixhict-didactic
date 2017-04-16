@@ -1929,8 +1929,11 @@ def del_cols_via_colnumslist(colnumslist,crtable,**kwargs):
         reorder = kwargs['reorder']
     else:
         reorder = 1
+    seq = 0
     for colnum in colnumslist:
+        colnum = colnum - seq
         del_col_via_colnum(colnum,crtable,reorder=reorder)
+        seq = seq + 1
     return(crtable)
 
 def del_col_via_colname(colname,crtable,**kwargs):
