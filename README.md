@@ -350,6 +350,63 @@ __25. .insert_rows(rownumlist,rows)__
 
 
 
+__26. .__delitem__(keys)__
+---------------------------
+		crtb
+		keys =  {'language':'espanol'}
+		del crtb[keys]
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__delitem__.png) 
+
+
+__27. .delete_first_row(keys)__
+-------------------------------
+		crtb
+		keys =  {'language':'espanol'}
+		crtb.delete_first_row(keys)
+		crtb
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.del_first_row.png)
+
+
+__28. .delete_last_row(keys)__
+------------------------------
+		crtb
+		keys =  {'language':'espanol'}
+		crtb.delete_last_row(keys)
+		crtb
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.delete_last_row.png)
+
+
+__29. .delete_specific_row(keys,whichrow)__
+-------------------------------------------
+		crtb
+		keys =  {'language':'espanol'}
+		crtb.delete_specific_row(keys,1)
+		crtb
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.delete_specific_row.png)
+
+
+__30. .delete_all_rows(keys)__
+------------------------------
+		crtb
+		keys =  {'language':'espanol'}
+		crtb.delete_all_rows(keys)
+		crtb
+		
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.delete_all_rows.png)
+
+
+
+
+
+
+
+
 
 
 
