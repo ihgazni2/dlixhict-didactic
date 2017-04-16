@@ -2120,7 +2120,7 @@ def insert_col(colnum,col,crtable,**kwargs):
     crtable['animd'] = creat_mirror_dict(nrefd)
     #
     krefd = get_indexonly_refdict(crtable['knimd'])
-    vrefd = get_indexonly_refdict(crtable['knimd'])
+    vrefd = get_indexonly_refdict(crtable['vnimd'])
     nkrefd = {}
     nvrefd = {}
     for index in krefd:
@@ -2129,10 +2129,13 @@ def insert_col(colnum,col,crtable,**kwargs):
         else:
             nkrefd[index] = krefd[index]
     for index in vrefd:
-        if(index >= colnum):
-            nvrefd[index+1] = vrefd[index]
+        if(index in krefd):
+            pass
         else:
-            nvrefd[index] = vrefd[index]
+            if(index >= colnum):
+                nvrefd[index+1] = vrefd[index]
+            else:
+                nvrefd[index] = vrefd[index]
     if('as_value' in kwargs):
         as_value = kwargs['as_value']
     else:
