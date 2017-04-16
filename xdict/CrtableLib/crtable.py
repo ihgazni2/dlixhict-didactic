@@ -1893,6 +1893,27 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
             pass
         else:
             pass
+    #
+    krefd = get_indexonly_refdict(crtable['knimd'])
+    vrefd = get_indexonly_refdict(crtable['vnimd'])
+    nkrefd = {}
+    nvrefd = {}
+    for index in krefd:
+        if(index >= colnum):
+            nkrefd[index+1] = krefd[index]
+        else:
+            nkrefd[index] = krefd[index]
+    for index in vrefd:
+        if(index in krefd):
+            pass
+        else:
+            if(index >= colnum):
+                nvrefd[index+1] = vrefd[index]
+            else:
+                nvrefd[index] = vrefd[index]
+    crtable['knimd'] = creat_mirror_dict(nkrefd)
+    crtable['vnimd'] = creat_mirror_dict(nvrefd)
+    #
     for seq in crtable['table']:
         if(reorder):
             
