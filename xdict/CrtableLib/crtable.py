@@ -1922,14 +1922,14 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
             del crtable['table'][seq][colnum]
     return(crtable)
 
-def del_cols_via_colnumslist(colnumlist,crtable,**kwargs):
+def del_cols_via_colnumslist(colnumslist,crtable,**kwargs):
     '''
     '''
     if('reorder' in kwargs):
         reorder = kwargs['reorder']
     else:
         reorder = 1
-    for colnum in colnumlist:
+    for colnum in colnumslist:
         del_col_via_colnum(colnum,crtable,reorder=reorder)
     return(crtable)
 
@@ -1974,7 +1974,7 @@ def del_cols_via_colnameslist(colnameslist,crtable,**kwargs):
     else:
         reorder = 1
     colnumslist = get_indexes_list_via_names_list(colnameslist,crtable['animd'])
-    return(del_cols_via_colnumslist(colnumlist,crtable,reorder=reorder))
+    return(del_cols_via_colnumslist(colnumslist,crtable,reorder=reorder))
 
 def del_rows_via_attribs(attribs,crtable,**kwargs):
     '''
