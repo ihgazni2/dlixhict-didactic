@@ -297,6 +297,65 @@ __21. .modify_col(colnum_or_colname,col)__
 
 
 
+__22. .insert_col(colnum,col)__
+-------------------------------
+		crtb
+		col = {'owner':['dli','dlx','dly','dlz']}
+		crtb.insert_col(1,col)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_col.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_col.2.png)
+
+
+__23. .insert_cols(colnumlist,cols)__
+-------------------------------------
+		crtb
+		cols = [
+		    {'owner':['dli','dlx','dly','dlz']},
+		    {'uid':['ua','ub','uc','ud']}
+		]
+		colnumlist = [1,3]
+		crtb.insert_cols(colnumlist,cols)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_cols.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_cols.2.png)
+
+
+__24. .insert_row(rownum,row)__
+-------------------------------
+		crtb
+		row = {'size': 8888, 'color': 'blue', 'language': 'russian', 'expire': '2018-dec-01'}
+		crtb.insert_row(1,row)
+		crtb
+		
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_row.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_row.2.png)
+
+
+__25. .insert_rows(rownumlist,rows)__
+-------------------------------------
+		crtb
+		rows = [{'size': 8888, 'color': 'blue', 'language': 'russian', 'expire': '2018-dec-01'},
+		        {'size': 666, 'color': 'azure', 'language': 'russian', 'expire': '2017-dec-01'}]
+		rownumlist = [0,2]
+		crtb.insert_rows(rownumlist,rows)
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_rows.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.insert_rows.2.png)
+
+
+
+
+
+
+
+
+
+
 
 
 
