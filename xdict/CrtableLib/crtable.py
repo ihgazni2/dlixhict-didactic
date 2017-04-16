@@ -5446,9 +5446,9 @@ class crtable():
         '''
         self.crtable = insert_cols(colnumlist,cols,self.crtable)
     def insert_row(self,rownum,row):
-        self.crtable = insert_row(self,rownum,row,self.crtable)
+        self.crtable = insert_row(rownum,row,self.crtable)
     def insert_rows(self,rownumlist,rows):
-        self.crtable = insert_rows(self,rownumlist,rows,self.crtable)
+        self.crtable = insert_rows(rownumlist,rows,self.crtable)
     ##delete 
     def __delitem__(self,keys):
         '''
