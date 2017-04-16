@@ -1900,7 +1900,7 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
     nvrefd = {}
     for index in krefd:
         if(index >= colnum):
-            nkrefd[index+1] = krefd[index]
+            nkrefd[index - 1] = krefd[index]
         else:
             nkrefd[index] = krefd[index]
     for index in vrefd:
@@ -1908,7 +1908,7 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
             pass
         else:
             if(index >= colnum):
-                nvrefd[index+1] = vrefd[index]
+                nvrefd[index - 1] = vrefd[index]
             else:
                 nvrefd[index] = vrefd[index]
     crtable['knimd'] = creat_mirror_dict(nkrefd)
