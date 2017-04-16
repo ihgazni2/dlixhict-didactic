@@ -5945,7 +5945,7 @@ class crtable():
             items_list = []
             for i in range(0,keys_list.__len__()):
                 items = (keys_list[i],values_list[i])
-            items_list.append(items)
+                items_list.append(items)
         return(items_list)
     #  clear copy
     def clear(self):
