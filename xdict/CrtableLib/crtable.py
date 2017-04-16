@@ -1842,9 +1842,27 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
         crtable = naturalize_crtable(crtable)
         crtable['animd'] = get_indexonly_refdict(crtable['animd'])
         ltdict.ltdict_pop(crtable['animd'],colnum)
+        try:
+            del crtable['knimd'][colnum]
+            del crtable['knimd'][col_name]
+            del crtable['vnimd'][colnum]
+            del crtable['vnimd'][col_name]
+        except:
+            pass
+        else:
+            pass
     else:
         del crtable['animd'][colnum]
         del crtable['animd'][col_name]
+        try:
+            del crtable['knimd'][colnum]
+            del crtable['knimd'][col_name]
+            del crtable['vnimd'][colnum]
+            del crtable['vnimd'][col_name]
+        except:
+            pass
+        else:
+            pass
     for seq in crtable['table']:
         if(reorder):
             
@@ -5322,7 +5340,6 @@ class crtable():
         else:
             seq = seqslist[whichrow]
             self.crtable = modify_rows_via_seq(seq,self.crtable,values)   
-
     def modify_all_rows(self,keys,values):
         '''
             crtb
@@ -5438,26 +5455,241 @@ class crtable():
             ====values==:
                 :{'expire': 3, 'language': 2, 'size': 0}
             >>> 
-
+            >>> col = {'owner':['dli','dlx','dly','dlz']}
+            >>> crtb.insert_col(1,col)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++++++++
+            |size|owner|color|language|     expire|
+            +++++++++++++++++++++++++++++++++++++++
+            | 500|  dli|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++++++++
+            |  74|  dlx|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++++++++
+            |  74|  dly|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 2}
+            ====values==:
+                :{'color': 2, 'owner': 1}
+            >>> 
         '''
         self.crtable = insert_col(colnum,col,self.crtable)
     def insert_cols(self,colnumlist,cols):
         '''
+            crtb
+            cols = [
+                {'owner':['dli','dlx','dly','dlz']},
+                {'uid':['ua','ub','uc','ud']}
+            ]
+            colnumlist = [1,3]
+            crtb.insert_cols(colnumlist,cols)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'language': 2, 'expire': 3}
+            >>> 
+            >>> cols = [
+            ...     {'owner':['dli','dlx','dly','dlz']},
+            ...     {'uid':['ua','ub','uc','ud']}
+            ... ]
+            >>> colnumlist = [1,3]
+            >>> crtb.insert_cols(colnumlist,cols)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++++++++++++
+            |size|owner|color|language|uid|     expire|
+            +++++++++++++++++++++++++++++++++++++++++++
+            | 500|  dli|green| espanol| ua|2018-dec-01|
+            +++++++++++++++++++++++++++++++++++++++++++
+            |  74|  dlx|green| chinese| ub|2017-oct-01|
+            +++++++++++++++++++++++++++++++++++++++++++
+            |  74|  dly|green| espanol| uc|2017-oct-01|
+            +++++++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 2}
+            ====values==:
+                :{'owner': 1, 'size': 0, 'uid': 4, 'expire': 5, 'language': 3}
+            
+            >>> 
         '''
         self.crtable = insert_cols(colnumlist,cols,self.crtable)
     def insert_row(self,rownum,row):
+        '''
+            crtb
+            row = {'size': 8888, 'color': 'blue', 'language': 'russian', 'expire': '2018-dec-01'}
+            crtb.insert_row(1,row)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> 
+            >>> row = {'size': 8888, 'color': 'blue', 'language': 'russian', 'expire': '2018-dec-01'}
+            >>> crtb.insert_row(1,row)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |8888| blue| russian|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            >>> 
+        '''
         self.crtable = insert_row(rownum,row,self.crtable)
     def insert_rows(self,rownumlist,rows):
+        '''
+            crtb
+            rows = [{'size': 8888, 'color': 'blue', 'language': 'russian', 'expire': '2018-dec-01'},
+                    {'size': 666, 'color': 'azure', 'language': 'russian', 'expire': '2017-dec-01'}]
+            rownumlist = [0,2]
+            crtb.insert_rows(rownumlist,rows)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> 
+            >>> rows = [{'size': 8888, 'color': 'blue', 'language': 'russian', 'expire': '2018-dec-01'},
+            ...         {'size': 666, 'color': 'azure', 'language': 'russian', 'expire': '2017-dec-01'}]
+            >>> rownumlist = [0,2]
+            >>> crtb.insert_rows(rownumlist,rows)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            |8888| blue| russian|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 666|azure| russian|2017-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            >>> 
+        '''
         self.crtable = insert_rows(rownumlist,rows,self.crtable)
     ##delete 
     def __delitem__(self,keys):
         '''
+            crtb
             keys =  {'language':'espanol'}
             del crtb[keys]
             crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            
+            >>> del crtb[{'language':'espanol'}]
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            >>> 
         '''
         self.crtable = del_rows_via_keys(keys,self.crtable)
     def delete_first_row(self,keys):
+        '''
+            crtb
+            keys =  {'language':'espanol'}
+            crtb.delete_first_row(keys)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            
+            >>> keys =  {'language':'espanol'}
+            >>> crtb.delete_first_row(keys)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            >>> 
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
@@ -5465,6 +5697,43 @@ class crtable():
             seq = seqslist[0]
             ltdict.ltdict_pop(self.crtable['table'],seq)
     def delete_last_row(self,keys):
+        '''
+            crtb
+            keys =  {'language':'espanol'}
+            crtb.delete_last_row(keys)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            
+            >>> keys =  {'language':'espanol'}
+            >>> crtb.delete_last_row(keys)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            >>> 
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
@@ -5472,6 +5741,46 @@ class crtable():
             seq = seqslist[-1]
             ltdict.ltdict_pop(self.crtable['table'],seq)
     def delete_specific_row(self,keys,whichrow):
+        '''
+            crtb
+            keys =  {'language':'espanol'}
+            crtb.delete_specific_row(keys,1)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            
+            >>> keys =  {'language':'espanol'}
+            >>> crtb.delete_specific_row(keys,1)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            >>> 
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
@@ -5479,15 +5788,65 @@ class crtable():
             seq = seqslist[whichrow]
             ltdict.ltdict_pop(self.crtable['table'],seq)
     def delete_all_rows(self,keys):
+        '''
+            crtb
+            keys =  {'language':'espanol'}
+            crtb.delete_all_rows(keys)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            
+            >>> keys =  {'language':'espanol'}
+            >>> crtb.delete_all_rows(keys)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'expire': 3, 'size': 0}
+            
+            >>> 
+        '''
         self.crtable = del_rows_via_keys(keys,self.crtable)
-    def del_col_via_colnum(self,colnum):
-        self.crtable = del_col_via_colnum(colnum,self.crtable)
-    def del_cols_via_colnumslist(self,colnumslist):
-        self.crtable = del_cols_via_colnumslist(colnumslist,self.crtable)
-    def del_col_via_colname(self,colname):
-        self.crtable = del_col_via_colname(colname,self.crtable)
-    def del_cols_via_colnameslist(self,colnameslist):
-        self.crtable = del_cols_via_colnameslist(colnameslist,self.crtable)
+    ####
+    def del_col(self,colnum_or_colname):
+        '''
+        '''
+        if(utils.is_int(colnum_or_colname)):
+            colnum = colnum_or_colname
+            self.crtable = del_col_via_colnum(colnum,self.crtable)
+        else:
+            colname = colnum_or_colname
+            self.crtable = del_col_via_colname(colname,self.crtable)
+    def del_cols(self,numslist_or_nameslist):
+        '''
+        '''
+        ele = numslist_or_nameslist[0]
+        if(utils.is_int(ele)):
+            colnumslist = numslist_or_nameslist
+            self.crtable = del_cols_via_colnumslist(colnumslist,self.crtable)
+        else:
+            colnameslist = numslist_or_nameslist
+            self.crtable = del_cols_via_colnameslist(colnameslist,self.crtable)
     ## keys values items 
     def keys(self):
         if(self.crtable['knimd'] == {}):
