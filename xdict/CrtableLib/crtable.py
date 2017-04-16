@@ -2092,7 +2092,7 @@ def modify_col_via_colname(colname,crtable,modified_to):
     colnum = crtable['animd'][colname]
     return(modify_col_via_colnum(colnum,crtable,modified_to))
 
-def insert_col(colnum,col,crtable):
+def insert_col(colnum,col,crtable,**kwargs):
     '''
         crtable['table'] = {}
         crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
@@ -4479,7 +4479,6 @@ class crtable():
              }
             ]
             >>> 
-
         '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         rslt = []
@@ -4852,37 +4851,326 @@ class crtable():
             row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
             crtb.prepend_row(row)
             crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> row = {'size': 700, 'color': 'pink', 'language': 'espanol'}
+            >>> crtb.prepend_row(row)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 700| pink| espanol|       None|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            >>> 
         '''
         self.crtable = prepend_row(row,self.crtable)
     def prepend_rows(self,rows):
         '''
+            crtb
+            rows = [{'size': 555, 'color': 'yellow', 'language': 'chinese'},
+                    {'size': 555, 'color': 'yellow', 'language': 'korean'}]
+            crtb.prepend_rows(rows)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 700| pink| espanol|       None|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            >>> rows = [{'size': 555, 'color': 'yellow', 'language': 'chinese'},
+            ...         {'size': 555, 'color': 'yellow', 'language': 'korean'}]
+            >>> crtb.prepend_rows(rows)
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++
+            |size| color|language|     expire|
+            ++++++++++++++++++++++++++++++++++
+            | 555|yellow| chinese|       None|
+            ++++++++++++++++++++++++++++++++++
+            | 555|yellow|  korean|       None|
+            ++++++++++++++++++++++++++++++++++
+            | 700|  pink| espanol|       None|
+            ++++++++++++++++++++++++++++++++++
+            | 500| green| espanol|2018-dec-01|
+            ++++++++++++++++++++++++++++++++++
+            |  74| green| chinese|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++
+            |  74| green| espanol|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> 
         '''
         self.crtable = prepend_rows(rows,self.crtable)
     def append_col(self,col):
         '''
+            crtb
+            col = {'owner':['dli','dli','dli','dli']}
+            crtb.append_col(col)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> col = {'owner':['dli','dli','dli','dli']}
+            >>> crtb.append_col(col)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|owner|
+            +++++++++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|  dli|
+            +++++++++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|  dli|
+            +++++++++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|  dli|
+            +++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'expire': 3, 'owner': 4, 'color': 1}
+            
+            >>> 
         '''
         self.crtable = append_col(col,self.crtable)
     def append_cols(self,cols):
         '''
+            crtb
+            cols = [{'id':['2271','2272','2273','2274']},
+                    {'tid':['t1','t2','t3','t4']}]
+            crtb.append_cols(cols)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            >>> cols = [{'id':['2271','2272','2273','2274']},
+            ...         {'tid':['t1','t2','t3','t4']}]
+            >>> crtb.append_cols(cols)
+            >>> 
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|  id|tid|
+            ++++++++++++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|2271| t1|
+            ++++++++++++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|2272| t2|
+            ++++++++++++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|2273| t3|
+            ++++++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'id': 4, 'tid': 5, 'color': 1}
         '''
         self.crtable = append_cols(cols,self.crtable)
     def prepend_col(self,col):
         '''
+            crtb
+            col = {'owner':['dli','dli','dli','dli']}
+            crtb.prepend_col(col)
+            crtb
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|  id|tid|
+            ++++++++++++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|2271| t1|
+            ++++++++++++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|2272| t2|
+            ++++++++++++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|2273| t3|
+            ++++++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'id': 4, 'tid': 5, 'color': 1}
+            
+            >>> col = {'owner':['dli','dli','dli','dli']}
+            >>> crtb.prepend_col(col)
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++++++++++++++++
+            |owner|size|color|language|     expire|  id|tid|
+            ++++++++++++++++++++++++++++++++++++++++++++++++
+            |  dli| 500|green| espanol|2018-dec-01|2271| t1|
+            ++++++++++++++++++++++++++++++++++++++++++++++++
+            |  dli|  74|green| chinese|2017-oct-01|2272| t2|
+            ++++++++++++++++++++++++++++++++++++++++++++++++
+            |  dli|  74|green| espanol|2017-oct-01|2273| t3|
+            ++++++++++++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'id': 4, 'tid': 5, 'color': 1}
+            >>> 
         '''
         self.crtable = prepend_col(col,self.crtable)
     def prepend_cols(self,cols):
         '''
+            crtb
+            cols = [{'nickname':['kk','vv','tt','dd']},
+                    {'uid':['u1','u2','u3','u4']}]
+            
+            crtb.prepend_cols(cols)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            >>> 
+            >>> cols = [{'nickname':['kk','vv','tt','dd']},
+            ...         {'uid':['u1','u2','u3','u4']}]
+            >>> 
+            >>> crtb.prepend_cols(cols)
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++++++++++++++
+            |nickname|uid|size|color|language|     expire|
+            ++++++++++++++++++++++++++++++++++++++++++++++
+            |      kk| u1| 500|green| espanol|2018-dec-01|
+            ++++++++++++++++++++++++++++++++++++++++++++++
+            |      vv| u2|  74|green| chinese|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++++++++++++++
+            |      tt| u3|  74|green| espanol|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
         '''
         self.crtable = prepend_cols(cols,self.crtable)
     ## modify
     def __setitem__(self,keys,values):
         '''
+            crtb
             keys = {'size':88,'language':'korean'}
             values = {'color':'azure'}
             crtb[keys] = values
+            crtb
             keys = {'language':'espanol'}
             values = {'color':'darkblack'}
             crtb[keys] = values
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            
+            >>> keys = {'size':88,'language':'korean'}
+            >>> values = {'color':'azure'}
+            >>> crtb[keys] = values
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  88|azure|  korean|       None|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            
+            >>> keys = {'language':'espanol'}
+            >>> values = {'color':'darkblack'}
+            >>> crtb[keys] = values
+            >>> crtb
+            +++++++++++++++++++++++++++++++++++++
+            |size|    color|language|     expire|
+            +++++++++++++++++++++++++++++++++++++
+            | 500|darkblack| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++++++
+            |  74|    green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++++++
+            |  74|darkblack| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++++++
+            |  88|    azure|  korean|       None|
+            +++++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            >>> 
         '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
@@ -4891,6 +5179,46 @@ class crtable():
         else:
             self.crtable = modify_rows_via_keys(keys,self.crtable,values)
     def modify_first_row(self,keys,values):
+        '''
+        crtb
+        keys = {'size':74}
+        values = {'color':'purple'}
+        crtb.modify_first_row(keys,values)
+        crtb
+        >>> crtb
+        +++++++++++++++++++++++++++++++++
+        |size|color|language|     expire|
+        +++++++++++++++++++++++++++++++++
+        | 500|green| espanol|2018-dec-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| chinese|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| espanol|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'size': 0, 'language': 2}
+        ====values==:
+            :{'expire': 3, 'color': 1}
+        >>> 
+        >>> keys = {'size':74}
+        >>> values = {'color':'purple'}
+        >>> crtb.modify_first_row(keys,values)
+        >>> crtb
+        ++++++++++++++++++++++++++++++++++
+        |size| color|language|     expire|
+        ++++++++++++++++++++++++++++++++++
+        | 500| green| espanol|2018-dec-01|
+        ++++++++++++++++++++++++++++++++++
+        |  74|purple| chinese|2017-oct-01|
+        ++++++++++++++++++++++++++++++++++
+        |  74| green| espanol|2017-oct-01|
+        ++++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'size': 0, 'language': 2}
+        ====values==:
+            :{'expire': 3, 'color': 1}
+        >>> 
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
@@ -4898,6 +5226,47 @@ class crtable():
             seq = seqslist[0]
             self.crtable = modify_rows_via_seq(seq,self.crtable,values)
     def modify_last_row(self,keys,values):
+        '''
+            crtb
+            keys = {'size':74}
+            values = {'color':'purple'}
+            crtb.modify_last_row(keys,values)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> keys = {'size':74}
+            >>> values = {'color':'purple'}
+            >>> crtb.modify_last_row(keys,values)
+            >>> crtb
+            ++++++++++++++++++++++++++++++++++
+            |size| color|language|     expire|
+            ++++++++++++++++++++++++++++++++++
+            | 500| green| espanol|2018-dec-01|
+            ++++++++++++++++++++++++++++++++++
+            |  74| green| chinese|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++
+            |  74|purple| espanol|2017-oct-01|
+            ++++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            >>> 
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
@@ -4905,13 +5274,93 @@ class crtable():
             seq = seqslist[-1]
             self.crtable = modify_rows_via_seq(seq,self.crtable,values)
     def modify_specific_row(self,keys,values,whichrow):
+        '''
+            crtb
+            keys = {'color':'green'}
+            values = {'language':'korean'}
+            crtb.modify_specific_row(keys,values,1)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> 
+            >>> keys = {'color':'green'}
+            >>> values = {'language':'korean'}
+            >>> crtb.modify_specific_row(keys,values,1)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green|  korean|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             pass
         else:
             seq = seqslist[whichrow]
-            self.crtable = modify_rows_via_seq(seq,self.crtable,values)
+            self.crtable = modify_rows_via_seq(seq,self.crtable,values)   
+
     def modify_all_rows(self,keys,values):
+    '''
+        crtb
+        keys = {'color':'green'}
+        values = {'language':'korean'}
+        crtb.modify_all_rows(keys,values)
+        crtb
+        >>> 
+        >>> crtb
+        +++++++++++++++++++++++++++++++++
+        |size|color|language|     expire|
+        +++++++++++++++++++++++++++++++++
+        | 500|green| espanol|2018-dec-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| chinese|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green| espanol|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'color': 1}
+        ====values==:
+            :{'size': 0, 'expire': 3, 'language': 2}
+        
+        >>> keys = {'color':'green'}
+        >>> values = {'language':'korean'}
+        >>> crtb.modify_all_rows(keys,values)
+        >>> crtb
+        +++++++++++++++++++++++++++++++++
+        |size|color|language|     expire|
+        +++++++++++++++++++++++++++++++++
+        | 500|green|  korean|2018-dec-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green|  korean|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        |  74|green|  korean|2017-oct-01|
+        +++++++++++++++++++++++++++++++++
+        ====keys====:
+            :{'color': 1}
+        ====values==:
+            :{'size': 0, 'expire': 3, 'language': 2}
+    '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             row = utils.dict_extend(keys,values)
@@ -4919,14 +5368,79 @@ class crtable():
         else:
             self.crtable = modify_rows_via_keys(keys,self.crtable,values)
     def modify_col(self,whichcol,col):
+        '''
+            crtb
+            col = {0:50,1:50,2:50}
+            crtb.modify_col(0,col)
+            crtb
+            col = {0:60,1:60}
+            crtb.modify_col('size',col)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> 
+            >>> col = {0:50,1:50,2:50}
+            >>> crtb.modify_col(0,col)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            |  50|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  50|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  50|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> 
+        '''
         if(utils.is_int(whichcol)):
             self.crtable = modify_col_via_colnum(whichcol,self.crtable,col)
         else:
             self.crtable = modify_col_via_colname(whichcol,self.crtable,col)
     ##insert
     def insert_col(self,colnum,col):
+        '''
+            crtb
+            col = {'owner':['dli','dlx','dly','dlz']}
+            crtb.insert_col(1,col)
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'expire': 3, 'language': 2, 'size': 0}
+            >>> 
+
+        '''
         self.crtable = insert_col(colnum,col,self.crtable)
     def insert_cols(self,colnumlist,cols):
+        '''
+        '''
         self.crtable = insert_cols(colnumlist,cols,self.crtable)
     def insert_row(self,rownum,row):
         self.crtable = insert_row(self,rownum,row,self.crtable)
