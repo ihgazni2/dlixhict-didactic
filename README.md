@@ -426,6 +426,44 @@ __32. del_cols(colnum_or_colname)__
 
 
 
+__33. .keys()__
+---------------
+		crtb
+		crtb.keys()
+
+__34. .values()__
+-----------------
+		crtb
+		crtb.values()
+
+__35. .items()__
+----------------
+		crtb
+		crtb.items()
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.keysvaluesitems.png)
+
+
+__36. .clear()__
+----------------
+		crtb
+		crtb.clear()
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.clear.png)
+
+
+
+__37. .copy()__
+---------------
+		crtb
+		crtb.copy()
+		
+__38. .
+
+
+
+
 
 
 
