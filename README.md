@@ -401,6 +401,32 @@ __30. .delete_all_rows(keys)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.delete_all_rows.png)
 
 
+__31. .del_col(colnum_or_colname)__
+-----------------------------------
+		crtb
+		crtb.del_col('language')
+		crtb
+		crtb.del_col(0)
+		crtb
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.del_col.1.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.del_col.2.png)
+
+__32. del_cols(colnum_or_colname)__
+-----------------------------------
+		crtb
+		crtb.del_cols(['size','language'])
+		crtb
+		crtb
+		crtb.del_cols([0,3])
+		crtb  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.del_cols.1.png)
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.del_cols.2.png)
+
+
+
+
 
 
 
