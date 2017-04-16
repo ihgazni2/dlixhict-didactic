@@ -1844,8 +1844,23 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
         ltdict.ltdict_pop(crtable['animd'],colnum)
         try:
             del crtable['knimd'][colnum]
+        except:
+            pass
+        else:
+            pass
+        try:
             del crtable['knimd'][col_name]
+        except:
+            pass
+        else:
+            pass
+        try:
             del crtable['vnimd'][colnum]
+        except:
+            pass
+        else:
+            pass
+        try:
             del crtable['vnimd'][col_name]
         except:
             pass
@@ -1856,8 +1871,23 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
         del crtable['animd'][col_name]
         try:
             del crtable['knimd'][colnum]
+        except:
+            pass
+        else:
+            pass
+        try:
             del crtable['knimd'][col_name]
+        except:
+            pass
+        else:
+            pass
+        try:
             del crtable['vnimd'][colnum]
+        except:
+            pass
+        else:
+            pass
+        try:
             del crtable['vnimd'][col_name]
         except:
             pass
