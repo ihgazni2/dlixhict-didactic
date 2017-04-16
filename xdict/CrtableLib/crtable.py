@@ -5321,46 +5321,46 @@ class crtable():
             self.crtable = modify_rows_via_seq(seq,self.crtable,values)   
 
     def modify_all_rows(self,keys,values):
-    '''
-        crtb
-        keys = {'color':'green'}
-        values = {'language':'korean'}
-        crtb.modify_all_rows(keys,values)
-        crtb
-        >>> 
-        >>> crtb
-        +++++++++++++++++++++++++++++++++
-        |size|color|language|     expire|
-        +++++++++++++++++++++++++++++++++
-        | 500|green| espanol|2018-dec-01|
-        +++++++++++++++++++++++++++++++++
-        |  74|green| chinese|2017-oct-01|
-        +++++++++++++++++++++++++++++++++
-        |  74|green| espanol|2017-oct-01|
-        +++++++++++++++++++++++++++++++++
-        ====keys====:
-            :{'color': 1}
-        ====values==:
-            :{'size': 0, 'expire': 3, 'language': 2}
-        
-        >>> keys = {'color':'green'}
-        >>> values = {'language':'korean'}
-        >>> crtb.modify_all_rows(keys,values)
-        >>> crtb
-        +++++++++++++++++++++++++++++++++
-        |size|color|language|     expire|
-        +++++++++++++++++++++++++++++++++
-        | 500|green|  korean|2018-dec-01|
-        +++++++++++++++++++++++++++++++++
-        |  74|green|  korean|2017-oct-01|
-        +++++++++++++++++++++++++++++++++
-        |  74|green|  korean|2017-oct-01|
-        +++++++++++++++++++++++++++++++++
-        ====keys====:
-            :{'color': 1}
-        ====values==:
-            :{'size': 0, 'expire': 3, 'language': 2}
-    '''
+        '''
+            crtb
+            keys = {'color':'green'}
+            values = {'language':'korean'}
+            crtb.modify_all_rows(keys,values)
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            
+            >>> keys = {'color':'green'}
+            >>> values = {'language':'korean'}
+            >>> crtb.modify_all_rows(keys,values)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green|  korean|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green|  korean|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green|  korean|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+        '''
         seqslist = get_seqslist_via_keys(keys,self.crtable)
         if(seqslist.__len__() == 0):
             row = utils.dict_extend(keys,values)
