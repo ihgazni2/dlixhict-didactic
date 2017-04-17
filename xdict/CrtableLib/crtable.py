@@ -6080,7 +6080,7 @@ class crtable():
     def include_row(self,row):
         return(row_in_crtable(row,self.crtable))
     def include_col(self,col):
-        return(row_in_crtable(col,self.crtable))
+        return(col_in_crtable(col,self.crtable))
     def include_row_slice(self,row):
         return(partlyrow_in_crtable(row,self.crtable))
     def include_col_slice(self,col):
