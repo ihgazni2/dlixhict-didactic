@@ -45,8 +45,8 @@ __1. init__
 
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__init__.png) 
 
-__2. getitem__
---------------  
+__2. crtb[keys]__
+-----------------  
 		from xdict.jprint import pobj
 		keys_1 = {'language':'espanol','color':'green'}
 		values_1 = crtb[keys_1]
@@ -217,8 +217,8 @@ __15. .prepend_cols(cols)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.prepend_cols.2.png)
 
 
-__16. .__setitem__(keys,values)__
----------------------------------
+__16. crtb[keys]=values__
+-------------------------
 		crtb
 		keys = {'size':88,'language':'korean'}
 		values = {'color':'azure'}
@@ -350,8 +350,8 @@ __25. .insert_rows(rownumlist,rows)__
 
 
 
-__26. .__delitem__(keys)__
----------------------------
+__26. del crtb[keys]__
+----------------------
 		crtb
 		keys =  {'language':'espanol'}
 		del crtb[keys]
@@ -459,8 +459,8 @@ __37. .copy()__
 		crtb
 		crtb.copy()
 		
-__38. "*"__
------------
+__38. crtb = crtb1 * crtb2__
+----------------------------
 		table_1 = {
 		              0: {0: 'a1', 1: 'b1'}, 
 		              1: {0: 'a1', 1: 'b2'} 
@@ -490,8 +490,8 @@ __39. .project(crtb2)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.project.png)
 
 		
-__40. "+"__
-------------
+__40. crtb = crtb1 + crtb2__
+----------------------------
 		table_1 = {
 		              0: {0: 'a1', 1: 'b1'}, 
 		              1: {0: 'a1', 1: 'b2'} 
