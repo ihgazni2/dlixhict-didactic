@@ -459,8 +459,8 @@ __37. .copy()__
 		crtb
 		crtb.copy()
 		
-__38. .__mul__(crtb2)__
------------------------
+__38. "*"__
+-----------
 		table_1 = {
 		              0: {0: 'a1', 1: 'b1'}, 
 		              1: {0: 'a1', 1: 'b2'} 
@@ -490,8 +490,8 @@ __39. .project(crtb2)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.project.png)
 
 		
-__40. .__add__(crtb2)__
------------------------
+__40. "+"__
+------------
 		table_1 = {
 		              0: {0: 'a1', 1: 'b1'}, 
 		              1: {0: 'a1', 1: 'b2'} 
