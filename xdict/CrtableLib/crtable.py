@@ -3062,6 +3062,10 @@ def intersec_two_crtables(crtable_1,crtable_2,**kwargs):
         pass
     crtable = {}
     crtable['animd'] = crtable_1['animd']
+    ####
+    crtable['knimd'] = crtable_1['knimd']
+    crtable['vnimd'] = crtable_1['vnimd']
+    ####
     crtable['table'] = {} 
     tb1 = crtable_1['table']
     tb2 = crtable_2['table']
