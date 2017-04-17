@@ -587,6 +587,30 @@ __44. .naturalize()__
 __45. .intersec(crtb2)__
 ------------------------
 
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+			0: {0: 'a1', 1: 'b1'}, 
+			1: {0: 'a1', 1: 'b2'} 
+		}
+		table_2 = {
+			0: {0: 'a1', 1: 'b2'}, 
+			1: {0: 'a1', 1: 'b3'} 
+		}
+		colnameslist = ['A','B']
+		keynameslist = ['A']
+		crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+		crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+		crtb1
+		crtb2
+		crtb = crtb1.intersec(crtb2)
+		crtb
+
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.intersec.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.intersec.2.png) 
+
+
+
 
 
 
