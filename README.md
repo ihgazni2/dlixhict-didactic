@@ -505,6 +505,7 @@ __40. "+"__
 		crtb1 = crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
 		crtb2 = crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
 		crtb = crtb1 + crtb2
+		crtb
 
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__add__.png)
 
