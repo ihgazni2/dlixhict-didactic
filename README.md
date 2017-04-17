@@ -511,6 +511,84 @@ __40. crtb = crtb1 + crtb2__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__add__.png)
 
 
+__41. .crtb = crtb1 - crtb2__
+------------------------------
+
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+		              1: {0: 'a1', 1: 'b2'} 
+		          }
+		table_2 = {
+		              0: {0: 'a1', 1: 'b2'}, 
+ 		             1: {0: 'a1', 1: 'b3'} 
+ 		         }
+		colnameslist = ['A','B']
+		keynameslist = ['A']
+		crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+		crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+		crtb = crtb1 - crtb2
+		crtb
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__sub__.png)
+
+
+
+__42. .crtb = crtb1 / crtb2__
+-----------------------------
+
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+		              1: {0: 'a2', 1: 'b3', 2: 'c7'},
+		              2: {0: 'a3', 1: 'b4', 2: 'c6'},
+		              3: {0: 'a1', 1: 'b2', 2: 'c3'},
+		              4: {0: 'a4', 1: 'b6', 2: 'c6'}, 
+		              5: {0: 'a2', 1: 'b2', 2: 'c3'},
+		              6: {0: 'a1', 1: 'b2', 2: 'c1'}
+		          }
+		table_2 = {
+		              0: {0: 'b1', 1: 'c2', 2: 'd1'}, 
+		              1: {0: 'b2', 1: 'c1', 2: 'd1'},
+		              2: {0: 'b2', 1: 'c3', 2: 'd2'}
+		          }
+		colnameslist1 =['A','B','C']
+		colnameslist2 =['B','C','D']
+		keynameslist1 = ['A']
+		keynameslist2 = ['B','C']
+		crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+		crtb = crtb1 / crtb2
+		crtb
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__truediv__.png)
+
+
+__43. .unique()__
+-----------------
+
+		crtb
+		crtb.unique()
+		crtb 
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.unique.png)  
+
+
+
+__44. .naturalize()__
+---------------------
+
+		#no need to call this ,this will be auto executed
+		crtb
+		crtb.naturalize()
+		crtb
+		
+
+__45. .
+
+
+		
+
 
 
 
