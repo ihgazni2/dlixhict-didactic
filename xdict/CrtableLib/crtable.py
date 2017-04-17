@@ -3488,8 +3488,8 @@ def diff_two_crtables(crtable_1,crtable_2,**kwargs):
         pass
     crtable = {}
     crtable['animd'] = crtable_1['animd']
-    crtb['knimd'] = crtable_1['knimd']
-    crtb['vnimd'] = crtable_1['vnimd']
+    crtable['knimd'] = crtable_1['knimd']
+    crtable['vnimd'] = crtable_1['vnimd']
     crtable['table'] = {}
     if(rownum_strict):
         tb1 = crtable_1['table']
