@@ -459,7 +459,61 @@ __37. .copy()__
 		crtb
 		crtb.copy()
 		
-__38. .
+__38. .__mul__(crtb2)__
+-----------------------
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+		              1: {0: 'a1', 1: 'b2'} 
+		          }
+		table_2 = {
+		              0: {0: 'a1', 1: 'b2'}, 
+		              1: {0: 'a1', 1: 'b3'} 
+		          }
+		colnameslist = ['A','B']
+		keynameslist = ['A']
+		crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+		crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+		crtb = crtb1 * crtb2
+		crtb
+		
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__mul__.png)
+
+
+__39. .project(crtb2)__
+-----------------------
+		crtb
+		colnameslist = ['color','language']
+		crtb.project(colnameslist)
+		crtb
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.project.png)
+
+		
+__40. .__add__(crtb2)__
+-----------------------
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+		              1: {0: 'a1', 1: 'b2'} 
+		          }
+		table_2 = {
+		              0: {0: 'a1', 1: 'b2'}, 
+		              1: {0: 'a1', 1: 'b3'} 
+		          }
+		colnameslist = ['A','B']
+		keynameslist = ['A']
+		crtb1 = crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+		crtb2 = crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+		crtb = crtb1 + crtb2
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__add__.png)
+
+
+
+
+
+
+
 
 
 
