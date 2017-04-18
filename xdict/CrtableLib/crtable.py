@@ -6703,17 +6703,6 @@ class crtable():
             crtb 
         '''
         crtb1 = copy.deepcopy(self)
-        def theta_function(subrow_1,subrow_2):
-            subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
-            subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
-            if(subrow_l1 == subrow_l2):
-                return(True)
-            else:
-                return(False)
-        if('theta' in kwargs):
-            theta = kwargs['theta']
-        else:
-            theta = theta_function
         if('colnameslist_1' in kwargs):
             colnameslist_1 = kwargs['colnameslist_1']
         else:
@@ -6734,7 +6723,7 @@ class crtable():
             colnameslist_2 =  common
         else:
             pass
-        crtb1.crtable = equijoin_two_crtables(colnameslist_1,crtb1.crtable,colnameslist_2,crtb2.crtable,theta)
+        crtb1.crtable = equijoin_two_crtables(colnameslist_1,crtb1.crtable,colnameslist_2,crtb2.crtable)
         return(crtb1)
     def naturaljoin(self,crtb_2,**kwargs):
         '''
