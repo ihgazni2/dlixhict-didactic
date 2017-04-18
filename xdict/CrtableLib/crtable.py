@@ -4114,7 +4114,7 @@ def get_all_candidate_key_combo(crtable):
                     names =[]
                     for colnum in refd:
                         if(bitmap[colnum] == 1):
-                            keys[colnum] = row[colnum]
+                            keys[colnum] = refd[colnum]
                             names.append(crtable['animd'][colnum])
                         else:
                             pass
