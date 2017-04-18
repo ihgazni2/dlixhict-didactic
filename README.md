@@ -749,6 +749,158 @@ __52. .include_col_slice(part_col)__
 
 
 
+__53. .theta_join(crtb2)__
+--------------------------
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 3}, 
+		              1: {0: 'a1', 1: 'b2', 2: 6},  
+			      2: {0: 'a2', 1: 'b3', 2: 2},  
+			      3: {0: 'a2', 1: 'b4', 2: 12}
+          		}
+		table_2 = {
+		              0: {0: 'e1', 1: 3},  
+			      1: {0: 'e2', 1: 7},  
+			      2: {0: 'e3', 1: 10},  
+			      3: {0: 'e3', 1: 2},  
+			      4: {0: 'e5', 1: 2}  
+			   }
+		colnameslist1 =['A','B','C']
+		colnameslist2 =['E','C']
+		keynameslist1 = ['A']
+		keynameslist2 = ['E']
+		crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+		def theta_function(subrow_1,subrow_2):
+		    k1 = list(subrow_1.keys())[0]
+		    k2 = list(subrow_2.keys())[0]
+		    if(subrow_1[k1] < subrow_2[k2]):
+		        return(True)
+		    else:
+		        return(False)
+
+		crtb = crtb1.thetajoin(crtb2,theta=theta_function)
+		crtb 
+
+
+		from xdict import ltdict
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 3}, 
+		              1: {0: 'a1', 1: 'b2', 2: 6},
+		              2: {0: 'a2', 1: 'b3', 2: 2},  
+			      3: {0: 'a2', 1: 'b4', 2: 12}
+		          }
+		table_2 = {
+		              0: {0: 'b1', 1: 3},  
+			      1: {0: 'b2', 1: 7},  
+			      2: {0: 'b3', 1: 10},  
+			      3: {0: 'b3', 1: 2},  
+			      4: {0: 'b5', 1: 2}  
+			   }
+		colnameslist1 =['A','B','C']
+		colnameslist2 =['B','C']
+		keynameslist1 = ['A']
+		keynameslist2 = ['B']
+		crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+		def theta_function(subrow_1,subrow_2):
+		    subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
+		    subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
+		    if(subrow_l1 == subrow_l2):
+		        return(True)
+		    else:
+		        return(False)
+
+		crtb = crtb1.thetajoin(crtb2,theta=theta_function)
+		crtb 
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.thetajoin.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.thetajoin.2.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.thetajoin.3.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.thetajoin.4.png) 
+
+
+__54. .equijoin(crtb2)__
+------------------------
+
+		import xdict.CrtableLib.crtable as xcr 
+		from xdict import ltdict
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 3}, 
+		              1: {0: 'a1', 1: 'b2', 2: 6},
+		              2: {0: 'a2', 1: 'b3', 2: 2},
+		              3: {0: 'a2', 1: 'b4', 2: 12}
+ 		         }
+		table_2 = {
+		              0: {0: 'b1', 1: 3},  
+			      1: {0: 'b2', 1: 7},  
+			      2: {0: 'b3', 1: 10},  
+			      3: {0: 'b3', 1: 2},  
+			      4: {0: 'b5', 1: 2}
+			}
+		colnameslist1 =['A','B','C']
+		colnameslist2 =['B','C']
+		keynameslist1 = ['A']
+		keynameslist2 = ['B']
+		crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+		crtb = crtb1.equijoin(crtb2)
+		crtb 
+		
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.equijoin.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.equijoin.2.png) 
+
+
+
+__55. .naturaljoin(crtb2)__
+---------------------------
+
+		import xdict.CrtableLib.crtable as xcr 
+		from xdict import ltdict
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 3},  
+			      1: {0: 'a1', 1: 'b2', 2: 6},  
+			      2: {0: 'a2', 1: 'b3', 2: 2},  
+			      3: {0: 'a2', 1: 'b4', 2: 12}
+			}
+		table_2 = {
+		              0: {0: 'b1', 1: 3},  
+			      1: {0: 'b2', 1: 7},  
+			      2: {0: 'b3', 1: 10},  
+			      3: {0: 'b3', 1: 2},  
+			      4: {0: 'b5', 1: 2}
+			}
+		colnameslist1 =['A','B','C']
+		colnameslist2 =['B','C']
+		keynameslist1 = ['A']
+		keynameslist2 = ['B']
+		crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+		crtb = crtb1.naturaljoin(crtb2)
+		crtb 
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.naturaljoin.1.png)  
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.naturaljoin.2.png) 
+
+
+__56. .candidates()__
+---------------------
+
+		import xdict.CrtableLib.crtable as xcr 
+		from xdict import ltdict
+		table = {
+		    0: {0: 'a1', 1: 'b1', 2: 5, 3: 3}, 
+		    1: {0: 'a1', 1: 'b2', 2: 6, 3: 7}, 
+		    2: {0: 'a2', 1: 'b3', 2: 8, 3: 10}, 
+		    3: {0: 'a2', 1: 'b3', 2: 8, 3: 2}
+		}
+		colnameslist = ['A','B','C','E']
+		keynameslist = ['A']
+		crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
+		crtb.candidates()
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.candidates.png) 
 
 
 
