@@ -6676,7 +6676,7 @@ class crtable():
             pass
         crtb1.crtable = thetajoin_two_crtables(colnameslist_1,crtb1.crtable,colnameslist_2,crtb2.crtable,theta)
         return(crtb1)
-    def equijoin(self,crtb_2,**kwargs):
+    def equijoin(self,crtb2,**kwargs):
         '''
             import xdict.CrtableLib.crtable as xcr 
             from xdict import ltdict
