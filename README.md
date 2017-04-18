@@ -610,6 +610,154 @@ __45. .intersec(crtb2)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.intersec.2.png) 
 
 
+__46. crtb1 == crtb2__
+----------------------
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+		              1: {0: 'a1', 1: 'b2'} 
+		          }
+		table_2 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+		              1: {0: 'a1', 1: 'b2'} 
+ 		         }
+		colnameslist = ['A','B']
+		keynameslist = ['A']
+		crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+		crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+		crtb1 == crtb2
+
+
+__47. crtb1 != crtb2__
+----------------------
+
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+		              1: {0: 'a1', 1: 'b2'} 
+		          }
+		table_2 = {
+		              0: {0: 'a1', 1: 'b1'}, 
+ 		             1: {0: 'a1', 1: 'b2'} 
+			}
+		colnameslist = ['A','B']
+		keynameslist = ['A']
+		crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+		crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+		crtb1 != crtb2
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.eqne.png) 
+		
+__48. crtb2 in crtb1__
+----------------------
+
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+		              1: {0: 'a2', 1: 'b3', 2: 'c7'},  
+			      2: {0: 'a3', 1: 'b4', 2: 'c6'},  
+			      3: {0: 'a1', 1: 'b2', 2: 'c3'}  
+			  }
+		table_2 = {  
+				0: {0: 'b3', 1: 'c7'}, 
+              			1: {0: 'b4', 1: 'c6'},
+              			2: {0: 'b2', 1: 'c3'}
+          		}
+		colnameslist1 =['A','B','C']
+		colnameslist2 =['B','C']
+		keynameslist1 = ['A']
+		keynameslist2 = ['B']
+		crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+		crtb2 in crtb1
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__contains__.png)
+
+
+__49. .include_row(row)__
+-------------------------
+
+		table_1 = {
+              			0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+              			1: {0: 'a2', 1: 'b3', 2: 'c7'},
+              			2: {0: 'a3', 1: 'b4', 2: 'c6'},
+              			3: {0: 'a1', 1: 'b2', 2: 'c3'}
+          		  }
+		colnameslist1 =['A','B','C']
+		keynameslist1 = ['A']
+		crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		row = {'A': 'a2', 'B': 'b3', 'C': 'c7'}
+		crtb.include_row(row)  
+		
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.include_row.png)  
+
+
+__50. .include_col(col)__
+-------------------------
+
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+		              1: {0: 'a2', 1: 'b3', 2: 'c7'},
+		              2: {0: 'a3', 1: 'b4', 2: 'c6'},
+ 		             3: {0: 'a1', 1: 'b2', 2: 'c3'}
+		          }
+		colnameslist1 =['A','B','C']
+		keynameslist1 = ['A']
+		crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		col = {'B': ['b1','b3','b4','b2']}
+		crtb.include_col(col)  
+		
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.include_col.png)  
+
+
+__51. .include_row_slice(part_row)__
+------------------------------------
+
+		table_1 = {  
+				0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+				1: {0: 'a2', 1: 'b3', 2: 'c7'},  
+				2: {0: 'a3', 1: 'b4', 2: 'c6'},  
+				3: {0: 'a1', 1: 'b2', 2: 'c3'}  
+			}
+		colnameslist1 =['A','B','C']
+		keynameslist1 = ['A']
+		crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		part_row = {'B': 'b3', 'C': 'c7'}
+		crtb.include_row_slice(part_row)  
+		
+
+
+
+__52. .include_col_slice(part_col)__
+------------------------------------
+		import xdict.CrtableLib.crtable as xcr
+		table_1 = {
+		              0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+		              1: {0: 'a2', 1: 'b3', 2: 'c7'},
+		              2: {0: 'a3', 1: 'b4', 2: 'c6'},
+		              3: {0: 'a1', 1: 'b2', 2: 'c3'}
+		          }
+		colnameslist1 =['A','B','C']
+		keynameslist1 = ['A']
+		crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+		part_col = {'B': ['b3','b4']}
+		crtb.include_col_slice(part_col)  
+		
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.include_slice.png)  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
