@@ -6107,7 +6107,7 @@ class crtable():
             crtb1 = crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
             crtb2 = crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
         '''
-        crtb_1 = copy.deepcopy(self)
+        crtb1 = copy.deepcopy(self)
         def theta_function(subrow_1,subrow_2):
             subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
             subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
