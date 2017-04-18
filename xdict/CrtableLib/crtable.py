@@ -1900,7 +1900,7 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
     nvrefd = {}
     for index in krefd:
         if(index >= colnum):
-            nkrefd[index - 1] = krefd[index]
+            nkrefd[index-1] = krefd[index]
         else:
             nkrefd[index] = krefd[index]
     for index in vrefd:
@@ -1908,7 +1908,7 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
             pass
         else:
             if(index >= colnum):
-                nvrefd[index - 1] = vrefd[index]
+                nvrefd[index-1] = vrefd[index]
             else:
                 nvrefd[index] = vrefd[index]
     crtable['knimd'] = creat_mirror_dict(nkrefd)
@@ -3062,10 +3062,10 @@ def intersec_two_crtables(crtable_1,crtable_2,**kwargs):
         pass
     crtable = {}
     crtable['animd'] = crtable_1['animd']
-    ####
+    #####################################
     crtable['knimd'] = crtable_1['knimd']
     crtable['vnimd'] = crtable_1['vnimd']
-    ####
+    #####################################
     crtable['table'] = {} 
     tb1 = crtable_1['table']
     tb2 = crtable_2['table']
@@ -5888,6 +5888,66 @@ class crtable():
     ####
     def del_col(self,colnum_or_colname):
         '''
+            crtb
+            crtb.del_col('language')
+            crtb
+            crtb.del_col(0)
+            crtb
+            
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'expire': 3, 'size': 0, 'language': 2}
+            >>> 
+            >>> 
+            >>> crtb.del_col('language')
+            >>> crtb
+            ++++++++++++++++++++++++
+            |size|color|     expire|
+            ++++++++++++++++++++++++
+            | 500|green|2018-dec-01|
+            ++++++++++++++++++++++++
+            |  74|green|2017-oct-01|
+            ++++++++++++++++++++++++
+            |  74|green|2017-oct-01|
+            ++++++++++++++++++++++++
+            | 888|green|2018-oct-01|
+            ++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'expire': 3, 'size': 0}
+            
+            >>> crtb.del_col(0)
+            >>> crtb
+            +++++++++++++++++++
+            |color|     expire|
+            +++++++++++++++++++
+            |green|2018-dec-01|
+            +++++++++++++++++++
+            |green|2017-oct-01|
+            +++++++++++++++++++
+            |green|2017-oct-01|
+            +++++++++++++++++++
+            |green|2018-oct-01|
+            +++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'expire': 3}
+            
         '''
         if(utils.is_int(colnum_or_colname)):
             colnum = colnum_or_colname
@@ -5897,6 +5957,47 @@ class crtable():
             self.crtable = del_col_via_colname(colname,self.crtable)
     def del_cols(self,numslist_or_nameslist):
         '''
+            crtb
+            crtb.del_cols(['size','language'])
+            crtb
+            crtb
+            crtb.del_cols([0,3])
+            crtb
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'size': 0, 'expire': 3}
+            
+            >>> crtb.del_cols([0,3])
+            >>> crtb
+            ++++++++++++++++
+            |color|language|
+            ++++++++++++++++
+            |green| espanol|
+            ++++++++++++++++
+            |green| chinese|
+            ++++++++++++++++
+            |green| espanol|
+            ++++++++++++++++
+            |green| espanol|
+            ++++++++++++++++
+            ====keys====:
+                :{'color': 0}
+            ====values==:
+                :{'language': 1}
+            >>> 
         '''
         ele = numslist_or_nameslist[0]
         if(utils.is_int(ele)):
@@ -5907,6 +6008,34 @@ class crtable():
             self.crtable = del_cols_via_colnameslist(colnameslist,self.crtable)
     ## keys values items 
     def keys(self):
+        '''
+            crtb
+            crtb.keys()
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'size': 0, 'expire': 3}
+            
+            >>> crtb.keys()
+            [{'color': 'green'}, {'color': 'green'}, {'color': 'green'}, {'color': 'green'}]
+            >>> crtb.values()
+            [{'language': 'espanol', 'size': 500, 'expire': '2018-dec-01'}, {'language': 'chinese', 'size': 74, 'expire': '2017-oct-01'}, {'language': 'espanol', 'size': 74, 'expire': '2017-oct-01'}, {'language': 'espanol', 'size': 888, 'expire': '2018-oct-01'}]
+            >>> 
+            >>> 
+        '''
         if(self.crtable['knimd'] == {}):
             return([])
         else:
@@ -5924,6 +6053,34 @@ class crtable():
                 keys_list.append(keys)
             return(keys_list)
     def values(self):
+        '''
+            crtb
+            crtb.keys()
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'language': 2, 'size': 0, 'expire': 3}
+            
+            >>> crtb.keys()
+            [{'color': 'green'}, {'color': 'green'}, {'color': 'green'}, {'color': 'green'}]
+            >>> crtb.values()
+            [{'language': 'espanol', 'size': 500, 'expire': '2018-dec-01'}, {'language': 'chinese', 'size': 74, 'expire': '2017-oct-01'}, {'language': 'espanol', 'size': 74, 'expire': '2017-oct-01'}, {'language': 'espanol', 'size': 888, 'expire': '2018-oct-01'}]
+            >>> 
+            >>> 
+         '''   
         if(self.crtable['vnimd'] == {}):
             return([])
         else:
@@ -5941,6 +6098,31 @@ class crtable():
                 values_list.append(values)
         return(values_list)
     def items(self):
+        '''
+            crtb
+            crtb.items()
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'language': 2, 'expire': 3}
+            
+            >>> crtb.items()
+            [({'color': 'green'}, {'size': 500, 'language': 'espanol', 'expire': '2018-dec-01'}), ({'color': 'green'}, {'size': 74, 'language': 'chinese', 'expire': '2017-oct-01'}), ({'color': 'green'}, {'size': 74, 'language': 'espanol', 'expire': '2017-oct-01'}), ({'color': 'green'}, {'size': 888, 'language': 'espanol', 'expire': '2018-oct-01'})]
+            >>> 
+        '''
         if( (self.crtable['knimd'] == {}) & (self.crtable['vnimd'] == {})):
             return([])
         else:
@@ -5953,6 +6135,40 @@ class crtable():
         return(items_list)
     #  clear copy
     def clear(self):
+        '''
+            crtb
+            crtb.clear()
+            crtb
+            >>> 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'language': 2, 'expire': 3}
+            
+            >>> crtb.clear()
+            >>> crtb
+            ++++++++++++++++++++++++++++
+            |size|color|language|expire|
+            ++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'language': 2, 'expire': 3}
+            
+            >>> 
+        '''
         self.crtable['table'] = {}
     def copy(self):
         return(copy.deepcopy(self))
@@ -5969,17 +6185,72 @@ class crtable():
                       }
             colnameslist = ['A','B']
             keynameslist = ['A']
-            crtb1 = crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
-            crtb2 = crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
             crtb = crtb1 * crtb2
+            crtb
+            +++++++++++++++++
+            |A-0|B-0|A-1|B-1|
+            +++++++++++++++++
+            | a1| b1| a1| b2|
+            +++++++++++++++++
+            | a1| b1| a1| b3|
+            +++++++++++++++++
+            | a1| b2| a1| b2|
+            +++++++++++++++++
+            | a1| b2| a1| b3|
+            +++++++++++++++++
+            ====keys====:
+                :{'A-1': 2, 'A-0': 0}
+            ====values==:
+                :{'B-0': 1, 'B-1': 3}
+            
+            >>> 
         '''
         crtb_1 = copy.deepcopy(self)
         crtb_1.crtable = product_crtables([crtb_1.crtable,crtb_2.crtable])
         return(crtb_1)
     def project(self,colnameslist):
+        '''
+            crtb
+            colnameslist = ['color','language']
+            crtb.project(colnameslist)
+            crtb
+            >>> 
+            >>> crtb
+            ++++++++++++++++
+            |color|language|
+            ++++++++++++++++
+            |green| espanol|
+            ++++++++++++++++
+            |green| chinese|
+            ++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'language': 2, 'expire': 3}
+            
+            >>> colnameslist = ['color','language']
+            >>> crtb.project(colnameslist)
+            >>> crtb
+            ++++++++++++++++
+            |color|language|
+            ++++++++++++++++
+            |green| espanol|
+            ++++++++++++++++
+            |green| chinese|
+            ++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'language': 2, 'expire': 3}
+            
+            >>> 
+        '''
         self.crtable = project_crtable(colnameslist,self.crtable)
     def __add__(self,crtb_2):
         '''
+            import xdict.CrtableLib.crtable as xcr
             table_1 = {
                           0: {0: 'a1', 1: 'b1'}, 
                           1: {0: 'a1', 1: 'b2'} 
@@ -5990,15 +6261,47 @@ class crtable():
                       }
             colnameslist = ['A','B']
             keynameslist = ['A']
-            crtb1 = crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
-            crtb2 = crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
             crtb = crtb1 + crtb2
+            crtb
+            >>> 
+            >>> import xdict.CrtableLib.crtable as xcr
+            >>> table_1 = {
+            ...               0: {0: 'a1', 1: 'b1'}, 
+            ...               1: {0: 'a1', 1: 'b2'} 
+            ...           }
+            >>> table_2 = {
+            ...               0: {0: 'a1', 1: 'b2'}, 
+            ...               1: {0: 'a1', 1: 'b3'} 
+            ...           }
+            >>> colnameslist = ['A','B']
+            >>> keynameslist = ['A']
+            >>> crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            >>> crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            >>> crtb = crtb1 + crtb2
+            >>> crtb 
+            +++++++
+            | A| B|
+            +++++++
+            |a1|b1|
+            +++++++
+            |a1|b2|
+            +++++++
+            |a1|b3|
+            +++++++
+            ====keys====:
+                :{'A': 0}
+            ====values==:
+                :{'B': 1}
+            >>> 
         '''
         crtb_1 = copy.deepcopy(self)
         crtb_1.crtable = union_crtables([crtb_1.crtable,crtb_2.crtable])
         return(crtb_1)
     def __sub__(self,crtb_2):
         '''
+            import xdict.CrtableLib.crtable as xcr
             table_1 = {
                           0: {0: 'a1', 1: 'b1'}, 
                           1: {0: 'a1', 1: 'b2'} 
@@ -6009,15 +6312,17 @@ class crtable():
                       }
             colnameslist = ['A','B']
             keynameslist = ['A']
-            crtb1 = crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
-            crtb2 = crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
             crtb = crtb1 - crtb2
+            crtb
         '''
         crtb_1 = copy.deepcopy(self)
         crtb_1.crtable = diff_two_crtables(crtb_1.crtable,crtb_2.crtable)
         return(crtb_1)
     def __truediv__(self,crtb_2):
         '''
+            import xdict.CrtableLib.crtable as xcr
             table_1 = {
                           0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
                           1: {0: 'a2', 1: 'b3', 2: 'c7'},
@@ -6036,24 +6341,123 @@ class crtable():
             colnameslist2 =['B','C','D']
             keynameslist1 = ['A']
             keynameslist2 = ['B','C']
-            crtb1 = crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
-            crtb2 = crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
             crtb = crtb1 / crtb2
+            crtb
         '''
         crtb_1 = copy.deepcopy(self)
         crtb_1.crtable = divide_two_crtables(crtb_1.crtable,crtb_2.crtable)
         return(crtb_1)
     def unique(self):
+        '''
+            crtb
+            crtb.unique()
+            crtb 
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> crtb.unique()
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            | 888|green| espanol|2018-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'color': 1}
+            ====values==:
+                :{'size': 0, 'expire': 3, 'language': 2}
+            >>> 
+        '''
         self.crtable = unique_crtable(self.crtable)
     def naturalize(self):
+        '''
+            #no need to call this ,this will be auto executed
+            crtb
+            crtb.naturalize()
+            crtb
+        '''
         self.crtable = naturalize_crtable(self.crtable)
     def intersec(self,crtb_2):
+        '''
+            import xdict.CrtableLib.crtable as xcr
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1'}, 
+                          1: {0: 'a1', 1: 'b2'} 
+                      }
+            table_2 = {
+                          0: {0: 'a1', 1: 'b2'}, 
+                          1: {0: 'a1', 1: 'b3'} 
+                      }
+            colnameslist = ['A','B']
+            keynameslist = ['A']
+            crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            crtb1
+            crtb2
+            crtb = crtb1.intersec(crtb2)
+            crtb
+        '''
         crtb_1 = copy.deepcopy(self)
         crtb_1.crtable = intersec_two_crtables(crtb_1.crtable,crtb_2.crtable)
         return(crtb_1)
     def __eq__(self,crtb_2):
+        '''
+            import xdict.CrtableLib.crtable as xcr
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1'}, 
+                          1: {0: 'a1', 1: 'b2'} 
+                      }
+            table_2 = {
+                          0: {0: 'a1', 1: 'b1'}, 
+                          1: {0: 'a1', 1: 'b2'} 
+                      }
+            colnameslist = ['A','B']
+            keynameslist = ['A']
+            crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            crtb1 == crtb2
+        '''
         return(equal(self.crtable,crtb_2.crtable))
     def __ne__(self,crtb_2):
+        '''
+            import xdict.CrtableLib.crtable as xcr
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1'}, 
+                          1: {0: 'a1', 1: 'b2'} 
+                      }
+            table_2 = {
+                          0: {0: 'a1', 1: 'b1'}, 
+                          1: {0: 'a1', 1: 'b2'} 
+                      }
+            colnameslist = ['A','B']
+            keynameslist = ['A']
+            crtb1 = xcr.crtable(colnameslist = colnameslist,table=table_1,keynameslist = keynameslist)
+            crtb2 = xcr.crtable(colnameslist = colnameslist,table=table_2,keynameslist = keynameslist)
+            crtb1 != crtb2
+        '''
         return(not(equal(self.crtable,crtb_2.crtable)))
     def __contains__(self,crtb_2):
         '''
@@ -6072,21 +6476,129 @@ class crtable():
             colnameslist2 =['B','C']
             keynameslist1 = ['A']
             keynameslist2 = ['B']
-            crtb1 = crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
-            crtb2 = crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
             crtb2 in crtb1
         '''
         return(comprise_crtable(self.crtable,crtb_2.crtable))
     def include_row(self,row):
+        '''
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+                          1: {0: 'a2', 1: 'b3', 2: 'c7'},
+                          2: {0: 'a3', 1: 'b4', 2: 'c6'},
+                          3: {0: 'a1', 1: 'b2', 2: 'c3'}
+                      }
+            colnameslist1 =['A','B','C']
+            keynameslist1 = ['A']
+            crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            row = {'A': 'a2', 'B': 'b3', 'C': 'c7'}
+            crtb.include_row(row)
+        '''
         return(row_in_crtable(row,self.crtable))
     def include_col(self,col):
+        '''
+            import xdict.CrtableLib.crtable as xcr
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+                          1: {0: 'a2', 1: 'b3', 2: 'c7'},
+                          2: {0: 'a3', 1: 'b4', 2: 'c6'},
+                          3: {0: 'a1', 1: 'b2', 2: 'c3'}
+                      }
+            colnameslist1 =['A','B','C']
+            keynameslist1 = ['A']
+            crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            col = {'B': ['b1','b3','b4','b2']}
+            crtb.include_col(col)
+        '''
         return(col_in_crtable(col,self.crtable))
     def include_row_slice(self,row):
+        '''
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+                          1: {0: 'a2', 1: 'b3', 2: 'c7'},
+                          2: {0: 'a3', 1: 'b4', 2: 'c6'},
+                          3: {0: 'a1', 1: 'b2', 2: 'c3'}
+                      }
+            colnameslist1 =['A','B','C']
+            keynameslist1 = ['A']
+            crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            part_row = {'B': 'b3', 'C': 'c7'}
+            crtb.include_row_slice(part_row)
+        '''
         return(partlyrow_in_crtable(row,self.crtable))
     def include_col_slice(self,col):
+        '''
+            import xdict.CrtableLib.crtable as xcr
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 'c2'}, 
+                          1: {0: 'a2', 1: 'b3', 2: 'c7'},
+                          2: {0: 'a3', 1: 'b4', 2: 'c6'},
+                          3: {0: 'a1', 1: 'b2', 2: 'c3'}
+                      }
+            colnameslist1 =['A','B','C']
+            keynameslist1 = ['A']
+            crtb = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            part_col = {'B': ['b3','b4']}
+            crtb.include_col_slice(part_col)
+        '''
         return(partlycol_in_crtable(col,self.crtable))
     def thetajoin(self,crtb2,**kwargs):
         '''
+            import xdict.CrtableLib.crtable as xcr
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 3}, 
+                          1: {0: 'a1', 1: 'b2', 2: 6},
+                          2: {0: 'a2', 1: 'b3', 2: 2},
+                          3: {0: 'a2', 1: 'b4', 2: 12}
+                      }
+            table_2 = {
+                          0: {0: 'e1', 1: 3}, 
+                          1: {0: 'e2', 1: 7},
+                          2: {0: 'e3', 1: 10},
+                          3: {0: 'e3', 1: 2},
+                          4: {0: 'e5', 1: 2}
+                      }
+            colnameslist1 =['A','B','C']
+            colnameslist2 =['E','C']
+            keynameslist1 = ['A']
+            keynameslist2 = ['E']
+            crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            def theta_function(subrow_1,subrow_2):
+                k1 = list(subrow_1.keys())[0]
+                k2 = list(subrow_2.keys())[0]
+                if(subrow_1[k1] < subrow_2[k2]):
+                    return(True)
+                else:
+                    return(False)
+            
+            crtb = crtb1.thetajoin(crtb2,theta=theta_function)
+            crtb 
+            +++++++++++++++++++++
+            |A-0|B-0|C-0|E-1|C-1|
+            +++++++++++++++++++++
+            | a1| b1|  3| e2|  7|
+            +++++++++++++++++++++
+            | a1| b1|  3| e3| 10|
+            +++++++++++++++++++++
+            | a1| b2|  6| e2|  7|
+            +++++++++++++++++++++
+            | a1| b2|  6| e3| 10|
+            +++++++++++++++++++++
+            | a2| b3|  2| e1|  3|
+            +++++++++++++++++++++
+            | a2| b3|  2| e2|  7|
+            +++++++++++++++++++++
+            | a2| b3|  2| e3| 10|
+            +++++++++++++++++++++
+            ====keys====:
+                :{'E-1': 3, 'A-0': 0}
+            ====values==:
+                :{'C-0': 2, 'B-0': 1, 'C-1': 4}
+            >>> 
+
+            from xdict import ltdict
             table_1 = {
                           0: {0: 'a1', 1: 'b1', 2: 3}, 
                           1: {0: 'a1', 1: 'b2', 2: 6},
@@ -6104,8 +6616,31 @@ class crtable():
             colnameslist2 =['B','C']
             keynameslist1 = ['A']
             keynameslist2 = ['B']
-            crtb1 = crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
-            crtb2 = crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            def theta_function(subrow_1,subrow_2):
+                subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
+                subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
+                if(subrow_l1 == subrow_l2):
+                    return(True)
+                else:
+                    return(False)
+            
+            crtb = crtb1.thetajoin(crtb2,theta=theta_function)
+            crtb 
+            +++++++++++++++++++++
+            |A-0|B-0|C-0|B-1|C-1|
+            +++++++++++++++++++++
+            | a1| b1|  3| b1|  3|
+            +++++++++++++++++++++
+            | a2| b3|  2| b3|  2|
+            +++++++++++++++++++++
+            ====keys====:
+                :{'B-1': 3, 'A-0': 0}
+            ====values==:
+                :{'C-0': 2, 'B-0': 1, 'C-1': 4}
+            
+            >>> 
         '''
         crtb1 = copy.deepcopy(self)
         def theta_function(subrow_1,subrow_2):
@@ -6143,8 +6678,38 @@ class crtable():
         return(crtb1)
     def equijoin(self,crtb_2,**kwargs):
         '''
+            import xdict.CrtableLib.crtable as xcr 
+            from xdict import ltdict
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 3}, 
+                          1: {0: 'a1', 1: 'b2', 2: 6},
+                          2: {0: 'a2', 1: 'b3', 2: 2},
+                          3: {0: 'a2', 1: 'b4', 2: 12}
+                      }
+            table_2 = {
+                          0: {0: 'b1', 1: 3}, 
+                          1: {0: 'b2', 1: 7},
+                          2: {0: 'b3', 1: 10},
+                          3: {0: 'b3', 1: 2},
+                          4: {0: 'b5', 1: 2}
+                      }
+            colnameslist1 =['A','B','C']
+            colnameslist2 =['B','C']
+            keynameslist1 = ['A']
+            keynameslist2 = ['B']
+            crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            crtb = crtb1.equijoin(crtb2)
+            crtb 
         '''
-        crtb_1 = copy.deepcopy(self)
+        crtb1 = copy.deepcopy(self)
+        def theta_function(subrow_1,subrow_2):
+            subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
+            subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
+            if(subrow_l1 == subrow_l2):
+                return(True)
+            else:
+                return(False)
         if('theta' in kwargs):
             theta = kwargs['theta']
         else:
