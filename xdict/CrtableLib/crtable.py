@@ -6085,7 +6085,7 @@ class crtable():
         return(partlyrow_in_crtable(row,self.crtable))
     def include_col_slice(self,col):
         return(partlycol_in_crtable(col,self.crtable))
-    def thetajoin(self,crtb_2,**kwargs):
+    def thetajoin(self,crtb2,**kwargs):
         '''
             table_1 = {
                           0: {0: 'a1', 1: 'b1', 2: 3}, 
