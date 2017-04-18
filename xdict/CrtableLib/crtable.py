@@ -6701,6 +6701,18 @@ class crtable():
             crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
             crtb = crtb1.equijoin(crtb2)
             crtb 
+            +++++++++++++++++++++
+            |A-0|B-0|C-0|B-1|C-1|
+            +++++++++++++++++++++
+            | a1| b1|  3| b1|  3|
+            +++++++++++++++++++++
+            | a2| b3|  2| b3|  2|
+            +++++++++++++++++++++
+            ====keys====:
+                :{'A-0': 0, 'B-1': 3}
+            ====values==:
+                :{'C-0': 2, 'C-1': 4, 'B-0': 1}
+            >>> 
         '''
         crtb1 = copy.deepcopy(self)
         if('colnameslist_1' in kwargs):
@@ -6725,10 +6737,33 @@ class crtable():
             pass
         crtb1.crtable = equijoin_two_crtables(colnameslist_1,crtb1.crtable,colnameslist_2,crtb2.crtable)
         return(crtb1)
-    def naturaljoin(self,crtb_2,**kwargs):
+    def naturaljoin(self,crtb2,**kwargs):
         '''
+            import xdict.CrtableLib.crtable as xcr 
+            from xdict import ltdict
+            table_1 = {
+                          0: {0: 'a1', 1: 'b1', 2: 3}, 
+                          1: {0: 'a1', 1: 'b2', 2: 6},
+                          2: {0: 'a2', 1: 'b3', 2: 2},
+                          3: {0: 'a2', 1: 'b4', 2: 12}
+                      }
+            table_2 = {
+                          0: {0: 'b1', 1: 3}, 
+                          1: {0: 'b2', 1: 7},
+                          2: {0: 'b3', 1: 10},
+                          3: {0: 'b3', 1: 2},
+                          4: {0: 'b5', 1: 2}
+                      }
+            colnameslist1 =['A','B','C']
+            colnameslist2 =['B','C']
+            keynameslist1 = ['A']
+            keynameslist2 = ['B']
+            crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
+            crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
+            crtb = crtb1.naturaljoin(crtb2)
+            crtb 
         '''
-        crtb_1 = copy.deepcopy(self)
+        crtb1 = copy.deepcopy(self)
         if('colnameslist_1' in kwargs):
             colnameslist_1 = kwargs['colnameslist_1']
         else:
@@ -6749,10 +6784,22 @@ class crtable():
             colnameslist_2 =  common
         else:
             pass
-        crtb1.crtable =  naturaljoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2)
+        crtb1.crtable =  naturaljoin_two_crtables(colnameslist_1,crtb1.crtable,colnameslist_2,crtb2.crtable)
         return(crtb1)
     def candidates(self):
-        '''
+        ''' 
+            import xdict.CrtableLib.crtable as xcr 
+            from xdict import ltdict
+            table = {
+                0: {0: 'a1', 1: 'b1', 2: 5, 3: 3}, 
+                1: {0: 'a1', 1: 'b2', 2: 6, 3: 7}, 
+                2: {0: 'a2', 1: 'b3', 2: 8, 3: 10}, 
+                3: {0: 'a2', 1: 'b3', 2: 8, 3: 2}
+            }
+            colnameslist = ['A','B','C','E']
+            keynameslist = ['A']
+            crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
+            crtb
         '''
         return(get_all_candidate_key_combo(self.crtable))
 
