@@ -910,6 +910,56 @@ def dict_comprise(dict1,dict2,**kwargs):
                 return(False)
 
 
+def non_recursive_dict_find_keys_via_value(d,v):
+    rslt = []
+    for key in d:
+        if(d[key] == v):
+            rslt.append(key)
+    return(rslt)
+
+def dict_find_keys_via_value(dlts,v,**kwargs):
+    '''
+        dlts = {1:'a',2:{3:'a'}}
+        >>> dict_find_keys_via_value(dlts,'a')
+        [[1], [2, 3]]
+    '''
+    if('strict' in kwargs):
+        strict = kwargs['strict']
+    else:
+        strict = 1
+    rslt = []
+    unhandled = [dlts]
+    parents   = [[]]
+    while(unhandled.__len__()>0):
+        next_unhandled = []
+        next_parents = []
+        for i in range(0,unhandled.__len__()):
+            curr = unhandled[i]
+            p = parents[i]
+            if(utils.is_dict(curr)):
+                for key in curr:
+                    np = copy.deepcopy(p)
+                    np.append(key)
+                    next_parents.append(np)
+                    next_unhandled.append(curr[key])
+            else:
+                if(curr == v):
+                    rslt.append(p)
+        unhandled = next_unhandled
+        parents = next_parents
+    return(rslt)
+
+
+
+
+
+
+
+
+
+
+
+
 def max_wordwidth_in_dict(myDict):
     maxValueWidth = 0
     for each in myDict:
