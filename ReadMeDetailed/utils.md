@@ -71,6 +71,7 @@
 17. max_wordwidth_in_dict(myDict) 
 18. max_display_width_in_dict(myDict)
 19. dict_extend(dict1,dict2,**kwargs)
+20. get_dict_value_via_cmd(external_dict,cmd_str,**kwargs)
 
 
 ## char encode decode  
