@@ -515,6 +515,28 @@ def get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
         this = this.__getitem__(key)
     return(this)
 
+def get_dict_value_via_cmd(external_dict,cmd_str,**kwargs):
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    regex_str = ''.join(('[',cmd_sp,']','+'))
+    regex = re.compile(regex_str)
+    cmd_str = re.sub(regex,cmd_sp,cmd_str)
+    cmd_str = str_rstrip(cmd_str,cmd_sp,1)
+    cmd_str = str_lstrip(cmd_str,cmd_sp,1)  
+    path_list = cmd_str.split(cmd_sp)
+    return(get_dict_items_via_path_list(external_dict,path_list,n2s=n2s,s2n=s2n))
+
+
 #get_dict_value_from_full_key_path(nhome,"updates/useRmvWithMentions")
 def get_dict_value_from_full_key_path(d,full_key_path):
     full_key_path = full_key_path.strip("/")
