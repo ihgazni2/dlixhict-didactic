@@ -4502,7 +4502,7 @@ class crtable():
         else:
             pass
         if('table' in kwargs):
-            self.crtable['table'] = kwargs['table']
+            self.crtable['table'] = nametable_to_indextable(kwargs['table'],self.crtable['animd'])
         else:
             pass
         condk = ('keynameslist' in kwargs)
