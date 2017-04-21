@@ -949,7 +949,7 @@ def indextable_to_nametable(indextable,attribs_name_index_mirror_dict):
     '''
     nt = {}
     for seq in indextable:
-        nt[seq] = xcr.indexattribs_to_nameattribs(indextable[seq],attribs_name_index_mirror_dict)
+        nt[seq] = indexattribs_to_nameattribs(indextable[seq],attribs_name_index_mirror_dict)
     return(nt)
 
 def nametable_to_indextable(nametable,attribs_name_index_mirror_dict):
@@ -957,7 +957,7 @@ def nametable_to_indextable(nametable,attribs_name_index_mirror_dict):
     '''
     nt = {}
     for seq in nametable:
-        nt[seq] = xcr.nameattribs_to_indexattribs(nametable[seq],attribs_name_index_mirror_dict)
+        nt[seq] = nameattribs_to_indexattribs(nametable[seq],attribs_name_index_mirror_dict)
     return(nt)
 
 
