@@ -186,6 +186,14 @@ __14. format_values_to_namekeyonly(values,attribs_name_index_mirror_dict)__
 ---------------------------------------------------------------------------
 ![](Images/crtable.format_attribs_to_namekeyonly.png)  
 
+__15. indextable_to_nametable(indextable,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------
+__16. nametable_to_indextable(nametable,attribs_name_index_mirror_dict)__
+--------------------------------------------------------------------------
+![](Images/crtable.nametable_to_indextable.png)  
+
+
+
 ## part_3: basic_select
 
 __1. get_seqslist_via_attribs(attribs,crtable)__
