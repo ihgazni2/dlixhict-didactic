@@ -717,7 +717,7 @@ def indexattribs_to_nameattribs(attribs,attribs_name_index_mirror_dict):
         if(utils.is_int(k)):
             key = attribs_name_index_mirror_dict[k]
             na[key] = value
-        elif(utils.is_int(k)):
+        elif(utils.is_str(k)):
             na[k] = value
         else:
             pass
