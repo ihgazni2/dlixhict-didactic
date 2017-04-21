@@ -944,6 +944,25 @@ def format_attribs_to_namekeyonly(attribs,attribs_name_index_mirror_dict,**kwarg
 format_keys_to_namekeyonly = format_attribs_to_namekeyonly
 format_values_to_namekeyonly = format_attribs_to_namekeyonly
 
+def indextable_to_nametable(indextable,attribs_name_index_mirror_dict):
+    '''
+    '''
+    nt = {}
+    for seq in indextable:
+        nt[seq] = xcr.indexattribs_to_nameattribs(indextable[seq],attribs_name_index_mirror_dict)
+    return(nt)
+
+def nametable_to_indextable(nametable,attribs_name_index_mirror_dict):
+    '''
+    '''
+    nt = {}
+    for seq in nametable:
+        nt[seq] = xcr.nameattribs_to_indexattribs(nametable[seq],attribs_name_index_mirror_dict)
+    return(nt)
+
+
+
+
 ## basic select 
 def get_seqslist_via_attribs(attribs,crtable):
     '''
