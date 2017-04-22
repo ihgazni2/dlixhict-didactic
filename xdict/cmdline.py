@@ -737,7 +737,8 @@ def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
         for i in range(0,cmdlines_ltdict.__len__()):
             rslt = ''.join((rslt,cmdlines_ltdict[i],line_sp))
         rslt = utils.str_rstrip(rslt,line_sp,1)
-        return(rslt)
+        print(rslt)
+        return(list(cmdlines_ltdict.keys()))
     else:
         pass
     cmd_nocaps = cmd_str.lower()
@@ -853,7 +854,8 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
         for i in range(0,cmdlines_ltdict.__len__()):
             rslt = ''.join((rslt,cmdlines_ltdict[i],line_sp))
         rslt = utils.str_rstrip(rslt,line_sp,1)
-        return(rslt)
+        print(rslt)
+        return(list(cmdlines_ltdict.keys()))
     else:
         pass
     cmd_nocaps = cmd_str.lower()
