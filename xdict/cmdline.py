@@ -877,7 +877,7 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
             cmd_len = cmd_nocaps.__len__()
             s1 = line[:rsi]
             s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
-            s3 = jprint.paint_str([si:(si+cmd_len)],single_color=single_color_cmd)
+            s3 = jprint.paint_str(line[si:(si+cmd_len)],single_color=single_color_cmd)
             s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
             s5 = line[(rei+1):]
             line = ''.join((s1,s2,s3,s4,s5))
