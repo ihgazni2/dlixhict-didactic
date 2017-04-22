@@ -727,6 +727,10 @@ def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
         single_color_rsi = kwargs['single_color_rsi']
     else:
         single_color_rsi = 'blue'
+    if('caps_strict' in kwargs):
+        caps_strict = kwargs['caps_strict']
+    else:
+        caps_strict = 0
     cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
     cmd_nocaps = cmd_str.lower()
     cmd_pl = cmd_str.split(cmd_sp)
@@ -739,25 +743,31 @@ def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
     rslt = ''
     orig_seqs = []
     for i in range(0,cmdlines_len):
-        p = cmdlines_nocaps_deep[i]
-        pnoc = cmdlines_deep[i]
-        full_cmdpl_len = p.__len__()
-        cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
+        pnoc = cmdlines_nocaps_deep[i]
+        origp = cmdlines_deep[i]
+        full_cmdpl_len = pnoc.__len__()
+        if(caps_strict):
+            cond = cmdpl_in_cmdpl(cmd_pl,origp,mode=mode)
+        else:
+            cond = cmdpl_in_cmdpl(cmd_nocaps_pl,pnoc,mode=mode)
         if(cond):
             line = ''
             for k in range(0,full_cmdpl_len):
-                line = ''.join((line,pnoc[k],cmd_sp))
+                line = ''.join((line,origp[k],cmd_sp))
             line = utils.str_rstrip(line,cmd_sp,1)
             #-----------paint---------------
-            si = line.find(cmd_str)
-            ei = si+cmd_str.__len__()-1
-            cpdesc = get_cmd_char_position_desc(pnoc,cmd_sp=cmd_sp)
+            if(caps_strict):
+                si = line.find(cmd_str)
+            else:
+                si = line.lower().find(cmd_nocaps)
+            ei = si+cmd_nocaps.__len__()-1
+            cpdesc = get_cmd_char_position_desc(origp,cmd_sp=cmd_sp)
             rsi = get_interval_si_from_char_position_desc(si,cpdesc)
             rei = get_interval_ei_from_char_position_desc(ei,cpdesc)
-            cmd_len = cmd_str.__len__()
+            cmd_len = cmd_nocaps.__len__()
             s1 = line[:rsi]
             s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
-            s3 = jprint.paint_str(cmd_str,single_color=single_color_cmd)
+            s3 = jprint.paint_str(line[si:(si+cmd_len)],single_color=single_color_cmd)
             s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
             s5 = line[(rei+1):]
             line = ''.join((s1,s2,s3,s4,s5))
@@ -825,6 +835,10 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
         single_color_rsi = kwargs['single_color_rsi']
     else:
         single_color_rsi = 'blue'
+    if('caps_strict' in kwargs):
+        caps_strict = kwargs['caps_strict']
+    else:
+        caps_strict = 0
     cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
     cmd_nocaps = cmd_str.lower()
     cmd_pl = cmd_str.split(cmd_sp)
@@ -839,25 +853,31 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
     rslt = ''
     orig_seqs = []
     for i in range(0,cmdlines_len):
-        p = cmdlines_nocaps_deep[i]
-        pnoc = cmdlines_deep[i]
-        full_cmdpl_len = p.__len__()
-        cond = cmdpl_in_cmdpl(cmd_nocaps_pl,p,mode=mode)
+        pnoc = cmdlines_nocaps_deep[i]
+        origp = cmdlines_deep[i]
+        full_cmdpl_len = pnoc.__len__()
+        if(caps_strict):
+            cond = cmdpl_in_cmdpl(cmd_pl,origp,mode=mode)
+        else:
+            cond = cmdpl_in_cmdpl(cmd_nocaps_pl,pnoc,mode=mode)
         if(cond):
             line = ''
             for k in range(0,full_cmdpl_len):
-                line = ''.join((line,pnoc[k],cmd_sp))
+                line = ''.join((line,origp[k],cmd_sp))
             line = utils.str_rstrip(line,cmd_sp,1)
             #-----------paint---------------
-            si = line.find(cmd_str)
-            ei = si+cmd_str.__len__()-1
-            cpdesc = get_cmd_char_position_desc(pnoc,cmd_sp=cmd_sp)
+            if(caps_strict):
+                si = line.find(cmd_str)
+            else:
+                si = line.lower().find(cmd_nocaps)
+            ei = si+cmd_nocaps.__len__()-1
+            cpdesc = get_cmd_char_position_desc(origp,cmd_sp=cmd_sp)
             rsi = get_interval_si_from_char_position_desc(si,cpdesc)
             rei = get_interval_ei_from_char_position_desc(ei,cpdesc)
-            cmd_len = cmd_str.__len__()
+            cmd_len = cmd_nocaps.__len__()
             s1 = line[:rsi]
             s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
-            s3 = jprint.paint_str(cmd_str,single_color=single_color_cmd)
+            s3 = jprint.paint_str([si:(si+cmd_len)],single_color=single_color_cmd)
             s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
             s5 = line[(rei+1):]
             line = ''.join((s1,s2,s3,s4,s5))
@@ -3889,6 +3909,13 @@ def show_obj_via_cmd(cmd,obj,**kwargs):
     else:
         return(rslt)
 
+
+
+
+
+
+
+
 def show_hdict_via_cmd(cmd,hdict,**kwargs):
     '''
         >>> 
@@ -3951,6 +3978,37 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
 class cmdict():
     def __init__(self,**kwargs):
         self.dict = kwargs['dict']
+        if('line_sp' in kwargs):
+            line_sp = kwargs['line_sp']
+        else:
+            line_sp = '\n'
+        if('cmd_sp' in kwargs):
+            cmd_sp = kwargs['cmd_sp']
+        else:
+            cmd_sp = ' '
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 1
+        cfd = obj_to_cmdlines_full_dict(self.dict)
+        self.cmdlines = cfd['cmds']
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']
+        self.n2s = 0
+        self.s2n = 1
+        self.line_sp = line_sp
+        self.cmd_sp = cmd_sp
     def __repr__(self):
-        pass        
-
+        return(self.dict.__repr__())
+    def __getitem__(self,cmd):
+        try:
+            rslt = get_obj_value_via_cmd(cmd,self.dict,line_sp=self.line_sp,cmd_sp=self.cmd_sp,s2n=self.s2n,n2s=self.n2s)
+        except:
+            prompt = show_prompt_from_cmdlines_ltdict(cmd,self.cmdlines)
+            return(prompt)
+        else:
+            return(rslt)
