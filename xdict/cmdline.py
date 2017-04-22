@@ -732,6 +732,14 @@ def show_prompt_from_cmdlines_str(cmd_str,cmdlines_str,**kwargs):
     else:
         caps_strict = 0
     cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
+    if(cmd_str == ''):
+        rslt = ''
+        for i in range(0,cmdlines_ltdict.__len__()):
+            rslt = ''.join((rslt,cmdlines_ltdict,line_sp))
+        rslt = utils.str_rstrip(rslt,line_sp,1)
+        return(rslt)
+    else:
+        pass
     cmd_nocaps = cmd_str.lower()
     cmd_pl = cmd_str.split(cmd_sp)
     cmdpl_len = cmd_pl.__len__()
@@ -840,6 +848,14 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
     else:
         caps_strict = 0
     cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
+    if(cmd_str == ''):
+        rslt = ''
+        for i in range(0,cmdlines_ltdict.__len__()):
+            rslt = ''.join((rslt,cmdlines_ltdict,line_sp))
+        rslt = utils.str_rstrip(rslt,line_sp,1)
+        return(rslt)
+    else:
+        pass
     cmd_nocaps = cmd_str.lower()
     cmd_pl = cmd_str.split(cmd_sp)
     cmdpl_len = cmd_pl.__len__()
