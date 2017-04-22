@@ -2154,7 +2154,7 @@ def get_obj_value_via_cmd(cmd,obj,**kwargs):
     else:
         n2s = 0
     if('s2n' in kwargs):
-        s2n = kwargs['n2s']
+        s2n = kwargs['s2n']
     else:
         s2n = 0
     cmd = format_cmd_str(cmd,cmd_sp=cmd_sp)
@@ -3869,12 +3869,20 @@ def show_obj_via_cmd(cmd,obj,**kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
         cmd_sp = ' '
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
     cmdlines_dict = obj_to_cmdlines_full_dict(obj)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']    
     try:
-        rslt = get_obj_value_via_cmd(cmd,obj,line_sp=line_sp,cmd_sp=cmd_sp)
+        rslt = get_obj_value_via_cmd(cmd,obj,line_sp=line_sp,cmd_sp=cmd_sp,s2n=s2n,n2s=n2s)
     except:
         prompt = show_prompt_from_cmdlines_ltdict(cmd,cmdlines)
         return(prompt)
@@ -3940,6 +3948,9 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
 
 
 
+class cmdict():
+    def __init__(self,**kwargs):
+        self.dict = kwargs['dict']
+    def __repr__(self):
+        
 
-
-            
