@@ -4201,7 +4201,7 @@ class cmdict():
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
-            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=self.cmd_sp)
             self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
@@ -4212,7 +4212,7 @@ class cmdict():
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
-            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=self.cmd_sp)
             self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
@@ -4223,7 +4223,7 @@ class cmdict():
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
-            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=self.cmd_sp)
             self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
@@ -4233,7 +4233,7 @@ class cmdict():
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
-            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=self.cmd_sp)
             self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
