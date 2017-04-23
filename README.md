@@ -41,8 +41,8 @@ __1. init__
             
             cmdt = cmdline.cmdict(dict=currd)
 
-![](Images/cmdline.cmdict.__init__.1.png) 
-![](Images/cmdline.cmdict.__init__.2.png) 
+![](ReadMeDetailed/Images/cmdline.cmdict.__init__.1.png) 
+![](ReadMeDetailed/Images/cmdline.cmdict.__init__.2.png) 
 
 
 __2. cmdt[keys]__
@@ -55,8 +55,8 @@ __2. cmdt[keys]__
             cmdt['Displays 6']
             cmdt['Displays']  
 	    
-![](Images/cmdline.cmdict.__getitem__.1.png)
-![](Images/cmdline.cmdict.__getitem__.2.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.1.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.2.png)
 
             # use paths list as keys sequence:
             cmdt[['Displays',6,'Views',0,'Row']]
@@ -65,7 +65,7 @@ __2. cmdt[keys]__
             cmdt[['Displays',6]]
             cmdt[['Displays']]
 
-![](Images/cmdline.cmdict.__getitem__.3.png)  
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.3.png)  
 
             # use traditional keys sequence:
             cmdt.dict['Displays'][6]['Views'][0]['Row']
@@ -74,7 +74,7 @@ __2. cmdt[keys]__
             cmdt.dict['Displays'][6]
             cmdt.dict['Displays']
             
-![](Images/cmdline.cmdict.__getitem__.4.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.4.png)
 
             # search most similiar key:
             cmdt['isplays 1']
@@ -84,9 +84,9 @@ __2. cmdt[keys]__
             cmdt['LoggedRuleIDs 1']
             cmdt['LoggedRuleIDs 2']
 	    
-![](Images/cmdline.cmdict.__getitem__.5.png)
-![](Images/cmdline.cmdict.__getitem__.6.png)
-![](Images/cmdline.cmdict.__getitem__.7.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.5.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.6.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.7.png)
 
             # give prompt indication for exact key,
             # for example: wrongly input 0 as '0':
@@ -95,7 +95,7 @@ __2. cmdt[keys]__
             cmdt[['Displays', 6, 'Views', 0, 'Row']]
             cmdt.dict['Displays'][6]['Views'][0]['Row']
 	    
-![](Images/cmdline.cmdict.__getitem__.8.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.8.png)
 
 --------------------------------------------------------
 
