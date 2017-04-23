@@ -313,6 +313,22 @@ def is_descedant_path_list(des_pl,ances_pl):
     else:
         return(False)
 
+
+def path_list_to_obj_path_str(path_list):
+    '''
+        >>> path_list_to_obj_path_str([1, '1', 2])
+            "[1]['1'][2]"
+        >>> 
+    '''
+    t1 = path_list.__repr__()
+    t1 = t1.lstrip('[')
+    t1 = t1.rstrip(']')
+    t2 = t1.split(", ")
+    s = ''
+    for i in range(0,t2.__len__()):
+        s = ''.join((s,'[',t2[i],']'))
+    return(s)
+
     
     
 #string
