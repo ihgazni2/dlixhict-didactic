@@ -4080,12 +4080,15 @@ class cmdict():
                 rslt = []
                 for each in prompt:
                     t = (each,self.pathlists[each])
-                    print("---------------")
-                    print('cmdict[{0}]'.format(self.pathlists[each]))
-                    print('self.dict{0}'.format(utils.path_list_to_obj_path_str(self.pathlists[each])))
-                    print("---------------")
+                    print("------the exact path to getitem as below----------------------")
+                    print("using:")
+                    print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each])))
+                    print("or:")
+                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_obj_path_str(self.pathlists[each]))))
+                    print("to get value")
+                    print("--------------------------------------------------------------")
                     rslt.append(t)
-                return(rslt)
+                #return(rslt)
             else:
                 return(rslt)
         else:
@@ -4097,12 +4100,15 @@ class cmdict():
                 rslt = []
                 for each in prompt:
                     t = (each,self.pathlists[each])
-                    print("---------------")
-                    print('cmdict[{0}]'.format(self.pathlists[each]))
-                    print('self.dict{0}'.format(utils.path_list_to_obj_path_str(self.pathlists[each])))
-                    print("---------------")
+                    print("------the exact path to getitem as below----------------------")
+                    print("using:")
+                    print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each])))
+                    print("or:")
+                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_obj_path_str(self.pathlists[each]))))
+                    print("to get value")
+                    print("--------------------------------------------------------------")
                     rslt.append(t)
-                return(rslt)
+                #return(rslt)
             else:
                 return(rslt)
     ##-------------------------------------##
