@@ -36,7 +36,7 @@
 10. is_son_path_list(son_pl,parent_pl)
 11. is_ancestor_path_list(ances_pl,des_pl)
 12. is_descedant_path_list(des_pl,ances_pl)
-
+13. path_list_to_obj_path_str(path_list)
 
 ##string
 1. loose_str_to_bool(str)  
