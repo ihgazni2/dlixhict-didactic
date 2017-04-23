@@ -8,6 +8,10 @@ from xdict import jprint
 from lxml import etree
 from operator import itemgetter
 
+# cmd_str 和 cmdpl 不一定能一一对应
+# 例如: ['1']['a'][1], [1]['a'][1] ,['1']['a']['1'] ,[1]['a']['1']  都对应到'1 a 1'
+# 要增加path_list ['1','a',1].....的结构来实现一一对应 cmdlines_strict_full_dict
+# 把hdict 
 
 def format_cmd_str(cmd_str,cmd_sp=' '):
     '''
@@ -848,6 +852,10 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
         caps_strict = kwargs['caps_strict']
     else:
         caps_strict = 0
+    if('path_list_cmd' in kwargs):
+        path_list_cmd = kwargs['path_list_cmd']
+    else:
+        path_list_cmd = 0
     cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
     if(cmd_str == ''):
         rslt = ''
@@ -907,6 +915,14 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
     rslt = utils.str_rstrip(rslt,line_sp,1)
     print(rslt)
     return(orig_seqs)
+
+####
+
+
+
+
+
+
 
 def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     '''
@@ -1123,6 +1139,10 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         reorder = kwargs['reorder']
     else:
         reorder = 0
+    if('path_list_cmd' in kwargs):
+        path_list_cmd = kwargs['path_list_cmd']
+    else:
+        path_list_cmd = 0
     #-----
     cxtll = hdict_object.creat_xml_tag_line_label(sdict)
     sdict = cxtll['sdict']
@@ -1148,7 +1168,10 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         if(hpath == ()):
             pass
         else:
-            line = path_to_cmd_str(list(opath),cmd_sp=cmd_sp)
+            if(path_list_cmd):
+                line = list(opath)
+            else:
+                line = path_to_cmd_str(list(opath),cmd_sp=cmd_sp)
             hp = hpath
             bp = prdict['h:b'][tuple(hp)]
             r,c = hdict_object.breadth_path_to_sdict_location(bp)
@@ -1220,6 +1243,11 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
         return({'cmds':lines,'results':values,'attribs':attribs,'stagns':stagns,'etagns':etagns,'slines':slines,'elines':elines,'tlines':tlines,'textns':textns,'html_lines':html_lines})
     else:
         return({'cmds':lines,'results':values,'attribs':attribs})
+
+#
+
+#
+
 
 def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
     '''
@@ -3478,7 +3506,11 @@ def html_text_to_cmdlines_full_dict(**kwargs):
         disable_type = kwargs['disable_type']
     else:
         disable_type = 0
-    rslt = hdict_to_cmdlines_full_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp)
+    if('path_list_cmd' in kwargs):
+        path_list_cmd = kwargs['path_list_cmd']
+    else:
+        path_list_cmd = 0
+    rslt = hdict_to_cmdlines_full_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp,path_list_cmd=path_list_cmd)
     if('save' in kwargs):
        if(kwargs['save']==1):
         cmds = ''
@@ -3860,10 +3892,13 @@ def obj_to_cmdlines_full_dict(obj):
         >>> 
 
     '''
-    #cmdlines,results,attribs = obj_to_cmdlines(obj)
+    if('path_list_cmd' in kwargs):
+        path_list_cmd = kwargs['path_list_cmd']
+    else:
+        path_list_cmd = 0
     temp = hdict_object.obj_to_hdict(obj)
     hdict = temp['hdict']
-    cmdlines_dict = hdict_to_cmdlines_full_dict(hdict)
+    cmdlines_dict = hdict_to_cmdlines_full_dict(hdict,path_list_cmd=path_list_cmd)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']
@@ -3915,7 +3950,11 @@ def show_obj_via_cmd(cmd,obj,**kwargs):
         s2n = kwargs['s2n']
     else:
         s2n = 0
-    cmdlines_dict = obj_to_cmdlines_full_dict(obj)
+    if('path_list_cmd' in kwargs):
+        path_list_cmd = kwargs['path_list_cmd']
+    else:
+        path_list_cmd = 0
+    cmdlines_dict = obj_to_cmdlines_full_dict(obj,path_list_cmd=path_list_cmd)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']    
@@ -3978,7 +4017,11 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
         prdict = kwargs['prdict']
     else:
         prdict = hdict_object.hdict_get_paths_relationship(hdict)
-    cmdlines_full_dict = hdict_to_cmdlines_full_dict(hdict)
+    if('path_list_cmd' in kwargs):
+        path_list_cmd = kwargs['path_list_cmd']
+    else:
+        path_list_cmd = 0
+    cmdlines_full_dict = hdict_to_cmdlines_full_dict(hdict,path_list_cmd=path_list_cmd)
     cmdlines = cmdlines_full_dict['cmds']
     results = cmdlines_full_dict['results']
     attribs = cmdlines_full_dict['attribs']    
@@ -3990,6 +4033,8 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
         return(prompt)
     else:
         return(rslt)
+
+
 
 
 
@@ -4012,8 +4057,12 @@ class cmdict():
             s2n = kwargs['s2n']
         else:
             s2n = 1
-        cfd = obj_to_cmdlines_full_dict(self.dict)
-        self.cmdlines = cfd['cmds']
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
         self.n2s = 0
@@ -4023,10 +4072,41 @@ class cmdict():
     def __repr__(self):
         return(self.dict.__repr__())
     def __getitem__(self,cmd):
-        try:
-            rslt = get_obj_value_via_cmd(cmd,self.dict,line_sp=self.line_sp,cmd_sp=self.cmd_sp,s2n=self.s2n,n2s=self.n2s)
-        except:
-            prompt = show_prompt_from_cmdlines_ltdict(cmd,self.cmdlines)
-            return(prompt)
+        if(utils.is_str(cmd)):
+            try:
+                rslt = get_obj_value_via_cmd(cmd,self.dict,line_sp=self.line_sp,cmd_sp=self.cmd_sp,s2n=self.s2n,n2s=self.n2s)
+            except:
+                prompt = show_prompt_from_cmdlines_ltdict(cmd,self.cmdlines)
+                rslt = []
+                for each in prompt:
+                    t = (each,self.pathlists[each])
+                    print("---------------")
+                    print('cmdict[{0}]'.format(self.pathlists[each]))
+                    print('self.dict{0}'.format(utils.path_list_to_obj_path_str(self.pathlists[each])))
+                    print("---------------")
+                    rslt.append(t)
+                return(rslt)
+            else:
+                return(rslt)
         else:
-            return(rslt)
+            try:
+                rslt = utils.get_dict_items_via_path_list(self.dict,cmd)
+            except:
+                cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
+                prompt = show_prompt_from_cmdlines_ltdict(cmd_str,self.cmdlines)
+                rslt = []
+                for each in prompt:
+                    t = (each,self.pathlists[each])
+                    print("---------------")
+                    print('cmdict[{0}]'.format(self.pathlists[each]))
+                    print('self.dict{0}'.format(utils.path_list_to_obj_path_str(self.pathlists[each])))
+                    print("---------------")
+                    rslt.append(t)
+                return(rslt)
+            else:
+                return(rslt)
+    ##-------------------------------------##
+    def __setitem__(self,cmd,value):
+        pass
+    def __delitem__(self,cmd):
+        pass
