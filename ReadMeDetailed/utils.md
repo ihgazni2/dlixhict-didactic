@@ -74,6 +74,7 @@
 20. get_dict_value_via_cmd(external_dict,cmd_str,**kwargs)  
 21. non_recursive_dict_find_keys_via_value(d,v)  
 22. dict_find_keys_via_value(dlts,v,**kwargs)
+23. del_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)
 
 
 ## char encode decode  
