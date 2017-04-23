@@ -4088,7 +4088,7 @@ class cmdict():
                     print("to get value")
                     print("--------------------------------------------------------------")
                     rslt.append(t)
-                #return(rslt)
+                raise KeyError('should be',rslt)
             else:
                 return(rslt)
         else:
@@ -4108,7 +4108,7 @@ class cmdict():
                     print("to get value")
                     print("--------------------------------------------------------------")
                     rslt.append(t)
-                #return(rslt)
+                raise KeyError('should be',rslt)
             else:
                 return(rslt)
     ##-------------------------------------##
