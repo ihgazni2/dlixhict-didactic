@@ -34,7 +34,7 @@ def format_cmd_str(cmd_str,cmd_sp=' '):
     return(cmd_str)
 
 
-def cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' '):
+def cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' ',**kwargs):
     '''
         >>> cmd_sp = ' '
         >>> cmd_str = 'defaultComponents header    props navigation menu items 2   link disabled'
@@ -47,9 +47,30 @@ def cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' '):
         ['defaultComponents', 'header', 'prop', 'navigation', 'men', 'items', '2', 'link', 'disabled']
         >>> 
     '''
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 1
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
     cmd_str = format_cmd_str(cmd_str,cmd_sp=cmd_sp)
     cmd_pl = cmd_str.split(cmd_sp)
-    return(cmd_pl)
+    cmdpl = []
+    for i in range(0,cmd_pl.__len__()):
+        v = cmd_pl[i]
+        if(n2s ==1):
+            v = str(v)
+        if(s2n==1):
+            try:
+                int(v)
+            except:
+                pass
+            else:
+                v = int(v)
+        cmdpl.append(v)
+    return(cmdpl)
 
 
 def path_to_cmd_str(path_list_or_path_string,**kwargs):
@@ -262,6 +283,18 @@ def cmdpl_in_cmdpl(cmdpl1,cmdpl2,**kwargs):
     True
     >>> 
     '''
+    cmd_pl1 = copy.deepcopy(cmdpl1)
+    cmd_pl2 = copy.deepcopy(cmdpl2)
+    cmdpl1 = []
+    for i in range(0,cmd_pl1.__len__()):
+        v = cmd_pl1[i]
+        v = str(v)
+        cmdpl1.append(v)
+    cmdpl2 = []
+    for i in range(0,cmd_pl2.__len__()):
+        v = cmd_pl2[i]
+        v = str(v)
+        cmdpl2.append(v)
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -4035,7 +4068,11 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
         return(rslt)
 
 
-
+#-------------------------------#
+#--------------要实现这两个函数 to optimize performance
+# del_cmdlines_full_dict(cfd,path_list)
+# set_cmdlines_full_dict(cfd,path_list)
+#-------------------------------#
 
 
 class cmdict():
@@ -4111,8 +4148,92 @@ class cmdict():
                 raise KeyError('should be',rslt)
             else:
                 return(rslt)
-    ##-------------------------------------##
     def __setitem__(self,cmd,value):
-        pass
+        if(utils.is_str(cmd)):
+            cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
+            cmd_str = format_cmd_str(cmd_str,cmd_sp=self.cmd_sp)
+            cmdpl = cmd_str_to_cmd_pl(cmd_str,cmd_sp = self.cmd_sp,n2s=self.n2s,s2n=self.s2n)
+            utils.set_dict_items_via_path_list(self.dict,cmdpl,value)
+        else:
+            utils.set_dict_items_via_path_list(self.dict,cmd,value)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']
     def __delitem__(self,cmd):
-        pass
+        if(utils.is_str(cmd)):
+            cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
+            cmd_str = format_cmd_str(cmd_str,cmd_sp=self.cmd_sp)
+            cmdpl = cmd_str_to_cmd_pl(cmd_str,cmd_sp = self.cmd_sp,n2s=self.n2s,s2n=self.s2n)
+            utils.del_dict_items_via_path_list(self.dict,cmdpl)
+        else:
+            utils.del_dict_items_via_path_list(self.dict,cmd)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']
+    def clear(self):
+        self.dict = {}
+        self.pathlists = {}
+        self.cmdlines = {}
+        self.results = {}
+        self.attribs = {}
+    def copy(self):
+        return(copy.deepcopy(self))
+    def items(self):
+        return(self.dict.items())
+    def keys(self):
+        return(self.dict.keys())
+    def values(self):
+        return(self.dict.values())
+    def pop(self,cmd):
+        rslt = self.__getitem__(cmd)
+        self.__delitem__(cmd)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']
+        return(rslt)
+    def popitem(self):
+        rslt = self.dict.popitem()
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']
+        return(rslt)
+    def setdefault(self,cmd):
+        self.__setitem__(cmd,None)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']
+    def update(self,value):
+        self.dict.update(value)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        self.pathlists = cfd['cmds']
+        self.cmdlines = {}
+        for i in range(0,self.pathlists.__len__()):
+            cmdline = path_to_cmd_str(self.pathlists[i],cmd_sp=cmd_sp)
+            self.cmdlines[i] = cmdline
+        self.results = cfd['results']
+        self.attribs = cfd['attribs']

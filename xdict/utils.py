@@ -1021,6 +1021,25 @@ def dict_extend(dict1,dict2,**kwargs):
     return(d)
 
 
+def del_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
+    this = external_dict
+    for i in range(0,path_list.__len__()-1):
+        key = path_list[i]
+        if(n2s ==1):
+            key = str(key)
+        if(s2n==1):
+            try:
+                int(key)
+            except:
+                pass
+            else:
+                key = int(key)
+        this = this.__getitem__(key)
+    this.__delitem__(path_list[-1])
+    return(external_dict)
+
+
+
     
 # char encode decode
 
