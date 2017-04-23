@@ -3693,7 +3693,7 @@ def show_html_text_via_cmd(cmd,**kwargs):
             print(jprint.paint_str(rslt,single_color='yellow'))
             return({'rslt':rslt, 'seqs':rslt_seqs})    
 
-def obj_to_cmdlines_full_dict(obj):
+def obj_to_cmdlines_full_dict(obj,**kwargs):
     '''
         >>> pobj(obj)
         {
