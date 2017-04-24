@@ -171,6 +171,37 @@ __12. .update(d)__
 ![](ReadMeDetailed/Images/cmdline.cmdict.update.png)
 
 
+
+__13. .__doc__
+--------------
+        # the internal 
+        from xdict import cmdline
+        from xdict.jprint import pobj
+        currd = {'AutoPauseSpeed': 0, 'Name': 'Pool swimming', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}]}
+        cmdt = cmdline.cmdict(dict=currd)
+	cmdt
+        cmdt.keys()
+        cmdt.dict
+        cmdt.cmd_sp
+        cmdt.line_sp
+        #automatically convert str(such as '1')-key to number(such as 1)-key
+        #by default = 1
+        cmdt.s2n
+        #automatically convert number(such as 1)-key to str(such as '1')
+        #by default = 0
+        cmdt.n2s
+        pobj(cmdt.cmdlines)
+        pobj(cmdt.pathlists,fixed_indent=1)
+        pobj(cmdt.attribs,fixed_indent=1)
+        pobj(cmdt.results,fixed_indent=1)
+
+![](ReadMeDetailed/Images/cmdline.cmdict.__doc__.1.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__doc__.2.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__doc__.3.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__doc__.4.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__doc__.5.png)
+![](ReadMeDetailed/Images/cmdline.cmdict.__doc__.6.png)
+
 --------------------------------------------------------
 
 
