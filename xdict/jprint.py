@@ -611,9 +611,9 @@ def line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_o
     # "/'__type': 'RuleDesignerRuleResult', "
     curr_base_name = line_to_path_init(line,block_op_pairs_dict ,sp,commas,colons)
     curr_base_name = utils.str_lstrip(curr_base_name,'/',1)
-    head = utils.get_dir_string_head(prev_path,delimiter=sp)
-    head_head = utils.get_dir_string_head(head,delimiter=sp)
-    head_tail = utils.get_dir_string_tail(head,delimiter=sp)
+    head = utils.path_string_get_head(prev_path,delimiter=sp)
+    head_head = utils.path_string_get_head(head,delimiter=sp)
+    head_tail = utils.path_string_get_tail(head,delimiter=sp)
     head_tail_no_space = no_space_tail(head_tail)
     #
     if(curr_lv > prev_lv):
@@ -679,7 +679,7 @@ def line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_o
         if(is_colon(prev_last)):
             curr_path = ''.join((prev_path,curr_base_name))
         elif(is_rop(prev_rop,block_op_pairs_dict)):
-            tail = utils.get_dir_string_tail(prev_path,delimiter=sp)
+            tail = utils.path_string_get_tail(prev_path,delimiter=sp)
             tail_no_space = no_space_tail(tail)
             tail_len = tail_no_space.__len__()
             # secarino_2
@@ -700,7 +700,7 @@ def line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_o
     else:
         if(is_colon(head_tail_no_space[-1])):
             #secarino_8
-            curr_path = ''.join((utils.get_dir_string_head(head_head,delimiter=sp),curr_base_name))
+            curr_path = ''.join((utils.path_string_get_head(head_head,delimiter=sp),curr_base_name))
         else:
             #secarino_7
             curr_path = ''.join((head_head,curr_base_name))
@@ -750,7 +750,7 @@ def get_print_lines_and_paths(j_str,block_op_pairs_dict = get_block_op_pairs("{}
         curr_lv = int(j_lv_str[line_start_indexes[i]])
         curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
         paths[i] = curr_path
-        curr_head = utils.get_dir_string_head(curr_path,delimiter=sp).replace(sp,'')
+        curr_head = utils.path_string_get_head(curr_path,delimiter=sp).replace(sp,'')
         #---escaped to calculate the real prepend spaces
         curr_head = html.unescape(curr_head)
         #---escaped to calculate the real prepend spaces
@@ -948,7 +948,7 @@ def get_line_color_sec(line,path,**kwargs):
     regex_others_without_b = creat_others_regexes(quotes,colons,ops,commas,spaces,['b'])
     ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #-------------------------------------------------------------------
-    head = utils.get_dir_string_head(path)
+    head = utils.path_string_get_head(path)
     head_last = utils.str_rstrip(head,sp,1)
     head_last = utils.str_rstrip(head_last," ",1)
     head_last = head_last[-1]

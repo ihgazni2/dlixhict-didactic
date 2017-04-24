@@ -136,8 +136,19 @@ def get_obj_type_name(obj):
 #------------------------------------------------------------------#
 #path string
 #path_string : path_str
-#parent_path_string: parent_path_str
-#path_string_leaf:   path_str_leaf
+
+#path_string_leaf: path_str_leaf
+
+
+# head + <the last delimiter> + leaf-tail   
+# or 
+# head(include the second last delimiter) + non-leaf-tail(include the last delimiter)
+#path_string_head:   path_str_head '/a/b/c'.head() = '/a/b/'
+#path_string_tail:   path_str_tail '/a/b/c/'.head() = 'c/'
+
+# parent + <the last delimiter> + leaf
+#path_string_parent: path_str_parent '/a/b/c'.parent()= '/a/b'
+#                                     '/a/b/c/'.parent()='/a/b/c'
  
 def path_string_is_slash_end(path_string,delimiter='/'):
     if(path_string == ''):
@@ -147,16 +158,16 @@ def path_string_is_slash_end(path_string,delimiter='/'):
     else:
         return(False)
 
-def get_dir_string_head(path_string,delimiter='/'):
+def path_string_get_head(path_string,delimiter='/'):
     '''
-        >>> get_dir_string_head('a/b/c')
+        >>> path_string_get_head('a/b/c')
         'a/b/'
         >>> 
-        >>> get_dir_string_head('/a/b/c')
+        >>> path_string_get_head('/a/b/c')
         '/a/b/'
-        >>> get_dir_string_head('a/b/c/')
+        >>> path_string_get_head('a/b/c/')
         'a/b/'
-        >>> get_dir_string_head('/a/b/c/')
+        >>> path_string_get_head('/a/b/c/')
         '/a/b/'
     '''
     if(path_string == ''):
@@ -177,15 +188,15 @@ def get_dir_string_head(path_string,delimiter='/'):
     else:
         return(path_string[:(i+1)])
 
-def get_dir_string_tail(path_string,delimiter='/'):
+def path_string_get_tail(path_string,delimiter='/'):
     '''
-        >>> get_dir_string_tail('a/b/c')
+        >>> path_string_get_tail('a/b/c')
         'c'
-        >>> get_dir_string_tail('/a/b/c')
+        >>> path_string_get_tail('/a/b/c')
         'c'
-        >>> get_dir_string_tail('a/b/c/')
+        >>> path_string_get_tail('a/b/c/')
         'c/'
-        >>> get_dir_string_tail('/a/b/c/')
+        >>> path_string_get_tail('/a/b/c/')
         'c/'
     '''
     if(path_string == ''):
@@ -207,20 +218,45 @@ def get_dir_string_tail(path_string,delimiter='/'):
         return(path_string[(i+1):])
         
 
-def path_str_to_path_list(path_str,sp="/",keep_head_sp=0,keep_end_sp=0):
+def path_string_to_path_list(path_str,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('keep_head_sp' in kwargs):
+        keep_head_sp = kwargs['keep_head_sp']
+    else:
+        keep_head_sp = 0
+    if('keep_head_sp' in kwargs):
+        keep_end_sp = kwargs['keep_end_sp']
+    else:
+        keep_end_sp = 0
     if(keep_head_sp):
         path_str = path_str
     else:
-        path_str = str_lstrip(path_str,sp,1)
+        path_str = str_lstrip(path_str,delimiter,1)
     if(keep_end_sp):
         path_str = path_str
     else:
-        path_str = str_rstrip(path_str,sp,1)
-    sps = path_str.split(sp)
+        path_str = str_rstrip(path_str,delimiter,1)
+    sps = path_str.split(delimiter)
     return(sps)
     
     
-def path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0):
+def path_list_to_path_string(path_list):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('keep_head_sp' in kwargs):
+        keep_head_sp = kwargs['keep_head_sp']
+    else:
+        keep_head_sp = 0
+    if('keep_head_sp' in kwargs):
+        keep_end_sp = kwargs['keep_end_sp']
+    else:
+        keep_end_sp = 0
+
     if(keep_head_sp):
         path_list = path_list
     else:
@@ -230,15 +266,18 @@ def path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0):
     else:
         path_list = path_list[:path_list.__len__()-1]
     for i in range(0,path_list.__len__()):
-        path_str=''.join((path_str,sp))
+        path_str=''.join((path_str,delimiter))
     return(path_str)
     
 
-def is_parent_path(son,parent):
-    son = son.rstrip('/')
-    parent = parent.rstrip('/')
-    sks = son.split('/')
-    pks = parent.split('/')
+
+def path_string_is_parent(parent,son,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    sks = son.split('delimiter')
+    pks = parent.split('delimiter')
     if(pks.__len__() >= sks.__len__()):
         return(0)
     if((sks.__len__() - pks.__len__()) == 1):
@@ -251,21 +290,57 @@ def is_parent_path(son,parent):
     else:
         return(0)
 
-def get_parent_path(son):
-    if(son == ''):
-        son = '/'
-    regex = re.compile('(.*)/(.*?)')
+
+def path_string_is_leaf(leaf,path_str,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    pks = path_str.split('delimiter')
+    if(pks[-1] == leaf):
+        return(1)
+    else:
+        return(0)
+
+
+
+def path_string_get_parent(son,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if(not(delimiter in son)):
+        son = delimiter
+    else:
+        pass
+    regex_str = ''.join(('(.*)',delimiter,'(.*?)'))
+    regex = re.compile(regex_str)
     m = regex.search(son)
     return(m.group(1))
 
-def get_rel_path(abs):
-    if(abs == ''):
-        abs = '/'
-    regex = re.compile('(.*)/([^/]*)')
-    m = regex.search(abs)
+def path_string_get_leaf(absp,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if(not(delimiter in son)):
+        son = delimiter
+    else:
+        pass
+    regex_str = ''.join(('(.*)',delimiter,'([^/]*)'))
+    if(absp == ''):
+        absp = delimiter
+    if(not(delimiter in absp)):
+        absp = delimiter
+    else:
+        pass
+    regex = re.compile(regex_str)
+    m = regex.search(absp)
     return(m.group(2))
 
-def is_parent_path_list(parent_pl,son_pl):
+#--------------------------------------
+
+def path_list_is_parent(parent_pl,son_pl):
     sl_len = son_pl.__len__()
     pl_len = parent_pl.__len__()
     if((sl_len - 1) == pl_len):
@@ -279,7 +354,7 @@ def is_parent_path_list(parent_pl,son_pl):
         return(False)
 
 
-def is_son_path_list(son_pl,parent_pl):
+def path_list_is_son(son_pl,parent_pl):
     sl_len = son_pl.__len__()
     pl_len = parent_pl.__len__()
     if((sl_len - 1) == pl_len):
@@ -292,7 +367,7 @@ def is_son_path_list(son_pl,parent_pl):
     else:
         return(False)
 
-def is_ancestor_path_list(ances_pl,des_pl):
+def path_list_is_ancestor(ances_pl,des_pl):
     dl_len = des_pl.__len__()
     al_len = ances_pl.__len__()
     if(dl_len > al_len):
@@ -306,7 +381,7 @@ def is_ancestor_path_list(ances_pl,des_pl):
         return(False)
 
 
-def is_descedant_path_list(des_pl,ances_pl):
+def path_list_is_descedant(des_pl,ances_pl):
     dl_len = des_pl.__len__()
     al_len = ances_pl.__len__()
     if(dl_len > al_len):
@@ -320,9 +395,9 @@ def is_descedant_path_list(des_pl,ances_pl):
         return(False)
 
 
-def path_list_to_obj_path_str(path_list):
+def path_list_to_getitem_string(path_list):
     '''
-        >>> path_list_to_obj_path_str([1, '1', 2])
+        >>> path_list_to_getitem_string([1, '1', 2])
             "[1]['1'][2]"
         >>> 
     '''
@@ -788,10 +863,10 @@ def dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to=
         if(full_path_display):
             line = ele
         else:
-            indent = get_parent_path(ele)
+            indent = path_string_get_parent(ele)
             indent = indent.replace('/','')
             indent = ' ' * indent.__len__()
-            rel = get_rel_path(ele)
+            rel = path_string_get_leaf(ele)
             line = ''.join((indent,rel))
         if((i >= fr) & (i <= to)):
             text = ''.join((text,'\n',line))

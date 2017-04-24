@@ -1323,7 +1323,7 @@ def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
     ################################################################################
     while(cursor<deep.__len__()):
         curr_pl = deep[cursor]
-        cond = utils.is_parent_path_list(prev_pl,curr_pl)
+        cond = utils.path_list_is_parent(prev_pl,curr_pl)
         #如果上一条cmd是当前cmd的parent,没有结束tag的插入,stagns etagns的序号不变
         if(cond):
             prev_pl = copy.deepcopy(deep[find_parent_cursor])
@@ -1384,7 +1384,7 @@ def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
                 find_parent_cursor = etagn_cursor
                 next_etagn_cursor = find_parent_cursor - 1
                 prev_pl = copy.deepcopy(deep[next_etagn_cursor])
-                cond = utils.is_parent_path_list(prev_pl,curr_pl)
+                cond = utils.path_list_is_parent(prev_pl,curr_pl)
             cursor = cursor+1
             find_parent_cursor = cursor
             prev_pl = copy.deepcopy(curr_pl)
@@ -2355,7 +2355,7 @@ def get_cmdlines_ltdict_leaf_stats(cmdlines_ltdict,**kwargs):
         curr_cmd = ltd[i]
         prev_pl = cmd_str_to_cmd_pl(prev_cmd,cmd_sp = cmd_sp)
         curr_pl = cmd_str_to_cmd_pl(curr_cmd,cmd_sp = cmd_sp)
-        cond = utils.is_parent_path_list(prev_pl,curr_pl)
+        cond = utils.path_list_is_parent(prev_pl,curr_pl)
         if(cond):
             leaf_dict[i-1] = 0
         else:
@@ -2429,7 +2429,7 @@ def get_cmdlines_ltdict_parent_stats(cmdlines_ltdict,**kwargs):
         for j in range(0,i):
             prev_cmd = ltd[j]
             prev_pl = cmd_str_to_cmd_pl(prev_cmd,cmd_sp = cmd_sp)
-            cond = utils.is_parent_path_list(prev_pl,curr_pl)
+            cond = utils.path_list_is_parent(prev_pl,curr_pl)
             if(cond):
                 parent_dict[i] = j
             else:
@@ -4374,7 +4374,7 @@ class cmdict():
                     print("using:")
                     print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
                     print("or:")
-                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_obj_path_str(self.pathlists[each]),single_color='blue')))
+                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
                     print("to get value")
                     print("--------------------------------------------------------------")
                     rslt.append(t)
@@ -4394,7 +4394,7 @@ class cmdict():
                     print("using:")
                     print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
                     print("or:")
-                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_obj_path_str(self.pathlists[each]),single_color='blue')))
+                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
                     print("to get value")
                     print("--------------------------------------------------------------")
                     rslt.append(t)
