@@ -1,4 +1,5 @@
 ##object type judgement
+-----------------------------------------------------------------------------------------------------------------------
 1. is_list(obj) 
 2. is_tuple(obj)
 3. is_dict(obj)
@@ -21,22 +22,29 @@
 20. is_json(obj,strict=False)
 21. is_bytes(obj)
 22. get_obj_type_name(obj)
-
+-----------------------------------------------------------------------------------------------------------------------
 
 ##path string
-1. path_string_is_slash_end(path_string,delimiter='/')  
-2. get_dir_string_head(path_string,delimiter='/')  
-3. get_dir_string_tail(self,path_string,delimiter='/')  
-4. path_str_to_path_list(path_str,sp="/",keep_head_sp=0,keep_end_sp=0)
-5. path_list_to_path_str(path_list,sp="/",keep_head_sp=0,keep_end_sp=0)
-6. is_parent_path(son,parent)
-7. get_parent_path(son)
-8. get_rel_path(abs)
-9. is_parent_path_list(parent_pl,son_pl)
-10. is_son_path_list(son_pl,parent_pl)
-11. is_ancestor_path_list(ances_pl,des_pl)
-12. is_descedant_path_list(des_pl,ances_pl)
-13. path_list_to_obj_path_str(path_list)
+-----------------------------------------------------------------------------------------------------------------------
+1. path_string_is_slash_end(path_string,delimiter='/')
+2. path_string_get_head(path_string,delimiter='/')
+3. path_string_get_tail(path_string,delimiter='/')
+4. path_string_to_path_list(path_str,**kwargs)
+5. path_string_is_parent(parent,son,**kwargs)
+6. path_string_is_leaf(leaf,path_str,**kwargs)
+7. path_string_get_parent(son,**kwargs)
+8. path_string_get_leaf(absp,**kwargs)
+-----------------------------------------------------------------------------------------------------------------------
+
+##path list
+-----------------------------------------------------------------------------------------------------------------------
+1. path_list_to_path_string(path_list,**kwargs)
+2. path_list_is_parent(parent_pl,son_pl)
+3. path_list_is_son(son_pl,parent_pl)
+4. path_list_is_ancestor(ances_pl,des_pl)
+5. path_list_is_descedant(des_pl,ances_pl)
+6. path_list_to_getitem_string(path_list)
+-----------------------------------------------------------------------------------------------------------------------
 
 ##string
 1. loose_str_to_bool(str)  
