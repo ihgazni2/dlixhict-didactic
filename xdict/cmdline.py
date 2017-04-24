@@ -1171,7 +1171,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     if('reorder' in kwargs):
         reorder = kwargs['reorder']
     else:
-        reorder = 0
+        reorder = 1
     if('path_list_cmd' in kwargs):
         path_list_cmd = kwargs['path_list_cmd']
     else:
@@ -4077,6 +4077,13 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
 
 class cmdict():
     def __init__(self,**kwargs):
+        '''
+            from xdict import cmdline
+            from xdict.jprint import pobj
+            currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
+            
+            cmdt = cmdline.cmdict(dict=currd)
+        '''
         self.dict = kwargs['dict']
         if('line_sp' in kwargs):
             line_sp = kwargs['line_sp']
@@ -4109,6 +4116,44 @@ class cmdict():
     def __repr__(self):
         return(self.dict.__repr__())
     def __getitem__(self,cmd):
+        '''
+            # use cmd seperated by space as keys sequence:
+            cmdt['Displays 6 Views 0 Row']
+            cmdt['Displays 6 Views 0']
+            cmdt['Displays 6 Views']
+            cmdt['Displays 6']
+            cmdt['Displays']
+            
+            # use paths list as keys sequence:
+            cmdt[['Displays',6,'Views',0,'Row']]
+            cmdt[['Displays',6,'Views',0]]
+            cmdt[['Displays',6,'Views']]
+            cmdt[['Displays',6]]
+            cmdt[['Displays']]
+            
+            # use traditional keys sequence:
+            cmdt.dict['Displays'][6]['Views'][0]['Row']
+            cmdt.dict['Displays'][6]['Views'][0]
+            cmdt.dict['Displays'][6]['Views']
+            cmdt.dict['Displays'][6]
+            cmdt.dict['Displays']
+            
+            
+            # search most similiar key:
+            cmdt['isplays 1']
+            cmdt['RuleID']
+            cmdt['LoggedRuleIDs']
+            cmdt['LoggedRuleIDs 0']
+            cmdt['LoggedRuleIDs 1']
+            cmdt['LoggedRuleIDs 2']
+            
+            # give prompt indication for exact key,
+            # for example: wrongly input 0 as '0':
+            cmdt[['Displays',6,'Views','0','Row']]
+            
+            cmdt[['Displays', 6, 'Views', 0, 'Row']]
+            cmdt.dict['Displays'][6]['Views'][0]['Row']
+        '''
         if(utils.is_str(cmd)):
             try:
                 rslt = get_obj_value_via_cmd(cmd,self.dict,line_sp=self.line_sp,cmd_sp=self.cmd_sp,s2n=self.s2n,n2s=self.n2s)
@@ -4148,7 +4193,15 @@ class cmdict():
                 raise KeyError('should be',rslt)
             else:
                 return(rslt)
+    #####################################################################
     def __setitem__(self,cmd,value):
+        '''
+            cmdt['owner nameIDs uid'] = 'dli_u1'
+            cmdt['owner'] = {}
+            cmdt['owner nameIDs'] = {}
+            cmdt['owner nameIDs uid'] = 'dli_u1'
+            cmdt['owner nameIDs uid']
+        '''
         if(utils.is_str(cmd)):
             cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
             cmd_str = format_cmd_str(cmd_str,cmd_sp=self.cmd_sp)
@@ -4165,6 +4218,10 @@ class cmdict():
         self.results = cfd['results']
         self.attribs = cfd['attribs']
     def __delitem__(self,cmd):
+        '''
+            del cmdt['owner']
+            cmdt['owner nameIDs uid'] = 'dli_u1'
+        '''
         if(utils.is_str(cmd)):
             cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
             cmd_str = format_cmd_str(cmd_str,cmd_sp=self.cmd_sp)
@@ -4181,20 +4238,45 @@ class cmdict():
         self.results = cfd['results']
         self.attribs = cfd['attribs']
     def clear(self):
+        '''
+        cmdt2 = cmdt.copy()
+        >>> cmdt2.clear()
+        >>> cmdt2
+        {}
+        >>> 
+        '''
         self.dict = {}
         self.pathlists = {}
         self.cmdlines = {}
         self.results = {}
         self.attribs = {}
     def copy(self):
+        '''
+            cmdt2 = cmdt.copy()
+        '''
         return(copy.deepcopy(self))
     def items(self):
+        '''
+            cmdt.items()
+        '''
         return(self.dict.items())
     def keys(self):
+        '''
+            cmdt.keys()
+        '''
         return(self.dict.keys())
     def values(self):
+        '''
+            cmdt.values()
+        '''
         return(self.dict.values())
+    #############################################################
     def pop(self,cmd):
+        '''
+            pobj(cmdt['Displays 6'])
+            cmdt.pop('Displays 6')
+            cmdt['Displays 6']
+        '''
         rslt = self.__getitem__(cmd)
         self.__delitem__(cmd)
         cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
@@ -4207,6 +4289,12 @@ class cmdict():
         self.attribs = cfd['attribs']
         return(rslt)
     def popitem(self):
+        '''
+            cmdt.keys()
+            cmdt.popitem()
+            cmdt.popitem()
+            cmdt.popitem()
+        '''
         rslt = self.dict.popitem()
         cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
         self.pathlists = cfd['cmds']
@@ -4218,6 +4306,11 @@ class cmdict():
         self.attribs = cfd['attribs']
         return(rslt)
     def setdefault(self,cmd):
+        '''
+            cmdt['Displays 5']
+            cmdt.setdefault('Displays 5')
+            cmdt['Displays 5']
+        '''
         self.__setitem__(cmd,None)
         cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
         self.pathlists = cfd['cmds']
@@ -4228,6 +4321,11 @@ class cmdict():
         self.results = cfd['results']
         self.attribs = cfd['attribs']
     def update(self,value):
+        '''
+            cmdt['UseHRBelt']
+            cmdt.update({'UseHRBelt':True})
+            cmdt['UseHRBelt']
+        '''
         self.dict.update(value)
         cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
         self.pathlists = cfd['cmds']
