@@ -97,6 +97,80 @@ __2. cmdt[keys]__
 	    
 ![](ReadMeDetailed/Images/cmdline.cmdict.__getitem__.8.png)
 
+
+__3. cmdt[keys] = value__
+-------------------------
+		cmdt['owner nameIDs uid'] = 'dli_u1'
+		cmdt['owner'] = {}
+		cmdt['owner nameIDs'] = {}
+		cmdt['owner nameIDs uid'] = 'dli_u1'
+		cmdt['owner nameIDs uid']  
+		
+![](ReadMeDetailed/Images/cmdline.cmdict.__setitem__.png)
+
+
+__4. del cmdt[keys]__
+---------------------
+		del cmdt['owner']
+		cmdt['owner nameIDs uid'] = 'dli_u1'
+		
+![](ReadMeDetailed/Images/cmdline.cmdict.__delitem__.png)
+
+
+__5. .clear()__
+---------------
+		cmdt2 = cmdt.copy()
+		>>> cmdt2.clear()
+		>>> cmdt2
+		{}
+		>>> 
+		
+__6. .copy()__
+--------------
+		cmdt2 = cmdt.copy()
+		
+__7. .keys()__
+--------------
+		cmdt.keys()
+		
+__8. .values()__
+----------------
+		cmdt.values()
+		
+__9. .pop(keys)__
+-----------------
+		pobj(cmdt['Displays 6'])
+		cmdt.pop('Displays 6')
+		cmdt['Displays 6']
+
+![](ReadMeDetailed/Images/cmdline.cmdict.pop.png)
+
+__10. .popitem()__
+------------------
+		cmdt.keys()
+		cmdt.popitem()
+		cmdt.popitem()
+		cmdt.popitem()
+
+![](ReadMeDetailed/Images/cmdline.cmdict.popitem.png)
+
+__11. .setdefault(keys)__
+-------------------------
+		cmdt['Displays 5']
+		cmdt.setdefault('Displays 5')
+		cmdt['Displays 5']
+		
+![](ReadMeDetailed/Images/cmdline.cmdict.setdefault.png)
+
+__12. .update(d)__
+------------------
+		cmdt['UseHRBelt']
+		cmdt.update({'UseHRBelt':True})
+		cmdt['UseHRBelt']
+		
+![](ReadMeDetailed/Images/cmdline.cmdict.update.png)
+
+
 --------------------------------------------------------
 
 
