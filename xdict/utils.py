@@ -134,8 +134,12 @@ def get_obj_type_name(obj):
 
 
 #------------------------------------------------------------------#
-#path string 
-def is_slash_end(path_string,delimiter='/'):
+#path string
+#path_string : path_str
+#parent_path_string: parent_path_str
+#path_string_leaf:   path_str_leaf
+ 
+def path_string_is_slash_end(path_string,delimiter='/'):
     if(path_string == ''):
         return(False)
     if(path_string[-1] == delimiter):
@@ -159,7 +163,7 @@ def get_dir_string_head(path_string,delimiter='/'):
         return('')
     path_len = path_string.__len__()
     last_index = path_len - 1
-    if(is_slash_end(path_string,delimiter)):
+    if(path_string_is_slash_end(path_string,delimiter)):
         frm = last_index-1
     else:
         frm = last_index
@@ -188,7 +192,7 @@ def get_dir_string_tail(path_string,delimiter='/'):
         return('')
     path_len = path_string.__len__()
     last_index = path_len - 1
-    if(is_slash_end(path_string,delimiter)):
+    if(path_string_is_slash_end(path_string,delimiter)):
         frm = last_index-1
     else:
         frm = last_index
