@@ -1310,7 +1310,6 @@ def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
     def increase_seqs_after(stagns,index):
         for i in range(index,stagns.__len__()):
             stagns[i] = stagns[i] + 1
-    ##################################################################################
     deep = cmdlines_ltdict_to_deep(cmdlines_ltdict)
     stagns = list(deep.keys())
     etagns = {}
@@ -4069,13 +4068,222 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
 
 
 #-------------------------------#
-#--------------要实现这两个函数 to optimize performance
-# del_cmdlines_full_dict(cfd,path_list)
-# set_cmdlines_full_dict(cfd,path_list)
-#-------------------------------#
+#-------------- to optimize performance
+def del_cmdlines_strict_full_dict(cfd,path_list,**kwargs):
+    '''
+        cfd = {'cmds': {0: 'AutoPauseSpeed', 1: 'Displays', 2: 'Displays 0', 3: 'Displays 0 RequiresHRBelt', 4: 'Displays 0 Row1', 5: 'Displays 0 Row1 Row', 6: 'Displays 0 Row1 RuleID', 7: 'Displays 0 Row2', 8: 'Displays 0 Row2 Row', 9: 'Displays 0 Row2 RuleID', 10: 'Displays 0 Type', 11: 'Displays 0 Views', 12: 'Displays 0 Views 0', 13: 'Displays 0 Views 0 Row', 14: 'Displays 0 Views 0 RuleID', 15: 'Displays 1', 16: 'Displays 1 RequiresHRBelt', 17: 'Displays 1 Row1', 18: 'Displays 1 Row1 Row', 19: 'Displays 1 Row1 RuleID', 20: 'Displays 1 Row2', 21: 'Displays 1 Row2 Row', 22: 'Displays 1 Row2 RuleID', 23: 'Displays 1 Type', 24: 'Displays 1 Views', 25: 'Displays 1 Views 0', 26: 'Displays 1 Views 0 Row', 27: 'Displays 1 Views 0 RuleID', 28: 'Name'}, 'attribs': {0: {'type': 'int'}, 1: {'type': 'list'}, 2: {'type': 'dict'}, 3: {'type': 'NoneType'}, 4: {'type': 'dict'}, 5: {'type': 'int'}, 6: {'type': 'NoneType'}, 7: {'type': 'dict'}, 8: {'type': 'int'}, 9: {'type': 'NoneType'}, 10: {'type': 'int'}, 11: {'type': 'list'}, 12: {'type': 'dict'}, 13: {'type': 'int'}, 14: {'type': 'NoneType'}, 15: {'type': 'dict'}, 16: {'type': 'NoneType'}, 17: {'type': 'dict'}, 18: {'type': 'int'}, 19: {'type': 'NoneType'}, 20: {'type': 'dict'}, 21: {'type': 'int'}, 22: {'type': 'NoneType'}, 23: {'type': 'int'}, 24: {'type': 'list'}, 25: {'type': 'dict'}, 26: {'type': 'int'}, 27: {'type': 'NoneType'}, 28: {'type': 'str'}}, 'pathlists': {0: ['AutoPauseSpeed'], 1: ['Displays'], 2: ['Displays', 0], 3: ['Displays', 0, 'RequiresHRBelt'], 4: ['Displays', 0, 'Row1'], 5: ['Displays', 0, 'Row1', 'Row'], 6: ['Displays', 0, 'Row1', 'RuleID'], 7: ['Displays', 0, 'Row2'], 8: ['Displays', 0, 'Row2', 'Row'], 9: ['Displays', 0, 'Row2', 'RuleID'], 10: ['Displays', 0, 'Type'], 11: ['Displays', 0, 'Views'], 12: ['Displays', 0, 'Views', 0], 13: ['Displays', 0, 'Views', 0, 'Row'], 14: ['Displays', 0, 'Views', 0, 'RuleID'], 15: ['Displays', 1], 16: ['Displays', 1, 'RequiresHRBelt'], 17: ['Displays', 1, 'Row1'], 18: ['Displays', 1, 'Row1', 'Row'], 19: ['Displays', 1, 'Row1', 'RuleID'], 20: ['Displays', 1, 'Row2'], 21: ['Displays', 1, 'Row2', 'Row'], 22: ['Displays', 1, 'Row2', 'RuleID'], 23: ['Displays', 1, 'Type'], 24: ['Displays', 1, 'Views'], 25: ['Displays', 1, 'Views', 0], 26: ['Displays', 1, 'Views', 0, 'Row'], 27: ['Displays', 1, 'Views', 0, 'RuleID'], 28: ['Name']}, 'results': {0: 0, 1: {}, 2: {}, 3: None, 4: {}, 5: 54, 6: None, 7: {}, 8: 56, 9: None, 10: 5, 11: {}, 12: {}, 13: 57, 14: None, 15: {}, 16: None, 17: {}, 18: 58, 19: None, 20: {}, 21: 59, 22: None, 23: 5, 24: {}, 25: {}, 26: 12, 27: None, 28: 'Pool swimming'}}
+        pobj(cfd['cmds'],fixed_indent=0)
+        pobj(cfd['pathlists'],fixed_indent=1)
+        pobj(cfd['results'],fixed_indent=1)
+        pobj(cfd['attribs'],fixed_indent=1)
+        
+        
+        # this can be applied to sorted or non-sorted:
+        del_cmdlines_strict_full_dict(cfd,['Displays'])
+        pobj(cfd['cmds'],fixed_indent=0)
+        pobj(cfd['pathlists'],fixed_indent=1)
+        pobj(cfd['results'],fixed_indent=1)
+        pobj(cfd['attribs'],fixed_indent=1)
+        
+        cfd = {'cmds': {0: 'AutoPauseSpeed', 1: 'Displays', 2: 'Displays 0', 3: 'Displays 0 RequiresHRBelt', 4: 'Displays 0 Row1', 5: 'Displays 0 Row1 Row', 6: 'Displays 0 Row1 RuleID', 7: 'Displays 0 Row2', 8: 'Displays 0 Row2 Row', 9: 'Displays 0 Row2 RuleID', 10: 'Displays 0 Type', 11: 'Displays 0 Views', 12: 'Displays 0 Views 0', 13: 'Displays 0 Views 0 Row', 14: 'Displays 0 Views 0 RuleID', 15: 'Displays 1', 16: 'Displays 1 RequiresHRBelt', 17: 'Displays 1 Row1', 18: 'Displays 1 Row1 Row', 19: 'Displays 1 Row1 RuleID', 20: 'Displays 1 Row2', 21: 'Displays 1 Row2 Row', 22: 'Displays 1 Row2 RuleID', 23: 'Displays 1 Type', 24: 'Displays 1 Views', 25: 'Displays 1 Views 0', 26: 'Displays 1 Views 0 Row', 27: 'Displays 1 Views 0 RuleID', 28: 'Name'}, 'attribs': {0: {'type': 'int'}, 1: {'type': 'list'}, 2: {'type': 'dict'}, 3: {'type': 'NoneType'}, 4: {'type': 'dict'}, 5: {'type': 'int'}, 6: {'type': 'NoneType'}, 7: {'type': 'dict'}, 8: {'type': 'int'}, 9: {'type': 'NoneType'}, 10: {'type': 'int'}, 11: {'type': 'list'}, 12: {'type': 'dict'}, 13: {'type': 'int'}, 14: {'type': 'NoneType'}, 15: {'type': 'dict'}, 16: {'type': 'NoneType'}, 17: {'type': 'dict'}, 18: {'type': 'int'}, 19: {'type': 'NoneType'}, 20: {'type': 'dict'}, 21: {'type': 'int'}, 22: {'type': 'NoneType'}, 23: {'type': 'int'}, 24: {'type': 'list'}, 25: {'type': 'dict'}, 26: {'type': 'int'}, 27: {'type': 'NoneType'}, 28: {'type': 'str'}}, 'pathlists': {0: ['AutoPauseSpeed'], 1: ['Displays'], 2: ['Displays', 0], 3: ['Displays', 0, 'RequiresHRBelt'], 4: ['Displays', 0, 'Row1'], 5: ['Displays', 0, 'Row1', 'Row'], 6: ['Displays', 0, 'Row1', 'RuleID'], 7: ['Displays', 0, 'Row2'], 8: ['Displays', 0, 'Row2', 'Row'], 9: ['Displays', 0, 'Row2', 'RuleID'], 10: ['Displays', 0, 'Type'], 11: ['Displays', 0, 'Views'], 12: ['Displays', 0, 'Views', 0], 13: ['Displays', 0, 'Views', 0, 'Row'], 14: ['Displays', 0, 'Views', 0, 'RuleID'], 15: ['Displays', 1], 16: ['Displays', 1, 'RequiresHRBelt'], 17: ['Displays', 1, 'Row1'], 18: ['Displays', 1, 'Row1', 'Row'], 19: ['Displays', 1, 'Row1', 'RuleID'], 20: ['Displays', 1, 'Row2'], 21: ['Displays', 1, 'Row2', 'Row'], 22: ['Displays', 1, 'Row2', 'RuleID'], 23: ['Displays', 1, 'Type'], 24: ['Displays', 1, 'Views'], 25: ['Displays', 1, 'Views', 0], 26: ['Displays', 1, 'Views', 0, 'Row'], 27: ['Displays', 1, 'Views', 0, 'RuleID'], 28: ['Name']}, 'results': {0: 0, 1: {}, 2: {}, 3: None, 4: {}, 5: 54, 6: None, 7: {}, 8: 56, 9: None, 10: 5, 11: {}, 12: {}, 13: 57, 14: None, 15: {}, 16: None, 17: {}, 18: 58, 19: None, 20: {}, 21: 59, 22: None, 23: 5, 24: {}, 25: {}, 26: 12, 27: None, 28: 'Pool swimming'}}
+        # the below will be faster than the upper,but can only be applied to sorted:
+        del_cmdlines_strict_full_dict(cfd,['Displays',0],already_sorted=1)
+        pobj(cfd['cmds'],fixed_indent=0)
+        pobj(cfd['pathlists'],fixed_indent=1)
+        pobj(cfd['results'],fixed_indent=1)
+        pobj(cfd['attribs'],fixed_indent=1)
+        
+    '''
+    if('already_sorted' in kwargs):
+        already_sorted = kwargs['already_sorted']
+    else:
+        already_sorted = 0
+    nseq = 0
+    ncfd = {}
+    ncfd['pathlists'] = {}
+    ncfd['cmds'] = {}
+    ncfd['results'] = {}
+    ncfd['attribs'] = {}
+    if(already_sorted):
+        start = 0
+        for seq in range(0,cfd['pathlists'].__len__()):
+            cmdpl = cfd['pathlists'][seq]
+            cond =  cmdline.cmdpl_in_cmdpl(path_list,cmdpl,mode='strict')
+            if(cond):
+                start = seq
+            else:
+                ncfd['pathlists'][nseq] = cfd['pathlists'][seq]
+                ncfd['cmds'][nseq] = cfd['cmds'][seq]
+                ncfd['results'][nseq] = cfd['results'][seq]
+                ncfd['attribs'][nseq] = cfd['attribs'][seq]
+                nseq = nseq + 1
+        for seq in range(start,cfd['pathlists'].__len__()):
+            cmdpl = cfd['pathlists'][seq]
+            cond =  cmdline.cmdpl_in_cmdpl(path_list,cmdpl,mode='strict')
+            if(cond):
+                pass
+            else:
+                start = seq
+        for seq in range(start,cfd['pathlists'].__len__()):
+            start = seq
+            ncfd['pathlists'][nseq] = cfd['pathlists'][seq]
+            ncfd['cmds'][nseq] = cfd['cmds'][seq]
+            ncfd['results'][nseq] = cfd['results'][seq]
+            ncfd['attribs'][nseq] = cfd['attribs'][seq]
+            nseq = nseq + 1
+    else:
+        for seq in cfd['pathlists']:
+            cmdpl = cfd['pathlists'][seq]
+            cond =  cmdline.cmdpl_in_cmdpl(path_list,cmdpl,mode='strict')
+            if(cond):
+                pass
+            else:
+                ncfd['pathlists'][nseq] = cfd['pathlists'][seq]
+                ncfd['cmds'][nseq] = cfd['cmds'][seq]
+                ncfd['results'][nseq] = cfd['results'][seq]
+                ncfd['attribs'][nseq] = cfd['attribs'][seq]
+                nseq = nseq + 1
+    ncfd['pathlists'] = ltdict.ltdict_naturalize_intkeydict(ncfd['pathlists'])
+    ncfd['cmds'] = ltdict.ltdict_naturalize_intkeydict(ncfd['cmds'])
+    ncfd['results'] = ltdict.ltdict_naturalize_intkeydict(ncfd['results'])
+    ncfd['attribs'] = ltdict.ltdict_naturalize_intkeydict(ncfd['attribs'])
+    cfd['pathlists'] = ncfd['pathlists']
+    cfd['cmds'] = ncfd['cmds']
+    cfd['results'] = ncfd['results'] 
+    cfd['attribs'] = ncfd['attribs'] 
+    return(cfd)
+
+
+def set_cmdlines_strict_full_dict(cfd,path_list,value,attrib,**kwargs):
+    '''
+        cfd = {'cmds': {0: 'AutoPauseSpeed', 1: 'Displays', 2: 'Displays 0', 3: 'Displays 0 RequiresHRBelt', 4: 'Displays 0 Row1', 5: 'Displays 0 Row1 Row', 6: 'Displays 0 Row1 RuleID', 7: 'Displays 0 Row2', 8: 'Displays 0 Row2 Row', 9: 'Displays 0 Row2 RuleID', 10: 'Displays 0 Type', 11: 'Displays 0 Views', 12: 'Displays 0 Views 0', 13: 'Displays 0 Views 0 Row', 14: 'Displays 0 Views 0 RuleID', 15: 'Displays 1', 16: 'Displays 1 RequiresHRBelt', 17: 'Displays 1 Row1', 18: 'Displays 1 Row1 Row', 19: 'Displays 1 Row1 RuleID', 20: 'Displays 1 Row2', 21: 'Displays 1 Row2 Row', 22: 'Displays 1 Row2 RuleID', 23: 'Displays 1 Type', 24: 'Displays 1 Views', 25: 'Displays 1 Views 0', 26: 'Displays 1 Views 0 Row', 27: 'Displays 1 Views 0 RuleID', 28: 'Name'}, 'attribs': {0: {'type': 'int'}, 1: {'type': 'list'}, 2: {'type': 'dict'}, 3: {'type': 'NoneType'}, 4: {'type': 'dict'}, 5: {'type': 'int'}, 6: {'type': 'NoneType'}, 7: {'type': 'dict'}, 8: {'type': 'int'}, 9: {'type': 'NoneType'}, 10: {'type': 'int'}, 11: {'type': 'list'}, 12: {'type': 'dict'}, 13: {'type': 'int'}, 14: {'type': 'NoneType'}, 15: {'type': 'dict'}, 16: {'type': 'NoneType'}, 17: {'type': 'dict'}, 18: {'type': 'int'}, 19: {'type': 'NoneType'}, 20: {'type': 'dict'}, 21: {'type': 'int'}, 22: {'type': 'NoneType'}, 23: {'type': 'int'}, 24: {'type': 'list'}, 25: {'type': 'dict'}, 26: {'type': 'int'}, 27: {'type': 'NoneType'}, 28: {'type': 'str'}}, 'pathlists': {0: ['AutoPauseSpeed'], 1: ['Displays'], 2: ['Displays', 0], 3: ['Displays', 0, 'RequiresHRBelt'], 4: ['Displays', 0, 'Row1'], 5: ['Displays', 0, 'Row1', 'Row'], 6: ['Displays', 0, 'Row1', 'RuleID'], 7: ['Displays', 0, 'Row2'], 8: ['Displays', 0, 'Row2', 'Row'], 9: ['Displays', 0, 'Row2', 'RuleID'], 10: ['Displays', 0, 'Type'], 11: ['Displays', 0, 'Views'], 12: ['Displays', 0, 'Views', 0], 13: ['Displays', 0, 'Views', 0, 'Row'], 14: ['Displays', 0, 'Views', 0, 'RuleID'], 15: ['Displays', 1], 16: ['Displays', 1, 'RequiresHRBelt'], 17: ['Displays', 1, 'Row1'], 18: ['Displays', 1, 'Row1', 'Row'], 19: ['Displays', 1, 'Row1', 'RuleID'], 20: ['Displays', 1, 'Row2'], 21: ['Displays', 1, 'Row2', 'Row'], 22: ['Displays', 1, 'Row2', 'RuleID'], 23: ['Displays', 1, 'Type'], 24: ['Displays', 1, 'Views'], 25: ['Displays', 1, 'Views', 0], 26: ['Displays', 1, 'Views', 0, 'Row'], 27: ['Displays', 1, 'Views', 0, 'RuleID'], 28: ['Name']}, 'results': {0: 0, 1: {}, 2: {}, 3: None, 4: {}, 5: 54, 6: None, 7: {}, 8: 56, 9: None, 10: 5, 11: {}, 12: {}, 13: 57, 14: None, 15: {}, 16: None, 17: {}, 18: 58, 19: None, 20: {}, 21: 59, 22: None, 23: 5, 24: {}, 25: {}, 26: 12, 27: None, 28: 'Pool swimming'}}
+        pobj(cfd['cmds'],fixed_indent=0)
+        pobj(cfd['pathlists'],fixed_indent=1)
+        pobj(cfd['results'],fixed_indent=1)
+        pobj(cfd['attribs'],fixed_indent=1)
+        
+        set_cmdlines_strict_full_dict(cfd,['Displays',2,'RequiresHRBelt'],False,{'type':'bool'},already_sorted=1)
+        
+        set_cmdlines_strict_full_dict(cfd,['Displays',2],{},{'type':'dict'},already_sorted=1)
+        pobj(cfd['cmds'],fixed_indent=0)
+        pobj(cfd['pathlists'],fixed_indent=1)
+        pobj(cfd['results'],fixed_indent=1)
+        pobj(cfd['attribs'],fixed_indent=1)
+    '''
+    if(path_list == []):
+        cfd.clear()
+        return(cfd)
+    else:
+        ppl = copy.deepcopy(path_list)
+        ppl.pop(-1)
+    if('already_sorted' in kwargs):
+        already_sorted = kwargs['already_sorted']
+    else:
+        already_sorted = 0
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    ppl_seq = -1
+    self_seq = -1
+    inserted_seq = -1
+    if(already_sorted):
+        for seq in range(0,cfd['pathlists'].__len__()):
+            cmdpl = cfd['pathlists'][seq]
+            cond =  (ppl == cmdpl)
+            if(cond):
+                ppl_seq = seq
+            else:
+                pass
+        if(ppl_seq == -1):
+            raise KeyError(ppl)
+        else:
+            if(path_list > cfd['pathlists'][cfd['pathlists'].__len__()-1]):
+                inserted_seq = cfd['pathlists'].__len__()
+            else:
+                pass
+            for seq in range(ppl_seq+1,cfd['pathlists'].__len__()):
+                cmdpl = cfd['pathlists'][seq]
+                cond =  (path_list == cmdpl)
+                if(cond):
+                    self_seq = seq
+                else:
+                    prev_cmdpl = cfd['pathlists'][seq - 1]
+                    condx = ( (path_list > prev_cmdpl) & (path_list < cmdpl))
+                    if(condx):
+                        inserted_seq = seq
+                    else:
+                        pass
+            if(self_seq == -1):
+                ltdict.ltdict_insert(cfd['pathlists'],inserted_seq,path_list)
+                ltdict.ltdict_insert(cfd['results'],inserted_seq,value)
+                ltdict.ltdict_insert(cfd['attribs'],inserted_seq,attrib)
+                ltdict.ltdict_insert(cfd['cmds'],inserted_seq,path_to_cmd_str(path_list,cmd_sp=cmd_sp))
+                return(cfd)
+            else:
+                cfd['pathlists'][self_seq] = path_list
+                cfd['results'][self_seq] = value
+                cfd['attribs'][self_seq] = attrib
+                cfd['cmds'][self_seq] = path_to_cmd_str(path_list,cmd_sp=cmd_sp)
+                return(cfd)
+    else:
+        for seq in range(0,cfd['pathlists'].__len__()):
+            cmdpl = cfd['pathlists'][seq]
+            cond =  (ppl == cmdpl)
+            if(cond):
+                ppl_seq = seq
+            else:
+                pass
+        if(ppl_seq == -1):
+            raise KeyError(ppl)
+        else:
+            for seq in range(ppl_seq+1,cfd['pathlists'].__len__()):
+                cmdpl = cfd['pathlists'][seq]
+                cond =  (path_list == cmdpl)
+                if(cond):
+                    self_seq = seq
+                else:
+                    pass
+            if(self_seq == -1):
+                inserted_seq = max(cfd['pathlists'].keys()) + 1
+                cfd['pathlists'][self_seq] = path_list
+                cfd['results'][self_seq] = value
+                cfd['attribs'][self_seq] = attrib
+                cfd['cmds'][self_seq] = path_to_cmd_str(path_list,cmd_sp=cmd_sp)
+                return(cfd)
+            else:
+                cfd['pathlists'][self_seq] = path_list
+                cfd['results'][self_seq] = value
+                cfd['attribs'][self_seq] = attrib
+                cfd['cmds'][self_seq] = path_to_cmd_str(path_list,cmd_sp=cmd_sp)
+                return(cfd)
+    return(cfd)
+
 
 
 class cmdict():
+    '''
+        # the internal 
+        from xdict import cmdline
+        from xdict.jprint import pobj
+        currd = {'AutoPauseSpeed': 0, 'Name': 'Pool swimming', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}]}
+        cmdt = cmdline.cmdict(dict=currd)
+        cmdt
+        cmdt.keys()
+        cmdt.dict
+        cmdt.cmd_sp
+        cmdt.line_sp
+        #automatically convert str(such as '1')-key to number(such as 1)-key
+        #by default = 1
+        cmdt.s2n
+        #automatically convert number(such as 1)-key to str(such as '1')
+        #by default = 0
+        cmdt.n2s
+        pobj(cmdt.cmdlines)
+        pobj(cmdt.pathlists,fixed_indent=1)
+        pobj(cmdt.attribs,fixed_indent=1)
+        pobj(cmdt.results,fixed_indent=1)
+    '''
     def __init__(self,**kwargs):
         '''
             from xdict import cmdline
@@ -4193,7 +4401,6 @@ class cmdict():
                 raise KeyError('should be',rslt)
             else:
                 return(rslt)
-    #####################################################################
     def __setitem__(self,cmd,value):
         '''
             cmdt['owner nameIDs uid'] = 'dli_u1'
@@ -4270,7 +4477,6 @@ class cmdict():
             cmdt.values()
         '''
         return(self.dict.values())
-    #############################################################
     def pop(self,cmd):
         '''
             pobj(cmdt['Displays 6'])
@@ -4335,3 +4541,4 @@ class cmdict():
             self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
+     
