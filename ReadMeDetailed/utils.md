@@ -24,7 +24,7 @@
 
 
 ##path string
-1. is_slash_end(path_string,delimiter='/')  
+1. path_string_is_slash_end(path_string,delimiter='/')  
 2. get_dir_string_head(path_string,delimiter='/')  
 3. get_dir_string_tail(self,path_string,delimiter='/')  
 4. path_str_to_path_list(path_str,sp="/",keep_head_sp=0,keep_end_sp=0)
