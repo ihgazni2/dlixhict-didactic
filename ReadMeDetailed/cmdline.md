@@ -254,4 +254,17 @@ FUNCTIONS:
 ![](../Images/hdict_cmdline.show_obj_via_cmd.png)
 # 44. __show_hdict_via_cmd(cmd,hdict,**kwargs)__
 ![](../Images/hdict_cmdline.show_hdict_via_cmd.png)
+# 45. __del_cmdlines_strict_full_dict(cfd,path_list,**kwargs)__
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.1.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.2.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.3.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.4.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.5.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.6.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.7.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.8.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.9.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.10.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.11.png)
+![](../Images/hdict_cmdline.del_cmdlines_strict_full_dict.12.png)
 
