@@ -20,7 +20,7 @@
 19. is_unhashable_type(obj)
 20. is_json(obj,strict=False)
 21. is_bytes(obj)
-22. get_type_name(obj)
+22. get_obj_type_name(obj)
 
 
 ##path string
