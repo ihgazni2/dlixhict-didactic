@@ -30,7 +30,7 @@ def check(fname):
     fl.append('cat ./xdict/console_color.py')
     fl.append('cat ./xdict/CrtableLib/crtable.py ')
     fl.append('cat ./xdict/CrtableLib/__init__.py ')
-    fl.append('cat ./xdict/hdict_cmdline.py ' )
+    fl.append('cat ./xdict/cmdline.py ' )
     fl.append('cat ./xdict/hdict_object.py ')
     fl.append('cat ./xdict/hdict_xml.py' )
     fl.append('cat ./xdict/__init__.py ')

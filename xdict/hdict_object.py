@@ -76,7 +76,7 @@ def obj_to_hdict(obj,**kwargs):
         hdict[0] = {}
         hdict[0]['tag'] = ''
         hdict[0]['attrib'] = {}
-        hdict[0]['attrib']['type'] = utils.get_type_name(new_obj)
+        hdict[0]['attrib']['type'] = utils.get_obj_type_name(new_obj)
         hdict[0]['text'] = str(new_obj)
         hdict[0]['depth'] = 0
         hdict[0]['breadth'] = 0
@@ -108,7 +108,7 @@ def obj_to_hdict(obj,**kwargs):
             parent_attrib_path = copy.deepcopy(parent_path)
             parent_attrib_path.append('attrib')
             parent_attrib = {}
-            parent_attrib['type'] = utils.get_type_name(parent['node'])
+            parent_attrib['type'] = utils.get_obj_type_name(parent['node'])
             add_dict_tree_entry(hdict,parent_attrib_path,parent_attrib,s2n=s2n,n2s=n2s)
             parent_depth_path = copy.deepcopy(parent_path)
             parent_depth_path.append('depth')

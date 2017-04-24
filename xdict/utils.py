@@ -119,11 +119,6 @@ def is_json(obj,strict=False):
     else:
         return(True)
 
-def get_type_name(obj):
-    class_str = str(type(obj))
-    regex = re.compile('\'(.*)\'')
-    m = regex.search(class_str)
-    return(m.group(1))
 
 def is_bytes(obj):
     if(type(obj)==type(b'x')):
@@ -131,7 +126,14 @@ def is_bytes(obj):
     else:
         return(False)
 
+def get_obj_type_name(obj):
+    class_str = str(type(obj))
+    regex = re.compile('\'(.*)\'')
+    m = regex.search(class_str)
+    return(m.group(1))
 
+
+#------------------------------------------------------------------#
 #path string 
 def is_slash_end(path_string,delimiter='/'):
     if(path_string == ''):
