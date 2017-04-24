@@ -226,11 +226,11 @@ def path_string_to_path_list(path_str,**kwargs):
     if('keep_head_sp' in kwargs):
         keep_head_sp = kwargs['keep_head_sp']
     else:
-        keep_head_sp = 0
+        keep_head_sp = 1
     if('keep_head_sp' in kwargs):
         keep_end_sp = kwargs['keep_end_sp']
     else:
-        keep_end_sp = 0
+        keep_end_sp = 1
     if(keep_head_sp):
         path_str = path_str
     else:
@@ -251,11 +251,11 @@ def path_list_to_path_string(path_list):
     if('keep_head_sp' in kwargs):
         keep_head_sp = kwargs['keep_head_sp']
     else:
-        keep_head_sp = 0
+        keep_head_sp = 1
     if('keep_head_sp' in kwargs):
         keep_end_sp = kwargs['keep_end_sp']
     else:
-        keep_end_sp = 0
+        keep_end_sp = 1
 
     if(keep_head_sp):
         path_list = path_list
@@ -338,6 +338,60 @@ def path_string_get_leaf(absp,**kwargs):
     m = regex.search(absp)
     return(m.group(2))
 
+
+
+
+class pathstr(str):
+    def head(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_get_head(self.__str(),delimiter=delimiter))
+    def tail(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_get_tail(self.__str(),delimiter=delimiter))
+    def leaf(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_get_leaf(self.__str(),delimiter=delimiter))
+    def parent(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_get_parent(self.__str(),delimiter=delimiter))
+    def pathlist(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        if('keep_head_sp' in kwargs):
+            keep_head_sp = kwargs['keep_head_sp']
+        else:
+            keep_head_sp = 1
+        if('keep_head_sp' in kwargs):
+            keep_end_sp = kwargs['keep_end_sp']
+        else:
+            keep_end_sp = 1
+        return(path_string_to_path_list(self.__str(),delimiter=delimiter,keep_head_sp=keep_head_sp,keep_end_sp=keep_end_sp))
+    def is_parent(self,pathstr_2,**kwargs):
+        return(path_string_is_parent(self.__str(),pathstr_2,delimiter=delimiter))
+    def is_leaf(self,pathstr_2,**kwargs):
+        return(path_string_is_leaf(self.__str(),pathstr_2,delimiter=delimiter))
+
+
+
+
+
+
+
+
 #--------------------------------------
 
 def path_list_is_parent(parent_pl,son_pl):
@@ -409,6 +463,29 @@ def path_list_to_getitem_string(path_list):
     for i in range(0,t2.__len__()):
         s = ''.join((s,'[',t2[i],']'))
     return(s)
+
+
+class pathlist(list):
+    def leaf(self):
+        return([self[-1]])
+    def parent(self):
+        p = copy.deepcopy(self)
+        p.pop(-1)
+        return(p)
+    def is_parent(self,pl2):
+        return(path_list_is_parent(self,pl2))
+    def is_son(self,pl2):
+        return(path_list_is_son(self,pl2))
+    def is_ancestor(self,pl2):
+        return(path_list_is_ancestor(self,pl2))
+    def is_descedant(self,pl2):
+        return(path_list_is_ancestor(self,pl2))
+    def path_string(self,**kwargs):
+        return(path_list_to_path_string(self,delimiter=delimiter))
+    def getitem_string(self):
+        return(path_list_to_getitem_string(self))
+
+
 
     
     
