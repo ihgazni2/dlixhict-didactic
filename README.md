@@ -172,7 +172,7 @@ __12. .update(d)__
 
 
 
-__13. .__doc\_\___
+__13. .\_\_doc\_\___
 --------------
         # the internal 
         from xdict import cmdline
