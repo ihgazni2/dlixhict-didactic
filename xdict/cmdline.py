@@ -4437,9 +4437,9 @@ class cmdict():
             cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
             cmd_str = format_cmd_str(cmd_str,cmd_sp=self.cmd_sp)
             cmdpl = cmd_str_to_cmd_pl(cmd_str,cmd_sp = self.cmd_sp,n2s=self.n2s,s2n=self.s2n)
-            utils.del_dict_items_via_path_list(self.dict,cmdpl)
+            utils.dict_delitem_via_path_list(self.dict,cmdpl)
         else:
-            utils.del_dict_items_via_path_list(self.dict,cmd)
+            utils.dict_delitem_via_path_list(self.dict,cmd)
         cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}

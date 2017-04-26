@@ -1266,7 +1266,15 @@ def dict_extend(dict1,dict2,**kwargs):
     return(d)
 
 
-def del_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
+def dict_delitem_via_path_list(external_dict,path_list,**kwargs):
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
     this = external_dict
     for i in range(0,path_list.__len__()-1):
         key = path_list[i]
@@ -1283,7 +1291,7 @@ def del_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
     this.__delitem__(path_list[-1])
     return(external_dict)
 
-
+list_delitem_via_path_list = dict_delitem_via_path_list
 
     
 # char encode decode
