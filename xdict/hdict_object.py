@@ -1115,39 +1115,39 @@ def hdict_to_obj(hdict,sdict,prdict,**kwargs):
                 elif((c['type']== 'set')):
                     value = set({})
                 elif((c['type']== 'str')):
-                    value = get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                     value = str(value)
                 elif((c['type']== 'int')):
-                    value = get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                     value = int(value)
                 elif((c['type']== 'float')):
-                    value = get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                     value = float(value)
                 else:
-                    value = get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                 add_dict_tree_entry(obj,path,value,n2s=n2s,s2n=s2n)
             else:
                 if((c['type']== '') | (c['type']=='dict') ):
                     pass
                 elif((c['type']== 'list')):
-                    value = get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
                     new_value = []
                     for k in range(0,value.__len__()):
                         new_value.append(value[k])
                     utils.set_dict_items_via_path_list(obj,path,new_value,n2s,s2n)
                 elif((c['type']== 'tuple')):
-                    value = get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
                     new_value = []
                     for k in range(0,value.__len__()):
                         new_value.append(value[k])
                     new_value = tuple(new_value)
                     utils.set_dict_items_via_path_list(obj,path,new_value,n2s,s2n)
                 elif((c['type']== 'set')):
-                    value = get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
+                    value = utils.get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
                     new_value = []
                     for k in range(0,value.__len__()):
                         new_value.append(value[k])
