@@ -15,8 +15,8 @@ from xdict import ltdict
 
 def obj_to_hdict(obj,**kwargs):
     def add_dict_tree_entry(hdict,path,value,n2s=0,s2n=0):
-        utils.dict_setdefault_via_path_list(hdict,path,n2s,s2n)
-        utils.set_dict_items_via_path_list(hdict,path,value,n2s,s2n)
+        utils.dict_setdefault_via_path_list(hdict,path,n2s=n2s,s2n=s2n)
+        utils.set_dict_items_via_path_list(hdict,path,value,n2s=n2s,s2n=s2n)
     if('debug' in kwargs):
         debug = kwargs['debug']
     else:
@@ -1077,7 +1077,7 @@ def orig_rcin(hdict,path_list_or_path_string,**kwargs):
 
 def hdict_to_obj(hdict,sdict,prdict,**kwargs):
     def add_dict_tree_entry(obj,path,value,n2s=0,s2n=0):
-        utils.dict_setdefault_via_path_list(obj,path,n2s,s2n)
+        utils.dict_setdefault_via_path_list(obj,path,n2s=n2s,s2n=s2n)
         utils.set_dict_items_via_path_list(obj,path,value,n2s,s2n)
     if('n2s' in kwargs):
         n2s = kwargs['n2s']

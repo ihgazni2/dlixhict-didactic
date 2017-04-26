@@ -46,7 +46,7 @@ def html_to_hdict(**kwargs):
     else:
         sdict = {}
     def add_dict_tree_entry(hdict,path,value={},n2s=0,s2n=0):
-        utils.dict_setdefault_via_path_list(hdict,path,n2s,s2n)
+        utils.dict_setdefault_via_path_list(hdict,path,n2s=n2s,s2n=s2n)
         if(value == {}):
             # necessary to avoid Ellipsis ISSUE, unknown reason
             pass
