@@ -635,14 +635,33 @@ def str_prepend_spaces_basedon_displaywidth(s,width):
 
 #list dict tuple
 
-def creat_default_list_with_len(len,element=None):
+def list_creat_default_with_len(len,default_element=None):
     rslt = []
     for i in range(0,len):
-        rslt.append(element)
+        rslt.append(default_element)
     return(rslt)
 
-def set_default_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
-    #if path_list already in external_dict, will do nothing 
+
+def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
+    '''
+        #if path_list already in external_dict, will do nothing
+        y = {}
+        path_list = ['c','b']
+        dict_setdefault_via_path_list(y,path_list)
+    
+    '''
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    if('default_element' in kwargs):
+        default_element = kwargs['default_element']
+    else:
+        default_element = {}
     this = external_dict
     for i in range(0,path_list.__len__()):
         key = path_list[i]
@@ -659,7 +678,9 @@ def set_default_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
             this.__getitem__(key)
         except:
             try:
-                this.__setitem__(key,{})
+                # necessary ,when default_element = {} or []
+                de = copy.deepcopy(default_element)
+                this.__setitem__(key,de)
             except:
                 return(external_dict)
             else:
@@ -668,6 +689,10 @@ def set_default_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
         else:
             this = this.__getitem__(key)
     return(external_dict)
+
+
+list_setdefault_via_path_list = dict_setdefault_via_path_list
+
 
 def path_list_in_dict(external_dict,path_list,n2s=0,s2n=0):
     this = external_dict
@@ -1024,12 +1049,12 @@ def dict_unique_value(d):
     return(npt)
 
 
-def list_unique_value(l):
+def list_uniqualize(l):
     '''
         >>> 
         >>> l
         [1, 2, 2]
-        >>> list_unique_value(l)
+        >>> list_uniqualize(l)
         [1, 2]
         >>> 
     '''

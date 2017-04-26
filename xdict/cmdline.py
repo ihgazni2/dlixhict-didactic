@@ -3259,7 +3259,7 @@ def cmdlines_str_to_obj(cmdlines_str,**kwargs):
     obj = {}
     for i in range(0,ltd.__len__()):
         pl = hdict_object.get_path_list(ltd[i],sp=cmd_sp)
-        utils.set_default_dict_items_via_path_list(obj,pl,n2s=n2s,s2n=s2n)
+        utils.dict_setdefault_via_path_list(obj,pl,n2s=n2s,s2n=s2n)
         if(results=={}):
             pass
         else:
