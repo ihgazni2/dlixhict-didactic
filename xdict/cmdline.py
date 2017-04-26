@@ -2967,7 +2967,7 @@ def get_cmdlines_ltdict_siblings_stats(cmdlines_ltdict,**kwargs):
             else:
                 sibltd[seq] = i
     if(only_dup):
-        vkltd = get_cmdlines_ltdict_stats(ltd)
+        vkltd = get_cmdlines_ltdict_duplines_stats(ltd)
         undup_seqs = []
         for cmd in vkltd:
             seqs = vkltd[cmd]
@@ -3117,7 +3117,7 @@ def undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs):
         ltd = ltdict.ltdict_sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
-    vkltd = get_cmdlines_ltdict_stats(ltd)
+    vkltd = get_cmdlines_ltdict_duplines_stats(ltd)
     pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
     # sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
     # bltd = get_cmdlines_ltdict_breadth_stats(ltd,cmd_sp = cmd_sp)
