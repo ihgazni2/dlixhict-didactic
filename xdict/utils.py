@@ -126,6 +126,35 @@ def is_bytes(obj):
     else:
         return(False)
 
+
+def is_int_str(old_index):
+    try:
+        int(old_index)
+    except:
+        return(False)
+    else:
+        if('.' in s):
+            return(False)
+        else:
+            return(True)
+
+
+def is_float_str(s):
+    try:
+        float(s)
+    except:
+        return(False)
+    else:
+        if('.' in s):
+            return(True)
+        else:
+            return(False)
+
+def is_number_str(s):
+    return(is_int_str(s)|is_float_str(s))
+
+
+
 def get_obj_type_name(obj):
     class_str = str(type(obj))
     regex = re.compile('\'(.*)\'')
@@ -552,13 +581,6 @@ def str_apppend(s,char,n):
         append = ''.join((append,char))
     return(''.join((s,append)))
 
-def is_number_str(old_index):
-    try:
-        int(old_index)
-    except:
-        return(False)
-    else:
-        return(True)
     
 def str_at_begin_of_str(str1,str2):
     len1 = str1.__len__()
