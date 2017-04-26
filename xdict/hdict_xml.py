@@ -51,7 +51,7 @@ def html_to_hdict(**kwargs):
             # necessary to avoid Ellipsis ISSUE, unknown reason
             pass
         else:
-            utils.set_dict_items_via_path_list(hdict,path,value,n2s,s2n)
+            utils.dict_setitem_via_path_list(hdict,path,value,n2s=n2s,s2n=s2n)
     hdict = {}
     unhandled = [{'node':root,'path':[0],'tag':root.tag,'siblings_seq':0,'breadth':0,'depth':0,'orig_obj_path':[root.tag],'breadth_path':[0]}]
     depth = 0

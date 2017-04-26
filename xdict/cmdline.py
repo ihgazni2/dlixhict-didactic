@@ -3270,7 +3270,7 @@ def cmdlines_str_to_obj(cmdlines_str,**kwargs):
             if(results[i] == {}):
                 pass
             else:
-                utils.set_dict_items_via_path_list(obj,pl,results[i],n2s=n2s,s2n=s2n)
+                utils.dict_setitem_via_path_list(obj,pl,results[i],n2s=n2s,s2n=s2n)
     return(obj)
 
 def cmdlines_str_to_html_text(cmdlines_str,**kwargs):
@@ -4417,9 +4417,9 @@ class cmdict():
             cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
             cmd_str = format_cmd_str(cmd_str,cmd_sp=self.cmd_sp)
             cmdpl = cmd_str_to_cmd_pl(cmd_str,cmd_sp = self.cmd_sp,n2s=self.n2s,s2n=self.s2n)
-            utils.set_dict_items_via_path_list(self.dict,cmdpl,value)
+            utils.dict_setitem_via_path_list(self.dict,cmdpl,value)
         else:
-            utils.set_dict_items_via_path_list(self.dict,cmd,value)
+            utils.dict_setitem_via_path_list(self.dict,cmd,value)
         cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}

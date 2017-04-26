@@ -715,7 +715,15 @@ def path_list_in_dict(external_dict,path_list,n2s=0,s2n=0):
             pass
     return(True)
 
-def set_dict_items_via_path_list(external_dict,path_list,value,n2s=0,s2n=0):
+def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
     this = external_dict
     for i in range(0,path_list.__len__()-1):
         key = path_list[i]
@@ -731,6 +739,9 @@ def set_dict_items_via_path_list(external_dict,path_list,value,n2s=0,s2n=0):
         this = this.__getitem__(key)
     this.__setitem__(path_list[-1],value)
     return(external_dict)
+
+list_setitem_via_path_list = dict_setitem_via_path_list
+
 
 def get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
     this = external_dict
