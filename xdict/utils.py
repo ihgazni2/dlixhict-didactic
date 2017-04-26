@@ -839,6 +839,39 @@ def get_all_sons_full_key_path_list(d,full_key_path):
         pass
     return(all_sons_full_key_path_list)
 
+#---In Test:---
+def dict_get_all_sons_pathstr_list(d,full_key_path,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    full_key_path = str_lstrip(full_key_path,delimiter,1)
+    full_key_path = str_rstrip(full_key_path,delimiter,1)
+    all_sons_full_key_path_list = []
+    value = dict_getitem_via_pathstr(d,full_key_path)
+    value_type = type(value)
+    if(value_type == type([])):
+        v_len = value.__len__()
+        for i in range(0,v_len):
+            kp = ''.join((delimiter,full_key_path,delimiter,str(i)))
+            if(is_dict(value)|is_list(value)|is_tuple(value)|is_set(value)):
+                kp = ''.join((kp,delimiter))
+            else:
+                pass
+            all_sons_full_key_path_list.append(kp)
+    elif(value_type == type({})):
+        v_len = value.__len__()
+        for each in value:
+            kp = ''.join((delimiter,full_key_path,delimiter,each))
+            if(is_dict(value)|is_list(value)|is_tuple(value)|is_set(value)):
+                kp = ''.join((kp,delimiter))
+            else:
+                pass
+            all_sons_full_key_path_list.append(kp)
+    else:
+        pass
+    return(all_sons_full_key_path_list)
+
 
 
 def dict_array_description(dora):
