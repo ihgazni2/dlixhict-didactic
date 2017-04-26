@@ -798,12 +798,17 @@ def dict_getitem_via_cmd(external_dict,cmd_str,**kwargs):
 list_getitem_via_cmd = dict_getitem_via_cmd
 
 
-#get_dict_value_from_full_key_path(nhome,"updates/useRmvWithMentions")
-def get_dict_value_from_full_key_path(d,full_key_path):
-    full_key_path = full_key_path.strip("/")
+#dict_getitem_via_pathstr(nhome,"updates/useRmvWithMentions")
+def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    full_key_path = str_lstrip(full_key_path,delimiter,1)
+    full_key_path = str_rstrip(full_key_path,delimiter,1)
     if(full_key_path == ''):
         return(d)
-    keys = full_key_path.split("/")
+    keys = full_key_path.split(delimiter)
     now = d
     klen = keys.__len__()
     for i in range(0,klen):
@@ -813,11 +818,12 @@ def get_dict_value_from_full_key_path(d,full_key_path):
             now = now.__getitem__(int(keys[i]))
     return(now)
 
+list_getitem_via_pathstr = dict_getitem_via_pathstr
 
 #get_all_sons_full_key_path
 def get_all_sons_full_key_path_list(d,full_key_path):
     all_sons_full_key_path_list = []
-    value = get_dict_value_from_full_key_path(d,full_key_path)
+    value = dict_getitem_via_pathstr(d,full_key_path)
     value_type = type(value)
     if(value_type == type([])):
         v_len = value.__len__()
@@ -847,7 +853,7 @@ def dict_array_description(dora):
         desc_layer_dict = description_dict[description_dict_len]
         unhandled_now_len = unhandled_now.__len__()
         for i in range(0,unhandled_now_len):
-            value = get_dict_value_from_full_key_path(dora,unhandled_now[i])
+            value = dict_getitem_via_pathstr(dora,unhandled_now[i])
             value_type = type(value)
             desc_layer_dict_len = desc_layer_dict.__len__()
             desc_layer_dict[desc_layer_dict_len] = unhandled_now[i]
