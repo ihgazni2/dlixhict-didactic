@@ -493,13 +493,25 @@ class pathlist(list):
 
 
 
-def loose_str_to_bool(str):
-    if((str == 'False') | (str == 'false')):
-        return(False)
-    elif((str == 'True') | (str == 'true')):
-        return(True)
+def str_to_bool(s,**kwargs):
+    if('strict' in kwargs):
+        strict = kwargs['strict']
     else:
-        return(None)
+        strict = 0
+    if(strict):
+        if(s == 'False'):
+            return(False)
+        elif(s == 'True'):
+            return(True)
+        else:
+            return(None)
+    else:
+        if((s == 'False') | (s == 'false')):
+            return(False)
+        elif((s == 'True') | (s == 'true')):
+            return(True)
+        else:
+            return(None)
 
 def str_lstrip(s,char,count):
     if(s.__len__()<count):
@@ -570,11 +582,11 @@ def str_at_end_of_str(str1,str2):
 
 
 
-def string_display_width(s):
+def str_display_width(s):
     '''
-        >>> string_display_width('a')
+        >>> str_display_width('a')
         1
-        >>> string_display_width('去')
+        >>> str_display_width('去')
         2
         >>> 
     '''
@@ -587,10 +599,10 @@ def string_display_width(s):
         width = width + sublen
     return(width)
 
-def prepend_spaces_before_str_basedon_displaywidth(s,mw):
+def str_prepend_spaces_basedon_displaywidth(s,width):
     s = str(s)
-    w = string_display_width(s)
-    space_Len = mw - w
+    w = str_display_width(s)
+    space_Len = width - w
     new_S = ''
     for i in range(0,space_Len):
         new_S = ''.join((' ' , new_S))
@@ -1146,7 +1158,7 @@ def max_wordwidth_in_dict(myDict):
 def max_display_width_in_dict(myDict):
     maxValueWidth = 0
     for each in myDict:
-        eachValueWidth = string_display_width(myDict[each])
+        eachValueWidth = str_display_width(myDict[each])
         if(eachValueWidth > maxValueWidth):
             maxValueWidth = eachValueWidth
     return(maxValueWidth)
