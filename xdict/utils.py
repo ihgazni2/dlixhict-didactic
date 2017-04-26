@@ -863,6 +863,9 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
         pass
     return(all_sons_full_key_path_list)
 
+list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
+
+
 
 def dict_array_description(dora):
     description_dict = {}
