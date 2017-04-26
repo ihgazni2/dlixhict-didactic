@@ -47,17 +47,18 @@
 -----------------------------------------------------------------------------------------------------------------------
 
 ##string
-1. loose_str_to_bool(str)  
-2. str_lstrip(s,char,count)  
-3. str_rstrip(s,char,count)  
-4. str_prepend(s,char,count)
-5. str_append(s,char,count)  
-6. is_number_str(obj)
-7. str_at_begin_of_str(start1,start2)
-8. str_at_end_of_str(start1,start2)
-9. string_display_width(s)
-10. prepend_spaces_before_str_basedon_displaywidth(s,mw)
+1. str_to_bool(s,**kwargs):
+2. str_lstrip(s,char,count):
+3. str_rstrip(s,char,count):
+4. str_prepend(s,char,n):
+5. str_apppend(s,char,n):
+6. is_number_str(old_index):
+7. str_at_begin_of_str(str1,str2):
+8. str_at_end_of_str(str1,str2):
+9. str_display_width(s):
+10. str_prepend_spaces_basedon_displaywidth(s,width):
 
+-------------------------------------------------------------------------------------------------------------------------
 
 ##dict list tuple
 1. creat_default_list_with_len(len,element=None)  
