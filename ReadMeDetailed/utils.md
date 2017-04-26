@@ -21,8 +21,10 @@
 19. is_unhashable_type(obj)
 20. is_json(obj,strict=False)
 21. is_bytes(obj)
-22. is_number_str(old_index):
-23. get_obj_type_name(obj)
+22. is_int_str(s)
+23. is_float_str(s)
+24. is_number_str(s)
+25. get_obj_type_name(obj)
 -----------------------------------------------------------------------------------------------------------------------
 
 ##path string
