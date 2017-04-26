@@ -821,26 +821,17 @@ def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
 list_getitem_via_pathstr = dict_getitem_via_pathstr
 
 #get_all_sons_full_key_path
-def get_all_sons_full_key_path_list(d,full_key_path):
-    all_sons_full_key_path_list = []
-    value = dict_getitem_via_pathstr(d,full_key_path)
-    value_type = type(value)
-    if(value_type == type([])):
-        v_len = value.__len__()
-        for i in range(0,v_len):
-            kp = ''.join((full_key_path.rstrip("/"),"/",str(i)))
-            all_sons_full_key_path_list.append(kp)
-    elif(value_type == type({})):
-        v_len = value.__len__()
-        for each in value:
-            kp = ''.join((full_key_path.rstrip("/"),"/",each))
-            all_sons_full_key_path_list.append(kp)
-    else:
-        pass
-    return(all_sons_full_key_path_list)
 
-#---In Test:---
-def dict_get_all_sons_pathstr_list(d,full_key_path,**kwargs):
+def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
+    '''
+        dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'')
+        ['/1', '/2/']
+        dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2')
+        ['2/x']
+        dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2/x')
+        []
+    ''' 
+    
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -853,8 +844,8 @@ def dict_get_all_sons_pathstr_list(d,full_key_path,**kwargs):
     if(value_type == type([])):
         v_len = value.__len__()
         for i in range(0,v_len):
-            kp = ''.join((delimiter,full_key_path,delimiter,str(i)))
-            if(is_dict(value)|is_list(value)|is_tuple(value)|is_set(value)):
+            kp = ''.join((full_key_path,delimiter,str(i)))
+            if(is_dict(value[i])|is_list(value[i])|is_tuple(value[i])|is_set(value[i])):
                 kp = ''.join((kp,delimiter))
             else:
                 pass
@@ -862,8 +853,8 @@ def dict_get_all_sons_pathstr_list(d,full_key_path,**kwargs):
     elif(value_type == type({})):
         v_len = value.__len__()
         for each in value:
-            kp = ''.join((delimiter,full_key_path,delimiter,each))
-            if(is_dict(value)|is_list(value)|is_tuple(value)|is_set(value)):
+            kp = ''.join((full_key_path,delimiter,str(each)))
+            if(is_dict(value[each])|is_list(value[each])|is_tuple(value[each])|is_set(value[each])):
                 kp = ''.join((kp,delimiter))
             else:
                 pass
@@ -871,7 +862,6 @@ def dict_get_all_sons_pathstr_list(d,full_key_path,**kwargs):
     else:
         pass
     return(all_sons_full_key_path_list)
-
 
 
 def dict_array_description(dora):
@@ -891,14 +881,14 @@ def dict_array_description(dora):
             desc_layer_dict_len = desc_layer_dict.__len__()
             desc_layer_dict[desc_layer_dict_len] = unhandled_now[i]
             if( value_type == type([])):
-                all_sons_fkp_list = get_all_sons_full_key_path_list(dora,unhandled_now[i])
+                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i])
                 llen = all_sons_fkp_list.__len__()
                 for i in range(0,llen):
                     unhandled_next_len = unhandled_next.__len__()
                     unhandled_next[unhandled_next_len] = all_sons_fkp_list[i]
                 temp = temp | 1
             elif(value_type == type({})):
-                all_sons_fkp_list = get_all_sons_full_key_path_list(dora,unhandled_now[i])
+                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i])
                 llen = all_sons_fkp_list.__len__()
                 for i in range(0,llen):
                     unhandled_next_len = unhandled_next.__len__()
@@ -971,7 +961,7 @@ def tree_desc(description_dict):
             deep_search_path.append(curr_location)
             count = count + 1
             lvseq_dict[curr_level] = curr_seq
-            if(get_all_sons_full_key_path_list(nhome,full_key_path) == []):
+            if(dict_get_all_sons_pathstrs(nhome,full_key_path) == []):
                 travel_sign_dict[curr_level][curr_seq] = 2
                 if(curr_seq < (each_level_len - 1)):
                     prev_seq = curr_seq
@@ -1002,7 +992,7 @@ def tree_desc(description_dict):
             deep_search_path.append(curr_location)
             count = count + 1
             lvseq_dict[curr_level] = curr_seq
-            if(get_all_sons_full_key_path_list(nhome,full_key_path) == []):
+            if(dict_get_all_sons_pathstrs(nhome,full_key_path) == []):
                 travel_sign_dict[curr_level][curr_seq] = 2
                 if(curr_seq < (each_level_len - 1)):
                     prev_seq = curr_seq
