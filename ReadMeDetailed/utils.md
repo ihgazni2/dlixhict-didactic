@@ -21,7 +21,8 @@
 19. is_unhashable_type(obj)
 20. is_json(obj,strict=False)
 21. is_bytes(obj)
-22. get_obj_type_name(obj)
+22. is_number_str(old_index):
+23. get_obj_type_name(obj)
 -----------------------------------------------------------------------------------------------------------------------
 
 ##path string
@@ -52,11 +53,10 @@
 3. str_rstrip(s,char,count):
 4. str_prepend(s,char,n):
 5. str_apppend(s,char,n):
-6. is_number_str(old_index):
-7. str_at_begin_of_str(str1,str2):
-8. str_at_end_of_str(str1,str2):
-9. str_display_width(s):
-10. str_prepend_spaces_basedon_displaywidth(s,width):
+6. str_at_begin_of_str(str1,str2):
+7. str_at_end_of_str(str1,str2):
+8. str_display_width(s):
+9. str_prepend_spaces_basedon_displaywidth(s,width):
 
 -------------------------------------------------------------------------------------------------------------------------
 
