@@ -3133,7 +3133,11 @@ def undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs):
             if(sibseq == None):
                 if(seq in pltd):
                     p = pltd[seq]
-                    if(sibltd[p]==None):
+                    #root node s parent = None
+                    #None node have no sib
+                    if(p == None):
+                        pass
+                    elif(sibltd[p]==None):
                         pass
                     else:
                         tag = cmd_str_to_cmd_pl(ltd_s1[seq],cmd_sp=cmd_sp)[-1]
