@@ -743,7 +743,7 @@ def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
 list_setitem_via_path_list = dict_setitem_via_path_list
 
 
-def get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
+def dict_getitem_via_path_list(external_dict,path_list,n2s=0,s2n=0):
     this = external_dict
     for i in range(0,path_list.__len__()):
         key = path_list[i]
@@ -758,6 +758,12 @@ def get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0):
                 key = int(key)
         this = this.__getitem__(key)
     return(this)
+
+list_getitem_via_path_list = dict_getitem_via_path_list
+
+
+#-===========continue==>>
+
 
 def get_dict_value_via_cmd(external_dict,cmd_str,**kwargs):
     if('cmd_sp' in kwargs):
@@ -778,7 +784,7 @@ def get_dict_value_via_cmd(external_dict,cmd_str,**kwargs):
     cmd_str = str_rstrip(cmd_str,cmd_sp,1)
     cmd_str = str_lstrip(cmd_str,cmd_sp,1)  
     path_list = cmd_str.split(cmd_sp)
-    return(get_dict_items_via_path_list(external_dict,path_list,n2s=n2s,s2n=s2n))
+    return(dict_getitem_via_path_list(external_dict,path_list,n2s=n2s,s2n=s2n))
 
 
 #get_dict_value_from_full_key_path(nhome,"updates/useRmvWithMentions")

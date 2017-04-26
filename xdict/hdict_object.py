@@ -371,7 +371,7 @@ def hdict_get_value(hdict,path_list_or_path_string,**kwargs):
         pl = breadth_path_to_hdict_path(prdict,pl,sp=sp)
     if(method == 'orig_obj_path'):
         pl = orig_obj_path_to_hdict_path(prdict,pl,sp=sp)
-    rslt = utils.get_dict_items_via_path_list(hdict,pl,s2n=1)
+    rslt = utils.dict_getitem_via_path_list(hdict,pl,s2n=1)
     return(rslt)
 
 def get_sdict_and_prdict_from_hdict(hdict,**kwargs):
@@ -464,7 +464,7 @@ def hdict_path_to_breadth_path(hdict,path_list_or_path_string,**kwargs):
     else:
         sp = '/'
     path_list = get_path_list(path_list_or_path_string,sp)
-    temp = utils.get_dict_items_via_path_list(hdict,path_list,s2n=1)
+    temp = utils.dict_getitem_via_path_list(hdict,path_list,s2n=1)
     breadth_path = copy.deepcopy(temp['breadth_path'])
     return(breadth_path)
 
@@ -1024,7 +1024,7 @@ def orig_parent(obj,hdict,prdict,path_list_or_path_string,**kwargs):
     pl = orig_obj_path_to_hdict_path(prdict,ol,sp=sp)
     ppl = hidct_parent_path(hdict,pl,sp=sp)
     pol = hdict_path_to_orig_obj_path(prdict,ppl,sp=sp)
-    rslt = utils.get_dict_items_via_path_list(obj,pol,s2n=1)
+    rslt = utils.dict_getitem_via_path_list(obj,pol,s2n=1)
     return(rslt)
 
 def orig_lsib(obj,hdict,sdict,prdict,path_list_or_path_string,**kwargs):
@@ -1036,7 +1036,7 @@ def orig_lsib(obj,hdict,sdict,prdict,path_list_or_path_string,**kwargs):
     pl = orig_obj_path_to_hdict_path(prdict,ol,sp=sp)
     lsibpl = hdict_lsib_path(hdict,sdict,prdict,pl,sp=sp)
     lsibol = hdict_path_to_orig_obj_path(prdict,lsibpl,sp=sp)
-    rslt = utils.get_dict_items_via_path_list(obj,lsibol,s2n=1)
+    rslt = utils.dict_getitem_via_path_list(obj,lsibol,s2n=1)
     return(rslt)
 
 def orig_rsib(hdict,sdict,prdict,path_list_or_path_string,**kwargs):
@@ -1048,7 +1048,7 @@ def orig_rsib(hdict,sdict,prdict,path_list_or_path_string,**kwargs):
     pl = orig_obj_path_to_hdict_path(prdict,ol,sp=sp)
     rsibpl = hdict_rsib_path(hdict,sdict,prdict,pl,sp=sp)
     rsibol = hdict_path_to_orig_obj_path(prdict,rsibpl,sp=sp)
-    rslt = utils.get_dict_items_via_path_list(obj,rsibol,s2n=1)
+    rslt = utils.dict_getitem_via_path_list(obj,rsibol,s2n=1)
     return(rslt)
 
 def orig_lcin(hdict,path_list_or_path_string,**kwargs):
@@ -1060,7 +1060,7 @@ def orig_lcin(hdict,path_list_or_path_string,**kwargs):
     pl = orig_obj_path_to_hdict_path(prdict,ol,sp=sp)
     lcinpl = hdict_lcin_path(hdict,sdict,prdict,pl,sp=sp)
     lcinol = hdict_path_to_orig_obj_path(prdict,lcinpl,sp=sp)
-    rslt = utils.get_dict_items_via_path_list(obj,lcinol,s2n=1)
+    rslt = utils.dict_getitem_via_path_list(obj,lcinol,s2n=1)
     return(rslt)
 
 def orig_rcin(hdict,path_list_or_path_string,**kwargs):
@@ -1072,7 +1072,7 @@ def orig_rcin(hdict,path_list_or_path_string,**kwargs):
     pl = orig_obj_path_to_hdict_path(prdict,ol,sp=sp)
     rcinpl = hdict_rcin_path(hdict,sdict,prdict,pl,sp=sp)
     rcinol = hdict_path_to_orig_obj_path(prdict,rcinpl,sp=sp)
-    rslt = utils.get_dict_items_via_path_list(obj,rcinol,s2n=1)
+    rslt = utils.dict_getitem_via_path_list(obj,rcinol,s2n=1)
     return(rslt)
 
 def hdict_to_obj(hdict,sdict,prdict,**kwargs):
@@ -1115,39 +1115,39 @@ def hdict_to_obj(hdict,sdict,prdict,**kwargs):
                 elif((c['type']== 'set')):
                     value = set({})
                 elif((c['type']== 'str')):
-                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                     value = str(value)
                 elif((c['type']== 'int')):
-                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                     value = int(value)
                 elif((c['type']== 'float')):
-                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                     value = float(value)
                 else:
-                    value = utils.get_dict_items_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(newh,c['hdict_path'],n2s=n2s,s2n=s2n)
                     value = value['text']
                 add_dict_tree_entry(obj,path,value,n2s=n2s,s2n=s2n)
             else:
                 if((c['type']== '') | (c['type']=='dict') ):
                     pass
                 elif((c['type']== 'list')):
-                    value = utils.get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(obj,path,n2s=n2s,s2n=s2n)
                     new_value = []
                     for k in range(0,value.__len__()):
                         new_value.append(value[k])
                     utils.dict_setitem_via_path_list(obj,path,new_value,n2s=n2s,s2n=s2n)
                 elif((c['type']== 'tuple')):
-                    value = utils.get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(obj,path,n2s=n2s,s2n=s2n)
                     new_value = []
                     for k in range(0,value.__len__()):
                         new_value.append(value[k])
                     new_value = tuple(new_value)
                     utils.dict_setitem_via_path_list(obj,path,new_value,n2s=n2s,s2n=s2n)
                 elif((c['type']== 'set')):
-                    value = utils.get_dict_items_via_path_list(obj,path,n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(obj,path,n2s=n2s,s2n=s2n)
                     new_value = []
                     for k in range(0,value.__len__()):
                         new_value.append(value[k])

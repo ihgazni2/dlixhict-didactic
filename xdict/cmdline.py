@@ -1216,10 +1216,10 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
             end_html_line = sdict[r][c]['end_html_line']
             text_html_line = sdict[r][c]['text_html_line']
             #
-            attrib = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)['attrib']
+            attrib = utils.dict_getitem_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)['attrib']
             if(leaf):
                 if(ignore_type):
-                    value = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
+                    value = utils.dict_getitem_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
                     value = value['text']
                 else:
                     if((sdict[r][c]['type']== '') | (sdict[r][c]['type']=='dict') ):
@@ -1231,19 +1231,19 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
                     elif((sdict[r][c]['type']== 'set')):
                         value = set({})
                     elif((sdict[r][c]['type']== 'str')):
-                        value = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
+                        value = utils.dict_getitem_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
                         value = value['text']
                         value = str(value)
                     elif((sdict[r][c]['type']== 'int')):
-                        value = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
+                        value = utils.dict_getitem_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
                         value = value['text']
                         value = int(value)
                     elif((sdict[r][c]['type']== 'float')):
-                        value = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
+                        value = utils.dict_getitem_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
                         value = value['text']
                         value = float(value)
                     else:
-                        value = utils.get_dict_items_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
+                        value = utils.dict_getitem_via_path_list(hdict,hp,n2s=n2s,s2n=s2n)
                         value = value['text']
             else:
                 value = {}
@@ -2257,7 +2257,7 @@ def get_obj_value_via_cmd(cmd,obj,**kwargs):
         s2n = 0
     cmd = format_cmd_str(cmd,cmd_sp=cmd_sp)
     path_list = cmd.split(cmd_sp)
-    rslt = utils.get_dict_items_via_path_list(obj,path_list,n2s=n2s,s2n=s2n)
+    rslt = utils.dict_getitem_via_path_list(obj,path_list,n2s=n2s,s2n=s2n)
     return(rslt)
 
 def get_cmdlines_ltdict_duplines_stats(cmdlines_ltdict):
@@ -4387,7 +4387,7 @@ class cmdict():
                 return(rslt)
         else:
             try:
-                rslt = utils.get_dict_items_via_path_list(self.dict,cmd)
+                rslt = utils.dict_getitem_via_path_list(self.dict,cmd)
             except:
                 cmd_str = path_to_cmd_str(cmd,cmd_sp=self.cmd_sp)
                 prompt = show_prompt_from_cmdlines_ltdict(cmd_str,self.cmdlines)
