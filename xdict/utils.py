@@ -364,8 +364,8 @@ def path_string_get_leaf(absp,**kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
-    if(not(delimiter in son)):
-        son = delimiter
+    if(not(delimiter in absp)):
+        absp = delimiter
     else:
         pass
     regex_str = ''.join(('(.*)',delimiter,'([^/]*)'))
@@ -1117,13 +1117,33 @@ list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_desc
 
 
 
-def dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to=''):
-    if(fr == ''):
+def dict_print_tree_pathstr_with_dynamic_indent(deep_search_path,description_dict,**kwargs):
+    '''
+        phd = utils.dict_get_pathstr_hierachy_description(currd)
+        pphd = utils.dict_get_partent_pathstr_hierachy_description_from_description_dict(phd)
+        thd = utils.dict_get_tree_pathstr_hierachy_description(currd)
+        description_dict = phd
+        deep_search_path = thd['deep_search_path']
+        dynamic_indent(deep_search_path,description_dict)
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('from' in kwargs):
+        fr = kwargs['from']
+    else:
         fr = 0
     text = ''
     dsp_len = deep_search_path.__len__()
-    if(to == ''):
+    if('to' in kwargs):
+        to = kwargs['to']
+    else:
         to = dsp_len
+    if('full_path_display' in kwargs):
+        full_path_display = kwargs['full_path_display']
+    else:
+        full_path_display = 0
     for i in range(0,dsp_len):
         x = deep_search_path[i][0]
         y = deep_search_path[i][1]
@@ -1131,14 +1151,27 @@ def dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to=
         if(full_path_display):
             line = ele
         else:
+            if(ele == ''):
+                pass
+            else:
+                if(ele[-1] == delimiter):
+                    ele = str_rstrip(ele,delimiter,1)
+                else:
+                    pass
             indent = path_string_get_parent(ele)
-            indent = indent.replace('/','')
+            indent = indent.replace(delimiter,'')
             indent = ' ' * indent.__len__()
             rel = path_string_get_leaf(ele)
             line = ''.join((indent,rel))
         if((i >= fr) & (i <= to)):
             text = ''.join((text,'\n',line))
     return(text)
+
+list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
+
+
+
+
 
 def dict_update_just_intersection(dict1,dict2):
     for key in dict2:
