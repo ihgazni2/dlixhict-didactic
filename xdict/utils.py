@@ -987,6 +987,11 @@ def dict_get_partent_pathstr_hierachy_description_from_description_dict(descript
                         next_level_cursor = next_level_cursor + 1
                     else:
                         break
+    if(1 in parent_dict):
+        for seq in description_dict[1]:
+            parent_dict[1][seq] = [0][0]
+    else:
+        pass
     return(parent_dict)
 
 
