@@ -822,6 +822,9 @@ list_getitem_via_cmd = dict_getitem_via_cmd
 
 #dict_getitem_via_pathstr(nhome,"updates/useRmvWithMentions")
 def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
+    '''
+        dont use empty key ''
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -860,6 +863,10 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
         delimiter = '/'
     full_key_path = str_lstrip(full_key_path,delimiter,1)
     full_key_path = str_rstrip(full_key_path,delimiter,1)
+    if(full_key_path  == delimiter):
+        full_key_path = ''
+    else:
+        pass
     all_sons_full_key_path_list = []
     value = dict_getitem_via_pathstr(d,full_key_path)
     value_type = type(value)
@@ -871,6 +878,10 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
                 kp = ''.join((kp,delimiter))
             else:
                 pass
+            if(full_key_path == ''):
+                pass
+            else:
+                kp = ''.join((delimiter,kp))
             all_sons_full_key_path_list.append(kp)
     elif(value_type == type({})):
         v_len = value.__len__()
@@ -880,6 +891,10 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
                 kp = ''.join((kp,delimiter))
             else:
                 pass
+            if(full_key_path == ''):
+                pass
+            else:
+                kp = ''.join((delimiter,kp))
             all_sons_full_key_path_list.append(kp)
     else:
         pass
