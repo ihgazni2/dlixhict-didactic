@@ -770,7 +770,6 @@ def dict_getitem_via_path_list(external_dict,path_list,**kwargs):
 list_getitem_via_path_list = dict_getitem_via_path_list
 
 
-#-===========continue==>>
 
 
 def dict_getitem_via_cmd(external_dict,cmd_str,**kwargs):
@@ -867,7 +866,16 @@ list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
 
 
 
-def dict_array_description(dora):
+def dict_pathstr_hierachy_description(dora,**kwargs):
+    '''
+        could be used to handle dict/list embeded hierachy structure
+        the  more complicated structure such as with mixed tuple/set/dict/list
+        please use hdict module functions
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
     description_dict = {}
     all_leafs = 0
     unhandled_now = {0:''}
@@ -884,14 +892,14 @@ def dict_array_description(dora):
             desc_layer_dict_len = desc_layer_dict.__len__()
             desc_layer_dict[desc_layer_dict_len] = unhandled_now[i]
             if( value_type == type([])):
-                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i])
+                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i],delimiter=delimiter)
                 llen = all_sons_fkp_list.__len__()
                 for i in range(0,llen):
                     unhandled_next_len = unhandled_next.__len__()
                     unhandled_next[unhandled_next_len] = all_sons_fkp_list[i]
                 temp = temp | 1
             elif(value_type == type({})):
-                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i])
+                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i],,delimiter=delimiter)
                 llen = all_sons_fkp_list.__len__()
                 for i in range(0,llen):
                     unhandled_next_len = unhandled_next.__len__()
@@ -904,6 +912,10 @@ def dict_array_description(dora):
         unhandled_now = unhandled_next
         unhandled_next = {}
     return(description_dict)
+
+list_pathstr_hierachy_description = dict_pathstr_hierachy_description
+
+#-=======continue=========->
 
 def get_desc_parent_dict(description_dict):
     desc_len = description_dict.__len__()
