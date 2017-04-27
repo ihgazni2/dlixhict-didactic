@@ -4329,12 +4329,12 @@ def display_table_via_rows(ROWs,**kwargs):
     COLs = rows_to_cols(ROWs)
     display_COLs = {}
     widths = {}
-    widths[0] =  utils.max_display_width_in_dict(COLs[0])
+    widths[0] =  utils.dict_get_max_word_displaywidth(COLs[0])
     display_COLs[0] = {}
     for j in range(0,COLs[0].__len__()):
         display_COLs[0][j] = '|{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[0][j],widths[0]))
     for i in range(1,COLs.__len__()):
-        widths[i] =  utils.max_display_width_in_dict(COLs[i])
+        widths[i] =  utils.dict_get_max_word_displaywidth(COLs[i])
         display_COLs[i] = {}
         for j in range(0,COLs[i].__len__()):
             display_COLs[i][j] = '{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[i][j],widths[i]))
@@ -4390,12 +4390,12 @@ def display_table_via_cols(COLs,**kwargs):
     ROWs = rows_to_cols(COLs)
     display_COLs = {}
     widths = {}
-    widths[0] =  utils.max_display_width_in_dict(COLs[0])
+    widths[0] =  utils.dict_get_max_word_displaywidth(COLs[0])
     display_COLs[0] = {}
     for j in range(0,COLs[0].__len__()):
         display_COLs[0][j] = '|{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[0][j],widths[0]))
     for i in range(1,COLs.__len__()):
-        widths[i] =  utils.max_display_width_in_dict(COLs[i])
+        widths[i] =  utils.dict_get_max_word_displaywidth(COLs[i])
         display_COLs[i] = {}
         for j in range(0,COLs[i].__len__()):
             display_COLs[i][j] = '{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[i][j],widths[i]))

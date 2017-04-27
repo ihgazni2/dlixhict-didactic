@@ -1399,7 +1399,7 @@ def dict_find_keys_via_value(dlts,v,**kwargs):
 list_find_keys_via_value = dict_find_keys_via_value
 
 
-def max_wordwidth_in_dict(myDict):
+def dict_get_max_wordwidth(myDict):
     maxValueWidth = 0
     for each in myDict:
         eachValueWidth = myDict[each].__len__()
@@ -1407,14 +1407,34 @@ def max_wordwidth_in_dict(myDict):
             maxValueWidth = eachValueWidth
     return(maxValueWidth)
 
+def list_get_max_wordwidth(l):
+    maxValueWidth = 0
+    for each in l:
+        eachValueWidth = each.__len__()
+        if(eachValueWidth > maxValueWidth):
+            maxValueWidth = eachValueWidth
+    return(maxValueWidth)
 
-def max_display_width_in_dict(myDict):
+
+
+
+
+def dict_get_max_word_displaywidth(myDict):
     maxValueWidth = 0
     for each in myDict:
         eachValueWidth = str_display_width(myDict[each])
         if(eachValueWidth > maxValueWidth):
             maxValueWidth = eachValueWidth
     return(maxValueWidth)
+
+def list_get_max_word_displaywidth(l):
+    maxValueWidth = 0
+    for each in l:
+        eachValueWidth = str_display_width(each)
+        if(eachValueWidth > maxValueWidth):
+            maxValueWidth = eachValueWidth
+    return(maxValueWidth)
+
 
 
 
