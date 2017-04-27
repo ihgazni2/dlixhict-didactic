@@ -877,7 +877,7 @@ list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
 
 
 
-def dict_pathstr_hierachy_description(dora,**kwargs):
+def dict_get_pathstr_hierachy_description(dora,**kwargs):
     '''
         could be used to handle dict/list embeded hierachy structure
         the  more complicated structure such as with mixed tuple/set/dict/list
@@ -924,11 +924,11 @@ def dict_pathstr_hierachy_description(dora,**kwargs):
         unhandled_next = {}
     return(description_dict)
 
-list_pathstr_hierachy_description = dict_pathstr_hierachy_description
+list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
 
 #-=======continue=========->
 
-def get_desc_parent_dict(description_dict):
+def dict_get_partent_pathstr_hierachy_description(description_dict):
     desc_len = description_dict.__len__()
     parent_dict = {}
     for i in range(0,desc_len):
@@ -958,7 +958,7 @@ def get_desc_parent_dict(description_dict):
     return(parent_dict)
 
 def tree_desc(description_dict):
-    parent_dict = get_desc_parent_dict(description_dict)
+    parent_dict = dict_get_partent_pathstr_hierachy_description(description_dict)
     total_count = 0
     desc_len = description_dict.__len__()
     lvseq_dict = {}
@@ -1233,11 +1233,15 @@ def dict_non_recursive_find_keys_via_value(d,v):
             rslt.append(key)
     return(rslt)
 
+
 def dict_find_keys_via_value(dlts,v,**kwargs):
     '''
         dlts = {1:'a',2:{3:'a'}}
         >>> dict_find_keys_via_value(dlts,'a')
         [[1], [2, 3]]
+        dict_find_keys_via_value(dlts,'a')
+        [[0], [1, 3]]
+        >>> 
     '''
     if('strict' in kwargs):
         strict = kwargs['strict']
@@ -1252,8 +1256,18 @@ def dict_find_keys_via_value(dlts,v,**kwargs):
         for i in range(0,unhandled.__len__()):
             curr = unhandled[i]
             p = parents[i]
-            if(utils.is_dict(curr)):
+            if(is_dict(curr)):
+                if(curr == v):
+                    rslt.append(p)
                 for key in curr:
+                    np = copy.deepcopy(p)
+                    np.append(key)
+                    next_parents.append(np)
+                    next_unhandled.append(curr[key])
+            elif(is_list(curr)):
+                if(curr == v):
+                    rslt.append(p)
+                for key in range(0,curr.__len__()):
                     np = copy.deepcopy(p)
                     np.append(key)
                     next_parents.append(np)
@@ -1264,6 +1278,7 @@ def dict_find_keys_via_value(dlts,v,**kwargs):
         unhandled = next_unhandled
         parents = next_parents
     return(rslt)
+
 
 
 list_find_keys_via_value = dict_find_keys_via_value
