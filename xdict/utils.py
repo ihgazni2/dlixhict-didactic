@@ -1276,6 +1276,14 @@ def dict_non_recursive_find_keys_via_value(d,v):
             rslt.append(key)
     return(rslt)
 
+def list_non_recursive_find_keys_via_value(l,v):
+    rslt = []
+    for i in range(0,l.__len__()):
+        if(l[i] == v):
+            rslt.append(i)
+    return(rslt)
+
+
 
 def dict_find_keys_via_value(dlts,v,**kwargs):
     '''
