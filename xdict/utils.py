@@ -1143,12 +1143,12 @@ def dict_update_just_intersection(dict1,dict2):
 
 
 
-def dict_unique_value(d):
+def dict_uniqualize(d):
     '''
         >>> 
         >>> d
         {0: 1, 1: 2, 2: 2}
-        >>> dict_unique_value(d)
+        >>> dict_uniqualize(d)
         {0: 1, 1: 2}
         >>> 
     '''
@@ -1207,6 +1207,31 @@ def list_uniqualize(l):
             npt.append(pt[i])
     pt = npt
     return(npt)
+
+
+def dict_get_value_keys_description(d):
+    pt = copy.deepcopy(d)
+    seqs_for_del =[]
+    vset = set({})
+    for k in pt:
+        vset.add(pt[k])
+    desc = {}
+    for v in vset:
+        desc[v] = []
+    for k in pt:
+        desc[pt[k]].append(k)
+    return(desc)
+
+def list_get_value_indexes_description(l):
+    pt = copy.deepcopy(l)
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    for v in vset:
+        desc[v] = []
+    for i in range(0,l.__len__()):
+        desc[l[i]].append(i)
+    return(desc)
 
 
 
@@ -1334,13 +1359,6 @@ def dict_find_keys_via_value(dlts,v,**kwargs):
 
 
 list_find_keys_via_value = dict_find_keys_via_value
-
-
-
-
-
-
-
 
 
 def max_wordwidth_in_dict(myDict):
