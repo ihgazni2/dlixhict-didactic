@@ -305,8 +305,20 @@ def path_string_is_parent(parent,son,**kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
-    sks = son.split('delimiter')
-    pks = parent.split('delimiter')
+    if('head_tail_strip' in kwargs):
+        head_tail_strip = kwargs['head_tail_strip']
+    else:
+        head_tail_strip = 0
+
+    if(head_tail_strip):
+        parent = str_lstrip(parent,delimiter,1)
+        parent = str_rstrip(parent,delimiter,1)
+        son = str_lstrip(son,delimiter,1)
+        son = str_rstrip(son,delimiter,1)
+    else:
+       pass
+    sks = son.split(delimiter)
+    pks = parent.split(delimiter)
     if(pks.__len__() >= sks.__len__()):
         return(0)
     if((sks.__len__() - pks.__len__()) == 1):
@@ -325,7 +337,7 @@ def path_string_is_leaf(leaf,path_str,**kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
-    pks = path_str.split('delimiter')
+    pks = path_str.split(delimiter)
     if(pks[-1] == leaf):
         return(1)
     else:
@@ -950,7 +962,7 @@ def dict_get_partent_pathstr_hierachy_description(description_dict):
                 pass
             else:
                 for k in range(next_level_cursor,next_level_len):
-                    if(path_string_is_parent(description_dict[i][j],description_dict[i+1][k])):
+                    if(path_string_is_parent(description_dict[i][j],description_dict[i+1][k],head_tail_strip=1)):
                         parent_dict[i+1][k] = j
                         next_level_cursor = next_level_cursor + 1
                     else:
