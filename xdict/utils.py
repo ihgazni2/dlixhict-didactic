@@ -694,7 +694,15 @@ def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
 list_setdefault_via_path_list = dict_setdefault_via_path_list
 
 
-def path_list_in_dict(external_dict,path_list,n2s=0,s2n=0):
+def dict_include_pathlist(external_dict,path_list,**kwargs):
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
     this = external_dict
     for i in range(0,path_list.__len__()):
         key = path_list[i]
@@ -714,6 +722,9 @@ def path_list_in_dict(external_dict,path_list,n2s=0,s2n=0):
         else:
             pass
     return(True)
+
+list_include_pathlist = dict_include_pathlist
+
 
 def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
     if('s2n' in kwargs):
@@ -899,7 +910,7 @@ def dict_pathstr_hierachy_description(dora,**kwargs):
                     unhandled_next[unhandled_next_len] = all_sons_fkp_list[i]
                 temp = temp | 1
             elif(value_type == type({})):
-                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i],,delimiter=delimiter)
+                all_sons_fkp_list = dict_get_all_sons_pathstrs(dora,unhandled_now[i],delimiter=delimiter)
                 llen = all_sons_fkp_list.__len__()
                 for i in range(0,llen):
                     unhandled_next_len = unhandled_next.__len__()
@@ -1215,7 +1226,7 @@ def dict_comprise(dict1,dict2,**kwargs):
                 return(False)
 
 
-def non_recursive_dict_find_keys_via_value(d,v):
+def dict_non_recursive_find_keys_via_value(d,v):
     rslt = []
     for key in d:
         if(d[key] == v):
@@ -1255,7 +1266,7 @@ def dict_find_keys_via_value(dlts,v,**kwargs):
     return(rslt)
 
 
-
+list_find_keys_via_value = dict_find_keys_via_value
 
 
 
