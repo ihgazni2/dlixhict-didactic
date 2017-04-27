@@ -953,9 +953,14 @@ def dict_get_pathstr_hierachy_description(dora,**kwargs):
 
 list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
 
-#-=======continue=========->
 
 def dict_get_partent_pathstr_hierachy_description(description_dict):
+    '''
+        currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
+        phd = utils.dict_get_pathstr_hierachy_description(currd)
+        pphd = utils.dict_get_partent_pathstr_hierachy_description(phd)
+
+    '''
     desc_len = description_dict.__len__()
     parent_dict = {}
     for i in range(0,desc_len):
@@ -984,7 +989,12 @@ def dict_get_partent_pathstr_hierachy_description(description_dict):
                         break
     return(parent_dict)
 
-def tree_desc(description_dict):
+
+list_get_partent_pathstr_hierachy_description = dict_get_partent_pathstr_hierachy_description
+
+
+
+def dict_get_tree_pathstr_hierachy_description(description_dict):
     parent_dict = dict_get_partent_pathstr_hierachy_description(description_dict)
     total_count = 0
     desc_len = description_dict.__len__()
@@ -1094,6 +1104,12 @@ def tree_desc(description_dict):
     rslt['parent_dict'] = parent_dict
     rslt['deep_search_path'] =  deep_search_path
     return(rslt)
+
+
+list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
+
+
+
 
 def dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to=''):
     if(fr == ''):
