@@ -950,7 +950,7 @@ def dict_get_partent_pathstr_hierachy_description(description_dict):
                 pass
             else:
                 for k in range(next_level_cursor,next_level_len):
-                    if(path_string_is_parent(description_dict[i+1][k],description_dict[i][j])):
+                    if(path_string_is_parent(description_dict[i][j],description_dict[i+1][k])):
                         parent_dict[i+1][k] = j
                         next_level_cursor = next_level_cursor + 1
                     else:
