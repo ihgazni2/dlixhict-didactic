@@ -1079,7 +1079,7 @@ __56. .candidates()__
 
 
 
-## Part4. [pathstr](ReadMeDetailed/utils.md#pathstr)
+## Part4. [pathstr](ReadMeDetailed/utils.md)
 __1. head()__  
 -------------
 __2. tail()__
@@ -1133,6 +1133,31 @@ __10. ancestors()__
 		ps.is_descedant_of('/')
 
 
+![](/Images/utils.pathstr.1.png) 
+![](/Images/utils.pathstr.2.png)
+
+
+## Part4. [pathlist](ReadMeDetailed/utils.md)
+__1. head()__  
+-------------
+__2. tail()__
+-------------
+__3. leaf()__  
+-------------
+__4. parent()__
+---------------
+__5. pathlist()__  
+-----------------
+__6. is_parent_of(pathstr2)__
+-----------------------------
+__7. is_leaf_of(pathstr2)__
+---------------------------
+__8. is_ancestor_of(pathstr2)__
+-------------------------------
+__9. is_descedant_of(pathstr2)__
+--------------------------------
+__10. ancestors()__
+-------------------
 
 
 
