@@ -1079,7 +1079,7 @@ __56. .candidates()__
 
 
 
-## Part4. [pathstr](ReadMeDetailed/utils.md)
+## Part3. [pathstr](ReadMeDetailed/utils.md)
 __1. head()__  
 -------------
 __2. tail()__
