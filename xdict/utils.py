@@ -241,6 +241,7 @@ def path_string_to_path_list(path_str,**kwargs):
         path_string_to_path_list('#a#b#c#',delimiter = '#')
         path_string_to_path_list('/a/b/c/',keep_begin_sp=0)
         path_string_to_path_list('/a/b/c/',keep_end_sp=0)
+        path_string_to_path_list('/a/b/c/',keep_begin_sp=0,keep_end_sp=0)
     '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
@@ -265,33 +266,34 @@ def path_string_to_path_list(path_str,**kwargs):
     sps = path_str.split(delimiter)
     return(sps)
 
-def path_list_to_path_string(path_list):
-    if('delimiter' in kwargs):
-        delimiter = kwargs['delimiter']
-    else:
-        delimiter = '/'
-    if('keep_begin_sp' in kwargs):
-        keep_begin_sp = kwargs['keep_begin_sp']
-    else:
-        keep_begin_sp = 1
-    if('keep_end_sp' in kwargs):
-        keep_end_sp = kwargs['keep_end_sp']
-    else:
-        keep_end_sp = 1
 
-    if(keep_begin_sp):
-        path_list = path_list
-    else:
-        path_list = path_list[1:]
-    if(keep_end_sp):
-        path_list = path_list
-    else:
-        path_list = path_list[:path_list.__len__()-1]
-    for i in range(0,path_list.__len__()):
-        path_str=''.join((path_str,delimiter))
-    return(path_str)
 
 def path_string_is_parent(parent,son,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_string_is_parent('a/b/','a/b/c')
+        path_string_is_parent('a/b/','a/b/c/')
+        path_string_is_parent('a/b/','a/b/c/d')
+        path_string_is_parent('a/b/','a/b/c/d/')
+
+        path_string_is_parent('/a/b','a/b/c')
+        path_string_is_parent('/a/b','a/b/c/')
+        path_string_is_parent('/a/b','a/b/c/d')
+        path_string_is_parent('/a/b','a/b/c/d/')
+
+        path_string_is_parent('a/b','a/b/c')
+        path_string_is_parent('a/b','a/b/')
+        path_string_is_parent('a/b','a/b/c/')
+        path_string_is_parent('a/b','a/b/c/d')
+        path_string_is_parent('a/b','a/b/c/d/')
+        
+        path_string_is_parent('a/b','/a/b/c')
+        path_string_is_parent('a/b','/a/b/c/')
+        path_string_is_parent('a/b','/a/b/c/d')
+        path_string_is_parent('a/b','/a/b/c/d/')
+        
+        
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -300,7 +302,6 @@ def path_string_is_parent(parent,son,**kwargs):
         head_tail_strip = kwargs['head_tail_strip']
     else:
         head_tail_strip = 0
-
     if(head_tail_strip):
         parent = str_lstrip(parent,delimiter,1)
         parent = str_rstrip(parent,delimiter,1)
@@ -323,6 +324,14 @@ def path_string_is_parent(parent,son,**kwargs):
         return(0)
 
 def path_string_is_leaf(leaf,path_str,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_string_is_leaf('c','a/b/c')
+        path_string_is_leaf('/c','a/b/c')
+        path_string_is_leaf('','a/b/c')
+        path_string_is_leaf('c/','a/b/c/')
+        path_string_is_leaf('','a/b/c/')
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -334,6 +343,14 @@ def path_string_is_leaf(leaf,path_str,**kwargs):
         return(0)
 
 def path_string_get_parent(son,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_string_get_parent('a/b/c')
+        path_string_get_parent('a/b/c/')
+        path_string_get_parent('/a/b/c')
+        path_string_get_parent('/a/b/c/')
+        path_string_get_parent('c')
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -348,12 +365,20 @@ def path_string_get_parent(son,**kwargs):
     return(m.group(1))
 
 def path_string_get_leaf(absp,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_string_get_leaf('a/b/c')
+        path_string_get_leaf('a/b/c/')
+        path_string_get_leaf('/a/b/c')
+        path_string_get_leaf('/a/b/c/')
+        path_string_get_leaf('c')
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
     if(not(delimiter in absp)):
-        absp = delimiter
+        return(absp)
     else:
         pass
     regex_str = ''.join(('(.*)',delimiter,'([^/]*)'))
@@ -420,6 +445,34 @@ class pathstr(str):
 
 
 #--------------------------------------
+
+def path_list_to_path_string(path_list):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('keep_begin_sp' in kwargs):
+        keep_begin_sp = kwargs['keep_begin_sp']
+    else:
+        keep_begin_sp = 1
+    if('keep_end_sp' in kwargs):
+        keep_end_sp = kwargs['keep_end_sp']
+    else:
+        keep_end_sp = 1
+
+    if(keep_begin_sp):
+        path_list = path_list
+    else:
+        path_list = path_list[1:]
+    if(keep_end_sp):
+        path_list = path_list
+    else:
+        path_list = path_list[:path_list.__len__()-1]
+    for i in range(0,path_list.__len__()):
+        path_str=''.join((path_str,delimiter))
+    return(path_str)
+
+
 
 def path_list_is_parent(parent_pl,son_pl):
     sl_len = son_pl.__len__()
