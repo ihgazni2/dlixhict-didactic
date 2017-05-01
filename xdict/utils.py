@@ -110,7 +110,6 @@ def is_unhashable_type(obj):
         return(True)
     else:
         return(False)
-
 def is_json(obj,strict=False):
     try:
         json.loads(obj,strict=strict)
@@ -118,15 +117,11 @@ def is_json(obj,strict=False):
         return(False)
     else:
         return(True)
-
-
 def is_bytes(obj):
     if(type(obj)==type(b'x')):
         return(True)
     else:
         return(False)
-
-
 def is_int_str(old_index):
     try:
         int(old_index)
@@ -137,8 +132,6 @@ def is_int_str(old_index):
             return(False)
         else:
             return(True)
-
-
 def is_float_str(s):
     try:
         float(s)
@@ -149,12 +142,8 @@ def is_float_str(s):
             return(True)
         else:
             return(False)
-
 def is_number_str(s):
     return(is_int_str(s)|is_float_str(s))
-
-
-
 def get_obj_type_name(obj):
     class_str = str(type(obj))
     regex = re.compile('\'(.*)\'')
@@ -180,6 +169,11 @@ def get_obj_type_name(obj):
 #                                     '/a/b/c/'.parent()='/a/b/c'
  
 def path_string_is_slash_end(path_string,delimiter='/'):
+    '''
+        path_string_is_slash_end('a/b/c')
+        path_string_is_slash_end('a/b/c/')
+        path_string_is_slash_end('a#b#c#',delimiter='#')
+    '''
     if(path_string == ''):
         return(False)
     if(path_string[-1] == delimiter):
@@ -245,7 +239,6 @@ def path_string_get_tail(path_string,delimiter='/'):
         return(path_string)
     else:
         return(path_string[(i+1):])
-        
 
 def path_string_to_path_list(path_str,**kwargs):
     if('delimiter' in kwargs):
@@ -270,8 +263,7 @@ def path_string_to_path_list(path_str,**kwargs):
         path_str = str_rstrip(path_str,delimiter,1)
     sps = path_str.split(delimiter)
     return(sps)
-    
-    
+
 def path_list_to_path_string(path_list):
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
@@ -297,8 +289,6 @@ def path_list_to_path_string(path_list):
     for i in range(0,path_list.__len__()):
         path_str=''.join((path_str,delimiter))
     return(path_str)
-    
-
 
 def path_string_is_parent(parent,son,**kwargs):
     if('delimiter' in kwargs):
@@ -331,7 +321,6 @@ def path_string_is_parent(parent,son,**kwargs):
     else:
         return(0)
 
-
 def path_string_is_leaf(leaf,path_str,**kwargs):
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
@@ -342,8 +331,6 @@ def path_string_is_leaf(leaf,path_str,**kwargs):
         return(1)
     else:
         return(0)
-
-
 
 def path_string_get_parent(son,**kwargs):
     if('delimiter' in kwargs):
@@ -378,8 +365,6 @@ def path_string_get_leaf(absp,**kwargs):
     regex = re.compile(regex_str)
     m = regex.search(absp)
     return(m.group(2))
-
-
 
 
 class pathstr(str):
@@ -2162,9 +2147,10 @@ class bitmap():
                 pass
             else:
                 if(bigend):
-                    self.list = self.list  + [0] * (size = bm.__len__())
+                    size = bm.__len__()
+                    self.list = self.list  + [0] * (size)
                 else:
-                    self.list = [0] * (size = bm.__len__()) +  self.list 
+                    self.list = [0] * (size) +  self.list 
             self.size = self.list.__len__()
             self.num = bitmaplist_to_num(bm)
         else:
