@@ -267,7 +267,6 @@ def path_string_to_path_list(path_str,**kwargs):
     return(sps)
 
 
-
 def path_string_is_parent(parent,son,**kwargs):
     ''' 
         from xdict.utils import *
@@ -342,6 +341,66 @@ def path_string_is_leaf(leaf,path_str,**kwargs):
     else:
         return(0)
 
+
+def path_string_is_ancestor(ances,des,**kwargs):
+    '''
+        from xdict.utils import *
+        path_string_is_ancestor('a/b','a/b')
+        path_string_is_ancestor('a/b','a/b/')
+        path_string_is_ancestor('a/b','a/b/c')
+        path_string_is_ancestor('a/b','a/b/c/d')
+        path_string_is_ancestor('a/b','a/b/c/d/')
+        
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    ances_pl = ances.split(delimiter)
+    des_pl = des.split(delimiter)
+    return(path_list_is_ancestor(ances_pl,des_pl))
+
+def path_string_is_descedant(des,ances,**kwargs):
+    '''
+        from xdict.utils import *
+        path_string_is_descedant('a/b','a/b')
+        path_string_is_descedant('a/b/','a/b')
+        path_string_is_descedant('a/b/c','a/b')
+        path_string_is_descedant('a/b/c/d','a/b')
+        path_string_is_descedant('a/b/c/d/','a/b')
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    ances_pl = ances.split(delimiter)
+    des_pl = des.split(delimiter)
+    return(path_list_is_descedant(des_pl,ances_pl))
+
+
+def path_string_get_ancestors(des,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        ancestors = path_string_get_ancestors('a/b/c/d')
+        pobj(ancestors)
+        ancestors = path_string_get_ancestors('/a/b/c/d')
+        pobj(ancestors)
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    des_pl = des.split(delimiter)
+    rslt = []
+    
+    for ei in range(0,des_pl.__len__()-1):
+        ances_pl = des_pl[:(ei+1)]
+        ances = path_list_to_path_string(ances_pl,delimiter = delimiter)
+        rslt.append(ances)
+    return(rslt)
+
+
 def path_string_get_parent(son,**kwargs):
     ''' 
         from xdict.utils import *
@@ -394,19 +453,39 @@ def path_string_get_leaf(absp,**kwargs):
 
 
 class pathstr(str):
+    '''
+        from xdict import utils
+        ps = utils.pathstr('/a/b/c')
+        ps.head()
+        ps.tail()
+        ps.leaf()
+        ps.parent()
+        ps.ancestors()
+        
+        ps = utils.pathstr('/a/b/c')
+        ps.is_parent_of('/a/b/c/d')
+        ps = utils.pathstr('d')
+        ps.is_leaf_of('/a/b/c/d')
+        
+        ps.pathlist()
+        
+        ps = utils.pathstr('a/b')
+        ps.is_ancestor_of('a/b/c')
+        ps.is_ancestor_of('a/b/c/')
+        ps.is_ancestor_of('a/b/c/d')
+        ps.is_ancestor_of('a/b/c/d/')
+        
+        ps = utils.pathstr('a/b/c/d')
+        ps.is_descedant_of('a/b/c')
+        ps.is_descedant_of('a/b/c/')
+        ps.is_descedant_of('a/b')
+        ps.is_descedant_of('a/b/')
+        ps.is_descedant_of('a')
+        ps.is_descedant_of('a/')
+        ps.is_descedant_of('')
+        ps.is_descedant_of('/')
+    '''
     def head(self,**kwargs):
-        '''
-            from xdict import utils
-            ps = utils.pathstr('/a/b/c')
-            ps.head()
-            ps.tail()
-            ps.leaf()
-            ps.parent()
-            ps.pathlist()
-            ps.is_parent('/a/b/c/d')
-            ps = utils.pathstr('d')
-            ps.is_leaf('/a/b/c/d')
-        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
@@ -430,6 +509,12 @@ class pathstr(str):
         else:
             delimiter = '/'
         return(path_string_get_parent(self,delimiter=delimiter))
+    def ancestors(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_get_ancestors(self,delimiter=delimiter))
     def pathlist(self,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
@@ -456,17 +541,27 @@ class pathstr(str):
         else:
             delimiter = '/'
         return(path_string_is_leaf(self,pathstr_2,delimiter=delimiter))
+    def is_ancestor_of(self,pathstr_2,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_is_ancestor(self,pathstr_2,delimiter=delimiter))
+    def is_descedant_of(self,pathstr_2,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_is_descedant(self,pathstr_2,delimiter=delimiter))
 
 
 
 
-
-
-
+#-----picture of pathstr
 
 #--------------------------------------
 
-def path_list_to_path_string(path_list):
+def path_list_to_path_string(path_list,**kwargs):
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -479,17 +574,19 @@ def path_list_to_path_string(path_list):
         keep_end_sp = kwargs['keep_end_sp']
     else:
         keep_end_sp = 1
-
     if(keep_begin_sp):
         path_list = path_list
     else:
-        path_list = path_list[1:]
+        path_list = copy.deepcopy(path_list[1:])
     if(keep_end_sp):
         path_list = path_list
     else:
-        path_list = path_list[:path_list.__len__()-1]
-    for i in range(0,path_list.__len__()):
-        path_str=''.join((path_str,delimiter))
+        path_list = copy.deepcopy(path_list[:path_list.__len__()-1])
+    
+    path_str = ''.join((path_list[0],delimiter))
+    for i in range(1,path_list.__len__()):
+        path_str=''.join((path_str,str(path_list[i]),delimiter))
+    path_str = str_rstrip(path_str,delimiter,1)
     return(path_str)
 
 
@@ -609,15 +706,19 @@ def str_to_bool(s,**kwargs):
             return(None)
 
 def str_lstrip(s,char,count):
-    if(s.__len__()<count):
-        return(s)
-    else:
-        for i in range(0,count+1):
+    c = 0
+    for i in range(0,s.__len__()):
+        if(c==count):
+            break
+        else:
             if(s[i] == char):
-                pass
+                c = c+1
             else:
                 break
-        return(s[i:])
+    if(c==0):
+        return(s)
+    else:
+        return(s[c:])
 
 def str_rstrip(s,char,count):
     c = 0
@@ -632,7 +733,9 @@ def str_rstrip(s,char,count):
     if(c==0):
         return(s)
     else:
-        return(s[:(i+1)])
+        ei = s.__len__() - c
+        return(s[:ei])
+
 
 def str_prepend(s,char,n):
     prepend = ''
