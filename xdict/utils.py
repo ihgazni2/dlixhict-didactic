@@ -399,6 +399,13 @@ class pathstr(str):
             from xdict import utils
             ps = utils.pathstr('/a/b/c')
             ps.head()
+            ps.tail()
+            ps.leaf()
+            ps.parent()
+            ps.pathlist()
+            ps.is_parent('/a/b/c/d')
+            ps = utils.pathstr('d')
+            ps.is_leaf('/a/b/c/d')
         '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
@@ -437,9 +444,17 @@ class pathstr(str):
         else:
             keep_end_sp = 1
         return(path_string_to_path_list(self,delimiter=delimiter,keep_begin_sp=keep_begin_sp,keep_end_sp=keep_end_sp))
-    def is_parent(self,pathstr_2,**kwargs):
+    def is_parent_of(self,pathstr_2,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
         return(path_string_is_parent(self,pathstr_2,delimiter=delimiter))
-    def is_leaf(self,pathstr_2,**kwargs):
+    def is_leaf_of(self,pathstr_2,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
         return(path_string_is_leaf(self,pathstr_2,delimiter=delimiter))
 
 
