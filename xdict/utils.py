@@ -170,6 +170,7 @@ def get_obj_type_name(obj):
  
 def path_string_is_slash_end(path_string,delimiter='/'):
     '''
+        from xdict.utils import *
         path_string_is_slash_end('a/b/c')
         path_string_is_slash_end('a/b/c/')
         path_string_is_slash_end('a#b#c#',delimiter='#')
@@ -183,15 +184,11 @@ def path_string_is_slash_end(path_string,delimiter='/'):
 
 def path_string_get_head(path_string,delimiter='/'):
     '''
-        >>> path_string_get_head('a/b/c')
-        'a/b/'
-        >>> 
-        >>> path_string_get_head('/a/b/c')
-        '/a/b/'
-        >>> path_string_get_head('a/b/c/')
-        'a/b/'
-        >>> path_string_get_head('/a/b/c/')
-        '/a/b/'
+        from xdict.utils import *
+        path_string_get_head('a/b/c')
+        path_string_get_head('/a/b/c')
+        path_string_get_head('a/b/c/')
+        path_string_get_head('/a/b/c/')
     '''
     if(path_string == ''):
         return('')
@@ -213,14 +210,11 @@ def path_string_get_head(path_string,delimiter='/'):
 
 def path_string_get_tail(path_string,delimiter='/'):
     '''
-        >>> path_string_get_tail('a/b/c')
-        'c'
-        >>> path_string_get_tail('/a/b/c')
-        'c'
-        >>> path_string_get_tail('a/b/c/')
-        'c/'
-        >>> path_string_get_tail('/a/b/c/')
-        'c/'
+        from xdict.utils import *
+        path_string_get_tail('a/b/c')
+        path_string_get_tail('/a/b/c')
+        path_string_get_tail('a/b/c/')
+        path_string_get_tail('/a/b/c/')
     '''
     if(path_string == ''):
         return('')
@@ -241,15 +235,22 @@ def path_string_get_tail(path_string,delimiter='/'):
         return(path_string[(i+1):])
 
 def path_string_to_path_list(path_str,**kwargs):
+    '''
+        from xdict.utils import *
+        path_string_to_path_list('/a/b/c/')
+        path_string_to_path_list('#a#b#c#',delimiter = '#')
+        path_string_to_path_list('/a/b/c/',keep_begin_sp=0)
+        path_string_to_path_list('/a/b/c/',keep_end_sp=0)
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
-    if('keep_head_sp' in kwargs):
-        keep_head_sp = kwargs['keep_head_sp']
+    if('keep_begin_sp' in kwargs):
+        keep_begin_sp = kwargs['keep_begin_sp']
     else:
-        keep_head_sp = 1
-    if('keep_head_sp' in kwargs):
+        keep_begin_sp = 1
+    if('keep_end_sp' in kwargs):
         keep_end_sp = kwargs['keep_end_sp']
     else:
         keep_end_sp = 1
