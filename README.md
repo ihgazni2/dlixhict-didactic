@@ -1080,8 +1080,59 @@ __56. .candidates()__
 
 
 ## Part4. [pathstr](ReadMeDetailed/utils.md#pathstr)
-__1. head__  
------------
+__1. head()__  
+-------------
+__2. tail()__
+-------------
+__3. leaf()__  
+-------------
+__4. parent()__
+---------------
+__5. pathlist()__  
+-----------------
+__6. is_parent_of(pathstr2)__
+-----------------------------
+__7. is_leaf_of(pathstr2)__
+---------------------------
+__8. is_ancestor_of(pathstr2)__
+-------------------------------
+__9. is_descedant_of(pathstr2)__
+--------------------------------
+__10. ancestors()__
+-------------------
+
+		from xdict import utils
+		ps = utils.pathstr('/a/b/c')
+		ps.head()
+		ps.tail()
+		ps.leaf()
+		ps.parent()
+		ps.ancestors()
+
+		ps = utils.pathstr('/a/b/c')
+		ps.is_parent_of('/a/b/c/d')
+		ps = utils.pathstr('d')
+		ps.is_leaf_of('/a/b/c/d')
+
+		ps.pathlist()
+
+		ps = utils.pathstr('a/b')
+		ps.is_ancestor_of('a/b/c')
+		ps.is_ancestor_of('a/b/c/')
+		ps.is_ancestor_of('a/b/c/d')
+		ps.is_ancestor_of('a/b/c/d/')
+
+		ps = utils.pathstr('a/b/c/d')
+		ps.is_descedant_of('a/b/c')
+		ps.is_descedant_of('a/b/c/')
+		ps.is_descedant_of('a/b')
+		ps.is_descedant_of('a/b/')
+		ps.is_descedant_of('a')
+		ps.is_descedant_of('a/')
+		ps.is_descedant_of('')
+		ps.is_descedant_of('/')
+
+
 
 
 
