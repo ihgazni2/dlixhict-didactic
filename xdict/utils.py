@@ -395,29 +395,34 @@ def path_string_get_leaf(absp,**kwargs):
 
 class pathstr(str):
     def head(self,**kwargs):
+        '''
+            from xdict import utils
+            ps = utils.pathstr('/a/b/c')
+            ps.head()
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(path_string_get_head(self.__str(),delimiter=delimiter))
+        return(path_string_get_head(self,delimiter=delimiter))
     def tail(self,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(path_string_get_tail(self.__str(),delimiter=delimiter))
+        return(path_string_get_tail(self,delimiter=delimiter))
     def leaf(self,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(path_string_get_leaf(self.__str(),delimiter=delimiter))
+        return(path_string_get_leaf(self,delimiter=delimiter))
     def parent(self,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(path_string_get_parent(self.__str(),delimiter=delimiter))
+        return(path_string_get_parent(self,delimiter=delimiter))
     def pathlist(self,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
@@ -431,11 +436,11 @@ class pathstr(str):
             keep_end_sp = kwargs['keep_end_sp']
         else:
             keep_end_sp = 1
-        return(path_string_to_path_list(self.__str(),delimiter=delimiter,keep_begin_sp=keep_begin_sp,keep_end_sp=keep_end_sp))
+        return(path_string_to_path_list(self,delimiter=delimiter,keep_begin_sp=keep_begin_sp,keep_end_sp=keep_end_sp))
     def is_parent(self,pathstr_2,**kwargs):
-        return(path_string_is_parent(self.__str(),pathstr_2,delimiter=delimiter))
+        return(path_string_is_parent(self,pathstr_2,delimiter=delimiter))
     def is_leaf(self,pathstr_2,**kwargs):
-        return(path_string_is_leaf(self.__str(),pathstr_2,delimiter=delimiter))
+        return(path_string_is_leaf(self,pathstr_2,delimiter=delimiter))
 
 
 
