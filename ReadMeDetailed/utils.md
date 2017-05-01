@@ -137,7 +137,39 @@
         >>> path_string_is_leaf('','a/b/c/')
         1
 
-7. path_string_get_parent(son,**kwargs)  
+7. path_string_is_ancestor(ances,des,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> path_string_is_ancestor('a/b','a/b')
+        False
+        >>> path_string_is_ancestor('a/b','a/b/')
+        True
+        >>> path_string_is_ancestor('a/b','a/b/c')
+        True
+        >>> path_string_is_ancestor('a/b','a/b/c/d')
+        True
+        >>> path_string_is_ancestor('a/b','a/b/c/d/')
+        True
+
+
+
+8. path_string_is_descedant(des,ances,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_string_is_descedant('a/b','a/b')
+        False
+        >>> path_string_is_descedant('a/b/','a/b')
+        True
+        >>> path_string_is_descedant('a/b/c','a/b')
+        True
+        >>> path_string_is_descedant('a/b/c/d','a/b')
+        True
+        >>> path_string_is_descedant('a/b/c/d/','a/b')
+        True
+
+
+
+9. path_string_get_parent(son,**kwargs)  
 
         >>> from xdict.utils import *
         >>> path_string_get_parent('a/b/c')
@@ -152,7 +184,7 @@
         ''
         >>> 
 
-8. path_string_get_leaf(absp,**kwargs)  
+10. path_string_get_leaf(absp,**kwargs)  
 
         >>> from xdict.utils import *
         >>> path_string_get_leaf('a/b/c')
@@ -167,6 +199,28 @@
         'c'
         >>> path_string_get_leaf('')
         ''
+11. path_string_get_ancestors(des,**kwargs) 
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> ancestors = path_string_get_ancestors('a/b/c/d')
+        >>> pobj(ancestors)
+        [
+        'a', 
+        'a/b', 
+         'a/b/c'
+        ]
+        >>> ancestors = path_string_get_ancestors('/a/b/c/d')
+        >>> pobj(ancestors)
+        [
+         '', 
+         '/a', 
+         '/a/b', 
+         '/a/b/c'
+        ]
+        >>> 
+
+
 
 -----------------------------------------------------------------------------------------------------------------------
 
