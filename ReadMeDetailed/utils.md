@@ -29,14 +29,145 @@
 
 ##path string
 -----------------------------------------------------------------------------------------------------------------------
-1. path_string_is_slash_end(path_string,delimiter='/')
-2. path_string_get_head(path_string,delimiter='/')
-3. path_string_get_tail(path_string,delimiter='/')
-4. path_string_to_path_list(path_str,**kwargs)
-5. path_string_is_parent(parent,son,**kwargs)
-6. path_string_is_leaf(leaf,path_str,**kwargs)
-7. path_string_get_parent(son,**kwargs)
-8. path_string_get_leaf(absp,**kwargs)
+1. path_string_is_slash_end(path_string,delimiter='/')  
+
+        >>> from xdict.utils import *  
+        >>> path_string_is_slash_end('a/b/c')
+        False
+        >>> path_string_is_slash_end('a/b/c/')
+        True
+        >>> path_string_is_slash_end('a#b#c#',delimiter='#')
+        True
+        >>> 
+
+2. path_string_get_head(path_string,delimiter='/')  
+
+        >>> from xdict.utils import *
+        >>> path_string_get_head('a/b/c')
+        'a/b/'
+        >>> path_string_get_head('/a/b/c')
+        '/a/b/'
+        >>> path_string_get_head('a/b/c/')
+        'a/b/'
+        >>> path_string_get_head('/a/b/c/')
+        '/a/b/'
+
+3. path_string_get_tail(path_string,delimiter='/')  
+
+        >>> from xdict.utils import *
+        >>> path_string_get_tail('a/b/c')
+        'c'
+        >>> path_string_get_tail('/a/b/c')
+        'c'
+        >>> path_string_get_tail('a/b/c/')
+        'c/'
+        >>> path_string_get_tail('/a/b/c/')
+        'c/'
+
+
+4. path_string_to_path_list(path_str,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_string_to_path_list('/a/b/c/')
+        ['', 'a', 'b', 'c', '']
+        >>> path_string_to_path_list('#a#b#c#',delimiter = '#')
+        ['', 'a', 'b', 'c', '']
+        >>> path_string_to_path_list('/a/b/c/',keep_begin_sp=0)
+        ['a', 'b', 'c', '']
+        >>> path_string_to_path_list('/a/b/c/',keep_end_sp=0)
+        ['', 'a', 'b', 'c']
+        >>> path_string_to_path_list('/a/b/c/',keep_begin_sp=0,keep_end_sp=0)
+        ['a', 'b', 'c']
+
+
+
+5. path_string_is_parent(parent,son,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_string_is_parent('a/b/','a/b/c')
+        0
+        >>> path_string_is_parent('a/b/','a/b/c/')
+        0
+        >>> path_string_is_parent('a/b/','a/b/c/d')
+        0
+        >>> path_string_is_parent('a/b/','a/b/c/d/')
+        0
+        >>> 
+        >>> path_string_is_parent('/a/b','a/b/c')
+        0
+        >>> path_string_is_parent('/a/b','a/b/c/')
+        0
+        >>> path_string_is_parent('/a/b','a/b/c/d')
+        0
+        >>> path_string_is_parent('/a/b','a/b/c/d/')
+        0
+        >>> 
+        >>> path_string_is_parent('a/b','a/b/c')
+        1
+        >>> path_string_is_parent('a/b','a/b/')
+        1
+        >>> path_string_is_parent('a/b','a/b/c/')
+        0
+        >>> path_string_is_parent('a/b','a/b/c/d')
+        0
+        >>> path_string_is_parent('a/b','a/b/c/d/')
+        0
+        >>> 
+        >>> path_string_is_parent('a/b','/a/b/c')
+        0
+        >>> path_string_is_parent('a/b','/a/b/c/')
+        0
+        >>> path_string_is_parent('a/b','/a/b/c/d')
+        0
+        >>> path_string_is_parent('a/b','/a/b/c/d/')
+        0
+
+
+6. path_string_is_leaf(leaf,path_str,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_string_is_leaf('c','a/b/c')
+        1
+        >>> path_string_is_leaf('/c','a/b/c')
+        0
+        >>> path_string_is_leaf('','a/b/c')
+        0
+        >>> path_string_is_leaf('c/','a/b/c/')
+        0
+        >>> path_string_is_leaf('','a/b/c/')
+        1
+
+7. path_string_get_parent(son,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_string_get_parent('a/b/c')
+        'a/b'
+        >>> path_string_get_parent('a/b/c/')
+        'a/b/c'
+        >>> path_string_get_parent('/a/b/c')
+        '/a/b'
+        >>> path_string_get_parent('/a/b/c/')
+        '/a/b/c'
+        >>> path_string_get_parent('c')
+        ''
+        >>> 
+
+8. path_string_get_leaf(absp,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_string_get_leaf('a/b/c')
+        'c'
+        >>> path_string_get_leaf('a/b/c/')
+        ''
+        >>> path_string_get_leaf('/a/b/c')
+        'c'
+        >>> path_string_get_leaf('/a/b/c/')
+        ''
+        >>> path_string_get_leaf('c')
+        'c'
+        >>> path_string_get_leaf('')
+        ''
+
 -----------------------------------------------------------------------------------------------------------------------
 
 ##path list
