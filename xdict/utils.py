@@ -527,12 +527,7 @@ class pathlist(list):
         return(path_list_to_getitem_string(self))
 
 
-
-    
-    
 #string
-
-
 
 def str_to_bool(s,**kwargs):
     if('strict' in kwargs):
@@ -580,7 +575,6 @@ def str_rstrip(s,char,count):
     else:
         return(s[:(i+1)])
 
-
 def str_prepend(s,char,n):
     prepend = ''
     for i in range(1,n+1):
@@ -593,7 +587,6 @@ def str_apppend(s,char,n):
         append = ''.join((append,char))
     return(''.join((s,append)))
 
-    
 def str_at_begin_of_str(str1,str2):
     len1 = str1.__len__()
     begin = str2[:len1]
@@ -601,8 +594,6 @@ def str_at_begin_of_str(str1,str2):
         return(True)
     else:
         return(False)
-
-
 
 def str_at_end_of_str(str1,str2):
     len1 = str1.__len__()
@@ -612,9 +603,6 @@ def str_at_end_of_str(str1,str2):
         return(True)
     else:
         return(False)
-
-
-
 
 def str_display_width(s):
     '''
@@ -633,26 +621,357 @@ def str_display_width(s):
         width = width + sublen
     return(width)
 
-def str_prepend_spaces_basedon_displaywidth(s,width):
+def str_prepend_basedon_displaywidth(s,width,**kwargs):
+    if('padding' in kwargs):
+        padding = kwargs['padding']
+    else:
+        padding = ' '
     s = str(s)
     w = str_display_width(s)
     space_Len = width - w
     new_S = ''
     for i in range(0,space_Len):
-        new_S = ''.join((' ' , new_S))
+        new_S = ''.join((padding, new_S))
+    new_S = ''.join((new_S,s))
+    return(new_S)
+
+
+def str_append_basedon_displaywidth(s,width,**kwargs):
+    if('padding' in kwargs):
+        padding = kwargs['padding']
+    else:
+        padding = ' '
+    s = str(s)
+    w = str_display_width(s)
+    space_Len = width - w
+    new_S = padding * space_Len
     new_S = ''.join((new_S,s))
     return(new_S)
 
 
 
-#list dict tuple
 
-def list_creat_default_with_len(len,default_element=None):
-    rslt = []
+# char encode decode
+
+def pack_char_using_unicode(char_str):
+    '''
+        >>> print('a')
+        a
+        >>> print(ord('a'))
+        97
+        >>> print(hex(97))
+        0x61
+        >>> '\x00'
+        '\x00'
+        >>> print('\x61')
+        a
+        >>> print('\u0061')
+        a
+        >>> pack_char_using_unicode('a')
+        b'\x00a'
+        >>> 
+        >>> 
+        >>> 
+        >>> print('问')
+        问
+        >>> print(ord('问'))
+        38382
+        >>> print(hex(38382))
+        0x95ee
+        >>> print('\x95')
+        
+        >>> print('\xee')
+        î
+        >>> print('\u95ee')
+        问
+        >>> pack_char_using_unicode('问')
+        b'\x95\xee'
+        >>>
+    '''
+    u = char_str.encode('raw_unicode_escape')
+    u = u.decode('utf-8') 
+    if(u.__len__() == 1):
+        u = b'\x00' + bytes(u,'latin-1')
+    else:
+        u = u[2:]
+        uh = int(u[0:2],16)
+        ul = int(u[2:],16)
+        u = bytes((chr(uh)+chr(ul)),'latin-1')
+    return(u)
+
+def unpack_twobytes_using_unicode(two_bytes):
+    '''
+        >>> unpack_twobytes_using_unicode(b'\x00a')
+        'a'
+        >>> unpack_twobytes_using_unicode(b'\x95\xee')
+        '问'
+        >>> print('\u0061')
+        a
+        >>> print('\u95ee')
+        问
+        >>> 
+    '''
+    h,l = struct.unpack('BB',two_bytes)
+    h = '{0:0>2}'.format(hex(h).lstrip('0x'))
+    l = '{0:0>2}'.format(hex(l).lstrip('0x'))
+    u = ''.join(('\\u',h,l))
+    u = bytes(u,'utf-8')
+    s = u.decode('raw_unicode_escape')
+    return(s)
+
+def pack_str_using_unicode(str):
+    '''
+        >>> pack_str_using_unicode('abcdefg')
+        b'\x00a\x00b\x00c\x00d\x00e\x00f\x00g'
+        >>> 
+        >>> pack_str_using_unicode('你们好')
+        b'O`N\xecY}'
+        >>> 
+    '''
+    len = str.__len__()
+    B = b''
     for i in range(0,len):
-        rslt.append(default_element)
+        B = B + pack_char_using_unicode(str[i])
+    return(B)
+
+def unpack_bytes_stream_using_unicode(Bs):
+    '''
+        >>> unpack_bytes_stream_using_unicode(b'\x00a\x00b\x00c\x00d\x00e\x00f\x00g')
+        'abcdefg'
+        >>> unpack_bytes_stream_using_unicode(b'O`N\xecY}')
+        '你们好'
+        >>> 
+    '''
+    len = Bs.__len__()
+    pairs = len // 2
+    t = struct.unpack('{0}B'.format(len),Bs)
+    U = ''
+    for i in range(0,pairs):
+        h = t[2*i]
+        l = t[2*i+1]
+        h = '{0:0>2}'.format(hex(h).lstrip('0x'))
+        l = '{0:0>2}'.format(hex(l).lstrip('0x'))
+        u = ''.join(('\\u',h,l))
+        u = bytes(u,'utf-8')
+        u = u.decode('raw_unicode_escape')
+        U = ''.join((U,u))
+    return(U)
+
+def char_to_slash_u_str(ch,with_slash_u=1):
+    '''
+        >>> char_to_slash_u_str('a')
+        '\\u0061'
+        >>> char_to_slash_u_str('你')
+        '\\u4f60'
+    '''
+    if(ord(ch)<256):
+        bs = hex(ord(ch)).replace('0x','\\u00')
+        if(with_slash_u):
+            return(bs)
+        else:
+            return(bs[2:])
+    else:
+        bs = ch.encode('raw_unicode_escape')
+        if(with_slash_u):
+            return(bs.__str__()[3:-1])
+        else:
+            return(bs.__str__()[5:-1])
+
+def slash_u_str_to_char(slash_u_str):
+    '''
+        >>> slash_u_str_to_char('\\u0061')
+        'a'
+        >>> slash_u_str_to_char('0061')
+        'a'
+        >>> slash_u_str_to_char('\\u4f60')
+        '你'
+        >>> slash_u_str_to_char('4f60')
+        '你'
+        >>> 
+    '''
+    if(slash_u_str[:2]=='\\u'):
+        slash_u_str = slash_u_str[2:]
+    else:
+        pass
+    one = chr(int(slash_u_str[0:2],16))
+    two = chr(int(slash_u_str[2:],16))
+    pk = ''.join((one,two))
+    bs = bytes(pk,'latin-1')
+    return(unpack_twobytes_using_unicode(bs)) 
+
+def str_to_slash_u_str(a_string,with_slash_u=1):
+    '''
+        >>> str_to_slash_u_str('你们好',0)
+        '4f604eec597d'
+        >>> str_to_slash_u_str('你们好',1)
+        '\\u4f60\\u4eec\\u597d'
+        >>> str_to_slash_u_str('abc',0)
+        '006100620063'
+        >>> str_to_slash_u_str('abc',1)
+        '\\u0061\\u0062\\u0063'
+        >>> 
+    '''
+    rslt = ''
+    for i in range(0,a_string.__len__()):
+        ch = a_string[i]
+        rslt = ''.join((rslt,char_to_slash_u_str(ch,with_slash_u)))
     return(rslt)
 
+def slash_u_str_to_str(slash_us):
+    '''
+        >>> slash_u_str_to_str('4f604eec597d')
+        '你们好'
+        >>> slash_u_str_to_str('\\u4f60\\u4eec\\u597d')
+        '你们好'
+        >>> slash_u_str_to_str('006100620063')
+        'abc'
+        >>> slash_u_str_to_str('\\u0061\\u0062\\u0063')
+        'abc'
+        >>> 
+    '''
+    rslt = ''
+    slash_us = slash_us.replace('\\u','')
+    for i in range(0,slash_us.__len__(),4):
+        slash_u_str = slash_us[i:i+4]
+        rslt = ''.join((rslt,slash_u_str_to_char(slash_u_str)))
+    return(rslt)
+
+def char_str_to_unicode_num(char_str):
+    '''
+        >>> 
+        >>> char_str_to_unicode_num('a')
+        97
+        >>> chr(97)
+        'a'
+        >>> char_str_to_unicode_num('你')
+        20320
+        >>> chr(20320)
+        '你'
+    '''
+    s = char_to_slash_u_str(char_str,with_slash_u=0)
+    num = int(s,16)
+    return(num)
+
+def unicode_num_to_char_str(unicode_num):
+    '''
+        >>> unicode_num_to_char_str(97)
+        'a'
+        >>> unicode_num_to_char_str(20320)
+        '你'
+        >>> 
+    '''
+    h = hex(unicode_num)
+    h = h[2:]
+    prepend = "0" * (4 - h.__len__())
+    h = ''.join((prepend,h))
+    ch = slash_u_str_to_char(h)
+    return(ch)
+
+def str_to_unicode_num_array(a_string):
+    '''
+        >>> str_to_unicode_num_array('abc')
+        [97, 98, 99]
+        >>> str_to_unicode_num_array('你们好')
+        [20320, 20204, 22909]
+        >>> 
+    '''
+    rslt = []
+    for i in range(0,a_string.__len__()):
+        ch = a_string[i]
+        num = char_str_to_unicode_num(ch)
+        rslt.append(num)
+    return(rslt)
+
+def unicode_num_array_to_str(num_arr):
+    '''
+        >>> unicode_num_array_to_str([97, 98, 99])
+        'abc'
+        >>> unicode_num_array_to_str([20320, 20204, 22909])
+        '你们好'
+        >>> 
+    '''
+    rslt = ''
+    for i in range(0,num_arr.__len__()):
+        ch = unicode_num_to_char_str(num_arr[i])
+        rslt = ''.join((rslt,ch))
+    return(rslt)
+
+
+
+class estr(str):
+    def boolize(self,**kwargs):
+        if('strict' in kwargs):
+            strict = kwargs['strict']
+        else:
+            strict = 0
+        return(str_to_bool(self,strict=strict))
+    def elstrip(self,char,count):
+        return(str_lstrip(self,char,count))
+    def erstrip(self,char,count):
+        return(str_rstrip(self,char,count))
+    def estrip(self,char,count):
+        s = str_lstrip(self,char,count)
+        return(str_rstrip(s,char,count))
+    def prepend(self,char,count):
+        return(str_prepend(self,char,count))
+    def append(self,char,count):
+        return(str_append(self,char,count))
+    def at_begin(self,str2):
+        return(str_at_begin_of_str(self,str2))
+    def at_end(self,str2):
+        return(str_at_end_of_str(self,str2))
+    def display_width(self):
+        return(str_display_width(self))
+    def prepend_basedon_displaywidth(self,width,**kwargs):
+        if('padding' in kwargs):
+            padding = kwargs['padding']
+        else:
+            padding = ' '
+        return(str_prepend_basedon_displaywidth(self,width,padding=padding))
+    def append_basedon_displaywidth(self,width,**kwargs):
+        if('padding' in kwargs):
+            padding = kwargs['padding']
+        else:
+            padding = ' '
+        return(str_append_basedon_displaywidth(self,width,padding=padding))
+    def pack(self):
+        return(pack_str_using_unicode(self))
+    def unicode(self,**kwargs):
+        if('with_slash_u' in kwargs):
+            with_slash_u = kwargs['with_slash_u']
+        else:
+            with_slash_u = 1
+        return(str_to_slash_u_str(self,with_slash_u=with_slash_u))
+    def unicode_num_array(self):
+        return(str_to_unicode_num_array(self))
+
+        
+class eunicode():
+    def __init__(self,u,**kwargs):
+        if('with_slash_u' in kwargs):
+            with_slash_u = kwargs['with_slash_u']
+        else:
+            with_slash_u = 1
+        if(is_list(u)):
+            self.nums = u
+            self.str = unicode_num_array_to_str(self.nums)
+            self.unicode = str_to_slash_u_str(self.str,with_slash_u=with_slash_u)
+            self.bytes = pack_str_using_unicode(self.str)
+        elif(is_bytes(u)):
+            self.bytes = u
+            self.str = unpack_bytes_stream_using_unicode(self.bytes)
+            self.unicode = str_to_slash_u_str(self.str,with_slash_u=with_slash_u)
+            self.nums = str_to_unicode_num_array(self.str)
+        else:
+            self.str = u
+            self.unicode = str_to_slash_u_str(self.str,with_slash_u=with_slash_u)
+            self.nums = str_to_unicode_num_array(self.str)
+            self.bytes = pack_str_using_unicode(self.str)
+
+
+
+
+#dict
 
 def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
     '''
@@ -702,42 +1021,6 @@ def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
             this = this.__getitem__(key)
     return(external_dict)
 
-
-list_setdefault_via_path_list = dict_setdefault_via_path_list
-
-
-def dict_include_pathlist(external_dict,path_list,**kwargs):
-    if('s2n' in kwargs):
-        s2n = kwargs['s2n']
-    else:
-        s2n = 0
-    if('n2s' in kwargs):
-        n2s = kwargs['n2s']
-    else:
-        n2s = 0
-    this = external_dict
-    for i in range(0,path_list.__len__()):
-        key = path_list[i]
-        if(n2s ==1):
-            key = str(key)
-        if(s2n==1):
-            try:
-                int(key)
-            except:
-                pass
-            else:
-                key = int(key)
-        try:
-            this = this.__getitem__(key)
-        except:
-            return(False)
-        else:
-            pass
-    return(True)
-
-list_include_pathlist = dict_include_pathlist
-
-
 def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
     if('s2n' in kwargs):
         s2n = kwargs['s2n']
@@ -763,9 +1046,6 @@ def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
     this.__setitem__(path_list[-1],value)
     return(external_dict)
 
-list_setitem_via_path_list = dict_setitem_via_path_list
-
-
 def dict_getitem_via_path_list(external_dict,path_list,**kwargs):
     if('s2n' in kwargs):
         s2n = kwargs['s2n']
@@ -790,11 +1070,6 @@ def dict_getitem_via_path_list(external_dict,path_list,**kwargs):
         this = this.__getitem__(key)
     return(this)
 
-list_getitem_via_path_list = dict_getitem_via_path_list
-
-
-
-
 def dict_getitem_via_cmd(external_dict,cmd_str,**kwargs):
     if('cmd_sp' in kwargs):
         cmd_sp = kwargs['cmd_sp']
@@ -816,14 +1091,10 @@ def dict_getitem_via_cmd(external_dict,cmd_str,**kwargs):
     path_list = cmd_str.split(cmd_sp)
     return(dict_getitem_via_path_list(external_dict,path_list,n2s=n2s,s2n=s2n))
 
-
-list_getitem_via_cmd = dict_getitem_via_cmd
-
-
-#dict_getitem_via_pathstr(nhome,"updates/useRmvWithMentions")
 def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
     '''
         dont use empty key ''
+        dict_getitem_via_pathstr(nhome,"updates/useRmvWithMentions")
     '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
@@ -843,9 +1114,30 @@ def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
             now = now.__getitem__(int(keys[i]))
     return(now)
 
-list_getitem_via_pathstr = dict_getitem_via_pathstr
-
-#get_all_sons_full_key_path
+def dict_delitem_via_path_list(external_dict,path_list,**kwargs):
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    this = external_dict
+    for i in range(0,path_list.__len__()-1):
+        key = path_list[i]
+        if(n2s ==1):
+            key = str(key)
+        if(s2n==1):
+            try:
+                int(key)
+            except:
+                pass
+            else:
+                key = int(key)
+        this = this.__getitem__(key)
+    this.__delitem__(path_list[-1])
+    return(external_dict)
 
 def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
     '''
@@ -900,9 +1192,82 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
         pass
     return(all_sons_full_key_path_list)
 
-list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
+def dict_include_pathlist(external_dict,path_list,**kwargs):
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    this = external_dict
+    for i in range(0,path_list.__len__()):
+        key = path_list[i]
+        if(n2s ==1):
+            key = str(key)
+        if(s2n==1):
+            try:
+                int(key)
+            except:
+                pass
+            else:
+                key = int(key)
+        try:
+            this = this.__getitem__(key)
+        except:
+            return(False)
+        else:
+            pass
+    return(True)
 
+def dict_find_keys_via_value(dlts,v,**kwargs):
+    '''
+        dlts = {1:'a',2:{3:'a'}}
+        >>> dict_find_keys_via_value(dlts,'a')
+        [[1], [2, 3]]
+        dict_find_keys_via_value(dlts,'a')
+        [[0], [1, 3]]
+        >>> 
+    '''
+    rslt = []
+    unhandled = [dlts]
+    parents   = [[]]
+    while(unhandled.__len__()>0):
+        next_unhandled = []
+        next_parents = []
+        for i in range(0,unhandled.__len__()):
+            curr = unhandled[i]
+            p = parents[i]
+            if(is_dict(curr)):
+                if(curr == v):
+                    rslt.append(p)
+                for key in curr:
+                    np = copy.deepcopy(p)
+                    np.append(key)
+                    next_parents.append(np)
+                    next_unhandled.append(curr[key])
+            elif(is_list(curr)):
+                if(curr == v):
+                    rslt.append(p)
+                for key in range(0,curr.__len__()):
+                    np = copy.deepcopy(p)
+                    np.append(key)
+                    next_parents.append(np)
+                    next_unhandled.append(curr[key])
+            else:
+                if(curr == v):
+                    rslt.append(p)
+        unhandled = next_unhandled
+        parents = next_parents
+    return(rslt)
 
+def dict_non_recursive_find_keys_via_value(d,v):
+    rslt = []
+    for key in d:
+        if(d[key] == v):
+            rslt.append(key)
+    return(rslt)
 
 def dict_get_pathstr_hierachy_description(dora,**kwargs):
     '''
@@ -951,9 +1316,6 @@ def dict_get_pathstr_hierachy_description(dora,**kwargs):
         unhandled_next = {}
     return(description_dict)
 
-list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
-
-
 def dict_get_partent_pathstr_hierachy_description_from_description_dict(description_dict):
     '''
         currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
@@ -994,13 +1356,12 @@ def dict_get_partent_pathstr_hierachy_description_from_description_dict(descript
         pass
     return(parent_dict)
 
-
-list_get_partent_pathstr_hierachy_description_from_description_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict
-
-
-
-def dict_get_tree_pathstr_hierachy_description(currd):
-    description_dict = dict_get_pathstr_hierachy_description(currd)
+def dict_get_tree_pathstr_hierachy_description(currd,**kwargs):
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    description_dict = dict_get_pathstr_hierachy_description(currd,delimiter=delimiter)
     parent_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict(description_dict)
     total_count = 0
     desc_len = description_dict.__len__()
@@ -1109,27 +1470,121 @@ def dict_get_tree_pathstr_hierachy_description(currd):
     rslt['text'] = text
     rslt['parent_dict'] = parent_dict
     rslt['deep_search_path'] =  deep_search_path
+    rslt['description_dict'] = description_dict
     return(rslt)
 
+def dict_update_just_intersection(dict1,dict2):
+    for key in dict2:
+        if(key in dict1):
+            dict1[key] = dict2[key]
+    return(dict1)
 
-list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
-
-
-
-
-def dict_print_tree_pathstr_with_dynamic_indent(deep_search_path,description_dict,**kwargs):
+def dict_uniqualize(d):
     '''
-        phd = utils.dict_get_pathstr_hierachy_description(currd)
-        pphd = utils.dict_get_partent_pathstr_hierachy_description_from_description_dict(phd)
-        thd = utils.dict_get_tree_pathstr_hierachy_description(currd)
-        description_dict = phd
-        deep_search_path = thd['deep_search_path']
-        dynamic_indent(deep_search_path,description_dict)
+        >>> 
+        >>> d
+        {0: 1, 1: 2, 2: 2}
+        >>> dict_uniqualize(d)
+        {0: 1, 1: 2}
+        >>> 
     '''
+    pt = copy.deepcopy(d)
+    seqs_for_del =[]
+    vset = set({})
+    for k in pt:
+        vset.add(pt[k])
+    tslen = vset.__len__()
+    freq = {}
+    for k in pt:
+        v = pt[k]
+        if(v in freq):
+            freq[v] = freq[v] + 1
+            seqs_for_del.append(k)
+        else:
+            freq[v] = 0
+    npt = {}
+    for k in pt:
+        if(k in seqs_for_del):
+            pass
+        else:
+            npt[k] = pt[k]
+    pt = npt
+    return(npt)
+
+def dict_extend(dict1,dict2,**kwargs):
+    if('deepcopy' in kwargs):
+        deepcopy=kwargs['deepcopy']
+    else:
+        deepcopy=1
+    if('overwrite' in kwargs):
+        overwrite=kwargs['overwrite']
+    else:
+        overwrite=0
+    if(deepcopy):
+        dict1 = copy.deepcopy(dict1)
+        dict2 = copy.deepcopy(dict2)
+    else:
+        pass
+    d = dict1
+    for key in dict2:
+        if(key in dict1):
+            if(overwrite):
+                d[key] = dict2[key]
+            else:
+                pass
+        else:
+            d[key] = dict2[key]
+    return(d)
+
+def dict_comprise(dict1,dict2):
+    '''
+        >>> 
+        >>> dict_comprise({'a':1,'b':2,'c':3,'d':4},{'b':2,'c':3})
+        True
+        >>> 
+    '''
+    len_1 = dict1.__len__()
+    len_2 = dict2.__len__()
+    if(len_2>len_1):
+        return(False)
+    else:
+        for k2 in dict2:
+            v2 = dict2[k2]
+            if(k2 in dict1):
+                v1 = dict1[k2]
+                if(v1 == v2):
+                    return(True)
+                else:
+                    return(False)
+            else:
+                return(False)
+
+def dict_get_value_keys_description(d):
+    pt = copy.deepcopy(d)
+    seqs_for_del =[]
+    vset = set({})
+    for k in pt:
+        vset.add(pt[k])
+    desc = {}
+    for v in vset:
+        desc[v] = []
+    for k in pt:
+        desc[pt[k]].append(k)
+    return(desc)
+
+def dict_print_tree_pathstr_with_dynamic_indent(currd,**kwargs):
+    '''
+    '''
+    
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
+
+    tree_pathstr_hierachy_description = utils.dict_get_tree_pathstr_hierachy_description(currd,delimiter = delimiter)
+    deep_search_path = tree_pathstr_hierachy_description['deep_search_path'] 
+    description_dict = tree_pathstr_hierachy_description['description_dict']
+    
     if('from' in kwargs):
         fr = kwargs['from']
     else:
@@ -1167,52 +1622,220 @@ def dict_print_tree_pathstr_with_dynamic_indent(deep_search_path,description_dic
             text = ''.join((text,'\n',line))
     return(text)
 
-list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
+def dict_get_max_wordwidth(myDict):
+    maxValueWidth = 0
+    for each in myDict:
+        eachValueWidth = myDict[each].__len__()
+        if(eachValueWidth > maxValueWidth):
+            maxValueWidth = eachValueWidth
+    return(maxValueWidth)
 
+def dict_get_max_word_displaywidth(myDict):
+    maxValueWidth = 0
+    for each in myDict:
+        eachValueWidth = str_display_width(myDict[each])
+        if(eachValueWidth > maxValueWidth):
+            maxValueWidth = eachValueWidth
+    return(maxValueWidth)
 
-
-
-
-def dict_update_just_intersection(dict1,dict2):
-    for key in dict2:
-        if(key in dict1):
-            dict1[key] = dict2[key]
-    return(dict1)
-
-
-
-def dict_uniqualize(d):
-    '''
-        >>> 
-        >>> d
-        {0: 1, 1: 2, 2: 2}
-        >>> dict_uniqualize(d)
-        {0: 1, 1: 2}
-        >>> 
-    '''
-    pt = copy.deepcopy(d)
-    seqs_for_del =[]
-    vset = set({})
-    for k in pt:
-        vset.add(pt[k])
-    tslen = vset.__len__()
-    freq = {}
-    for k in pt:
-        v = pt[k]
-        if(v in freq):
-            freq[v] = freq[v] + 1
-            seqs_for_del.append(k)
+class edict(dict):
+    def setdefault_via_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
         else:
-            freq[v] = 0
-    npt = {}
-    for k in pt:
-        if(k in seqs_for_del):
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        if('default_element' in kwargs):
+            default_element = kwargs['default_element']
+        else:
+            default_element = {}
+        return(dict_setdefault_via_path_list(self,pathlist,s2n=s2n,n2s=n2s,default_element=default_element))
+    
+    def setitem_via_pathlist(self,pathlist,value,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(dict_setitem_via_path_list(self,pathlist,value,s2n=s2n,n2s=n2s))
+    
+    def getitem_via_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(dict_getitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+    
+    def getitem_via_cmd(self,cmd_str,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        if('cmd_sp' in kwargs):
+            cmd_sp = kwargs['cmd_sp']
+        else:
+            cmd_sp = ' '
+        return(dict_getitem_via_cmd(self,cmd_str,s2n=s2n,n2s=n2s,cmd_sp=cmd_sp))
+
+    def getitem_via_pathstr(self,pathstr,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(dict_getitem_via_pathstr(self,pathstr,delimiter = delimiter))
+
+    def delitem_via_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(dict_delitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+    def sons_pathstrs(self,parent_pathstr,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(dict_get_all_sons_pathstrs(self,parent_pathstr,delimiter = delimiter))
+    def include_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(dict_include_pathlist(self,pathlist,s2n=s2n,n2s=n2s))
+    def keys_via_value(self,value):
+        return(dict_find_keys_via_value(self,value,strict=strict))
+    def keys_via_valuenon_recursive(self,value):
+        return(dict_non_recursive_find_keys_via_value(self,value))
+    def pathstr_hierachy_description(d,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(dict_get_pathstr_hierachy_description(d,delimiter = delimiter))
+
+    def tree_pathstr_hierachy_description(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(dict_get_tree_pathstr_hierachy_description(self,delimiter = delimiter))
+
+    def update_just_intersection(self,dict2):
+        return(dict_update_just_intersection(self,dict2))
+
+    def uniqualize(self):
+        return(dict_uniqualize(self))
+
+    def xextend(self,dict2,**kwargs):
+        if('deepcopy' in kwargs):
+            deepcopy=kwargs['deepcopy']
+        else:
+            deepcopy=1
+        if('overwrite' in kwargs):
+            overwrite=kwargs['overwrite']
+        else:
+            overwrite=0
+        if(deepcopy):
+            dict1 = copy.deepcopy(self)
+            dict2 = copy.deepcopy(dict2)
+        else:
             pass
-        else:
-            npt[k] = pt[k]
-    pt = npt
-    return(npt)
+        return(dict_extend(dict1,dict2,deepcopy=deepcopy,overwrite=overwrite))
 
+    def comprise(self,dict2):
+        return((dict_comprise(self,dict2)))
+
+    def value_keys_description(self):
+        return((dict_get_value_keys_description(self)))
+
+    def tree_pathstr_with_dynamic_indent(self,**kwargs):
+        '''
+        '''
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        if('from' in kwargs):
+            fr = kwargs['from']
+        else:
+            fr = 0
+        dsp_len = deep_search_path.__len__()
+        if('to' in kwargs):
+            to = kwargs['to']
+        else:
+            to = dsp_len
+        return(dict_print_tree_pathstr_with_dynamic_indent(self,delimiter =delimiter,fr=fr,to=to))
+
+    def max_wordwidth(self):
+        return(dict_get_max_wordwidth(self))
+
+    def max_word_displaywidth(self):
+        return(dict_get_max_word_displaywidth(self))
+
+
+#list
+
+def list_creat_default_with_len(len,default_element=None):
+    rslt = []
+    for i in range(0,len):
+        rslt.append(default_element)
+    return(rslt)
+
+list_setdefault_via_path_list = dict_setdefault_via_path_list
+list_setitem_via_path_list = dict_setitem_via_path_list
+list_getitem_via_path_list = dict_getitem_via_path_list
+list_getitem_via_cmd = dict_getitem_via_cmd
+list_delitem_via_path_list = dict_delitem_via_path_list
+list_getitem_via_pathstr = dict_getitem_via_pathstr
+list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
+list_include_pathlist = dict_include_pathlist
+list_find_keys_via_value = dict_find_keys_via_value
+
+def list_non_recursive_find_keys_via_value(l,v):
+    rslt = []
+    for i in range(0,l.__len__()):
+        if(l[i] == v):
+            rslt.append(i)
+    return(rslt)
+
+list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
+list_get_partent_pathstr_hierachy_description_from_description_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict
+list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
+
+def list_get_value_indexes_description(l):
+    pt = copy.deepcopy(l)
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    for v in vset:
+        desc[v] = []
+    for i in range(0,l.__len__()):
+        desc[l[i]].append(i)
+    return(desc)
+
+list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
 
 def list_uniqualize(l):
     '''
@@ -1245,33 +1868,6 @@ def list_uniqualize(l):
             npt.append(pt[i])
     pt = npt
     return(npt)
-
-
-def dict_get_value_keys_description(d):
-    pt = copy.deepcopy(d)
-    seqs_for_del =[]
-    vset = set({})
-    for k in pt:
-        vset.add(pt[k])
-    desc = {}
-    for v in vset:
-        desc[v] = []
-    for k in pt:
-        desc[pt[k]].append(k)
-    return(desc)
-
-def list_get_value_indexes_description(l):
-    pt = copy.deepcopy(l)
-    vset = set({})
-    for v in pt:
-        vset.add(v)
-    for v in vset:
-        desc[v] = []
-    for i in range(0,l.__len__()):
-        desc[l[i]].append(i)
-    return(desc)
-
-
 
 def list_comprise(list1,list2,**kwargs):
     '''
@@ -1309,120 +1905,11 @@ def list_comprise(list1,list2,**kwargs):
                     pass
     return(False)
 
-def dict_comprise(dict1,dict2,**kwargs):
-    '''
-        >>> 
-        >>> dict_comprise({'a':1,'b':2,'c':3,'d':4},{'b':2,'c':3})
-        True
-        >>> 
-    '''
-    len_1 = dict1.__len__()
-    len_2 = dict2.__len__()
-    if(len_2>len_1):
-        return(False)
-    else:
-        for k2 in dict2:
-            v2 = dict2[k2]
-            if(k2 in dict1):
-                v1 = dict1[k2]
-                if(v1 == v2):
-                    return(True)
-                else:
-                    return(False)
-            else:
-                return(False)
-
-
-def dict_non_recursive_find_keys_via_value(d,v):
-    rslt = []
-    for key in d:
-        if(d[key] == v):
-            rslt.append(key)
-    return(rslt)
-
-def list_non_recursive_find_keys_via_value(l,v):
-    rslt = []
-    for i in range(0,l.__len__()):
-        if(l[i] == v):
-            rslt.append(i)
-    return(rslt)
-
-
-
-def dict_find_keys_via_value(dlts,v,**kwargs):
-    '''
-        dlts = {1:'a',2:{3:'a'}}
-        >>> dict_find_keys_via_value(dlts,'a')
-        [[1], [2, 3]]
-        dict_find_keys_via_value(dlts,'a')
-        [[0], [1, 3]]
-        >>> 
-    '''
-    if('strict' in kwargs):
-        strict = kwargs['strict']
-    else:
-        strict = 1
-    rslt = []
-    unhandled = [dlts]
-    parents   = [[]]
-    while(unhandled.__len__()>0):
-        next_unhandled = []
-        next_parents = []
-        for i in range(0,unhandled.__len__()):
-            curr = unhandled[i]
-            p = parents[i]
-            if(is_dict(curr)):
-                if(curr == v):
-                    rslt.append(p)
-                for key in curr:
-                    np = copy.deepcopy(p)
-                    np.append(key)
-                    next_parents.append(np)
-                    next_unhandled.append(curr[key])
-            elif(is_list(curr)):
-                if(curr == v):
-                    rslt.append(p)
-                for key in range(0,curr.__len__()):
-                    np = copy.deepcopy(p)
-                    np.append(key)
-                    next_parents.append(np)
-                    next_unhandled.append(curr[key])
-            else:
-                if(curr == v):
-                    rslt.append(p)
-        unhandled = next_unhandled
-        parents = next_parents
-    return(rslt)
-
-
-
-list_find_keys_via_value = dict_find_keys_via_value
-
-
-def dict_get_max_wordwidth(myDict):
-    maxValueWidth = 0
-    for each in myDict:
-        eachValueWidth = myDict[each].__len__()
-        if(eachValueWidth > maxValueWidth):
-            maxValueWidth = eachValueWidth
-    return(maxValueWidth)
 
 def list_get_max_wordwidth(l):
     maxValueWidth = 0
     for each in l:
         eachValueWidth = each.__len__()
-        if(eachValueWidth > maxValueWidth):
-            maxValueWidth = eachValueWidth
-    return(maxValueWidth)
-
-
-
-
-
-def dict_get_max_word_displaywidth(myDict):
-    maxValueWidth = 0
-    for each in myDict:
-        eachValueWidth = str_display_width(myDict[each])
         if(eachValueWidth > maxValueWidth):
             maxValueWidth = eachValueWidth
     return(maxValueWidth)
@@ -1435,321 +1922,170 @@ def list_get_max_word_displaywidth(l):
             maxValueWidth = eachValueWidth
     return(maxValueWidth)
 
-
-
-
-def dict_extend(dict1,dict2,**kwargs):
-    if('deepcopy' in kwargs):
-        deepcopy=kwargs['deepcopy']
-    else:
-        deepcopy=1
-    if('overwrite' in kwargs):
-        overwrite=kwargs['overwrite']
-    else:
-        overwrite=0
-    if(deepcopy):
-        dict1 = copy.deepcopy(dict1)
-        dict2 = copy.deepcopy(dict2)
-    else:
-        pass
-    d = dict1
-    for key in dict2:
-        if(key in dict1):
-            if(overwrite):
-                d[key] = dict2[key]
-            else:
-                pass
+#######################################################################
+class elist(list):
+    def creat_default_with_len(self,len,default_element=None):
+        return(list_creat_default_with_len(len,default_element))
+    def setdefault_via_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
         else:
-            d[key] = dict2[key]
-    return(d)
-
-
-def dict_delitem_via_path_list(external_dict,path_list,**kwargs):
-    if('s2n' in kwargs):
-        s2n = kwargs['s2n']
-    else:
-        s2n = 0
-    if('n2s' in kwargs):
-        n2s = kwargs['n2s']
-    else:
-        n2s = 0
-    this = external_dict
-    for i in range(0,path_list.__len__()-1):
-        key = path_list[i]
-        if(n2s ==1):
-            key = str(key)
-        if(s2n==1):
-            try:
-                int(key)
-            except:
-                pass
-            else:
-                key = int(key)
-        this = this.__getitem__(key)
-    this.__delitem__(path_list[-1])
-    return(external_dict)
-
-list_delitem_via_path_list = dict_delitem_via_path_list
-
-    
-# char encode decode
-
-def pack_unicode_char_str(char_str):
-    '''
-        >>> print('a')
-        a
-        >>> print(ord('a'))
-        97
-        >>> print(hex(97))
-        0x61
-        >>> '\x00'
-        '\x00'
-        >>> print('\x61')
-        a
-        >>> print('\u0061')
-        a
-        >>> pack_unicode_char_str('a')
-        b'\x00a'
-        >>> 
-        >>> 
-        >>> 
-        >>> print('问')
-        问
-        >>> print(ord('问'))
-        38382
-        >>> print(hex(38382))
-        0x95ee
-        >>> print('\x95')
-        
-        >>> print('\xee')
-        î
-        >>> print('\u95ee')
-        问
-        >>> pack_unicode_char_str('问')
-        b'\x95\xee'
-        >>>
-    '''
-    u = char_str.encode('raw_unicode_escape')
-    u = u.decode('utf-8') 
-    if(u.__len__() == 1):
-        u = b'\x00' + bytes(u,'latin-1')
-    else:
-        u = u[2:]
-        uh = int(u[0:2],16)
-        ul = int(u[2:],16)
-        u = bytes((chr(uh)+chr(ul)),'latin-1')
-    return(u)
-
-
-def unpack_unicode_char_bytes(two_bytes):
-    '''
-        >>> unpack_unicode_char_bytes(b'\x00a')
-        'a'
-        >>> unpack_unicode_char_bytes(b'\x95\xee')
-        '问'
-        >>> print('\u0061')
-        a
-        >>> print('\u95ee')
-        问
-        >>> 
-    '''
-    h,l = struct.unpack('BB',two_bytes)
-    h = '{0:0>2}'.format(hex(h).lstrip('0x'))
-    l = '{0:0>2}'.format(hex(l).lstrip('0x'))
-    u = ''.join(('\\u',h,l))
-    u = bytes(u,'utf-8')
-    s = u.decode('raw_unicode_escape')
-    return(s)
-
-
-def pack_unicode_str(str):
-    '''
-        >>> pack_unicode_str('abcdefg')
-        b'\x00a\x00b\x00c\x00d\x00e\x00f\x00g'
-        >>> 
-        >>> pack_unicode_str('你们好')
-        b'O`N\xecY}'
-        >>> 
-    '''
-    len = str.__len__()
-    B = b''
-    for i in range(0,len):
-        B = B + pack_unicode_char_str(str[i])
-    return(B)
-
-
-def unpack_unicode_bytes_stream(Bs):
-    '''
-        >>> unpack_unicode_bytes_stream(b'\x00a\x00b\x00c\x00d\x00e\x00f\x00g')
-        'abcdefg'
-        >>> unpack_unicode_bytes_stream(b'O`N\xecY}')
-        '你们好'
-        >>> 
-    '''
-    len = Bs.__len__()
-    pairs = len // 2
-    t = struct.unpack('{0}B'.format(len),Bs)
-    U = ''
-    for i in range(0,pairs):
-        h = t[2*i]
-        l = t[2*i+1]
-        h = '{0:0>2}'.format(hex(h).lstrip('0x'))
-        l = '{0:0>2}'.format(hex(l).lstrip('0x'))
-        u = ''.join(('\\u',h,l))
-        u = bytes(u,'utf-8')
-        u = u.decode('raw_unicode_escape')
-        U = ''.join((U,u))
-    return(U)
-
-
-def char_to_slash_u_str(ch,with_slash_u=1):
-    '''
-        >>> char_to_slash_u_str('a')
-        '\\u0061'
-        >>> char_to_slash_u_str('你')
-        '\\u4f60'
-    '''
-    if(ord(ch)<256):
-        bs = hex(ord(ch)).replace('0x','\\u00')
-        if(with_slash_u):
-            return(bs)
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
         else:
-            return(bs[2:])
-    else:
-        bs = ch.encode('raw_unicode_escape')
-        if(with_slash_u):
-            return(bs.__str__()[3:-1])
+            n2s = 0
+        if('default_element' in kwargs):
+            default_element = kwargs['default_element']
         else:
-            return(bs.__str__()[5:-1])
+            default_element = {}
+        return(list_setdefault_via_path_list(self,pathlist,s2n=s2n,n2s=n2s,default_element = default_element))
+    def setitem_via_pathlist(self,pathlist,value,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(list_setitem_via_path_list(self,pathlist,value,s2n=s2n,n2s=n2s))
+    def getitem_via_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(list_getitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+    def getitem_via_cmd(self,cmd_str,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        if('cmd_sp' in kwargs):
+            cmd_sp = kwargs['cmd_sp']
+        else:
+            cmd_sp = ' '
+        return(list_getitem_via_cmd(self,cmd_str,s2n=s2n,n2s=n2s,cmd_sp=cmd_sp))
+    def getitem_via_pathstr(self,pathstr,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(list_getitem_via_pathstr(self,pathstr,delimiter = delimiter))
+    def delitem_via_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(list_delitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+    def sons_pathstrs(self,parent_pathstr,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(list_get_all_sons_pathstrs(d,parent_pathstr,delimiter = delimiter))
+    def include_pathlist(self,pathlist,**kwargs):
+        if('s2n' in kwargs):
+            s2n = kwargs['s2n']
+        else:
+            s2n = 0
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        return(list_include_pathlist(self,pathlist,s2n=s2n,n2s=n2s))
+    def keys_via_value(self,value):
+        return(list_find_keys_via_value(self,value))
+    def keys_via_value_non_recursive(self,value):
+        return(list_non_recursive_find_keys_via_value(self,value))
+    def pathstr_hierachy_description(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(list_get_pathstr_hierachy_description(self,delimiter = delimiter))
+    def tree_pathstr_hierachy_description(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(list_get_tree_pathstr_hierachy_description(self,delimiter = delimiter))
+    def value_indexes_description(self):
+        return(list_get_value_indexes_description(self))
+    def tree_pathstr_with_dynamic_indent(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        if('from' in kwargs):
+            fr = kwargs['from']
+        else:
+            fr = 0
+        dsp_len = deep_search_path.__len__()
+        if('to' in kwargs):
+            to = kwargs['to']
+        else:
+            to = dsp_len
+        return(list_print_tree_pathstr_with_dynamic_indent(self,delimiter =delimiter,fr=fr,to=to))
+    def uniqualize(self):
+        return(list_uniqualize(self))
+    def comprise(self,list2,**kwargs):
+        if('strict' in kwargs):
+            strict = kwargs['strict']
+        else:
+            strict = 0
+        return(list_comprise(self,list2,strict=strict))
+    def max_wordwidth(self):
+        return(list_get_max_wordwidth(self))
+    def max_word_displaywidth(self):
+        return(list_get_max_word_displaywidth(self))
+############################################################################
+#--------------------------------------------#
 
 
-def slash_u_str_to_char(slash_u_str):
-    '''
-        >>> slash_u_str_to_char('\\u0061')
-        'a'
-        >>> slash_u_str_to_char('0061')
-        'a'
-        >>> slash_u_str_to_char('\\u4f60')
-        '你'
-        >>> slash_u_str_to_char('4f60')
-        '你'
-        >>> 
-    '''
-    if(slash_u_str[:2]=='\\u'):
-        slash_u_str = slash_u_str[2:]
-    else:
-        pass
-    one = chr(int(slash_u_str[0:2],16))
-    two = chr(int(slash_u_str[2:],16))
-    pk = ''.join((one,two))
-    bs = bytes(pk,'latin-1')
-    return(unpack_unicode_char_bytes(bs)) 
-
-def str_to_slash_u_str(a_string,with_slash_u=1):
-    '''
-        >>> str_to_slash_u_str('你们好',0)
-        '4f604eec597d'
-        >>> str_to_slash_u_str('你们好',1)
-        '\\u4f60\\u4eec\\u597d'
-        >>> str_to_slash_u_str('abc',0)
-        '006100620063'
-        >>> str_to_slash_u_str('abc',1)
-        '\\u0061\\u0062\\u0063'
-        >>> 
-    '''
-    rslt = ''
-    for i in range(0,a_string.__len__()):
-        ch = a_string[i]
-        rslt = ''.join((rslt,char_to_slash_u_str(ch,with_slash_u)))
-    return(rslt)
-
-def slash_u_str_to_str(slash_us):
-    '''
-        >>> slash_u_str_to_str('4f604eec597d')
-        '你们好'
-        >>> slash_u_str_to_str('\\u4f60\\u4eec\\u597d')
-        '你们好'
-        >>> slash_u_str_to_str('006100620063')
-        'abc'
-        >>> slash_u_str_to_str('\\u0061\\u0062\\u0063')
-        'abc'
-        >>> 
-    '''
-    rslt = ''
-    slash_us = slash_us.replace('\\u','')
-    for i in range(0,slash_us.__len__(),4):
-        slash_u_str = slash_us[i:i+4]
-        rslt = ''.join((rslt,slash_u_str_to_char(slash_u_str)))
-    return(rslt)
-
-def char_str_to_unicode_num(char_str):
-    '''
-        >>> 
-        >>> char_str_to_unicode_num('a')
-        97
-        >>> chr(97)
-        'a'
-        >>> char_str_to_unicode_num('你')
-        20320
-        >>> chr(20320)
-        '你'
-    '''
-    s = char_to_slash_u_str(char_str,with_slash_u=0)
-    num = int(s,16)
-    return(num)
-    
-def unicode_num_to_char_str(unicode_num):
-    '''
-        >>> unicode_num_to_char_str(97)
-        'a'
-        >>> unicode_num_to_char_str(20320)
-        '你'
-        >>> 
-    '''
-    h = hex(unicode_num)
-    h = h[2:]
-    prepend = "0" * (4 - h.__len__())
-    h = ''.join((prepend,h))
-    ch = slash_u_str_to_char(h)
-    return(ch)
-
-def str_to_unicode_num_array(a_string):
-    '''
-        >>> str_to_unicode_num_array('abc')
-        [97, 98, 99]
-        >>> str_to_unicode_num_array('你们好')
-        [20320, 20204, 22909]
-        >>> 
-    '''
-    rslt = []
-    for i in range(0,a_string.__len__()):
-        ch = a_string[i]
-        num = char_str_to_unicode_num(ch)
-        rslt.append(num)
-    return(rslt)
-
-def unicode_num_array_to_str(num_arr):
-    '''
-        >>> unicode_num_array_to_str([97, 98, 99])
-        'abc'
-        >>> unicode_num_array_to_str([20320, 20204, 22909])
-        '你们好'
-        >>> 
-    '''
-    rslt = ''
-    for i in range(0,num_arr.__len__()):
-        ch = unicode_num_to_char_str(num_arr[i])
-        rslt = ''.join((rslt,ch))
-    return(rslt)
 
 # bitmap
-def bitmaplist_to_num(bitmaplist):
+def bitmaplist_to_num(bitmaplist,**kwargs):
+    '''
+        bitmaplist_to_num([1, 0, 1, 0])
+        bitmaplist_to_num([1, 0, 1, 0],bigend=1)
+    '''
+    if('bigend' in kwargs):
+        bigend = kwargs['bigend']
+    else:
+        bigend = 0
+    if(bigend):
+        bm = copy.deepcopy(bitmaplist)
+        bm.reverse()
+    else:
+        bm = bitmaplist
     num = 0
-    for i in range(0,bitmaplist.__len__()):
-        num = num + 2 **i * bitmaplist[i]
+    for i in range(0,bm.__len__()):
+        num = num + 2 **i * bm[i]
     return(num)
 
-def num_to_bitmaplist(num,bitmap_size):
+# ----------------------------
+def num_to_bitmaplist(num,**kwargs):
+    if('size' in kwargs):
+        bitmap_size = kwargs['bitmap_size']
+    else:
+        bitmap_size = bin(num).__len__() - 2
+    if('bigend' in kwargs):
+        bigend = kwargs['bigend']
+    else:
+        bigend = 0
     bitmaplist = []
     s = bin(num)[2:]
     s_len = s.__len__() 
@@ -1758,6 +2094,10 @@ def num_to_bitmaplist(num,bitmap_size):
         bitmaplist.append(int(b))
     for i in range(s_len,bitmap_size):
         bitmaplist.append(0)
+    if(bigend):
+        bitmaplist.reverse()
+    else:
+        pass
     return(bitmaplist)
 
 def bitmaplist_bitsum(bitmaplist):
@@ -1766,12 +2106,25 @@ def bitmaplist_bitsum(bitmaplist):
         sum = sum + bitmaplist[i]
     return(sum)
 
-def subset_bitmap(n,k):
+def bitmaplist_contain(bm1,bm2):
+    bm3 = list(map(lambda x,y:(x|y),bm1,bm2))
+    if(bm3 == bm1):
+        return(True)
+    else:
+        return(False)
+
+
+
+def subset_bitmap(n,k,**kwargs):
+    if('bigend' in kwargs):
+        bigend = kwargs['bigend']
+    else:
+        bigend = 0
     rslt = {}
     size = bin(2**n-1).__len__() - 2
     seq = 0 
     for i in range(0,2**n):
-        bitmaplist = num_to_bitmaplist(i,size)
+        bitmaplist = num_to_bitmaplist(i,size=size,bigend=bigend)
         sum = bitmaplist_bitsum(bitmaplist)
         if(sum == k):
             rslt[seq] = bitmaplist
@@ -1780,10 +2133,43 @@ def subset_bitmap(n,k):
             pass
     return(rslt)
 
-def bitmap_contain(bm1,bm2):
-    bm3 = list(map(lambda x,y:(x|y),bm1,bm2))
-    if(bm3 == bm1):
-        return(True)
-    else:
-        return(False)
 
+
+
+
+class bitmap():
+    def __init__(self,**kwargs):
+        bm = kwargs['bitmap']
+        if('size' in kwargs):
+            size = kwargs['size']
+        else:
+            if(is_int(bm)):
+                size = bin(num).__len__() - 2
+            else:
+                size = bm.__len__()
+        if('bigend' in kwargs):
+            bigend = kwargs['bigend']
+        else:
+            bigend = 0
+        self.bigend = bigend
+        if(is_int(bm)):
+            self.num = bm
+            self.list = num_to_bitmaplist(bm,size=size,bigend=bigend)
+            self.size = self.list.__len__()
+        elif(is_list(bm)):
+            self.list = copy.deepcopy(bm)
+            if(size <= bm.__len__()):
+                pass
+            else:
+                if(bigend):
+                    self.list = self.list  + [0] * (size = bm.__len__())
+                else:
+                    self.list = [0] * (size = bm.__len__()) +  self.list 
+            self.size = self.list.__len__()
+            self.num = bitmaplist_to_num(bm)
+        else:
+            self.num = -1
+            self.list = []
+            self.size = 0
+    def contain(self,bm2):
+        return(bitmaplist_contain(self.list,bm2.list))

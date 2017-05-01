@@ -4063,7 +4063,7 @@ def is_candidate_key_combo(crtable,colnameslist):
         for seq in unhandled:
             bitmap = unhandled[seq]
             for bm in del_sets:
-                cond = utils.bitmap_contain(bitmap,list(bm))
+                cond = utils.bitmaplist_contain(bitmap,list(bm))
                 if(cond):
                     pass
                 else:
@@ -4125,7 +4125,7 @@ def get_all_candidate_key_combo(crtable):
         for seq in unhandled:
             bitmap = unhandled[seq]
             for bm in del_sets:
-                cond = utils.bitmap_contain(bitmap,list(bm))
+                cond = utils.bitmaplist_contain(bitmap,list(bm))
                 if(cond):
                     pass
                 else:
@@ -4332,12 +4332,12 @@ def display_table_via_rows(ROWs,**kwargs):
     widths[0] =  utils.dict_get_max_word_displaywidth(COLs[0])
     display_COLs[0] = {}
     for j in range(0,COLs[0].__len__()):
-        display_COLs[0][j] = '|{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[0][j],widths[0]))
+        display_COLs[0][j] = '|{0}|'.format(utils.prepend_basedon_displaywidth(COLs[0][j],widths[0]))
     for i in range(1,COLs.__len__()):
         widths[i] =  utils.dict_get_max_word_displaywidth(COLs[i])
         display_COLs[i] = {}
         for j in range(0,COLs[i].__len__()):
-            display_COLs[i][j] = '{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[i][j],widths[i]))
+            display_COLs[i][j] = '{0}|'.format(utils.prepend_basedon_displaywidth(COLs[i][j],widths[i]))
     boundary = '+'
     for i in range (0,widths.__len__()):
         boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
@@ -4393,12 +4393,12 @@ def display_table_via_cols(COLs,**kwargs):
     widths[0] =  utils.dict_get_max_word_displaywidth(COLs[0])
     display_COLs[0] = {}
     for j in range(0,COLs[0].__len__()):
-        display_COLs[0][j] = '|{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[0][j],widths[0]))
+        display_COLs[0][j] = '|{0}|'.format(utils.prepend_basedon_displaywidth(COLs[0][j],widths[0]))
     for i in range(1,COLs.__len__()):
         widths[i] =  utils.dict_get_max_word_displaywidth(COLs[i])
         display_COLs[i] = {}
         for j in range(0,COLs[i].__len__()):
-            display_COLs[i][j] = '{0}|'.format(utils.str_prepend_spaces_basedon_displaywidth(COLs[i][j],widths[i]))
+            display_COLs[i][j] = '{0}|'.format(utils.prepend_basedon_displaywidth(COLs[i][j],widths[i]))
     boundary = '+'
     for i in range (0,widths.__len__()):
         boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
