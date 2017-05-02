@@ -122,8 +122,62 @@
         >>> path_string_is_parent('a/b','/a/b/c/d/')
         0
 
+6. path_string_is_son(son,parent,**kwargs)
 
-6. path_string_is_leaf(leaf,path_str,**kwargs)  
+        >>> from xdict.utils import *
+        >>> path_string_is_son('a/b/c','a/b/')
+        0
+        >>> path_string_is_son('a/b/c/','a/b/')
+        0
+        >>> path_string_is_son('a/b/c/d','a/b/')
+        0
+        >>> path_string_is_son('a/b/c/d/','a/b/')
+        0
+        >>> 
+        >>> path_string_is_son('a/b/c','/a/b')
+        0
+        >>> path_string_is_son('a/b/c/','/a/b')
+        0
+        >>> path_string_is_son('a/b/c/d','/a/b')
+        0
+        >>> path_string_is_son('a/b/c/d/','/a/b')
+        0
+        >>> 
+        >>> path_string_is_son('a/b/c','a/b')
+        1
+        >>> path_string_is_son('a/b/','a/b')
+        1
+        >>> path_string_is_son('a/b/c/','a/b')
+        0
+        >>> path_string_is_son('a/b/c/d','a/b')
+        0
+        >>> path_string_is_son('a/b/c/d/','a/b')
+        0
+        >>> 
+        >>> path_string_is_son('/a/b/c','a/b')
+        0
+        >>> path_string_is_son('/a/b/c/','a/b')
+        0
+        >>> path_string_is_son('/a/b/c/d','a/b')
+        0
+        >>> path_string_is_son('/a/b/c/d/','a/b')
+        0
+
+7. path_string_is_sibling(sib1,sib2,**kwargs)
+
+        >>> 
+        >>> from xdict.utils import *
+        >>> path_string_is_sibling('a/b/c','a/b/d')
+        1
+        >>> path_string_is_sibling('a/b/c','a/b/e')
+        1
+        >>> path_string_is_sibling('a/b/c','a/b/d/')
+        0
+        >>> path_string_is_sibling('a/b/c','a/e/d')
+        0
+
+
+8. path_string_is_leaf(leaf,path_str,**kwargs)  
 
         >>> from xdict.utils import *
         >>> path_string_is_leaf('c','a/b/c')
@@ -137,7 +191,7 @@
         >>> path_string_is_leaf('','a/b/c/')
         1
 
-7. path_string_is_ancestor(ances,des,**kwargs)
+9. path_string_is_ancestor(ances,des,**kwargs)
 
         >>> from xdict.utils import *
         >>> path_string_is_ancestor('a/b','a/b')
@@ -153,7 +207,7 @@
 
 
 
-8. path_string_is_descedant(des,ances,**kwargs)  
+10. path_string_is_descedant(des,ances,**kwargs)  
 
         >>> from xdict.utils import *
         >>> path_string_is_descedant('a/b','a/b')
@@ -169,7 +223,7 @@
 
 
 
-9. path_string_get_parent(son,**kwargs)  
+11. path_string_get_parent(son,**kwargs)  
 
         >>> from xdict.utils import *
         >>> path_string_get_parent('a/b/c')
@@ -184,7 +238,7 @@
         ''
         >>> 
 
-10. path_string_get_leaf(absp,**kwargs)  
+12. path_string_get_leaf(absp,**kwargs)  
 
         >>> from xdict.utils import *
         >>> path_string_get_leaf('a/b/c')
@@ -199,7 +253,7 @@
         'c'
         >>> path_string_get_leaf('')
         ''
-11. path_string_get_ancestors(des,**kwargs) 
+13. path_string_get_ancestors(des,**kwargs) 
 
         >>> from xdict.utils import *
         >>> from xdict.jprint import pobj
