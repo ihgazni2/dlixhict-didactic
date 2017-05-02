@@ -1148,30 +1148,30 @@ __12. is_descedant_of(pathstr2)__
 
 
 ## Part4. [pathlist](ReadMeDetailed/utils.md)
-__1. head()__  
--------------
-__2. tail()__
--------------
-__3. leaf()__  
--------------
-__4. parent()__
----------------
-__5. ancestors()__
--------------------
-__6. pathstr()__  
+__1. .head()__  
+--------------
+__2. .tail()__
+--------------
+__3. .leaf()__  
+--------------
+__4. .parent()__
 ----------------
-__7. is_parent_of(pathstr2)__
------------------------------
-__8. is_son_of(pathstr2)__
---------------------------
-__9. is_sibling_of(pathstr2)__
-------------------------------
-__10. is_leaf_of(pathstr2)__
----------------------------
-__11. is_ancestor_of(pathstr2)__
+__5. .ancestors()__
+-------------------
+__6. .pathstr()__  
+------------------
+__7. .is_parent_of(pathlist2)__
+-------------------------------
+__8. .is_son_of(pathlist2)__
+----------------------------
+__9. .is_sibling_of(pathlist2)__
 --------------------------------
-__12. is_descedant_of(pathstr2)__
----------------------------------
+__10. .is_leaf_of(pathlist2)__
+------------------------------
+__11. .is_ancestor_of(pathlist2)__
+----------------------------------
+__12. .is_descedant_of(pathlist2)__
+-----------------------------------
 
 
 
@@ -1220,7 +1220,56 @@ __12. is_descedant_of(pathstr2)__
 
 
 
+## Part5. [estr](ReadMeDetailed/utils.md)  
 
+__1. .boolize(**kwargs)__
+-------------------------
+__2. .elstrip(char,count)__
+---------------------------
+__3. .erstrip(char,count)__
+---------------------------
+__4. .estrip(char,count)__
+--------------------------
+__5. .prepend(char,count)__
+---------------------------
+__6. .append(char,count)__
+--------------------------
+__7. .at_begin(str2)__
+----------------------
+__8. .at_end(str2)__
+--------------------
+__9. .display_width()__
+-----------------------
+__10. .prepend_basedon_displaywidth(width,**kwargs)__
+-----------------------------------------------------
+__11. .append_basedon_displaywidth(width,**kwargs)__
+-----------------------------------------------------
+__12. .pack()__
+---------------
+__13. .unicode(**kwargs)__
+--------------------------
+__14. .unicode_num_array()__
+----------------------------
+
+![](Images/utils.estr.1.png) 
+![](Images/utils.estr.2.png)
+
+
+## Part5. [eunicode](ReadMeDetailed/utils.md)  
+
+__1. init(u)__
+--------------
+__2. .str__
+-----------
+__3. .bytes__
+-------------
+__3. .nums__
+------------
+__3. .unicode__
+---------------
+
+![](Images/utils.eunicode.1.png)
+![](Images/utils.eunicode.2.png)
 
 		
 
