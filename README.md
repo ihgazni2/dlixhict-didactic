@@ -1176,7 +1176,7 @@ __12. is_descedant_of(pathstr2)__
 
 
 		from xdict import utils
-		pl = utils.pathstr('/a/b/c')
+		pl = utils.pathlist(['','a','b','c'])
 		pl.head()
 		pl.tail()
 		pl.leaf()
@@ -1186,24 +1186,24 @@ __12. is_descedant_of(pathstr2)__
 
                 pl.pathstr()
 
-		pl = utils.pathstr(['a','b','c'])
+		pl = utils.pathlist(['a','b','c'])
 		pl.is_parent_of(['a','b','c','d'])
-		pl = utils.pathstr('d')
+		pl = utils.pathlist(['d'])
 		pl.is_leaf_of(['a','b','c','d'])
-        	pl = utils.pathstr(['a','b','c','d'])
+        	pl = utils.pathlist(['a','b','c','d'])
         	pl.is_son_of(['a','b','c'])
-        	pl = utils.pathstr(['a','b','c'])
+        	pl = utils.pathlist(['a','b','c'])
         	pl.is_sibling_of(['a','b','d'])
 
 		
 
-		pl = utils.pathstr(['a','b'])
+		pl = utils.pathlist(['a','b'])
 		pl.is_ancestor_of(['a','b','c'])
 		pl.is_ancestor_of(['a','b','c',''])
 		pl.is_ancestor_of(['a','b','c','d'])
 		pl.is_ancestor_of(['a','b','c','d',''])
 
-		pl = utils.pathstr(['a','b','c','d'])
+		pl = utils.pathlist(['a','b','c','d'])
 		pl.is_descedant_of(['a','b','c'])
 		pl.is_descedant_of(['a','b','c',''])
 		pl.is_descedant_of(['a','b'])
