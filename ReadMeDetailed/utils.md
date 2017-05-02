@@ -322,15 +322,184 @@
 
 4. path_list_get_ancestors(des_pl,**kwargs)  
 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> ancestors = path_list_get_ancestors(['a','b','c','d'])
+        >>> pobj(ancestors,fixed_indent=1)
+        [
+            ['a'],
+            ['a', 'b'],
+            ['a', 'b', 'c']
+        ]
+        >>> ancestors = path_list_get_ancestors(['a','b','c','d'])
+        >>> pobj(ancestors,fixed_indent=1)
+        [
+           ['a'],
+            ['a', 'b'],
+            ['a', 'b', 'c']
+        ]
 
-5. path_list_to_path_string(path_list,**kwargs)
-6. path_list_is_parent(parent_pl,son_pl)
-7. path_list_is_son(son_pl,parent_pl)
-8. path_list_is_sibling(sib1,sib2,**kwargs)
-9. path_list_is_leaf(leaf,pathlist,**kwargs)
-10. path_list_is_ancestor(ances_pl,des_pl)
-11. path_list_is_descedant(des_pl,ances_pl)
-12. path_list_to_getitem_string(path_list)
+
+5. path_list_to_path_string(path_list,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_list_to_path_string(['a','b','c',''])
+        'a/b/c/'
+        >>> path_list_to_path_string(['a','b','c',''],delimiter = '#')
+        'a#b#c#'
+        >>> path_list_to_path_string(['','a','b','c',''],keep_begin_sp=0)
+        'a/b/c/'
+        >>> path_list_to_path_string(['','a','b','c',''],keep_end_sp=0)
+        '/a/b/c'
+        >>> path_list_to_path_string(['','a','b','c',''],keep_begin_sp=0,keep_end_sp=0)
+        'a/b/c'
+
+
+6. path_list_is_parent(parent_pl,son_pl)  
+
+        >>> from xdict.utils import *
+        >>> path_list_is_parent(['a','b',''],['a','b','c'])
+        False
+        >>> path_list_is_parent(['a','b',''],['a','b','c',''])
+        False
+        >>> path_list_is_parent(['a','b',''],['a','b','c','d'])
+        False
+        >>> path_list_is_parent(['a','b',''],['a','b','c','d',''])
+        False
+        >>> 
+        >>> path_list_is_parent(['','a','b'],['a','b','c'])
+        False
+        >>> path_list_is_parent(['','a','b'],['a','b','c',''])
+        False
+        >>> path_list_is_parent(['','a','b'],['a','b','c','d'])
+        False
+        >>> path_list_is_parent(['','a','b'],['a','b','c','d',''])
+        False
+        >>> 
+        >>> path_list_is_parent(['a','b'],['a','b','c'])
+        True
+        >>> path_list_is_parent(['a','b'],['a','b',''])
+        True
+        >>> path_list_is_parent(['a','b'],['a','b','c',''])
+        False
+        >>> path_list_is_parent(['a','b'],['a','b','c','d'])
+        False
+        >>> path_list_is_parent(['a','b'],['a','b','c','d',''])
+        False
+        >>> 
+        >>> path_list_is_parent(['a','b'],['a','b','c'])
+        True
+        >>> path_list_is_parent(['a','b'],['a','b','c',''])
+        False
+        >>> path_list_is_parent(['a','b'],['a','b','c','d'])
+        False
+        >>> path_list_is_parent(['a','b'],['a','b','c','d',''])
+        False
+
+
+7. path_list_is_son(son_pl,parent_pl)  
+
+        >>> from xdict.utils import *
+        >>> path_list_is_son(['a','b','c'],['a','b',''])
+        False
+        >>> path_list_is_son(['a','b','c',''],['a','b',''])
+        False
+        >>> path_list_is_son(['a','b','c','d'],['a','b',''])
+        False
+        >>> path_list_is_son(['a','b','c','d',''],['a','b',''])
+        False
+        >>> 
+        >>> path_list_is_son(['a','b','c'],['','a','b'])
+        False
+        >>> path_list_is_son(['a','b','c',''],['','a','b'])
+        False
+        >>> path_list_is_son(['a','b','c','d'],['','a','b'])
+        False
+        >>> path_list_is_son(['a','b','c','d',''],['','a','b'])
+        False
+        >>> 
+        >>> path_list_is_son(['a','b','c'],['a','b'])
+        True
+        >>> path_list_is_son(['a','b',''],['a','b'])
+        True
+        >>> path_list_is_son(['a','b','c',''],['a','b'])
+        False
+        >>> path_list_is_son(['a','b','c','d'],['a','b'])
+        False
+        >>> path_list_is_son(['a','b','c','d',''],['a','b'])
+        False
+        >>> 
+        >>> path_list_is_son(['a','b','c'],['a','b'])
+        True
+        >>> path_list_is_son(['a','b','c',''],['a','b'])
+        False
+        >>> path_list_is_son(['a','b','c','d'],['a','b'])
+        False
+        >>> path_list_is_son(['a','b','c','d',''],['a','b'])
+        False
+
+8. path_list_is_sibling(sib1,sib2,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_list_is_sibling(['a','b','c'],['a','b','d'])
+        1
+        >>> path_list_is_sibling(['a','b','c'],['a','b','e'])
+        1
+        >>> path_list_is_sibling(['a','b','c'],['a','b','d',''])
+        0
+        >>> path_list_is_sibling(['a','b','c'],['a','e','d'])
+        0
+
+9. path_list_is_leaf(leaf,pathlist,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> path_list_is_leaf(['c'],['a','b','c'])
+        1
+        >>> path_list_is_leaf(['','c'],['a','b','c'])
+        0
+        >>> path_list_is_leaf([''],['a','b','c'])
+        0
+        >>> path_list_is_leaf(['c',''],['a','b','c',''])
+        0
+        >>> path_list_is_leaf([''],['a','b','c',''])
+        1
+
+10. path_list_is_ancestor(ances_pl,des_pl)  
+
+        >>> from xdict.utils import *
+        >>> path_list_is_ancestor(['a','b'],['a','b'])
+        False
+        >>> path_list_is_ancestor(['a','b'],['a','b',''])
+        True
+        >>> path_list_is_ancestor(['a','b'],['a','b','c'])
+        True
+        >>> path_list_is_ancestor(['a','b'],['a','b','c','d'])
+        True
+        >>> path_list_is_ancestor(['a','b'],['a','b','c','d',''])
+        True
+
+11. path_list_is_descedant(des_pl,ances_pl)  
+
+        >>> from xdict.utils import *
+        >>> path_list_is_descedant(['a','b'],['a','b'])
+        False
+        >>> path_list_is_descedant(['a','b',''],['a','b'])
+        True
+        >>> path_list_is_descedant(['a','b','c'],['a','b'])
+        True
+        >>> path_list_is_descedant(['a','b','c','d'],['a','b'])
+        True
+        >>> path_list_is_descedant(['a','b','c','d',''],['a','b'])
+        True
+
+
+12. path_list_to_getitem_string(path_list)  
+
+        >>> path_list_to_getitem_string([1, '1', 2])
+            "[1]['1'][2]"
+        >>> 
+
+
 -----------------------------------------------------------------------------------------------------------------------
 
 ##string
