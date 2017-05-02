@@ -1074,8 +1074,6 @@ def str_prepend(s,char,n):
         prepend = ''.join((prepend,char))
     return(''.join((prepend,s)))
 
-# ---------------------continue----------------------------
-
 def str_append(s,char,n):
     '''
         from xdict.utils import *
@@ -1410,7 +1408,46 @@ def unicode_num_array_to_str(num_arr):
         rslt = ''.join((rslt,ch))
     return(rslt)
 
+# ---------------------continue----------------------------
 class estr(str):
+    '''
+        from xdict.utils import *
+        es = estr('true')
+        es.boolize()
+        es = estr('sssa')
+        es.elstrip('s',2)
+        es = estr('asss')
+        es.erstrip('s',2)
+        es = estr('ssass')
+        es.estrip('s',2)
+        es = estr('abc')
+        es.prepend('xx')
+        es.append('xx')
+        es = estr('abc')
+        es.at_begin('abcd')
+        es = estr('bcd')
+        es.at_end('abcd')
+        es = estr('我我我')
+        es.display_width()
+        es = estr('我')
+        es.prepend_basedon_displaywidth(4,padding='a')
+        es = estr('我')
+        es.append_basedon_displaywidth(4,padding='a')
+        es = estr('abcdefg')
+        es.pack()
+        es = estr('你们好')
+        es.pack()
+        es = estr('你们好')
+        es.unicode()
+        es.unicode(with_slash_u=0)
+        es = estr('abc')
+        es.unicode()
+        es.unicode(with_slash_u=0)
+        es = estr('你们好')
+        es.unicode_num_array()
+        es = estr('abc')
+        es.unicode_num_array()
+    '''
     def boolize(self,**kwargs):
         if('strict' in kwargs):
             strict = kwargs['strict']
@@ -1459,6 +1496,44 @@ class estr(str):
 
         
 class eunicode():
+    '''
+        from xdict.utils import *
+        eu = eunicode([97, 98, 99])
+        eu.str
+        eu.bytes
+        eu.nums
+        eu.unicode
+        
+        eu = eunicode('abc')
+        eu.str
+        eu.bytes
+        eu.nums
+        eu.unicode
+        
+        eu = eunicode(b'\x00a\x00b\x00c')
+        eu.str
+        eu.bytes
+        eu.nums
+        eu.unicode
+        
+        eu = eunicode([20320, 20204, 22909])
+        eu.str
+        eu.bytes
+        eu.nums
+        eu.unicode
+        
+        eu = eunicode('你们好')
+        eu.str
+        eu.bytes
+        eu.nums
+        eu.unicode
+        
+        eu = eunicode(b'O`N\xecY}')
+        eu.str
+        eu.bytes
+        eu.nums
+        eu.unicode
+    '''
     def __init__(self,u,**kwargs):
         if('with_slash_u' in kwargs):
             with_slash_u = kwargs['with_slash_u']
