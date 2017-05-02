@@ -1148,30 +1148,30 @@ __12. is_descedant_of(pathstr2)__
 
 
 ## Part4. [pathlist](ReadMeDetailed/utils.md)
-__1. head()__  
--------------
-__2. tail()__
--------------
-__3. leaf()__  
--------------
-__4. parent()__
----------------
-__5. ancestors()__
--------------------
-__6. pathstr()__  
+__1. .head()__  
+--------------
+__2. .tail()__
+--------------
+__3. .leaf()__  
+--------------
+__4. .parent()__
 ----------------
-__7. is_parent_of(pathstr2)__
------------------------------
-__8. is_son_of(pathstr2)__
---------------------------
-__9. is_sibling_of(pathstr2)__
-------------------------------
-__10. is_leaf_of(pathstr2)__
----------------------------
-__11. is_ancestor_of(pathstr2)__
+__5. .ancestors()__
+-------------------
+__6. .pathstr()__  
+------------------
+__7. .is_parent_of(pathlist2)__
+-------------------------------
+__8. .is_son_of(pathlist2)__
+----------------------------
+__9. .is_sibling_of(pathlist2)__
 --------------------------------
-__12. is_descedant_of(pathstr2)__
----------------------------------
+__10. .is_leaf_of(pathlist2)__
+------------------------------
+__11. .is_ancestor_of(pathlist2)__
+----------------------------------
+__12. .is_descedant_of(pathlist2)__
+-----------------------------------
 
 
 
@@ -1220,7 +1220,131 @@ __12. is_descedant_of(pathstr2)__
 
 
 
+## Part5. [estr](ReadMeDetailed/utils.md)  
 
+__1. .boolize(**kwargs)__
+-------------------------
+__2. .elstrip(char,count)__
+---------------------------
+__3. .erstrip(char,count)__
+---------------------------
+__4. .estrip(char,count)__
+--------------------------
+__5. .prepend(char,count)__
+---------------------------
+__6. .append(char,count)__
+--------------------------
+__7. .at_begin(str2)__
+----------------------
+__8. .at_end(str2)__
+--------------------
+__9. .display_width()__
+-----------------------
+__10. .prepend_basedon_displaywidth(width,**kwargs)__
+-----------------------------------------------------
+__11. .append_basedon_displaywidth(width,**kwargs)__
+-----------------------------------------------------
+__12. .pack()__
+---------------
+__13. .unicode(**kwargs)__
+--------------------------
+__14. .unicode_num_array()__
+----------------------------
+
+	from xdict.utils import *
+	es = estr('true')
+	es.boolize()
+	es = estr('sssa')
+	es.elstrip('s',2)
+	es = estr('asss')
+	es.erstrip('s',2)
+	es = estr('ssass')
+	es.estrip('s',2)
+	es = estr('abc')
+	es.prepend('xx')
+	es.append('xx')
+	es = estr('abc')
+	es.at_begin('abcd')
+	es = estr('bcd')
+	es.at_end('abcd')
+	es = estr('我我我')
+	es.display_width()
+	es = estr('我')
+	es.prepend_basedon_displaywidth(4,padding='a')
+	es = estr('我')
+	es.append_basedon_displaywidth(4,padding='a')
+	es = estr('abcdefg')
+	es.pack()
+	es = estr('你们好')
+	es.pack()
+	es = estr('你们好')
+	es.unicode()
+	es.unicode(with_slash_u=0)
+	es = estr('abc')
+	es.unicode()
+	es.unicode(with_slash_u=0)
+	es = estr('你们好')
+	es.unicode_num_array()
+	es = estr('abc')
+	es.unicode_num_array()
+
+
+![](Images/utils.estr.1.png) 
+![](Images/utils.estr.2.png)
+
+
+## Part5. [eunicode](ReadMeDetailed/utils.md)  
+
+__1. init(u)__
+--------------
+__2. .str__
+-----------
+__3. .bytes__
+-------------
+__3. .nums__
+------------
+__3. .unicode__
+---------------
+
+	from xdict.utils import *
+	eu = eunicode([97, 98, 99])
+	eu.str
+	eu.bytes
+	eu.nums
+	eu.unicode
+
+	eu = eunicode('abc')
+	eu.str
+	eu.bytes
+	eu.nums
+	eu.unicode
+
+	eu = eunicode(b'\x00a\x00b\x00c')
+	eu.str
+	eu.bytes
+	eu.nums
+	eu.unicode
+
+	eu = eunicode([20320, 20204, 22909])
+	eu.str
+	eu.bytes
+	eu.nums
+	eu.unicode
+
+	eu = eunicode('你们好')
+	eu.str
+	eu.bytes
+	eu.nums
+	eu.unicode
+
+	eu = eunicode(b'O`N\xecY}')
+	eu.str
+	eu.bytes
+	eu.nums
+	eu.unicode
+
+![](Images/utils.eunicode.1.png)
+![](Images/utils.eunicode.2.png)
 
 		
 
