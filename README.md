@@ -1088,22 +1088,22 @@ __3. leaf()__
 -------------
 __4. parent()__
 ---------------
-__5. pathlist()__  
------------------
-__6. is_parent_of(pathstr2)__
------------------------------
-__7. is_son_of(pathstr2)__
---------------------------
-__8. is_sibling_of(pathstr2)__
-------------------------------
-__9. is_leaf_of(pathstr2)__
----------------------------
-__10. is_ancestor_of(pathstr2)__
---------------------------------
-__11. is_descedant_of(pathstr2)__
----------------------------------
-__12. ancestors()__
+__5. ancestors()__
 -------------------
+__6. pathstr()__  
+----------------
+__7. is_parent_of(pathstr2)__
+-----------------------------
+__8. is_son_of(pathstr2)__
+--------------------------
+__9. is_sibling_of(pathstr2)__
+------------------------------
+__10. is_leaf_of(pathstr2)__
+---------------------------
+__11. is_ancestor_of(pathstr2)__
+--------------------------------
+__12. is_descedant_of(pathstr2)__
+---------------------------------
 
 		from xdict import utils
 		from xdict.jprint import pobj
@@ -1114,6 +1114,8 @@ __12. ancestors()__
 		ps.parent()
 		ps.ancestors()
 		pobj(ps.ancestors())
+		
+		ps.pathlist()
 
 		ps = utils.pathstr('/a/b/c')
 		ps.is_parent_of('/a/b/c/d')
@@ -1123,8 +1125,6 @@ __12. ancestors()__
         	ps.is_son_of('/a/b/c')
         	ps = utils.pathstr('a/b/c')
         	ps.is_sibling_of('/a/b/d')
-
-		ps.pathlist()
 
 		ps = utils.pathstr('a/b')
 		ps.is_ancestor_of('a/b/c')
@@ -1156,22 +1156,23 @@ __3. leaf()__
 -------------
 __4. parent()__
 ---------------
-__5. pathstr()__  
-----------------
-__6. is_parent_of(pathstr2)__
------------------------------
-__7. is_son_of(pathstr2)__
---------------------------
-__8. is_sibling_of(pathstr2)__
-------------------------------
-__9. is_leaf_of(pathstr2)__
----------------------------
-__10. is_ancestor_of(pathstr2)__
---------------------------------
-__11. is_descedant_of(pathstr2)__
----------------------------------
-__12. ancestors()__
+__5. ancestors()__
 -------------------
+__6. pathstr()__  
+----------------
+__7. is_parent_of(pathstr2)__
+-----------------------------
+__8. is_son_of(pathstr2)__
+--------------------------
+__9. is_sibling_of(pathstr2)__
+------------------------------
+__10. is_leaf_of(pathstr2)__
+---------------------------
+__11. is_ancestor_of(pathstr2)__
+--------------------------------
+__12. is_descedant_of(pathstr2)__
+---------------------------------
+
 
 
 		from xdict import utils
@@ -1183,6 +1184,8 @@ __12. ancestors()__
 		pl.ancestors()
 		pobj(pl.ancestors(),fixed_indent=1)
 
+                pl.pathstr()
+
 		pl = utils.pathstr(['a','b','c'])
 		pl.is_parent_of(['a','b','c','d'])
 		pl = utils.pathstr('d')
@@ -1192,7 +1195,7 @@ __12. ancestors()__
         	pl = utils.pathstr(['a','b','c'])
         	pl.is_sibling_of(['a','b','d'])
 
-		pl.pathstr()
+		
 
 		pl = utils.pathstr(['a','b'])
 		pl.is_ancestor_of(['a','b','c'])
