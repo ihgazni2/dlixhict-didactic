@@ -1515,7 +1515,7 @@ def pobj(obj,**kwargs):
     else:
         fixed_indent =0
     if(fixed_indent):
-        opts = jsbeautifier.default_options()
+        opts = jb.default_options()
         opts.indent_size = indent_number
         print(jb.beautify(s,opts))
     else:
