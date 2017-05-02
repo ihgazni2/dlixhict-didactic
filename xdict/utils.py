@@ -694,17 +694,15 @@ def path_list_get_parent(pathlist):
     pl = copy.deepcopy(pathlist)
     return(pl[:-1])
 
-# ---------------------------------------------
-# ---------------------------------------------
 
 def path_list_get_ancestors(des_pl,**kwargs):
     '''
         from xdict.utils import *
         from xdict.jprint import pobj
         ancestors = path_list_get_ancestors(['a','b','c','d'])
-        pobj(ancestors)
+        pobj(ancestors,fixed_indent=1)
         ancestors = path_list_get_ancestors(['a','b','c','d'])
-        pobj(ancestors)
+        pobj(ancestors,fixed_indent=1)
     '''
     rslt = []
     for ei in range(0,des_pl.__len__()-1):
@@ -821,6 +819,7 @@ def path_list_is_son(son_pl,parent_pl):
     else:
         return(False)
 
+# ------------------------------------------------
 def path_list_is_sibling(sib1,sib2,**kwargs):
     ''' 
         from xdict.utils import *
@@ -830,23 +829,8 @@ def path_list_is_sibling(sib1,sib2,**kwargs):
         path_list_is_sibling(['a','b','c'],['a','e','d'])
         
     '''
-    if('delimiter' in kwargs):
-        delimiter = kwargs['delimiter']
-    else:
-        delimiter = '/'
-    if('head_tail_strip' in kwargs):
-        head_tail_strip = kwargs['head_tail_strip']
-    else:
-        head_tail_strip = 0
-    if(head_tail_strip):
-        sib1 = str_lstrip(sib1,delimiter,1)
-        sib1 = str_rstrip(sib1,delimiter,1)
-        sib2 = str_lstrip(sib2,delimiter,1)
-        sib2 = str_rstrip(sib2,delimiter,1)
-    else:
-       pass
-    s1s = sib1.split(delimiter)
-    s2s = sib2.split(delimiter)
+    s1s = sib1
+    s2s = sib2
     if(s1s.__len__() != s2s.__len__()):
         return(0)
     else:
@@ -881,7 +865,6 @@ def path_list_is_ancestor(ances_pl,des_pl):
         path_list_is_ancestor(['a','b'],['a','b','c'])
         path_list_is_ancestor(['a','b'],['a','b','c','d'])
         path_list_is_ancestor(['a','b'],['a','b','c','d',''])
-        
     '''
     dl_len = des_pl.__len__()
     al_len = ances_pl.__len__()
