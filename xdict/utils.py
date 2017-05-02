@@ -916,7 +916,7 @@ def path_list_to_getitem_string(path_list):
 
 
 
-
+# -------------------------------------------------
 class pathlist(list):
     '''
         from xdict import utils
@@ -969,6 +969,10 @@ class pathlist(list):
     def ancestors(self):
         return(path_list_get_ancestors(self))
     def pathstr(self,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
         return(path_list_to_path_string(self,delimiter=delimiter))
     def is_parent_of(self,pl2):
         return(path_list_is_parent(self,pl2))
