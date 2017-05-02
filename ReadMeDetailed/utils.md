@@ -503,11 +503,55 @@
 -----------------------------------------------------------------------------------------------------------------------
 
 ##string
-1. str_to_bool(s,**kwargs):
-2. str_lstrip(s,char,count):
-3. str_rstrip(s,char,count):
-4. str_prepend(s,char,n):
-5. str_apppend(s,char,n):
+1. str_to_bool(s,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> str_to_bool('False')
+        False
+        >>> str_to_bool('false')
+        False
+        >>> str_to_bool('True')
+        True
+        >>> str_to_bool('true')
+        True
+
+2. str_lstrip(s,char,count)
+
+        >>> from xdict.utils import *
+        >>> str_lstrip('sssa','s',0)
+        'sssa'
+        >>> str_lstrip('sssa','s',1)
+        'ssa'
+        >>> str_lstrip('sssa','s',2)
+        'sa'
+        >>> str_lstrip('sssa','s',3)
+        'a'
+        >>> str_lstrip('sssa','s',4)
+        'a'
+
+3. str_rstrip(s,char,count)
+
+        >>> from xdict.utils import *
+        >>> str_rstrip('asss','s',0)
+        'asss'
+        >>> str_rstrip('asss','s',1)
+        'ass'
+        >>> str_rstrip('asss','s',2)
+        'as'
+        >>> str_rstrip('asss','s',3)
+        'a'
+        >>> str_rstrip('asss','s',4)
+        'a'
+
+4. str_prepend(s,char,n)
+
+        >>> from xdict.utils import *
+        >>> str_prepend('a','s',3)
+        'sssa'
+
+5. str_apppend(s,char,n)
+
+
 6. str_at_begin_of_str(str1,str2):
 7. str_at_end_of_str(str1,str2):
 8. str_display_width(s):
