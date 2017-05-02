@@ -266,7 +266,6 @@ def path_string_to_path_list(path_str,**kwargs):
     sps = path_str.split(delimiter)
     return(sps)
 
-
 def path_string_is_parent(parent,son,**kwargs):
     ''' 
         from xdict.utils import *
@@ -322,6 +321,96 @@ def path_string_is_parent(parent,son,**kwargs):
     else:
         return(0)
 
+def path_string_is_son(son,parent,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_string_is_son('a/b/c','a/b/')
+        path_string_is_son('a/b/c/','a/b/')
+        path_string_is_son('a/b/c/d','a/b/')
+        path_string_is_son('a/b/c/d/','a/b/')
+
+        path_string_is_son('a/b/c','/a/b')
+        path_string_is_son('a/b/c/','/a/b')
+        path_string_is_son('a/b/c/d','/a/b')
+        path_string_is_son('a/b/c/d/','/a/b')
+
+        path_string_is_son('a/b/c','a/b')
+        path_string_is_son('a/b/','a/b')
+        path_string_is_son('a/b/c/','a/b')
+        path_string_is_son('a/b/c/d','a/b')
+        path_string_is_son('a/b/c/d/','a/b')
+        
+        path_string_is_son('/a/b/c','a/b')
+        path_string_is_son('/a/b/c/','a/b')
+        path_string_is_son('/a/b/c/d','a/b')
+        path_string_is_son('/a/b/c/d/','a/b')
+        
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('head_tail_strip' in kwargs):
+        head_tail_strip = kwargs['head_tail_strip']
+    else:
+        head_tail_strip = 0
+    if(head_tail_strip):
+        parent = str_lstrip(parent,delimiter,1)
+        parent = str_rstrip(parent,delimiter,1)
+        son = str_lstrip(son,delimiter,1)
+        son = str_rstrip(son,delimiter,1)
+    else:
+       pass
+    sks = son.split(delimiter)
+    pks = parent.split(delimiter)
+    if(pks.__len__() >= sks.__len__()):
+        return(0)
+    if((sks.__len__() - pks.__len__()) == 1):
+        for i in range(0,pks.__len__()):
+            if(sks[i] == pks[i]):
+                pass
+            else:
+                return(0)
+        return(1)
+    else:
+        return(0)
+
+def path_string_is_sibling(sib1,sib2,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_string_is_sibling('a/b/c','a/b/d')
+        path_string_is_sibling('a/b/c','a/b/e')
+        path_string_is_sibling('a/b/c','a/b/d/')
+        path_string_is_sibling('a/b/c','a/e/d')
+        
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('head_tail_strip' in kwargs):
+        head_tail_strip = kwargs['head_tail_strip']
+    else:
+        head_tail_strip = 0
+    if(head_tail_strip):
+        sib1 = str_lstrip(sib1,delimiter,1)
+        sib1 = str_rstrip(sib1,delimiter,1)
+        sib2 = str_lstrip(sib2,delimiter,1)
+        sib2 = str_rstrip(sib2,delimiter,1)
+    else:
+       pass
+    s1s = sib1.split(delimiter)
+    s2s = sib2.split(delimiter)
+    if(s1s.__len__() != s2s.__len__()):
+        return(0)
+    else:
+        s1p = s1s[:-1]
+        s2p = s2s[:-1]
+        if(s1p==s2p):
+            return(1)
+        else:
+            return(0)
+
 def path_string_is_leaf(leaf,path_str,**kwargs):
     ''' 
         from xdict.utils import *
@@ -340,7 +429,6 @@ def path_string_is_leaf(leaf,path_str,**kwargs):
         return(1)
     else:
         return(0)
-
 
 def path_string_is_ancestor(ances,des,**kwargs):
     '''
@@ -376,30 +464,6 @@ def path_string_is_descedant(des,ances,**kwargs):
     ances_pl = ances.split(delimiter)
     des_pl = des.split(delimiter)
     return(path_list_is_descedant(des_pl,ances_pl))
-
-
-def path_string_get_ancestors(des,**kwargs):
-    '''
-        from xdict.utils import *
-        from xdict.jprint import pobj
-        ancestors = path_string_get_ancestors('a/b/c/d')
-        pobj(ancestors)
-        ancestors = path_string_get_ancestors('/a/b/c/d')
-        pobj(ancestors)
-    '''
-    if('delimiter' in kwargs):
-        delimiter = kwargs['delimiter']
-    else:
-        delimiter = '/'
-    des_pl = des.split(delimiter)
-    rslt = []
-    
-    for ei in range(0,des_pl.__len__()-1):
-        ances_pl = des_pl[:(ei+1)]
-        ances = path_list_to_path_string(ances_pl,delimiter = delimiter)
-        rslt.append(ances)
-    return(rslt)
-
 
 def path_string_get_parent(son,**kwargs):
     ''' 
@@ -451,6 +515,28 @@ def path_string_get_leaf(absp,**kwargs):
     m = regex.search(absp)
     return(m.group(2))
 
+def path_string_get_ancestors(des,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        ancestors = path_string_get_ancestors('a/b/c/d')
+        pobj(ancestors)
+        ancestors = path_string_get_ancestors('/a/b/c/d')
+        pobj(ancestors)
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    des_pl = des.split(delimiter)
+    rslt = []
+    
+    for ei in range(0,des_pl.__len__()-1):
+        ances_pl = des_pl[:(ei+1)]
+        ances = path_list_to_path_string(ances_pl,delimiter = delimiter)
+        rslt.append(ances)
+    return(rslt)
+
 
 class pathstr(str):
     '''
@@ -466,6 +552,10 @@ class pathstr(str):
         ps.is_parent_of('/a/b/c/d')
         ps = utils.pathstr('d')
         ps.is_leaf_of('/a/b/c/d')
+        ps = utils.pathstr('/a/b/c/d')
+        ps.is_son_of('/a/b/c')
+        ps = utils.pathstr('a/b/c')
+        ps.is_sibling_of('/a/b/d')
         
         ps.pathlist()
         
@@ -535,6 +625,18 @@ class pathstr(str):
         else:
             delimiter = '/'
         return(path_string_is_parent(self,pathstr_2,delimiter=delimiter))
+    def is_son_of(self,pathstr_2,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_is_son(self,pathstr_2,delimiter=delimiter))
+    def is_sibling_of(self,pathstr_2,**kwargs):
+        if('delimiter' in kwargs):
+            delimiter = kwargs['delimiter']
+        else:
+            delimiter = '/'
+        return(path_string_is_sibling(self,pathstr_2,delimiter=delimiter))
     def is_leaf_of(self,pathstr_2,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
@@ -555,13 +657,69 @@ class pathstr(str):
         return(path_string_is_descedant(self,pathstr_2,delimiter=delimiter))
 
 
+def path_list_get_head(path_list):
+    '''
+        from xdict.utils import *
+        path_list_get_head(['a','b','c'])
+        path_list_get_head(['','a','b','c'])
+        path_list_get_head(['a','b','c',''])
+        path_list_get_head(['','a','b','c',''])
+    '''
+    path_str = path_list_to_path_string(path_list)
+    head = path_string_get_head(path_str)
+    return(path_string_to_path_list(head))
+
+def path_list_get_tail(path_list):
+    '''
+        from xdict.utils import *
+        path_list_get_tail(['a','b','c'])
+        path_list_get_tail(['','a','b','c'])
+        path_list_get_tail(['a','b','c',''])
+        path_list_get_tail(['','a','b','c',''])
+    '''
+    path_str = path_list_to_path_string(path_list)
+    tail = path_string_get_tail(path_str)
+    return(path_string_to_path_list(tail))
+
+def path_list_get_parent(pathlist):
+    ''' 
+        from xdict.utils import *
+        path_list_get_parent(['a','b','c'])
+        path_list_get_parent(['a','b','c',''])
+        path_list_get_parent(['a','b','c'])
+        path_list_get_parent(['','a','b','c',''])
+        path_list_get_parent(['c'])
+    '''
+    pl = copy.deepcopy(pathlist)
+    return(pl[:-1])
 
 
-#-----picture of pathstr
+def path_list_get_ancestors(des_pl,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        ancestors = path_list_get_ancestors(['a','b','c','d'])
+        pobj(ancestors)
+        ancestors = path_list_get_ancestors(['a','b','c','d'])
+        pobj(ancestors)
+    '''
+    rslt = []
+    for ei in range(0,des_pl.__len__()-1):
+        ances_pl = des_pl[:(ei+1)]
+        ances = path_list_to_path_string(ances_pl,delimiter = delimiter)
+        rslt.append(ances)
+    return(rslt)
 
-#--------------------------------------
 
 def path_list_to_path_string(path_list,**kwargs):
+    '''
+        from xdict.utils import *
+        path_list_to_path_string(['a','b','c',''])
+        path_list_to_path_string(['a','b','c',''],delimiter = '#')
+        path_list_to_path_string(['','a','b','c',''],keep_begin_sp=0)
+        path_list_to_path_string(['','a','b','c',''],keep_end_sp=0)
+        path_list_to_path_string(['','a','b','c',''],keep_begin_sp=0,keep_end_sp=0)
+    '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
@@ -589,9 +747,30 @@ def path_list_to_path_string(path_list,**kwargs):
     path_str = str_rstrip(path_str,delimiter,1)
     return(path_str)
 
-
-
 def path_list_is_parent(parent_pl,son_pl):
+    ''' 
+        from xdict.utils import *
+        path_list_is_parent(['a','b',''],['a','b','c'])
+        path_list_is_parent(['a','b',''],['a','b','c',''])
+        path_list_is_parent(['a','b',''],['a','b','c','d'])
+        path_list_is_parent(['a','b',''],['a','b','c','d',''])
+
+        path_list_is_parent(['','a','b'],['a','b','c'])
+        path_list_is_parent(['','a','b'],['a','b','c',''])
+        path_list_is_parent(['','a','b'],['a','b','c','d'])
+        path_list_is_parent(['','a','b'],['a','b','c','d',''])
+
+        path_list_is_parent(['a','b'],['a','b','c'])
+        path_list_is_parent(['a','b'],['a','b',''])
+        path_list_is_parent(['a','b'],['a','b','c',''])
+        path_list_is_parent(['a','b'],['a','b','c','d'])
+        path_list_is_parent(['a','b'],['a','b','c','d',''])
+
+        path_list_is_parent(['a','b'],['a','b','c'])
+        path_list_is_parent(['a','b'],['a','b','c',''])
+        path_list_is_parent(['a','b'],['a','b','c','d'])
+        path_list_is_parent(['a','b'],['a','b','c','d',''])
+    '''
     sl_len = son_pl.__len__()
     pl_len = parent_pl.__len__()
     if((sl_len - 1) == pl_len):
@@ -603,9 +782,31 @@ def path_list_is_parent(parent_pl,son_pl):
         return(True)
     else:
         return(False)
-
 
 def path_list_is_son(son_pl,parent_pl):
+    ''' 
+        from xdict.utils import *
+        path_list_is_son(['a','b','c'],['a','b',''])
+        path_list_is_son(['a','b','c',''],['a','b',''])
+        path_list_is_son(['a','b','c','d'],['a','b',''])
+        path_list_is_son(['a','b','c','d',''],['a','b',''])
+
+        path_list_is_son(['a','b','c'],['','a','b'])
+        path_list_is_son(['a','b','c',''],['','a','b'])
+        path_list_is_son(['a','b','c','d'],['','a','b'])
+        path_list_is_son(['a','b','c','d',''],['','a','b'])
+
+        path_list_is_son(['a','b','c'],['a','b'])
+        path_list_is_son(['a','b',''],['a','b'])
+        path_list_is_son(['a','b','c',''],['a','b'])
+        path_list_is_son(['a','b','c','d'],['a','b'])
+        path_list_is_son(['a','b','c','d',''],['a','b'])
+
+        path_list_is_son(['a','b','c'],['a','b'])
+        path_list_is_son(['a','b','c',''],['a','b'])
+        path_list_is_son(['a','b','c','d'],['a','b'])
+        path_list_is_son(['a','b','c','d',''],['a','b'])
+    '''
     sl_len = son_pl.__len__()
     pl_len = parent_pl.__len__()
     if((sl_len - 1) == pl_len):
@@ -618,7 +819,68 @@ def path_list_is_son(son_pl,parent_pl):
     else:
         return(False)
 
+def path_list_is_sibling(sib1,sib2,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_list_is_sibling(['a','b','c'],['a','b','d'])
+        path_list_is_sibling(['a','b','c'],['a','b','e'])
+        path_list_is_sibling(['a','b','c'],['a','b','d',''])
+        path_list_is_sibling(['a','b','c'],['a','e','d'])
+        
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('head_tail_strip' in kwargs):
+        head_tail_strip = kwargs['head_tail_strip']
+    else:
+        head_tail_strip = 0
+    if(head_tail_strip):
+        sib1 = str_lstrip(sib1,delimiter,1)
+        sib1 = str_rstrip(sib1,delimiter,1)
+        sib2 = str_lstrip(sib2,delimiter,1)
+        sib2 = str_rstrip(sib2,delimiter,1)
+    else:
+       pass
+    s1s = sib1.split(delimiter)
+    s2s = sib2.split(delimiter)
+    if(s1s.__len__() != s2s.__len__()):
+        return(0)
+    else:
+        s1p = s1s[:-1]
+        s2p = s2s[:-1]
+        if(s1p==s2p):
+            return(1)
+        else:
+            return(0)
+
+
+def path_list_is_leaf(leaf,pathlist,**kwargs):
+    ''' 
+        from xdict.utils import *
+        path_list_is_leaf(['c'],['a','b','c'])
+        path_list_is_leaf(['','c'],['a','b','c'])
+        path_list_is_leaf([''],['a','b','c'])
+        path_list_is_leaf(['c',''],['a','b','c',''])
+        path_list_is_leaf([''],['a','b','c',''])
+    '''
+    pks = pathlist
+    if(pks[-1] == leaf[0]):
+        return(1)
+    else:
+        return(0)
+
 def path_list_is_ancestor(ances_pl,des_pl):
+    '''
+        from xdict.utils import *
+        path_list_is_ancestor(['a','b'],['a','b'])
+        path_list_is_ancestor(['a','b'],['a','b',''])
+        path_list_is_ancestor(['a','b'],['a','b','c'])
+        path_list_is_ancestor(['a','b'],['a','b','c','d'])
+        path_list_is_ancestor(['a','b'],['a','b','c','d',''])
+        
+    '''
     dl_len = des_pl.__len__()
     al_len = ances_pl.__len__()
     if(dl_len > al_len):
@@ -630,9 +892,16 @@ def path_list_is_ancestor(ances_pl,des_pl):
         return(True)
     else:
         return(False)
-
 
 def path_list_is_descedant(des_pl,ances_pl):
+    '''
+        from xdict.utils import *
+        path_list_is_descedant(['a','b'],['a','b'])
+        path_list_is_descedant(['a','b',''],['a','b'])
+        path_list_is_descedant(['a','b','c'],['a','b'])
+        path_list_is_descedant(['a','b','c','d'],['a','b'])
+        path_list_is_descedant(['a','b','c','d',''],['a','b'])
+    '''
     dl_len = des_pl.__len__()
     al_len = ances_pl.__len__()
     if(dl_len > al_len):
@@ -644,7 +913,6 @@ def path_list_is_descedant(des_pl,ances_pl):
         return(True)
     else:
         return(False)
-
 
 def path_list_to_getitem_string(path_list):
     '''
@@ -662,23 +930,73 @@ def path_list_to_getitem_string(path_list):
     return(s)
 
 
+
+
 class pathlist(list):
+    '''
+        from xdict import utils
+        pl = utils.pathlist(['','a','b','c'])
+        pl.head()
+        pl.tail()
+        pl.leaf()
+        pl.parent()
+        pl.ancestors()
+        pobj(pl.ancestors(),fixed_indent=1)
+    
+        pl.pathstr()
+    
+        pl = utils.pathlist(['a','b','c'])
+        pl.is_parent_of(['a','b','c','d'])
+        pl = utils.pathlist(['d'])
+        pl.is_leaf_of(['a','b','c','d'])
+        pl = utils.pathlist(['a','b','c','d'])
+        pl.is_son_of(['a','b','c'])
+        pl = utils.pathlist(['a','b','c'])
+        pl.is_sibling_of(['a','b','d'])
+    
+        pl = utils.pathlist(['a','b'])
+        pl.is_ancestor_of(['a','b','c'])
+        pl.is_ancestor_of(['a','b','c',''])
+        pl.is_ancestor_of(['a','b','c','d'])
+        pl.is_ancestor_of(['a','b','c','d',''])
+    
+        pl = utils.pathlist(['a','b','c','d'])
+        pl.is_descedant_of(['a','b','c'])
+        pl.is_descedant_of(['a','b','c',''])
+        pl.is_descedant_of(['a','b'])
+        pl.is_descedant_of(['a','b',''])
+        pl.is_descedant_of(['a'])
+        pl.is_descedant_of(['a',''])
+        pl.is_descedant_of([''])
+        pl.is_descedant_of(['',''])
+    '''
+    def head(self):
+        pl = copy.deepcopy(self)
+        return(path_list_get_head(self))
+    def tail(self):
+        return(path_list_get_tail(self))
     def leaf(self):
         return([self[-1]])
     def parent(self):
         p = copy.deepcopy(self)
         p.pop(-1)
         return(p)
-    def is_parent(self,pl2):
-        return(path_list_is_parent(self,pl2))
-    def is_son(self,pl2):
-        return(path_list_is_son(self,pl2))
-    def is_ancestor(self,pl2):
-        return(path_list_is_ancestor(self,pl2))
-    def is_descedant(self,pl2):
-        return(path_list_is_ancestor(self,pl2))
-    def path_string(self,**kwargs):
+    def ancestors(self):
+        return(path_list_get_ancestors(self))
+    def pathstr(self,**kwargs):
         return(path_list_to_path_string(self,delimiter=delimiter))
+    def is_parent_of(self,pl2):
+        return(path_list_is_parent(self,pl2))
+    def is_son_of(self,pl2):
+        return(path_list_is_son(self,pl2))
+    def is_sibling_of(self,pl2):
+        return(path_list_is_sibling(self,pl2))
+    def is_leaf_of(self,pl2):
+        return(path_list_is_leaf(self,pl2))
+    def is_ancestor_of(self,pl2):
+        return(path_list_is_ancestor(self,pl2))
+    def is_descedant_of(self,pl2):
+        return(path_list_is_ancestor(self,pl2))
     def getitem_string(self):
         return(path_list_to_getitem_string(self))
 
@@ -735,7 +1053,6 @@ def str_rstrip(s,char,count):
     else:
         ei = s.__len__() - c
         return(s[:ei])
-
 
 def str_prepend(s,char,n):
     prepend = ''
@@ -796,7 +1113,6 @@ def str_prepend_basedon_displaywidth(s,width,**kwargs):
         new_S = ''.join((padding, new_S))
     new_S = ''.join((new_S,s))
     return(new_S)
-
 
 def str_append_basedon_displaywidth(s,width,**kwargs):
     if('padding' in kwargs):
