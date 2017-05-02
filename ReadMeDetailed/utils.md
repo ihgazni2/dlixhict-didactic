@@ -551,11 +551,49 @@
 
 5. str_apppend(s,char,n)
 
+        >>> from xdict.utils import *
+        >>> str_append('a','s',3)
+        'asss'
 
-6. str_at_begin_of_str(str1,str2):
-7. str_at_end_of_str(str1,str2):
-8. str_display_width(s):
-9. str_prepend_spaces_basedon_displaywidth(s,width):
+
+6. str_at_begin_of_str(str1,str2)
+
+        >>> from xdict.utils import *
+        >>> str_at_begin_of_str('abc','abcd')
+        True
+
+
+7. str_at_end_of_str(str1,str2)
+
+        >>> from xdict.utils import *
+        >>> str_at_end_of_str('abcd','bcd')
+        False
+
+8. str_display_width(s)
+
+        >>> from xdict.utils import *
+        >>> str_display_width('a')
+        1
+        >>> str_display_width('去')
+        2
+
+9. str_prepend_spaces_basedon_displaywidth(s,width)
+
+        >>> from xdict.utils import *
+        >>> str_prepend_basedon_displaywidth('a',4,padding='x')
+        'xxxa'
+        >>> str_prepend_basedon_displaywidth('去',4,padding='x')
+        'xx去'
+
+10. str_append_basedon_displaywidth(s,width,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> str_append_basedon_displaywidth('a',4,padding='x')
+        'xxxa'
+        >>> str_append_basedon_displaywidth('去',4,padding='x')
+        'xx去'
+
+
 
 -------------------------------------------------------------------------------------------------------------------------
 
