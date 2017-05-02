@@ -1420,14 +1420,15 @@ class estr(str):
         es = estr('ssass')
         es.estrip('s',2)
         es = estr('abc')
-        es.prepend('xx')
-        es.append('xx')
+        es.prepend('x',2)
+        es.append('x',2)
         es = estr('abc')
         es.at_begin('abcd')
         es = estr('bcd')
         es.at_end('abcd')
         es = estr('我我我')
         es.display_width()
+        
         es = estr('我')
         es.prepend_basedon_displaywidth(4,padding='a')
         es = estr('我')
@@ -1559,9 +1560,6 @@ class eunicode():
 
 #dict
 
-# ---------------------continue----------------------------
-# ---------------------continue----------------------------
-
 def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
     '''
         #if path_list already in external_dict, will do nothing
@@ -1611,6 +1609,10 @@ def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
     return(external_dict)
 
 def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
+    '''
+        y = {'c': {'b': {}}}
+        dict_setitem_via_path_list(y,['c','b'],200)
+    '''
     if('s2n' in kwargs):
         s2n = kwargs['s2n']
     else:
@@ -1636,6 +1638,10 @@ def dict_setitem_via_path_list(external_dict,path_list,value,**kwargs):
     return(external_dict)
 
 def dict_getitem_via_path_list(external_dict,path_list,**kwargs):
+    '''
+        y = {'c': {'b': 200}}
+        dict_getitem_via_path_list(y,['c','b'])
+    '''
     if('s2n' in kwargs):
         s2n = kwargs['s2n']
     else:
@@ -1660,6 +1666,10 @@ def dict_getitem_via_path_list(external_dict,path_list,**kwargs):
     return(this)
 
 def dict_getitem_via_cmd(external_dict,cmd_str,**kwargs):
+    '''
+        y = {'c': {'b': 200}}
+        dict_getitem_via_cmd(y,'c b')
+    '''
     if('cmd_sp' in kwargs):
         cmd_sp = kwargs['cmd_sp']
     else:
@@ -1682,15 +1692,29 @@ def dict_getitem_via_cmd(external_dict,cmd_str,**kwargs):
 
 def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
     '''
-        dont use empty key ''
-        dict_getitem_via_pathstr(nhome,"updates/useRmvWithMentions")
+        y = {'c': {'b': 200}}
+        dict_getitem_via_pathstr(y,'c/b')
     '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
-    full_key_path = str_lstrip(full_key_path,delimiter,1)
-    full_key_path = str_rstrip(full_key_path,delimiter,1)
+    if('strip_head_sp' in kwargs):
+        strip_head_sp = kwargs['strip_head_sp']
+    else:
+        strip_head_sp = 0
+    if('strip_tail_sp' in kwargs):
+        strip_tail_sp = kwargs['strip_tail_sp']
+    else:
+        strip_tail_sp = 0
+    if(strip_head_sp):
+        full_key_path = str_lstrip(full_key_path,delimiter,1)
+    else:
+        pass
+    if(strip_tail_sp):
+        full_key_path = str_rstrip(full_key_path,delimiter,1)
+    else:
+        pass
     if(full_key_path == ''):
         return(d)
     keys = full_key_path.split(delimiter)
@@ -1704,6 +1728,10 @@ def dict_getitem_via_pathstr(d,full_key_path,**kwargs):
     return(now)
 
 def dict_delitem_via_path_list(external_dict,path_list,**kwargs):
+    '''
+        y = {'c': {'b': 200}}
+        dict_delitem_via_path_list(y,['c','b'])
+    '''
     if('s2n' in kwargs):
         s2n = kwargs['s2n']
     else:
@@ -1728,6 +1756,94 @@ def dict_delitem_via_path_list(external_dict,path_list,**kwargs):
     this.__delitem__(path_list[-1])
     return(external_dict)
 
+
+# ---------------------continue----------------------------
+# ---------------------continue----------------------------
+# -------------------
+def dict_delitem_via_pathstr(external_dict,pathstr,**kwargs):
+    '''
+        y = {'c': {'b': 200}}
+        dict_delitem_via_pathstr(y,'c/b')
+    '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    if('strip_head_sp' in kwargs):
+        strip_head_sp = kwargs['strip_head_sp']
+    else:
+        strip_head_sp = 0
+    if('strip_tail_sp' in kwargs):
+        strip_tail_sp = kwargs['strip_tail_sp']
+    else:
+        strip_tail_sp = 0
+    if(strip_head_sp):
+        pathstr = str_lstrip(pathstr,delimiter,1)
+    else:
+        pass
+    if(strip_tail_sp):
+        pathstr = str_rstrip(pathstr,delimiter,1)
+    else:
+        pass
+    pathlist = pathstr.split(delimiter)
+    return(dict_delitem_via_pathlist(external_dict,pathstr,s2n=s2n,n2s=n2s,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp))
+
+
+def dict_delitem_via_cmd(external_dict,cmd,**kwargs):
+    '''
+    '''
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    if('s2n' in kwargs):
+        s2n = kwargs['s2n']
+    else:
+        s2n = 0
+    if('n2s' in kwargs):
+        n2s = kwargs['n2s']
+    else:
+        n2s = 0
+    if('strip_head_sp' in kwargs):
+        strip_head_sp = kwargs['strip_head_sp']
+    else:
+        strip_head_sp = 0
+    if('strip_tail_sp' in kwargs):
+        strip_tail_sp = kwargs['strip_tail_sp']
+    else:
+        strip_tail_sp = 0
+    if(strip_head_sp):
+        pathstr = str_lstrip(pathstr,delimiter,1)
+    else:
+        pass
+    if(strip_tail_sp):
+        pathstr = str_rstrip(pathstr,delimiter,1)
+    else:
+        pass
+    regex_str = ''.join(('[',cmd_sp,']','+'))
+    regex = re.compile(regex_str)
+    cmd_str = re.sub(regex,cmd_sp,cmd_str)
+    cmd_str = str_rstrip(cmd_str,cmd_sp,1)
+    cmd_str = str_lstrip(cmd_str,cmd_sp,1)
+    pathlist = cmd.split(cmd_sp)
+    return(dict_delitem_via_pathlist(external_dict,pathstr,s2n=s2n,n2s=n2s,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp))
+
+
+    
+    
+# -------------------
+
+
+
+
 def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
     '''
         dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'')
@@ -1742,14 +1858,28 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
-    full_key_path = str_lstrip(full_key_path,delimiter,1)
-    full_key_path = str_rstrip(full_key_path,delimiter,1)
+    if('strip_head_sp' in kwargs):
+        strip_head_sp = kwargs['strip_head_sp']
+    else:
+        strip_head_sp = 0
+    if('strip_tail_sp' in kwargs):
+        strip_tail_sp = kwargs['strip_tail_sp']
+    else:
+        strip_tail_sp = 0
+    if(strip_head_sp):
+        full_key_path = str_lstrip(full_key_path,delimiter,1)
+    else:
+        pass
+    if(strip_tail_sp):
+        full_key_path = str_rstrip(full_key_path,delimiter,1)
+    else:
+        pass
     if(full_key_path  == delimiter):
         full_key_path = ''
     else:
         pass
     all_sons_full_key_path_list = []
-    value = dict_getitem_via_pathstr(d,full_key_path)
+    value = dict_getitem_via_pathstr(d,full_key_path,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp)
     value_type = type(value)
     if(value_type == type([])):
         v_len = value.__len__()
@@ -1868,6 +1998,14 @@ def dict_get_pathstr_hierachy_description(dora,**kwargs):
         delimiter = kwargs['delimiter']
     else:
         delimiter = '/'
+    if('strip_head_sp' in kwargs):
+        strip_head_sp = kwargs['strip_head_sp']
+    else:
+        strip_head_sp = 0
+    if('strip_tail_sp' in kwargs):
+        strip_tail_sp = kwargs['strip_tail_sp']
+    else:
+        strip_tail_sp = 0
     description_dict = {}
     all_leafs = 0
     unhandled_now = {0:''}
@@ -1879,7 +2017,7 @@ def dict_get_pathstr_hierachy_description(dora,**kwargs):
         desc_layer_dict = description_dict[description_dict_len]
         unhandled_now_len = unhandled_now.__len__()
         for i in range(0,unhandled_now_len):
-            value = dict_getitem_via_pathstr(dora,unhandled_now[i])
+            value = dict_getitem_via_pathstr(dora,unhandled_now[i],strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp)
             value_type = type(value)
             desc_layer_dict_len = desc_layer_dict.__len__()
             desc_layer_dict[desc_layer_dict_len] = unhandled_now[i]
@@ -2285,7 +2423,15 @@ class edict(dict):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(dict_getitem_via_pathstr(self,pathstr,delimiter = delimiter))
+        if('strip_head_sp' in kwargs):
+            strip_head_sp = kwargs['strip_head_sp']
+        else:
+            strip_head_sp = 0
+        if('strip_tail_sp' in kwargs):
+            strip_tail_sp = kwargs['strip_tail_sp']
+        else:
+            strip_tail_sp = 0
+        return(dict_getitem_via_pathstr(self,pathstr,delimiter = delimiter,strip_head_sp =strip_head_sp,strip_tail_sp = strip_tail_sp))
 
     def delitem_via_pathlist(self,pathlist,**kwargs):
         if('s2n' in kwargs):
