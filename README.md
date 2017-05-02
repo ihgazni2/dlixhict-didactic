@@ -1143,8 +1143,8 @@ __12. is_descedant_of(pathstr2)__
 		ps.is_descedant_of('/')
 
 
-![](/Images/utils.pathstr.1.png) 
-![](/Images/utils.pathstr.2.png)
+![](Images/utils.pathstr.1.png) 
+![](Images/utils.pathstr.2.png)
 
 
 ## Part4. [pathlist](ReadMeDetailed/utils.md)
@@ -1214,8 +1214,8 @@ __12. is_descedant_of(pathstr2)__
 		pl.is_descedant_of(['',''])
 
 
-![](/Images/utils.pathlist.1.png) 
-![](/Images/utils.pathlist.2.png)
+![](Images/utils.pathlist.1.png) 
+![](Images/utils.pathlist.2.png)
 
 
 
