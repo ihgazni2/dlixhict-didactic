@@ -914,9 +914,6 @@ def path_list_to_getitem_string(path_list):
         s = ''.join((s,'[',t2[i],']'))
     return(s)
 
-
-
-# -------------------------------------------------
 class pathlist(list):
     '''
         from xdict import utils
@@ -993,6 +990,13 @@ class pathlist(list):
 #string
 
 def str_to_bool(s,**kwargs):
+    '''
+        from xdict.utils import *
+        str_to_bool('False')
+        str_to_bool('false')
+        str_to_bool('True')
+        str_to_bool('true')
+    '''
     if('strict' in kwargs):
         strict = kwargs['strict']
     else:
@@ -1012,7 +1016,16 @@ def str_to_bool(s,**kwargs):
         else:
             return(None)
 
+
 def str_lstrip(s,char,count):
+    '''
+        from xdict.utils import *
+        str_lstrip('sssa','s',0)
+        str_lstrip('sssa','s',1)
+        str_lstrip('sssa','s',2)
+        str_lstrip('sssa','s',3)
+        str_lstrip('sssa','s',4)
+    '''
     c = 0
     for i in range(0,s.__len__()):
         if(c==count):
@@ -1028,6 +1041,14 @@ def str_lstrip(s,char,count):
         return(s[c:])
 
 def str_rstrip(s,char,count):
+    '''
+        from xdict.utils import *
+        str_rstrip('asss','s',0)
+        str_rstrip('asss','s',1)
+        str_rstrip('asss','s',2)
+        str_rstrip('asss','s',3)
+        str_rstrip('asss','s',4)
+    '''
     c = 0
     for i in range(s.__len__()-1,-1,-1):
         if(c==count):
@@ -1044,18 +1065,32 @@ def str_rstrip(s,char,count):
         return(s[:ei])
 
 def str_prepend(s,char,n):
+    '''
+        from xdict.utils import *
+        str_prepend('a','s',3)
+    '''
     prepend = ''
     for i in range(1,n+1):
         prepend = ''.join((prepend,char))
     return(''.join((prepend,s)))
 
-def str_apppend(s,char,n):
+# ---------------------continue----------------------------
+
+def str_append(s,char,n):
+    '''
+        from xdict.utils import *
+        str_append('a','s',3)
+    '''
     append = ''
     for i in range(1,n+1):
         append = ''.join((append,char))
     return(''.join((s,append)))
 
 def str_at_begin_of_str(str1,str2):
+    '''
+        from xdict.utils import *
+        str_at_begin_of_str('abc','abcd')
+    '''
     len1 = str1.__len__()
     begin = str2[:len1]
     if(str1 == begin):
@@ -1064,6 +1099,10 @@ def str_at_begin_of_str(str1,str2):
         return(False)
 
 def str_at_end_of_str(str1,str2):
+    '''
+        from xdict.utils import *
+        str_at_end_of_str('abcd','bcd')
+    '''
     len1 = str1.__len__()
     len2 = str2.__len__()
     end = str2[(len2-len1):]
@@ -1074,11 +1113,9 @@ def str_at_end_of_str(str1,str2):
 
 def str_display_width(s):
     '''
-        >>> str_display_width('a')
-        1
-        >>> str_display_width('去')
-        2
-        >>> 
+        from xdict.utils import *
+        str_display_width('a')
+        str_display_width('去')
     '''
     s= str(s)
     width = 0
@@ -1090,6 +1127,11 @@ def str_display_width(s):
     return(width)
 
 def str_prepend_basedon_displaywidth(s,width,**kwargs):
+    '''
+        from xdict.utils import *
+        str_prepend_basedon_displaywidth('a',4,padding='x')
+        str_prepend_basedon_displaywidth('去',4,padding='x')
+    '''
     if('padding' in kwargs):
         padding = kwargs['padding']
     else:
@@ -1104,6 +1146,11 @@ def str_prepend_basedon_displaywidth(s,width,**kwargs):
     return(new_S)
 
 def str_append_basedon_displaywidth(s,width,**kwargs):
+    '''
+        from xdict.utils import *
+        str_append_basedon_displaywidth('a',4,padding='x')
+        str_append_basedon_displaywidth('去',4,padding='x')
+    '''
     if('padding' in kwargs):
         padding = kwargs['padding']
     else:
