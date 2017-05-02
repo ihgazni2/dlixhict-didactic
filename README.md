@@ -1092,27 +1092,37 @@ __5. pathlist()__
 -----------------
 __6. is_parent_of(pathstr2)__
 -----------------------------
-__7. is_leaf_of(pathstr2)__
+__7. is_son_of(pathstr2)__
+--------------------------
+__8. is_sibling_of(pathstr2)__
+------------------------------
+__9. is_leaf_of(pathstr2)__
 ---------------------------
-__8. is_ancestor_of(pathstr2)__
--------------------------------
-__9. is_descedant_of(pathstr2)__
+__10. is_ancestor_of(pathstr2)__
 --------------------------------
-__10. ancestors()__
+__11. is_descedant_of(pathstr2)__
+---------------------------------
+__12. ancestors()__
 -------------------
 
 		from xdict import utils
+		from xdict.jprint import pobj
 		ps = utils.pathstr('/a/b/c')
 		ps.head()
 		ps.tail()
 		ps.leaf()
 		ps.parent()
 		ps.ancestors()
+		pobj(ps.ancestors())
 
 		ps = utils.pathstr('/a/b/c')
 		ps.is_parent_of('/a/b/c/d')
 		ps = utils.pathstr('d')
 		ps.is_leaf_of('/a/b/c/d')
+        	ps = utils.pathstr('/a/b/c/d')
+        	ps.is_son_of('/a/b/c')
+        	ps = utils.pathstr('a/b/c')
+        	ps.is_sibling_of('/a/b/d')
 
 		ps.pathlist()
 
@@ -1146,21 +1156,63 @@ __3. leaf()__
 -------------
 __4. parent()__
 ---------------
-__5. pathlist()__  
------------------
+__5. pathstr()__  
+----------------
 __6. is_parent_of(pathstr2)__
 -----------------------------
-__7. is_leaf_of(pathstr2)__
+__7. is_son_of(pathstr2)__
+--------------------------
+__8. is_sibling_of(pathstr2)__
+------------------------------
+__9. is_leaf_of(pathstr2)__
 ---------------------------
-__8. is_ancestor_of(pathstr2)__
--------------------------------
-__9. is_descedant_of(pathstr2)__
+__10. is_ancestor_of(pathstr2)__
 --------------------------------
-__10. ancestors()__
+__11. is_descedant_of(pathstr2)__
+---------------------------------
+__12. ancestors()__
 -------------------
 
 
+		from xdict import utils
+		pl = utils.pathstr('/a/b/c')
+		pl.head()
+		pl.tail()
+		pl.leaf()
+		pl.parent()
+		pl.ancestors()
+		pobj(pl.ancestors(),fixed_indent=1)
 
+		pl = utils.pathstr(['a','b','c'])
+		pl.is_parent_of(['a','b','c','d'])
+		pl = utils.pathstr('d')
+		pl.is_leaf_of(['a','b','c','d'])
+        	pl = utils.pathstr(['a','b','c','d'])
+        	pl.is_son_of(['a','b','c'])
+        	pl = utils.pathstr(['a','b','c'])
+        	pl.is_sibling_of(['a','b','d'])
+
+		pl.pathstr()
+
+		pl = utils.pathstr(['a','b'])
+		pl.is_ancestor_of(['a','b','c'])
+		pl.is_ancestor_of(['a','b','c',''])
+		pl.is_ancestor_of(['a','b','c','d'])
+		pl.is_ancestor_of(['a','b','c','d',''])
+
+		pl = utils.pathstr(['a','b','c','d'])
+		pl.is_descedant_of(['a','b','c'])
+		pl.is_descedant_of(['a','b','c',''])
+		pl.is_descedant_of(['a','b'])
+		pl.is_descedant_of(['a','b',''])
+		pl.is_descedant_of(['a'])
+		pl.is_descedant_of(['a',''])
+		pl.is_descedant_of([''])
+		pl.is_descedant_of(['',''])
+
+
+![](/Images/utils.pathlist.1.png) 
+![](/Images/utils.pathlist.2.png)
 
 
 
