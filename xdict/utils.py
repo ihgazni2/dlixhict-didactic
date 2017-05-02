@@ -1408,7 +1408,6 @@ def unicode_num_array_to_str(num_arr):
         rslt = ''.join((rslt,ch))
     return(rslt)
 
-# ---------------------continue----------------------------
 class estr(str):
     '''
         from xdict.utils import *
@@ -1559,6 +1558,9 @@ class eunicode():
 
 
 #dict
+
+# ---------------------continue----------------------------
+# ---------------------continue----------------------------
 
 def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
     '''
