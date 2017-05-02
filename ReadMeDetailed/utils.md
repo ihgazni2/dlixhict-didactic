@@ -280,12 +280,57 @@
 
 ##path list
 -----------------------------------------------------------------------------------------------------------------------
-1. path_list_to_path_string(path_list,**kwargs)
-2. path_list_is_parent(parent_pl,son_pl)
-3. path_list_is_son(son_pl,parent_pl)
-4. path_list_is_ancestor(ances_pl,des_pl)
-5. path_list_is_descedant(des_pl,ances_pl)
-6. path_list_to_getitem_string(path_list)
+1. path_list_get_head(path_list)  
+
+        >>> from xdict.utils import *
+        >>> path_list_get_head(['a','b','c'])
+        ['a', 'b', '']
+        >>> path_list_get_head(['','a','b','c'])
+        ['', 'a', 'b', '']
+        >>> path_list_get_head(['a','b','c',''])
+        ['a', 'b', '']
+        >>> path_list_get_head(['','a','b','c',''])
+        ['', 'a', 'b', '']
+
+2. path_list_get_tail(path_list)  
+
+        >>> from xdict.utils import *
+        >>> path_list_get_tail(['a','b','c'])
+        ['c']
+        >>> path_list_get_tail(['','a','b','c'])
+        ['c']
+        >>> path_list_get_tail(['a','b','c',''])
+        ['c', '']
+        >>> path_list_get_tail(['','a','b','c',''])
+        ['c', '']
+
+
+3. path_list_get_parent(pathlist)  
+
+        >>> from xdict.utils import *
+        >>> path_list_get_parent(['a','b','c'])
+        ['a', 'b']
+        >>> path_list_get_parent(['a','b','c',''])
+        ['a', 'b', 'c']
+        >>> path_list_get_parent(['a','b','c'])
+        ['a', 'b']
+        >>> path_list_get_parent(['','a','b','c',''])
+        ['', 'a', 'b', 'c']
+        >>> path_list_get_parent(['c'])
+        []
+
+
+4. path_list_get_ancestors(des_pl,**kwargs)  
+
+
+5. path_list_to_path_string(path_list,**kwargs)
+6. path_list_is_parent(parent_pl,son_pl)
+7. path_list_is_son(son_pl,parent_pl)
+8. path_list_is_sibling(sib1,sib2,**kwargs)
+9. path_list_is_leaf(leaf,pathlist,**kwargs)
+10. path_list_is_ancestor(ances_pl,des_pl)
+11. path_list_is_descedant(des_pl,ances_pl)
+12. path_list_to_getitem_string(path_list)
 -----------------------------------------------------------------------------------------------------------------------
 
 ##string
