@@ -597,32 +597,6 @@
 
 -------------------------------------------------------------------------------------------------------------------------
 
-##dict list tuple
-1. creat_default_list_with_len(len,element=None)  
-2. set_default_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
-3. path_list_in_dict(external_dict,path_list,n2s=0,s2n=0)  
-4. set_dict_items_via_path_list(external_dict,path_list,value,n2s=0,s2n=0)  
-5. get_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)  
-6. get_dict_value_from_full_key_path(d,full_key_path)  
-7. get_all_sons_full_key_path_list(d,full_key_path)  
-8. dict_array_description(dora)
-9. get_desc_parent_dict(description_dict)
-10. tree_desc(description_dict)
-11. dynamic_indent(deep_search_path,description_dict,full_path_display,fr='',to='')
-12. dict_update_just_intersection(dict1,dict2)
-13. dict_unique_value(d)  
-14. list_unique_value(l)  
-15. list_comprise(list1,list2,**kwargs) 
-16. dict_comprise(dict1,dict2,**kwargs)  
-17. max_wordwidth_in_dict(myDict) 
-18. max_display_width_in_dict(myDict)
-19. dict_extend(dict1,dict2,**kwargs)
-20. get_dict_value_via_cmd(external_dict,cmd_str,**kwargs)  
-21. non_recursive_dict_find_keys_via_value(d,v)  
-22. dict_find_keys_via_value(dlts,v,**kwargs)
-23. del_dict_items_via_path_list(external_dict,path_list,n2s=0,s2n=0)
-
-
 ## char encode decode  
 1. unpack_unicode_char_bytes(two_bytes)  
 ![](/Images/utils.unpack_unicode_char_bytes.png)  
@@ -659,6 +633,32 @@
 
 12. unicode_num_array_to_str(num_arr)  
 ![](/Images/utils.unicode_num_array_to_str.png)
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+## dict
+
+1. dict_setdefault_via_path_list(external_dict,path_list,**kwargs)
+
+        from xdict.utils import *
+        >>> y = {}
+        >>> path_list = ['c','b']
+        >>> dict_setdefault_via_path_list(y,path_list)
+        {'c': {'b': {}}}
+
+2. dict_setitem_via_path_list(external_dict,path_list,value,**kwargs)
+
+3. dict_getitem_via_path_list(external_dict,path_list,**kwargs)
+
+4. dict_getitem_via_cmd(external_dict,cmd_str,**kwargs)
+
+5. dict_getitem_via_pathstr(d,full_key_path,**kwargs)
+
+6. dict_delitem_via_path_list(external_dict,path_list,**kwargs)
+
+
+## list
 
 ## bitmap
 1. bitmaplist_to_num(bitmaplist)
