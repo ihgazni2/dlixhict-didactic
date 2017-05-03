@@ -685,6 +685,30 @@
         {'c': {}}
         >>> 
 
+7. dict_delitem_via_path_list(external_dict,path_list,**kwargs)
+
+        from xdict.utils import *
+        >>> y = {'c': {'b': 200}}
+        >>> dict_delitem_via_path_list(y,['c','b'])
+        {'c': {}}
+
+8. dict_delitem_via_pathstr(external_dict,pathstr,**kwargs)
+
+        >>> y = {'c': {'b': 200}}
+        >>> dict_delitem_via_pathstr(y,'c/b')
+        {'c': {}}
+        >>> 
+        
+9. dict_delitem_via_cmd(external_dict,cmd_str,**kwargs)
+
+        from xdict.utils import *
+        >>> y = {'c': {'b': 200}}
+        >>> dict_delitem_via_cmd(y,'c b')
+        {'c': {}}
+
+10. 
+
+
 ## list
 
 ## bitmap
