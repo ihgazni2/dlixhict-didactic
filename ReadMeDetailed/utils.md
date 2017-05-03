@@ -647,16 +647,43 @@
         >>> dict_setdefault_via_path_list(y,path_list)
         {'c': {'b': {}}}
 
-2. dict_setitem_via_path_list(external_dict,path_list,value,**kwargs)
+2. dict_setitem_via_path_list(external_dict,path_list,value,**kwargs)  
 
-3. dict_getitem_via_path_list(external_dict,path_list,**kwargs)
+        from xdict.utils import *
+        >>> y = {'c': {'b': {}}}
+        >>> dict_setitem_via_path_list(y,['c','b'],200)
+        {'c': {'b': 200}}
+        >>> 
 
-4. dict_getitem_via_cmd(external_dict,cmd_str,**kwargs)
+3. dict_getitem_via_path_list(external_dict,path_list,**kwargs)  
 
-5. dict_getitem_via_pathstr(d,full_key_path,**kwargs)
+        from xdict.utils import *
+        >>> y = {'c': {'b': 200}}
+        >>> dict_getitem_via_path_list(y,['c','b'])
+        200
+
+
+4. dict_getitem_via_cmd(external_dict,cmd_str,**kwargs)  
+
+        from xdict.utils import *
+        >>> y = {'c': {'b': 200}}
+        >>> dict_getitem_via_cmd(y,'c b')
+        200
+
+5. dict_getitem_via_pathstr(d,full_key_path,**kwargs)  
+
+        from xdict.utils import *
+        >>> y = {'c': {'b': 200}}
+        >>> dict_getitem_via_pathstr(y,'c/b')
+        200
 
 6. dict_delitem_via_path_list(external_dict,path_list,**kwargs)
 
+        from xdict.utils import *
+        >>> y = {'c': {'b': 200}}
+        >>> dict_delitem_via_path_list(y,['c','b'])
+        {'c': {}}
+        >>> 
 
 ## list
 
