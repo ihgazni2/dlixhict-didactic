@@ -706,8 +706,890 @@
         >>> dict_delitem_via_cmd(y,'c b')
         {'c': {}}
 
-10. 
+11. dict_get_all_sons_pathstrs(d,full_key_path,**kwargs)  
 
+        >>> from xdict.utils import *
+        >>> dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'')
+        ['1', '2']
+        >>> dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2')
+        ['2/x']
+        >>> dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2/x')
+        []
+
+        
+        >>> dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'',keep_indicator=1)
+        ['/1', '/2/']
+        >>> dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2',keep_indicator=1)
+        ['/2/x']
+        >>> dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2/x',keep_indicator=1)
+        []
+        >>> 
+
+
+12. dict_include_pathlist(external_dict,path_list,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> y = {'a':
+        ...         {'x':88},
+        ...     'b':
+        ...         {
+        ...             'x':
+        ...                 {'c':66}
+        ...         }
+        ... }
+        >>> dict_include_pathlist(y,['a'])
+        True
+        >>> dict_include_pathlist(y,['a','x'])
+        True
+        >>> dict_include_pathlist(y,['b','x','c'])
+        True
+
+13. dict_find_keys_via_value(dlts,v,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> dlts = {1:'a',2:{3:'a'}}
+        >>> dict_find_keys_via_value(dlts,'a')
+        [[1], [2, 3]]
+        >>> dict_find_keys_via_value(dlts,'a')
+        [[1], [2, 3]]
+        >>>
+        
+
+14. dict_non_recursive_find_keys_via_value(d,v)
+
+        >>> from xdict.utils import *
+        >>> dlts = {1:'a',2:{3:'a'}}
+        >>> dict_non_recursive_find_keys_via_value(dlts,'a')
+        [1]
+        
+
+15. dict_get_pathstr_hierachy_description(dora,**kwargs)
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        >>> pobj(currd)
+        {
+        'Activity': 6, 
+        'Interval1Time': None, 
+        'RecordingInterval': 1, 
+        'UseAccelerometer': False, 
+        'Interval2Distance': None, 
+        'UseHRLimits': False, 
+        'UsePowerPOD': False, 
+        'HRLimitLow': 125, 
+        'UseBikePOD': False, 
+        'AutolapDistanceBikePOD': None, 
+        'UseAutolap': True, 
+        'Interval2Time': None, 
+        'Ordinal': 2, 
+        'SpeedLimitLow': None, 
+        'UseSpeedLimits': None, 
+        'LoggedRuleIDs': 
+                        [
+                        11516163, 
+                        11516164, 
+                        11516125
+                        ], 
+        'AutomaticLogRecording': None, 
+        '__type': 'Suunto.BLL.CustomMode', 
+        'IntervalRepetitions': 0, 
+        'SpeedLimitHigh': None, 
+        'HRLimitHigh': 165, 
+        'Id': 13336645, 
+        'AutolapDistanceSpeedPOD': None, 
+        'ShowNavigationSelection': 0, 
+        'BacklightMode': None, 
+        'UseIntervals': False, 
+        'AutoPauseSpeed': 0, 
+        'Tones': None, 
+        'AutolapDistance': 100, 
+        'Displays': 
+                    [
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': 11516125, 
+                                'Row': None
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': 11516163, 
+                                'Row': None
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 37
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 41
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 40
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 39
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 68
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 10
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 38
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 49
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 50
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 48
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 52
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 53
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 51
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 56
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 57
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 54
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 59
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 12
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 58
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 4
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 20
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': 11516164, 
+                                'Row': None
+                            }
+                    }
+                    ], 
+        'RuleIDs': 
+                    [
+                    11516125, 
+                    11516163, 
+                    11516164
+                    ], 
+        'UseCadencePOD': None, 
+        'AutoscrollDelay': 10, 
+        'UseInDevice': True, 
+        'UseFootPOD': False, 
+        'AutoPause': None, 
+        'Interval1Distance': None, 
+        'TapFunctionality': None, 
+        'UseAutoscroll': False, 
+        'AltiBaroMode': 1, 
+        'Display': None, 
+        'Name': 'Pool swimming', 
+        'AutolapDistanceFootPOD': None, 
+        'GPSInterval': 0, 
+        'UseHRBelt': False
+        }
+        
+        desc_dict = dict_get_pathstr_hierachy_description(currd)
+        >>>pobj(desc_dict)
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: 'Activity', 
+            1: 'Interval1Time', 
+            2: 'RecordingInterval', 
+            3: 'UseAccelerometer', 
+            4: 'Interval2Distance', 
+            5: 'UseHRLimits', 
+            6: 'UsePowerPOD', 
+            7: 'HRLimitLow', 
+            8: 'UseBikePOD', 
+            9: 'AutolapDistanceBikePOD', 
+            10: 'UseAutolap', 
+            11: 'Interval2Time', 
+            12: 'Ordinal', 
+            13: 'SpeedLimitLow', 
+            14: 'UseSpeedLimits', 
+            15: 'LoggedRuleIDs', 
+            16: 'AutomaticLogRecording', 
+            17: '__type', 
+            18: 'IntervalRepetitions', 
+            19: 'SpeedLimitHigh', 
+            20: 'HRLimitHigh', 
+            21: 'Id', 
+            22: 'AutolapDistanceSpeedPOD', 
+            23: 'ShowNavigationSelection', 
+            24: 'BacklightMode', 
+            25: 'UseIntervals', 
+            26: 'AutoPauseSpeed', 
+            27: 'Tones', 
+            28: 'AutolapDistance', 
+            29: 'Displays', 
+            30: 'RuleIDs', 
+            31: 'UseCadencePOD', 
+            32: 'AutoscrollDelay', 
+            33: 'UseInDevice', 
+            34: 'UseFootPOD', 
+            35: 'AutoPause', 
+            36: 'Interval1Distance', 
+            37: 'TapFunctionality', 
+            38: 'UseAutoscroll', 
+            39: 'AltiBaroMode', 
+            40: 'Display', 
+            41: 'Name', 
+            42: 'AutolapDistanceFootPOD', 
+            43: 'GPSInterval', 
+            44: 'UseHRBelt'
+            }, 
+        2: 
+            {
+            0: 'LoggedRuleIDs/0', 
+            1: 'LoggedRuleIDs/1', 
+            2: 'LoggedRuleIDs/2', 
+            3: 'Displays/0', 
+            4: 'Displays/1', 
+            5: 'Displays/2', 
+            6: 'Displays/3', 
+            7: 'Displays/4', 
+            8: 'Displays/5', 
+            9: 'Displays/6', 
+            10: 'Displays/7', 
+            11: 'RuleIDs/0', 
+            12: 'RuleIDs/1', 
+            13: 'RuleIDs/2'
+            }, 
+        3: 
+            {
+            0: 'Displays/0/Type', 
+            1: 'Displays/0/Row2', 
+            2: 'Displays/0/RequiresHRBelt', 
+            3: 'Displays/0/Views', 
+            4: 'Displays/0/Row1', 
+            5: 'Displays/1/Type', 
+            6: 'Displays/1/Row2', 
+            7: 'Displays/1/RequiresHRBelt', 
+            8: 'Displays/1/Views', 
+            9: 'Displays/1/Row1', 
+            10: 'Displays/2/Type', 
+            11: 'Displays/2/Row2', 
+            12: 'Displays/2/RequiresHRBelt', 
+            13: 'Displays/2/Views', 
+            14: 'Displays/2/Row1', 
+            15: 'Displays/3/Type', 
+            16: 'Displays/3/Row2', 
+            17: 'Displays/3/RequiresHRBelt', 
+            18: 'Displays/3/Views', 
+            19: 'Displays/3/Row1', 
+            20: 'Displays/4/Type', 
+            21: 'Displays/4/Row2', 
+            22: 'Displays/4/RequiresHRBelt', 
+            23: 'Displays/4/Views', 
+            24: 'Displays/4/Row1', 
+            25: 'Displays/5/Type', 
+            26: 'Displays/5/Row2', 
+            27: 'Displays/5/RequiresHRBelt', 
+            28: 'Displays/5/Views', 
+            29: 'Displays/5/Row1', 
+            30: 'Displays/6/Type', 
+            31: 'Displays/6/Row2', 
+            32: 'Displays/6/RequiresHRBelt', 
+            33: 'Displays/6/Views', 
+            34: 'Displays/6/Row1', 
+            35: 'Displays/7/Type', 
+            36: 'Displays/7/Row2', 
+            37: 'Displays/7/RequiresHRBelt', 
+            38: 'Displays/7/Views', 
+            39: 'Displays/7/Row1'
+            }, 
+        4: 
+            {
+            0: 'Displays/0/Row2/RuleID', 
+            1: 'Displays/0/Row2/Row', 
+            2: 'Displays/0/Views/0', 
+            3: 'Displays/0/Row1/RuleID', 
+            4: 'Displays/0/Row1/Row', 
+            5: 'Displays/1/Row2/RuleID', 
+            6: 'Displays/1/Row2/Row', 
+            7: 'Displays/1/Views/0', 
+            8: 'Displays/1/Row1/RuleID', 
+            9: 'Displays/1/Row1/Row', 
+            10: 'Displays/2/Row2/RuleID', 
+            11: 'Displays/2/Row2/Row', 
+            12: 'Displays/2/Views/0', 
+            13: 'Displays/2/Row1/RuleID', 
+            14: 'Displays/2/Row1/Row', 
+            15: 'Displays/3/Row2/RuleID', 
+            16: 'Displays/3/Row2/Row', 
+            17: 'Displays/3/Views/0', 
+            18: 'Displays/3/Row1/RuleID', 
+            19: 'Displays/3/Row1/Row', 
+            20: 'Displays/4/Row2/RuleID', 
+            21: 'Displays/4/Row2/Row', 
+            22: 'Displays/4/Views/0', 
+            23: 'Displays/4/Row1/RuleID', 
+            24: 'Displays/4/Row1/Row', 
+            25: 'Displays/5/Row2/RuleID', 
+            26: 'Displays/5/Row2/Row', 
+            27: 'Displays/5/Views/0', 
+            28: 'Displays/5/Row1/RuleID', 
+            29: 'Displays/5/Row1/Row', 
+            30: 'Displays/6/Row2/RuleID', 
+            31: 'Displays/6/Row2/Row', 
+            32: 'Displays/6/Views/0', 
+            33: 'Displays/6/Row1/RuleID', 
+            34: 'Displays/6/Row1/Row', 
+            35: 'Displays/7/Row2/RuleID', 
+            36: 'Displays/7/Row2/Row', 
+            37: 'Displays/7/Views/0', 
+            38: 'Displays/7/Row1/RuleID', 
+            39: 'Displays/7/Row1/Row'
+            }, 
+        5: 
+            {
+            0: 'Displays/0/Views/0/RuleID', 
+            1: 'Displays/0/Views/0/Row', 
+            2: 'Displays/1/Views/0/RuleID', 
+            3: 'Displays/1/Views/0/Row', 
+            4: 'Displays/2/Views/0/RuleID', 
+            5: 'Displays/2/Views/0/Row', 
+            6: 'Displays/3/Views/0/RuleID', 
+            7: 'Displays/3/Views/0/Row', 
+            8: 'Displays/4/Views/0/RuleID', 
+            9: 'Displays/4/Views/0/Row', 
+            10: 'Displays/5/Views/0/RuleID', 
+            11: 'Displays/5/Views/0/Row', 
+            12: 'Displays/6/Views/0/RuleID', 
+            13: 'Displays/6/Views/0/Row', 
+            14: 'Displays/7/Views/0/RuleID', 
+            15: 'Displays/7/Views/0/Row'
+            }
+        }
+
+16. dict_get_partent_pathstr_hierachy_description_from_description_dict(description_dict)
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        >>> currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
+        >>> pobj(currd)
+        {
+        'Activity': 6, 
+        'Interval1Time': None, 
+        'RecordingInterval': 1, 
+        'UseAccelerometer': False, 
+        'Interval2Distance': None, 
+        'UseHRLimits': False, 
+        'UsePowerPOD': False, 
+        'HRLimitLow': 125, 
+        'UseBikePOD': False, 
+        'AutolapDistanceBikePOD': None, 
+        'UseAutolap': True, 
+        'Interval2Time': None, 
+        'Ordinal': 2, 
+        'SpeedLimitLow': None, 
+        'UseSpeedLimits': None, 
+        'LoggedRuleIDs': 
+                        [
+                        11516163, 
+                        11516164, 
+                        11516125
+                        ], 
+        'AutomaticLogRecording': None, 
+        '__type': 'Suunto.BLL.CustomMode', 
+        'IntervalRepetitions': 0, 
+        'SpeedLimitHigh': None, 
+        'HRLimitHigh': 165, 
+        'Id': 13336645, 
+        'AutolapDistanceSpeedPOD': None, 
+        'ShowNavigationSelection': 0, 
+        'BacklightMode': None, 
+        'UseIntervals': False, 
+        'AutoPauseSpeed': 0, 
+        'Tones': None, 
+        'AutolapDistance': 100, 
+        'Displays': 
+                    [
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': 11516125, 
+                                'Row': None
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': 11516163, 
+                                'Row': None
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 37
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 41
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 40
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 39
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 68
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 10
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 38
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 49
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 50
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 48
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 52
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 53
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 51
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 56
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 57
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 54
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 59
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 12
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': None, 
+                                'Row': 58
+                            }
+                    }, 
+                    {
+                    'Type': 5, 
+                    'Row2': 
+                            {
+                                'RuleID': None, 
+                                'Row': 4
+                            }, 
+                    'RequiresHRBelt': None, 
+                    'Views': 
+                                [
+                                {
+                                'RuleID': None, 
+                                'Row': 20
+                                }
+                                ], 
+                    'Row1': 
+                            {
+                                'RuleID': 11516164, 
+                                'Row': None
+                            }
+                    }
+                    ], 
+        'RuleIDs': 
+                    [
+                    11516125, 
+                    11516163, 
+                    11516164
+                    ], 
+        'UseCadencePOD': None, 
+        'AutoscrollDelay': 10, 
+        'UseInDevice': True, 
+        'UseFootPOD': False, 
+        'AutoPause': None, 
+        'Interval1Distance': None, 
+        'TapFunctionality': None, 
+        'UseAutoscroll': False, 
+        'AltiBaroMode': 1, 
+        'Display': None, 
+        'Name': 'Pool swimming', 
+        'AutolapDistanceFootPOD': None, 
+        'GPSInterval': 0, 
+        'UseHRBelt': False
+        }
+        >>> phd = dict_get_pathstr_hierachy_description(currd)
+        >>> pphd = dict_get_partent_pathstr_hierachy_description_from_description_dict(phd)
+        >>> pobj(pphd)
+        {
+        0: 
+            {
+            0: -1
+            }, 
+        1: 
+            {
+            0: 0, 
+            1: 0, 
+            2: 0, 
+            3: 0, 
+            4: 0, 
+            5: 0, 
+            6: 0, 
+            7: 0, 
+            8: 0, 
+            9: 0, 
+            10: 0, 
+            11: 0, 
+            12: 0, 
+            13: 0, 
+            14: 0, 
+            15: 0, 
+            16: 0, 
+            17: 0, 
+            18: 0, 
+            19: 0, 
+            20: 0, 
+            21: 0, 
+            22: 0, 
+            23: 0, 
+            24: 0, 
+            25: 0, 
+            26: 0, 
+            27: 0, 
+            28: 0, 
+            29: 0, 
+            30: 0, 
+            31: 0, 
+            32: 0, 
+            33: 0, 
+            34: 0, 
+            35: 0, 
+            36: 0, 
+            37: 0, 
+            38: 0, 
+            39: 0, 
+            40: 0, 
+            41: 0, 
+            42: 0, 
+            43: 0, 
+            44: 0
+            }, 
+        2: 
+            {
+            0: 15, 
+            1: 15, 
+            2: 15, 
+            3: 29, 
+            4: 29, 
+            5: 29, 
+            6: 29, 
+            7: 29, 
+            8: 29, 
+            9: 29, 
+            10: 29, 
+            11: 30, 
+            12: 30, 
+            13: 30
+            }, 
+        3: 
+            {
+            0: 3, 
+            1: 3, 
+            2: 3, 
+            3: 3, 
+            4: 3, 
+            5: 4, 
+            6: 4, 
+            7: 4, 
+            8: 4, 
+            9: 4, 
+            10: 5, 
+            11: 5, 
+            12: 5, 
+            13: 5, 
+            14: 5, 
+            15: 6, 
+            16: 6, 
+            17: 6, 
+            18: 6, 
+            19: 6, 
+            20: 7, 
+            21: 7, 
+            22: 7, 
+            23: 7, 
+            24: 7, 
+            25: 8, 
+            26: 8, 
+            27: 8, 
+            28: 8, 
+            29: 8, 
+            30: 9, 
+            31: 9, 
+            32: 9, 
+            33: 9, 
+            34: 9, 
+            35: 10, 
+            36: 10, 
+            37: 10, 
+            38: 10, 
+            39: 10
+            }, 
+        4: 
+            {
+            0: 1, 
+            1: 1, 
+            2: 3, 
+            3: 4, 
+            4: 4, 
+            5: 6, 
+            6: 6, 
+            7: 8, 
+            8: 9, 
+            9: 9, 
+            10: 11, 
+            11: 11, 
+            12: 13, 
+            13: 14, 
+            14: 14, 
+            15: 16, 
+            16: 16, 
+            17: 18, 
+            18: 19, 
+            19: 19, 
+            20: 21, 
+            21: 21, 
+            22: 23, 
+            23: 24, 
+            24: 24, 
+            25: 26, 
+            26: 26, 
+            27: 28, 
+            28: 29, 
+            29: 29, 
+            30: 31, 
+            31: 31, 
+            32: 33, 
+            33: 34, 
+            34: 34, 
+            35: 36, 
+            36: 36, 
+            37: 38, 
+            38: 39, 
+            39: 39
+            }, 
+        5: 
+            {
+            0: 2, 
+            1: 2, 
+            2: 7, 
+            3: 7, 
+            4: 12, 
+            5: 12, 
+            6: 17, 
+            7: 17, 
+            8: 22, 
+            9: 22, 
+            10: 27, 
+            11: 27, 
+            12: 32, 
+            13: 32, 
+            14: 37, 
+            15: 37
+            }
+        }
+        >>> 
+
+17. 
 
 ## list
 
