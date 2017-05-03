@@ -1756,10 +1756,6 @@ def dict_delitem_via_path_list(external_dict,path_list,**kwargs):
     this.__delitem__(path_list[-1])
     return(external_dict)
 
-
-# ---------------------continue----------------------------
-# ---------------------continue----------------------------
-# -------------------
 def dict_delitem_via_pathstr(external_dict,pathstr,**kwargs):
     '''
         y = {'c': {'b': 200}}
@@ -1794,11 +1790,13 @@ def dict_delitem_via_pathstr(external_dict,pathstr,**kwargs):
     else:
         pass
     pathlist = pathstr.split(delimiter)
-    return(dict_delitem_via_pathlist(external_dict,pathstr,s2n=s2n,n2s=n2s,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp))
+    return(dict_delitem_via_path_list(external_dict,pathlist,s2n=s2n,n2s=n2s,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp))
 
-
-def dict_delitem_via_cmd(external_dict,cmd,**kwargs):
+def dict_delitem_via_cmd(external_dict,cmd_str,**kwargs):
     '''
+        from xdict.utils import *
+        y = {'c': {'b': 200}}
+        dict_delitem_via_cmd(y,'c b')
     '''
     if('cmd_sp' in kwargs):
         cmd_sp = kwargs['cmd_sp']
@@ -1833,25 +1831,14 @@ def dict_delitem_via_cmd(external_dict,cmd,**kwargs):
     cmd_str = re.sub(regex,cmd_sp,cmd_str)
     cmd_str = str_rstrip(cmd_str,cmd_sp,1)
     cmd_str = str_lstrip(cmd_str,cmd_sp,1)
-    pathlist = cmd.split(cmd_sp)
-    return(dict_delitem_via_pathlist(external_dict,pathstr,s2n=s2n,n2s=n2s,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp))
-
-
-    
-    
-# -------------------
-
-
-
+    pathlist = cmd_str.split(cmd_sp)
+    return(dict_delitem_via_path_list(external_dict,pathlist,s2n=s2n,n2s=n2s,strip_head_sp=strip_head_sp,strip_tail_sp=strip_tail_sp))
 
 def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
     '''
         dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'')
-        ['/1', '/2/']
         dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2')
-        ['2/x']
         dict_get_all_sons_pathstrs({1:'a',2:{'x':'b'}},'2/x')
-        []
     ''' 
     
     if('delimiter' in kwargs):
@@ -1912,6 +1899,20 @@ def dict_get_all_sons_pathstrs(d,full_key_path,**kwargs):
     return(all_sons_full_key_path_list)
 
 def dict_include_pathlist(external_dict,path_list,**kwargs):
+    '''
+        y = {
+            'a':
+                {'x':88},
+            'b':
+                {
+                    'x':
+                        {'c':66}
+                }
+        }
+        dict_include_pathlist(y,['a'])
+        dict_include_pathlist(y,['a','x'])
+        dict_include_pathlist(y,['b','x','c'])
+    '''
     if('s2n' in kwargs):
         s2n = kwargs['s2n']
     else:
@@ -1940,14 +1941,12 @@ def dict_include_pathlist(external_dict,path_list,**kwargs):
             pass
     return(True)
 
+# --------------------continue---------------------------
 def dict_find_keys_via_value(dlts,v,**kwargs):
     '''
         dlts = {1:'a',2:{3:'a'}}
-        >>> dict_find_keys_via_value(dlts,'a')
-        [[1], [2, 3]]
         dict_find_keys_via_value(dlts,'a')
-        [[0], [1, 3]]
-        >>> 
+        dict_find_keys_via_value(dlts,'a')
     '''
     rslt = []
     unhandled = [dlts]
