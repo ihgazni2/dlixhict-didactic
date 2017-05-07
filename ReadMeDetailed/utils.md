@@ -2156,7 +2156,18 @@
         }
         >>> 
 
-19. 
+19. dict_uniqualize(d)
+
+        >>> 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> dict1 = {1:'a',2:'b',3:'c',4:'b'}
+        >>> dict_uniqualize(dict1)
+        {1: 'a', 2: 'b', 3: 'c'}
+        >>> 
+        
+20. 
+
 
 
 
