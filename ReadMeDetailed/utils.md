@@ -2166,7 +2166,71 @@
         {1: 'a', 2: 'b', 3: 'c'}
         >>> 
         
-20. 
+20. dict_extend(dict1,dict2,**kwargs)
+
+
+        
+
+21. dict_comprise(dict1,dict2)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> dict1 = {'a':1,'b':2,'c':3,'d':4}        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> dict1 = {1:'a',2:'b',3:'c',4:'d'}
+        >>> dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
+        >>> dict_extend(dict1,dict2)
+        {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'u', 6: 'x', 7: 'y'}
+        >>> pobj(dict1)
+        {
+        1: 'a', 
+        2: 'b', 
+        3: 'c', 
+        4: 'd'
+        }
+        >>> pobj(dict2)
+        {
+        2: 'v', 
+        3: 'w', 
+        5: 'u', 
+        6: 'x', 
+        7: 'y'
+        }
+        >>> dict1 = {1:'a',2:'b',3:'c',4:'d'}
+        >>> dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
+        >>> dict_extend(dict1,dict2,overwrite=1)
+        {1: 'a', 2: 'v', 3: 'w', 4: 'd', 5: 'u', 6: 'x', 7: 'y'}
+        >>> pobj(dict1)
+        {
+        1: 'a', 
+        2: 'b', 
+        3: 'c', 
+        4: 'd'
+        }
+        >>> pobj(dict2)
+        {
+        2: 'v', 
+        3: 'w', 
+        5: 'u', 
+        6: 'x', 
+        7: 'y'
+        }
+        >>>
+
+        >>> dict2 = {'b':2,'c':3}
+        >>> dict_comprise(dict1,dict2)
+        True
+        >>> 
+
+ 22.dict_get_value_keys_description(d)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> dict1 = {'a':1,'b':2,'c':2,'d':4}
+        >>> dict_get_value_keys_description(dict1)
+        {1: ['a'], 2: ['b', 'c'], 4: ['d']}
+        >>> 
+
 
 
 
