@@ -2131,7 +2131,32 @@
         >>> 
         
 
-18. 
+18. dict_update_just_intersection(dict1,dict2)
+        
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> dict1 = {1:'a',2:'b',3:'c',4:'d'}
+        >>> dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
+        >>> dict_update_just_intersection(dict1,dict2)
+        {1: 'a', 2: 'v', 3: 'w', 4: 'd'}
+        >>> pobj(dict1)
+        {
+        1: 'a', 
+        2: 'v', 
+        3: 'w', 
+        4: 'd'
+        }
+        >>> pobj(dict2)
+        {
+        2: 'v', 
+        3: 'w', 
+        5: 'u', 
+        6: 'x', 
+        7: 'y'
+        }
+        >>> 
+
+19. 
 
 
 
