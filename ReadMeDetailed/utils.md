@@ -1589,7 +1589,551 @@
         }
         >>> 
 
-17. 
+17. dict_get_tree_pathstr_hierachy_description(currd,**kwargs)
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
+        hierachy_desc = dict_get_tree_pathstr_hierachy_description(currd)
+        hierachy_desc.keys()
+        print(hierachy_desc['text'])
+        pobj(hierachy_desc['parent_dict'])
+        pobj(hierachy_desc['description_dict'])
+        
+        
+        
+        >>> print(hierachy_desc['text'])
+        
+        
+            UseHRLimits
+            UseSpeedLimits
+            LoggedRuleIDs
+                LoggedRuleIDs/0
+                LoggedRuleIDs/1
+                LoggedRuleIDs/2
+            Interval1Distance
+            UseAutoscroll
+            Id
+            Ordinal
+            UseAutolap
+            SpeedLimitHigh
+            Displays
+                Displays/0
+                    Displays/0/RequiresHRBelt
+                    Displays/0/Row2
+                        Displays/0/Row2/RuleID
+                        Displays/0/Row2/Row
+                    Displays/0/Views
+                        Displays/0/Views/0
+                            Displays/0/Views/0/RuleID
+                            Displays/0/Views/0/Row
+                    Displays/0/Row1
+                        Displays/0/Row1/RuleID
+                        Displays/0/Row1/Row
+                    Displays/0/Type
+                Displays/1
+                    Displays/1/RequiresHRBelt
+                    Displays/1/Row2
+                        Displays/1/Row2/RuleID
+                        Displays/1/Row2/Row
+                    Displays/1/Views
+                        Displays/1/Views/0
+                            Displays/1/Views/0/RuleID
+                            Displays/1/Views/0/Row
+                    Displays/1/Row1
+                        Displays/1/Row1/RuleID
+                        Displays/1/Row1/Row
+                    Displays/1/Type
+                Displays/2
+                    Displays/2/RequiresHRBelt
+                    Displays/2/Row2
+                        Displays/2/Row2/RuleID
+                        Displays/2/Row2/Row
+                    Displays/2/Views
+                        Displays/2/Views/0
+                            Displays/2/Views/0/RuleID
+                            Displays/2/Views/0/Row
+                    Displays/2/Row1
+                        Displays/2/Row1/RuleID
+                        Displays/2/Row1/Row
+                    Displays/2/Type
+                Displays/3
+                    Displays/3/RequiresHRBelt
+                    Displays/3/Row2
+                        Displays/3/Row2/RuleID
+                        Displays/3/Row2/Row
+                    Displays/3/Views
+                        Displays/3/Views/0
+                            Displays/3/Views/0/RuleID
+                            Displays/3/Views/0/Row
+                    Displays/3/Row1
+                        Displays/3/Row1/RuleID
+                        Displays/3/Row1/Row
+                    Displays/3/Type
+                Displays/4
+                    Displays/4/RequiresHRBelt
+                    Displays/4/Row2
+                        Displays/4/Row2/RuleID
+                        Displays/4/Row2/Row
+                    Displays/4/Views
+                        Displays/4/Views/0
+                            Displays/4/Views/0/RuleID
+                            Displays/4/Views/0/Row
+                    Displays/4/Row1
+                        Displays/4/Row1/RuleID
+                        Displays/4/Row1/Row
+                    Displays/4/Type
+                Displays/5
+                    Displays/5/RequiresHRBelt
+                    Displays/5/Row2
+                        Displays/5/Row2/RuleID
+                        Displays/5/Row2/Row
+                    Displays/5/Views
+                        Displays/5/Views/0
+                            Displays/5/Views/0/RuleID
+                            Displays/5/Views/0/Row
+                    Displays/5/Row1
+                        Displays/5/Row1/RuleID
+                        Displays/5/Row1/Row
+                    Displays/5/Type
+                Displays/6
+                    Displays/6/RequiresHRBelt
+                    Displays/6/Row2
+                        Displays/6/Row2/RuleID
+                        Displays/6/Row2/Row
+                    Displays/6/Views
+                        Displays/6/Views/0
+                            Displays/6/Views/0/RuleID
+                            Displays/6/Views/0/Row
+                    Displays/6/Row1
+                        Displays/6/Row1/RuleID
+                        Displays/6/Row1/Row
+                    Displays/6/Type
+                Displays/7
+                    Displays/7/RequiresHRBelt
+                    Displays/7/Row2
+                        Displays/7/Row2/RuleID
+                        Displays/7/Row2/Row
+                    Displays/7/Views
+                        Displays/7/Views/0
+                            Displays/7/Views/0/RuleID
+                            Displays/7/Views/0/Row
+                    Displays/7/Row1
+                        Displays/7/Row1/RuleID
+                        Displays/7/Row1/Row
+                    Displays/7/Type
+            UseIntervals
+            GPSInterval
+            __type
+            AutolapDistanceSpeedPOD
+            AutoPauseSpeed
+            UseInDevice
+            TapFunctionality
+            UseCadencePOD
+            HRLimitLow
+            ShowNavigationSelection
+            UseAccelerometer
+            HRLimitHigh
+            SpeedLimitLow
+            Interval2Time
+            Interval1Time
+            AutomaticLogRecording
+            AutoPause
+            UseHRBelt
+            UseFootPOD
+            UseBikePOD
+            AutolapDistanceFootPOD
+            Interval2Distance
+            AutoscrollDelay
+            BacklightMode
+            Activity
+            RuleIDs
+                RuleIDs/0
+                RuleIDs/1
+                RuleIDs/2
+            Display
+            Name
+            RecordingInterval
+            AltiBaroMode
+            UsePowerPOD
+            Tones
+            AutolapDistanceBikePOD
+            IntervalRepetitions
+            AutolapDistance
+        >>>
+
+
+
+        >>> pobj(hierachy_desc['parent_dict'])
+        {
+        0: 
+            {
+            0: -1
+            }, 
+        1: 
+            {
+            0: 0, 
+            1: 0, 
+            2: 0, 
+            3: 0, 
+            4: 0, 
+            5: 0, 
+            6: 0, 
+            7: 0, 
+            8: 0, 
+            9: 0, 
+            10: 0, 
+            11: 0, 
+            12: 0, 
+            13: 0, 
+            14: 0, 
+            15: 0, 
+            16: 0, 
+            17: 0, 
+            18: 0, 
+            19: 0, 
+            20: 0, 
+            21: 0, 
+            22: 0, 
+            23: 0, 
+            24: 0, 
+            25: 0, 
+            26: 0, 
+            27: 0, 
+            28: 0, 
+            29: 0, 
+            30: 0, 
+            31: 0, 
+            32: 0, 
+            33: 0, 
+            34: 0, 
+            35: 0, 
+            36: 0, 
+            37: 0, 
+            38: 0, 
+            39: 0, 
+            40: 0, 
+            41: 0, 
+            42: 0, 
+            43: 0, 
+            44: 0
+            }, 
+        2: 
+            {
+            0: 2, 
+            1: 2, 
+            2: 2, 
+            3: 9, 
+            4: 9, 
+            5: 9, 
+            6: 9, 
+            7: 9, 
+            8: 9, 
+            9: 9, 
+            10: 9, 
+            11: 35, 
+            12: 35, 
+            13: 35
+            }, 
+        3: 
+            {
+            0: 3, 
+            1: 3, 
+            2: 3, 
+            3: 3, 
+            4: 3, 
+            5: 4, 
+            6: 4, 
+            7: 4, 
+            8: 4, 
+            9: 4, 
+            10: 5, 
+            11: 5, 
+            12: 5, 
+            13: 5, 
+            14: 5, 
+            15: 6, 
+            16: 6, 
+            17: 6, 
+            18: 6, 
+            19: 6, 
+            20: 7, 
+            21: 7, 
+            22: 7, 
+            23: 7, 
+            24: 7, 
+            25: 8, 
+            26: 8, 
+            27: 8, 
+            28: 8, 
+            29: 8, 
+            30: 9, 
+            31: 9, 
+            32: 9, 
+            33: 9, 
+            34: 9, 
+            35: 10, 
+            36: 10, 
+            37: 10, 
+            38: 10, 
+            39: 10
+            }, 
+        4: 
+            {
+            0: 1, 
+            1: 1, 
+            2: 2, 
+            3: 3, 
+            4: 3, 
+            5: 6, 
+            6: 6, 
+            7: 7, 
+            8: 8, 
+            9: 8, 
+            10: 11, 
+            11: 11, 
+            12: 12, 
+            13: 13, 
+            14: 13, 
+            15: 16, 
+            16: 16, 
+            17: 17, 
+            18: 18, 
+            19: 18, 
+            20: 21, 
+            21: 21, 
+            22: 22, 
+            23: 23, 
+            24: 23, 
+            25: 26, 
+            26: 26, 
+            27: 27, 
+            28: 28, 
+            29: 28, 
+            30: 31, 
+            31: 31, 
+            32: 32, 
+            33: 33, 
+            34: 33, 
+            35: 36, 
+            36: 36, 
+            37: 37, 
+            38: 38, 
+            39: 38
+            }, 
+        5: 
+            {
+            0: 2, 
+            1: 2, 
+            2: 7, 
+            3: 7, 
+            4: 12, 
+            5: 12, 
+            6: 17, 
+            7: 17, 
+            8: 22, 
+            9: 22, 
+            10: 27, 
+            11: 27, 
+            12: 32, 
+            13: 32, 
+            14: 37, 
+            15: 37
+            }
+        }
+        >>> 
+
+
+
+
+        >>> hierachy_desc['deep_search_path']
+        [(0, 0), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (2, 3), (3, 0), (3, 1), (4, 0), (4, 1), (3, 2), (4, 2), (5, 0), (5, 1), (3, 3), (4, 3), (4, 4), (3, 4), (2, 4), (3, 5), (3, 6), (4, 5), (4, 6), (3, 7), (4, 7), (5, 2), (5, 3), (3, 8), (4, 8), (4, 9), (3, 9), (2, 5), (3, 10), (3, 11), (4, 10), (4, 11), (3, 12), (4, 12), (5, 4), (5, 5), (3, 13), (4, 13), (4, 14), (3, 14), (2, 6), (3, 15), (3, 16), (4, 15), (4, 16), (3, 17), (4, 17), (5, 6), (5, 7), (3, 18), (4, 18), (4, 19), (3, 19), (2, 7), (3, 20), (3, 21), (4, 20), (4, 21), (3, 22), (4, 22), (5, 8), (5, 9), (3, 23), (4, 23), (4, 24), (3, 24), (2, 8), (3, 25), (3, 26), (4, 25), (4, 26), (3, 27), (4, 27), (5, 10), (5, 11), (3, 28), (4, 28), (4, 29), (3, 29), (2, 9), (3, 30), (3, 31), (4, 30), (4, 31), (3, 32), (4, 32), (5, 12), (5, 13), (3, 33), (4, 33), (4, 34), (3, 34), (2, 10), (3, 35), (3, 36), (4, 35), (4, 36), (3, 37), (4, 37), (5, 14), (5, 15), (3, 38), (4, 38), (4, 39), (3, 39), (1, 10), (1, 11), (1, 12), (1, 13), (1, 14), (1, 15), (1, 16), (1, 17), (1, 18), (1, 19), (1, 20), (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 26), (1, 27), (1, 28), (1, 29), (1, 30), (1, 31), (1, 32), (1, 33), (1, 34), (1, 35), (2, 11), (2, 12), (2, 13), (1, 36), (1, 37), (1, 38), (1, 39), (1, 40), (1, 41), (1, 42), (1, 43), (1, 44)]
+        >>> 
+
+
+        >>> pobj(hierachy_desc['description_dict'])
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: 'UseHRLimits', 
+            1: 'UseSpeedLimits', 
+            2: 'LoggedRuleIDs', 
+            3: 'Interval1Distance', 
+            4: 'UseAutoscroll', 
+            5: 'Id', 
+            6: 'Ordinal', 
+            7: 'UseAutolap', 
+            8: 'SpeedLimitHigh', 
+            9: 'Displays', 
+            10: 'UseIntervals', 
+            11: 'GPSInterval', 
+            12: '__type', 
+            13: 'AutolapDistanceSpeedPOD', 
+            14: 'AutoPauseSpeed', 
+            15: 'UseInDevice', 
+            16: 'TapFunctionality', 
+            17: 'UseCadencePOD', 
+            18: 'HRLimitLow', 
+            19: 'ShowNavigationSelection', 
+            20: 'UseAccelerometer', 
+            21: 'HRLimitHigh', 
+            22: 'SpeedLimitLow', 
+            23: 'Interval2Time', 
+            24: 'Interval1Time', 
+            25: 'AutomaticLogRecording', 
+            26: 'AutoPause', 
+            27: 'UseHRBelt', 
+            28: 'UseFootPOD', 
+            29: 'UseBikePOD', 
+            30: 'AutolapDistanceFootPOD', 
+            31: 'Interval2Distance', 
+            32: 'AutoscrollDelay', 
+            33: 'BacklightMode', 
+            34: 'Activity', 
+            35: 'RuleIDs', 
+            36: 'Display', 
+            37: 'Name', 
+            38: 'RecordingInterval', 
+            39: 'AltiBaroMode', 
+            40: 'UsePowerPOD', 
+            41: 'Tones', 
+            42: 'AutolapDistanceBikePOD', 
+            43: 'IntervalRepetitions', 
+            44: 'AutolapDistance'
+            }, 
+        2: 
+            {
+            0: 'LoggedRuleIDs/0', 
+            1: 'LoggedRuleIDs/1', 
+            2: 'LoggedRuleIDs/2', 
+            3: 'Displays/0', 
+            4: 'Displays/1', 
+            5: 'Displays/2', 
+            6: 'Displays/3', 
+            7: 'Displays/4', 
+            8: 'Displays/5', 
+            9: 'Displays/6', 
+            10: 'Displays/7', 
+            11: 'RuleIDs/0', 
+            12: 'RuleIDs/1', 
+            13: 'RuleIDs/2'
+            }, 
+        3: 
+            {
+            0: 'Displays/0/RequiresHRBelt', 
+            1: 'Displays/0/Row2', 
+            2: 'Displays/0/Views', 
+            3: 'Displays/0/Row1', 
+            4: 'Displays/0/Type', 
+            5: 'Displays/1/RequiresHRBelt', 
+            6: 'Displays/1/Row2', 
+            7: 'Displays/1/Views', 
+            8: 'Displays/1/Row1', 
+            9: 'Displays/1/Type', 
+            10: 'Displays/2/RequiresHRBelt', 
+            11: 'Displays/2/Row2', 
+            12: 'Displays/2/Views', 
+            13: 'Displays/2/Row1', 
+            14: 'Displays/2/Type', 
+            15: 'Displays/3/RequiresHRBelt', 
+            16: 'Displays/3/Row2', 
+            17: 'Displays/3/Views', 
+            18: 'Displays/3/Row1', 
+            19: 'Displays/3/Type', 
+            20: 'Displays/4/RequiresHRBelt', 
+            21: 'Displays/4/Row2', 
+            22: 'Displays/4/Views', 
+            23: 'Displays/4/Row1', 
+            24: 'Displays/4/Type', 
+            25: 'Displays/5/RequiresHRBelt', 
+            26: 'Displays/5/Row2', 
+            27: 'Displays/5/Views', 
+            28: 'Displays/5/Row1', 
+            29: 'Displays/5/Type', 
+            30: 'Displays/6/RequiresHRBelt', 
+            31: 'Displays/6/Row2', 
+            32: 'Displays/6/Views', 
+            33: 'Displays/6/Row1', 
+            34: 'Displays/6/Type', 
+            35: 'Displays/7/RequiresHRBelt', 
+            36: 'Displays/7/Row2', 
+            37: 'Displays/7/Views', 
+            38: 'Displays/7/Row1', 
+            39: 'Displays/7/Type'
+            }, 
+        4: 
+            {
+            0: 'Displays/0/Row2/RuleID', 
+            1: 'Displays/0/Row2/Row', 
+            2: 'Displays/0/Views/0', 
+            3: 'Displays/0/Row1/RuleID', 
+            4: 'Displays/0/Row1/Row', 
+            5: 'Displays/1/Row2/RuleID', 
+            6: 'Displays/1/Row2/Row', 
+            7: 'Displays/1/Views/0', 
+            8: 'Displays/1/Row1/RuleID', 
+            9: 'Displays/1/Row1/Row', 
+            10: 'Displays/2/Row2/RuleID', 
+            11: 'Displays/2/Row2/Row', 
+            12: 'Displays/2/Views/0', 
+            13: 'Displays/2/Row1/RuleID', 
+            14: 'Displays/2/Row1/Row', 
+            15: 'Displays/3/Row2/RuleID', 
+            16: 'Displays/3/Row2/Row', 
+            17: 'Displays/3/Views/0', 
+            18: 'Displays/3/Row1/RuleID', 
+            19: 'Displays/3/Row1/Row', 
+            20: 'Displays/4/Row2/RuleID', 
+            21: 'Displays/4/Row2/Row', 
+            22: 'Displays/4/Views/0', 
+            23: 'Displays/4/Row1/RuleID', 
+            24: 'Displays/4/Row1/Row', 
+            25: 'Displays/5/Row2/RuleID', 
+            26: 'Displays/5/Row2/Row', 
+            27: 'Displays/5/Views/0', 
+            28: 'Displays/5/Row1/RuleID', 
+            29: 'Displays/5/Row1/Row', 
+            30: 'Displays/6/Row2/RuleID', 
+            31: 'Displays/6/Row2/Row', 
+            32: 'Displays/6/Views/0', 
+            33: 'Displays/6/Row1/RuleID', 
+            34: 'Displays/6/Row1/Row', 
+            35: 'Displays/7/Row2/RuleID', 
+            36: 'Displays/7/Row2/Row', 
+            37: 'Displays/7/Views/0', 
+            38: 'Displays/7/Row1/RuleID', 
+            39: 'Displays/7/Row1/Row'
+            }, 
+        5: 
+            {
+            0: 'Displays/0/Views/0/RuleID', 
+            1: 'Displays/0/Views/0/Row', 
+            2: 'Displays/1/Views/0/RuleID', 
+            3: 'Displays/1/Views/0/Row', 
+            4: 'Displays/2/Views/0/RuleID', 
+            5: 'Displays/2/Views/0/Row', 
+            6: 'Displays/3/Views/0/RuleID', 
+            7: 'Displays/3/Views/0/Row', 
+            8: 'Displays/4/Views/0/RuleID', 
+            9: 'Displays/4/Views/0/Row', 
+            10: 'Displays/5/Views/0/RuleID', 
+            11: 'Displays/5/Views/0/Row', 
+            12: 'Displays/6/Views/0/RuleID', 
+            13: 'Displays/6/Views/0/Row', 
+            14: 'Displays/7/Views/0/RuleID', 
+            15: 'Displays/7/Views/0/Row'
+            }
+        }
+        >>> 
+        
+
+18. 
+
+
 
 ## list
 
