@@ -2169,13 +2169,7 @@
 20. dict_extend(dict1,dict2,**kwargs)
 
 
-        
-
-21. dict_comprise(dict1,dict2)
-
-        >>> from xdict.utils import *
-        >>> from xdict.jprint import pobj
-        >>> dict1 = {'a':1,'b':2,'c':3,'d':4}        >>> from xdict.utils import *
+         >>> from xdict.utils import *
         >>> from xdict.jprint import pobj
         >>> dict1 = {1:'a',2:'b',3:'c',4:'d'}
         >>> dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
@@ -2216,7 +2210,13 @@
         7: 'y'
         }
         >>>
+       
 
+21. dict_comprise(dict1,dict2)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> dict1 = {'a':1,'b':2,'c':3,'d':4}        
         >>> dict2 = {'b':2,'c':3}
         >>> dict_comprise(dict1,dict2)
         True
