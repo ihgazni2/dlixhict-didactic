@@ -1293,7 +1293,7 @@ __14. .unicode_num_array()__
 ![](Images/utils.estr.2.png)
 
 
-## Part5. [eunicode](ReadMeDetailed/utils.md)  
+## Part6. [eunicode](ReadMeDetailed/utils.md)  
 
 __1. init(u)__
 --------------
@@ -1347,23 +1347,91 @@ __3. .unicode__
 ![](Images/utils.eunicode.2.png)
 
 		
+## Part7. [edict](ReadMeDetailed/utils.md)  
+
+__1. .setdefault_via_pathlist(path_list,**kwargs)__  
+---------------------------------------------------  
+
+	edict1 = edict({})
+	edict1
+	path_list = ['c','b']
+	edict1.setdefault_via_pathlist(path_list)
+	edict1
+
+![](Images/utils.setdefault_via_pathlist.png)
+
+__2. .setitem_via_pathlist(pathlist,value,**kwargs)__
+-----------------------------------------------------
+
+        edict1 = edict({})
+        edict1
+        
+        path_list = ['c','b']
+        edict1.setitem_via_pathlist(path_list,'i am ok')
+        edict1
+        
+        
+        path_list = ['c']
+        edict1.setitem_via_pathlist(path_list,{})
+        edict1
+        
+        path_list = ['c','b']
+        edict1.setitem_via_pathlist(path_list,'i am ok')
+        edict1
+
+![](Images/utils.setitem_via_pathlist.png)  
+
+
+__3. .getitem_via_pathlist(pathlist,**kwargs)__
+-----------------------------------------------
+
+	edict1 = edict({'c':{'b':'x'})
+	edict1
+
+	path_list = ['c','b']
+	edict1.getitem_via_pathlist(path_list)
+	
+![](Images/utils.getitem_via_pathlist.png)  
 
 
 
+__4. .getitem_via_cmd(cmd,**kwargs)__
+-------------------------------------
+
+	edict1 = edict({'c':{'b':'x'})
+	edict1
+
+	cmd = 'c b'
+	edict1.getitem_via_cmd(cmd)
+	
+![](Images/utils.getitem_via_cmd.png)
 
 
 
+__5. .getitem_via_pathstr(pathstr,**kwargs)__
+---------------------------------------------
+
+	edict1 = edict({'c':{'b':'x'})
+	edict1
+
+	pathstr = 'c/b'
+	edict1.getitem_via_pathstr(pathstr)
+	
+![](Images/utils.getitem_via_pathstr.png)
+
+__6. .delitem_via_pathlist(pathlist,**kwargs)__
+-----------------------------------------------
+
+	edict1 = edict({'c':{'b':'x'}})
+	edict1
+
+	pathlist = ['c','b']
+	edict1.delitem_via_pathlist(pathlist)
+	
+![](Images/utils.delitem_via_pathlist.png)
 
 
-
-
-
-
-
-
-
-
-
+__7. .
 
 
 
