@@ -2113,19 +2113,16 @@ def dict_get_partent_pathstr_hierachy_description_from_description_dict(descript
         pass
     return(parent_dict)
 
-# --------------------continue---------------------------
-# --------------------continue---------------------------
-# --------------------continue---------------------------
-# --------------------continue---------------------------
-
-
 def dict_get_tree_pathstr_hierachy_description(currd,**kwargs):
     '''
         from xdict.utils import *
         from xdict.jprint import pobj
         currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
-        pobj(currd)
         hierachy_desc = dict_get_tree_pathstr_hierachy_description(currd)
+        hierachy_desc.keys()
+        print(hierachy_desc['text'])
+        pobj(hierachy_desc['parent_dict'])
+        pobj(hierachy_desc['description_dict'])
     '''
     if('delimiter' in kwargs):
         delimiter = kwargs['delimiter']
@@ -2243,20 +2240,30 @@ def dict_get_tree_pathstr_hierachy_description(currd,**kwargs):
     rslt['description_dict'] = description_dict
     return(rslt)
 
+
 def dict_update_just_intersection(dict1,dict2):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        dict1 = {1:'a',2:'b',3:'c',4:'d'}
+        dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
+        dict_update_just_intersection(dict1,dict2)
+        pobj(dict1)
+        pobj(dict2)
+    '''
     for key in dict2:
         if(key in dict1):
             dict1[key] = dict2[key]
     return(dict1)
 
+
+
 def dict_uniqualize(d):
     '''
-        >>> 
-        >>> d
-        {0: 1, 1: 2, 2: 2}
-        >>> dict_uniqualize(d)
-        {0: 1, 1: 2}
-        >>> 
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        dict1 = {1:'a',2:'b',3:'c',4:'b'}
+        dict_uniqualize(dict1)
     '''
     pt = copy.deepcopy(d)
     seqs_for_del =[]
@@ -2280,8 +2287,24 @@ def dict_uniqualize(d):
             npt[k] = pt[k]
     pt = npt
     return(npt)
+    
+    
 
 def dict_extend(dict1,dict2,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        dict1 = {1:'a',2:'b',3:'c',4:'d'}
+        dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
+        dict_extend(dict1,dict2)
+        pobj(dict1)
+        pobj(dict2)
+        dict1 = {1:'a',2:'b',3:'c',4:'d'}
+        dict2 = {5:'u',2:'v',3:'w',6:'x',7:'y'}
+        dict_extend(dict1,dict2,overwrite=1)
+        pobj(dict1)
+        pobj(dict2)
+    '''
     if('deepcopy' in kwargs):
         deepcopy=kwargs['deepcopy']
     else:
@@ -2306,12 +2329,16 @@ def dict_extend(dict1,dict2,**kwargs):
             d[key] = dict2[key]
     return(d)
 
+    
+
+
 def dict_comprise(dict1,dict2):
     '''
-        >>> 
-        >>> dict_comprise({'a':1,'b':2,'c':3,'d':4},{'b':2,'c':3})
-        True
-        >>> 
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        dict1 = {'a':1,'b':2,'c':3,'d':4}
+        dict2 = {'b':2,'c':3}
+        dict_comprise(dict1,dict2)
     '''
     len_1 = dict1.__len__()
     len_2 = dict2.__len__()
@@ -2329,7 +2356,14 @@ def dict_comprise(dict1,dict2):
             else:
                 return(False)
 
+
 def dict_get_value_keys_description(d):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        dict1 = {'a':1,'b':2,'c':2,'d':4}
+        dict_get_value_keys_description(dict1)
+    '''
     pt = copy.deepcopy(d)
     seqs_for_del =[]
     vset = set({})
@@ -2342,8 +2376,15 @@ def dict_get_value_keys_description(d):
         desc[pt[k]].append(k)
     return(desc)
 
+
+
 def dict_print_tree_pathstr_with_dynamic_indent(currd,**kwargs):
     '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
+        s = dict_print_tree_pathstr_with_dynamic_indent(currd)
+        print(s)
     '''
     
     if('delimiter' in kwargs):
@@ -2393,6 +2434,12 @@ def dict_print_tree_pathstr_with_dynamic_indent(currd,**kwargs):
     return(text)
 
 def dict_get_max_wordwidth(myDict):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = {0:'AutoPauseSpeed', 125:'HRLimitLow', 6:'Activity'}
+        dict_get_max_wordwidth(currd)
+    '''
     maxValueWidth = 0
     for each in myDict:
         eachValueWidth = myDict[each].__len__()
@@ -2401,6 +2448,12 @@ def dict_get_max_wordwidth(myDict):
     return(maxValueWidth)
 
 def dict_get_max_word_displaywidth(myDict):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = {0:'你们大家好', 125:'ABCDE', 6:'1234567'}
+        dict_get_max_word_displaywidth(currd)
+    '''
     maxValueWidth = 0
     for each in myDict:
         eachValueWidth = str_display_width(myDict[each])
@@ -2410,6 +2463,13 @@ def dict_get_max_word_displaywidth(myDict):
 
 class edict(dict):
     def setdefault_via_pathlist(self,pathlist,**kwargs):
+        '''
+            edict1 = edict({})
+            edict1
+            path_list = ['c','b']
+            edict1.setdefault_via_pathlist(path_list)
+            edict1
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -2425,6 +2485,23 @@ class edict(dict):
         return(dict_setdefault_via_path_list(self,pathlist,s2n=s2n,n2s=n2s,default_element=default_element))
     
     def setitem_via_pathlist(self,pathlist,value,**kwargs):
+        '''
+            edict1 = edict({})
+            edict1
+            
+            path_list = ['c','b']
+            edict1.setitem_via_pathlist(path_list,'i am ok')
+            edict1
+            
+            
+            path_list = ['c']
+            edict1.setitem_via_pathlist(path_list,{})
+            edict1
+            
+            path_list = ['c','b']
+            edict1.setitem_via_pathlist(path_list,'i am ok')
+            edict1
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -2436,6 +2513,14 @@ class edict(dict):
         return(dict_setitem_via_path_list(self,pathlist,value,s2n=s2n,n2s=n2s))
     
     def getitem_via_pathlist(self,pathlist,**kwargs):
+        '''
+            edict1 = edict({'c':{'b':'x'}})
+            edict1
+            
+            path_list = ['c','b']
+            edict1.getitem_via_pathlist(path_list)
+            
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -2447,6 +2532,14 @@ class edict(dict):
         return(dict_getitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
     
     def getitem_via_cmd(self,cmd_str,**kwargs):
+        '''
+            edict1 = edict({'c':{'b':'x'}})
+            edict1
+            
+            cmd = 'c b'
+            edict1.getitem_via_cmd(cmd)
+            
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -2462,6 +2555,14 @@ class edict(dict):
         return(dict_getitem_via_cmd(self,cmd_str,s2n=s2n,n2s=n2s,cmd_sp=cmd_sp))
 
     def getitem_via_pathstr(self,pathstr,**kwargs):
+        '''
+            edict1 = edict({'c':{'b':'x'}})
+            edict1
+            
+            pathstr = 'c/b'
+            edict1.getitem_via_pathstr(pathstr)
+            
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
@@ -2477,6 +2578,14 @@ class edict(dict):
         return(dict_getitem_via_pathstr(self,pathstr,delimiter = delimiter,strip_head_sp =strip_head_sp,strip_tail_sp = strip_tail_sp))
 
     def delitem_via_pathlist(self,pathlist,**kwargs):
+        '''
+            edict1 = edict({'c':{'b':'x'}})
+            edict1
+            
+            pathlist = ['c','b']
+            edict1.delitem_via_pathlist(pathlist)
+            
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -2486,13 +2595,31 @@ class edict(dict):
         else:
             n2s = 0
         return(dict_delitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+
     def sons_pathstrs(self,parent_pathstr,**kwargs):
+        '''
+            edict1 = edict({1:'a',2:{'x':'b'}})
+            edict1
+            
+            edict1.sons_pathstrs('')
+            edict1.sons_pathstrs('2')
+            edict1.sons_pathstrs('2/x')
+            
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
         return(dict_get_all_sons_pathstrs(self,parent_pathstr,delimiter = delimiter))
+
     def include_pathlist(self,pathlist,**kwargs):
+        '''
+            edict1 = edict({1:'a',2:{'x':'b'}})
+            edict1
+            
+            pathlist = [2,'x']
+            edict1.include_pathlist(pathlist)
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -2502,18 +2629,50 @@ class edict(dict):
         else:
             n2s = 0
         return(dict_include_pathlist(self,pathlist,s2n=s2n,n2s=n2s))
+
     def keys_via_value(self,value):
+        '''
+            edict1 = edict({1:'a',2:{'mm':'a'}})
+            edict1
+            edict1.keys_via_value('a')
+        '''
         return(dict_find_keys_via_value(self,value,strict=strict))
-    def keys_via_valuenon_recursive(self,value):
+
+    def keys_via_value_non_recursive(self,value):
+        '''
+            edict1 = edict({1:'a',2:{'mm':'a'}})
+            edict1
+            edict1.keys_via_value_non_recursive('a')
+        '''
         return(dict_non_recursive_find_keys_via_value(self,value))
-    def pathstr_hierachy_description(d,**kwargs):
+
+    def pathstr_hierachy_description(self,**kwargs):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
+            edict1 = edict(currd)
+            desc_desc = edict1.pathstr_hierachy_description()
+            pobj(desc_dict)
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(dict_get_pathstr_hierachy_description(d,delimiter = delimiter))
+        return(dict_get_pathstr_hierachy_description(self,delimiter = delimiter))
 
     def tree_pathstr_hierachy_description(self,**kwargs):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
+            edict1 = edict(currd)
+            hierachy_desc = edict1.tree_pathstr_hierachy_description()
+            hierachy_desc.keys()
+            print(hierachy_desc['text'])
+            pobj(hierachy_desc['parent_dict'])
+            pobj(hierachy_desc['description_dict'])
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
@@ -2521,12 +2680,41 @@ class edict(dict):
         return(dict_get_tree_pathstr_hierachy_description(self,delimiter = delimiter))
 
     def update_just_intersection(self,dict2):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+            edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+            edict1.update_just_intersection(edict1,edict2)
+            pobj(edict1)
+            pobj(edict2)
+        '''
         return(dict_update_just_intersection(self,dict2))
 
     def uniqualize(self):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            edict1 = edict({1:'a',2:'b',3:'c',4:'b'})
+            edict1.uniqualize()
+            pobj(edict1)
+        '''
         return(dict_uniqualize(self))
 
     def xextend(self,dict2,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+        edict1.xextend(edict2)
+        pobj(edict1)
+        pobj(edict2)
+        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+        edict1.xextend(edict2,overwrite=1)
+        pobj(edict1)
+    '''
         if('deepcopy' in kwargs):
             deepcopy=kwargs['deepcopy']
         else:
@@ -2543,13 +2731,32 @@ class edict(dict):
         return(dict_extend(dict1,dict2,deepcopy=deepcopy,overwrite=overwrite))
 
     def comprise(self,dict2):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            edict1 = edict({'a':1,'b':2,'c':3,'d':4})
+            edict2 = edict({'b':2,'c':3})
+            edict1.comprise(edict2)
+        '''
         return((dict_comprise(self,dict2)))
 
     def value_keys_description(self):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            edict1 = edict({'a':1,'b':2,'c':2,'d':4})
+            edict1.value_keys_description()
+        '''
         return((dict_get_value_keys_description(self)))
 
     def tree_pathstr_with_dynamic_indent(self,**kwargs):
         '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
+            edict1 = edict(currd)
+            s = edict1.tree_pathstr_with_dynamic_indent()
+            print(s)
         '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
@@ -2567,9 +2774,23 @@ class edict(dict):
         return(dict_print_tree_pathstr_with_dynamic_indent(self,delimiter =delimiter,fr=fr,to=to))
 
     def max_wordwidth(self):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            currd = {0:'AutoPauseSpeed', 125:'HRLimitLow', 6:'Activity'}
+            edict1 = edict(currd)
+            edict1.get_max_wordwidth()
+        '''
         return(dict_get_max_wordwidth(self))
 
     def max_word_displaywidth(self):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            currd = {0:'你们大家好', 125:'ABCDE', 6:'1234567'}
+            edict1 = edict(currd)
+            edict1.get_max_word_displaywidth()
+        '''
         return(dict_get_max_word_displaywidth(self))
 
 
