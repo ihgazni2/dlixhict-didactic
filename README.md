@@ -1509,7 +1509,112 @@ __11. .pathstr_hierachy_description(**kwargs)__
 ![](Images/utils.edict.tree_pathstr_hierachy_description.4.png)
 
  
+ 
+__13. .update_just_intersection(dict2)__
+----------------------------------------
 
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+        edict1.update_just_intersection(edict2)
+        pobj(edict1)
+        pobj(edict2)
+
+![](Images/utils.edict.update_just_intersection.png)
+        
+        
+__14. .uniqualize()__
+---------------------
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        edict1 = edict({1:'a',2:'b',3:'c',4:'b'})
+        edict1.uniqualize()
+        pobj(edict1)
+
+
+![](Images/utils.edict.uniqualize.png)
+        
+__15. .xextend(dict2)__
+-----------------------  
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+        pobj(edict1.xextend(edict2))
+        pobj(edict1)
+        
+        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+        pobj(edict1.xextend(edict2,overwrite=1))
+        pobj(edict1)
+
+![](Images/utils.edict.xextend.1.png)
+![](Images/utils.edict.xextend.2.png)
+
+
+
+
+__16. .comprise(dict2)__
+------------------------
+        
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        edict1 = edict({'a':1,'b':2,'c':3,'d':4})
+        edict2 = edict({'b':2,'c':3})
+        edict1.comprise(edict2)
+
+![](Images/utils.edict.comprise.png)
+
+
+__17. .value_keys_description()__
+---------------------------------
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        edict1 = edict({'a':1,'b':2,'c':2,'d':4})
+        edict1.value_keys_description()
+
+![](Images/utils.edict.value_keys_description.png)
+
+
+__18. .tree_pathstr_with_dynamic_indent()__
+--------------------------------------------
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
+        edict1 = edict(currd)
+        s = edict1.tree_pathstr_with_dynamic_indent()
+        print(s)
+
+![](Images/utils.edict.tree_pathstr_with_dynamic_indent.png)
+
+
+__19. .max_wordwidth()__
+------------------------
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = {0:'AutoPauseSpeed', 125:'HRLimitLow', 6:'Activity'}
+        edict1 = edict(currd)
+        edict1.max_wordwidth()
+
+
+
+
+__20. .max_word_displaywidth()__
+--------------------------------
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = {0:'你们大家好', 125:'ABCDE', 6:'1234567'}
+        edict1 = edict(currd)
+        edict1.max_word_displaywidth()
+        
+![](Images/utils.edict.max_word_displaywidth.png)
 
 
 
