@@ -1477,7 +1477,38 @@ __10. .keys_via_value_non_recursive(value)__
 ![](Images/utils.edict.keys_via_value.png)
  
  
+__11. .pathstr_hierachy_description(**kwargs)__
+----------------------------------------------------
 
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
+        edict1 = edict(currd)
+        desc_dict = edict1.pathstr_hierachy_description()
+        pobj(desc_dict)
+
+![](Images/utils.edict.pathstr_hierachy_description.png)
+ 
+ 
+ __12. .tree_pathstr_hierachy_description(**kwargs)__
+----------------------------------------------------
+
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
+        edict1 = edict(currd)
+        hierachy_desc = edict1.tree_pathstr_hierachy_description()
+        hierachy_desc.keys()
+        print(hierachy_desc['text'])
+        pobj(hierachy_desc['parent_dict'])
+        pobj(hierachy_desc['description_dict'])
+        
+![](Images/utils.edict.tree_pathstr_hierachy_description.1.png)
+![](Images/utils.edict.tree_pathstr_hierachy_description.2.png)
+![](Images/utils.edict.tree_pathstr_hierachy_description.3.png)
+![](Images/utils.edict.tree_pathstr_hierachy_description.4.png)
+
+ 
 
 
 
