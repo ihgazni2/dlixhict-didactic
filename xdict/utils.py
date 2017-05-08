@@ -2764,11 +2764,12 @@ class edict(dict):
             s = edict1.tree_pathstr_with_dynamic_indent()
             print(s)
         '''
+        d = dict(self)
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description(self,delimiter = delimiter)
+        tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description(d,delimiter = delimiter)
         deep_search_path = tree_pathstr_hierachy_description['deep_search_path'] 
         description_dict = tree_pathstr_hierachy_description['description_dict']
     
@@ -2781,7 +2782,7 @@ class edict(dict):
             to = kwargs['to']
         else:
             to = dsp_len
-        return(dict_print_tree_pathstr_with_dynamic_indent(self,delimiter =delimiter,fr=fr,to=to))
+        return(dict_print_tree_pathstr_with_dynamic_indent(d,delimiter =delimiter,fr=fr,to=to))
 
     def max_wordwidth(self):
         '''
