@@ -2231,6 +2231,190 @@
         {1: ['a'], 2: ['b', 'c'], 4: ['d']}
         >>> 
 
+23. dict_print_tree_pathstr_with_dynamic_indent(currd,**kwargs)  
+
+        >>> 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> currd = {'AutoPauseSpeed': 0, 'HRLimitLow': 125, 'Activity': 6, 'UseHRLimits': False, 'SpeedLimitLow': None, 'UseHRBelt': False, 'Id': 13336645, 'Ordinal': 2, 'SpeedLimitHigh': None, 'GPSInterval': 0, 'UseAutolap': True, 'Interval1Time': None, 'Interval2Time': None, 'BacklightMode': None, 'TapFunctionality': None, 'AutolapDistanceFootPOD': None, 'UseIntervals': False, 'AutolapDistanceSpeedPOD': None, 'AutoscrollDelay': 10, 'AutolapDistanceBikePOD': None, 'Interval2Distance': None, 'UseFootPOD': False, 'AltiBaroMode': 1, 'UseCadencePOD': None, 'UseInDevice': True, 'Name': 'Pool swimming', 'HRLimitHigh': 165, 'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], '__type': 'Suunto.BLL.CustomMode', 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125], 'RecordingInterval': 1, 'Display': None, 'IntervalRepetitions': 0, 'UsePowerPOD': False, 'Interval1Distance': None, 'UseAccelerometer': False, 'UseBikePOD': False, 'UseAutoscroll': False, 'AutolapDistance': 100, 'ShowNavigationSelection': 0, 'Tones': None}
+        >>> s = dict_print_tree_pathstr_with_dynamic_indent(currd)
+        >>> print(s)
+        
+        
+        Display
+        Interval2Distance
+        Id
+        UseBikePOD
+        SpeedLimitLow
+        UseAccelerometer
+        Displays
+                0
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                1
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                2
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                3
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                4
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                5
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                6
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+                7
+                Views
+                    0
+                    Row
+                    RuleID
+                RequiresHRBelt
+                Row2
+                    Row
+                    RuleID
+                Row1
+                    Row
+                    RuleID
+                Type
+        UseInDevice
+        HRLimitLow
+        UseAutoscroll
+        Interval2Time
+        Interval1Distance
+        AutolapDistanceSpeedPOD
+        Interval1Time
+        AutolapDistance
+        UseHRLimits
+        UseSpeedLimits
+        GPSInterval
+        UsePowerPOD
+        AutoscrollDelay
+        RuleIDs
+            0
+            1
+            2
+        AutomaticLogRecording
+        Tones
+        __type
+        AutoPause
+        BacklightMode
+        Activity
+        RecordingInterval
+        IntervalRepetitions
+        Name
+        UseHRBelt
+        UseAutolap
+        ShowNavigationSelection
+        SpeedLimitHigh
+        AutolapDistanceBikePOD
+        Ordinal
+        LoggedRuleIDs
+                    0
+                    1
+                    2
+        AutolapDistanceFootPOD
+        HRLimitHigh
+        TapFunctionality
+        UseIntervals
+        UseFootPOD
+        AutoPauseSpeed
+        UseCadencePOD
+        AltiBaroMode
+        >>> 
+
+24. dict_get_max_wordwidth(myDict)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> currd = {0:'AutoPauseSpeed', 125:'HRLimitLow', 6:'Activity'}
+        >>> dict_get_max_wordwidth(currd)
+        14
+        >>> 
+        
+25. dict_get_max_word_displaywidth(myDict)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> currd = {0:'你们大家好', 125:'ABCDE', 6:'1234567'}
+        >>> dict_get_max_word_displaywidth(currd)
+        10
+        >>> 
 
 
 
