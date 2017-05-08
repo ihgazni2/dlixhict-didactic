@@ -2681,7 +2681,9 @@ class edict(dict):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(dict_get_tree_pathstr_hierachy_description(self,delimiter = delimiter))
+        # necessary for is_dict
+        d = dict(self)
+        return(dict_get_tree_pathstr_hierachy_description(d,delimiter = delimiter))
 
     def update_just_intersection(self,dict2):
         '''
