@@ -2351,7 +2351,7 @@ def dict_print_tree_pathstr_with_dynamic_indent(currd,**kwargs):
     else:
         delimiter = '/'
 
-    tree_pathstr_hierachy_description = utils.dict_get_tree_pathstr_hierachy_description(currd,delimiter = delimiter)
+    tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description(currd,delimiter = delimiter)
     deep_search_path = tree_pathstr_hierachy_description['deep_search_path'] 
     description_dict = tree_pathstr_hierachy_description['description_dict']
     
