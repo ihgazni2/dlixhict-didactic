@@ -2636,7 +2636,9 @@ class edict(dict):
             edict1
             edict1.keys_via_value('a')
         '''
-        return(dict_find_keys_via_value(self,value))
+        #necessary beacause is_dict 
+        d = dict(self)
+        return(dict_find_keys_via_value(d,value))
 
     def keys_via_value_non_recursive(self,value):
         '''
