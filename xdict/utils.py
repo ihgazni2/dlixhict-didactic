@@ -1956,7 +1956,7 @@ def dict_include_pathlist(external_dict,path_list,**kwargs):
     return(True)
 
 
-def dict_find_keys_via_value(dlts,v,**kwargs):
+def dict_find_keys_via_value(dlts,v):
     '''
         from xdict.utils import *
         dlts = {1:'a',2:{3:'a'}}
@@ -2636,7 +2636,7 @@ class edict(dict):
             edict1
             edict1.keys_via_value('a')
         '''
-        return(dict_find_keys_via_value(self,value,strict=strict))
+        return(dict_find_keys_via_value(self,value))
 
     def keys_via_value_non_recursive(self,value):
         '''
