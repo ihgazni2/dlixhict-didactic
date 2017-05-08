@@ -1358,7 +1358,7 @@ __1. .setdefault_via_pathlist(path_list,**kwargs)__
 	edict1.setdefault_via_pathlist(path_list)
 	edict1
 
-![](Images/utils.setdefault_via_pathlist.png)
+![](Images/utils.edict.setdefault_via_pathlist.png)
 
 __2. .setitem_via_pathlist(pathlist,value,**kwargs)__
 -----------------------------------------------------
@@ -1379,7 +1379,7 @@ __2. .setitem_via_pathlist(pathlist,value,**kwargs)__
         edict1.setitem_via_pathlist(path_list,'i am ok')
         edict1
 
-![](Images/utils.setitem_via_pathlist.png)  
+![](Images/utils.edict.setitem_via_pathlist.png)  
 
 
 __3. .getitem_via_pathlist(pathlist,**kwargs)__
@@ -1391,7 +1391,7 @@ __3. .getitem_via_pathlist(pathlist,**kwargs)__
 	path_list = ['c','b']
 	edict1.getitem_via_pathlist(path_list)
 	
-![](Images/utils.getitem_via_pathlist.png)  
+![](Images/utils.edict.getitem_via_pathlist.png)  
 
 
 
@@ -1404,7 +1404,7 @@ __4. .getitem_via_cmd(cmd,**kwargs)__
 	cmd = 'c b'
 	edict1.getitem_via_cmd(cmd)
 	
-![](Images/utils.getitem_via_cmd.png)
+![](Images/utils.edict.getitem_via_cmd.png)
 
 
 
@@ -1417,7 +1417,7 @@ __5. .getitem_via_pathstr(pathstr,**kwargs)__
 	pathstr = 'c/b'
 	edict1.getitem_via_pathstr(pathstr)
 	
-![](Images/utils.getitem_via_pathstr.png)
+![](Images/utils.edict.getitem_via_pathstr.png)
 
 __6. .delitem_via_pathlist(pathlist,**kwargs)__
 -----------------------------------------------
@@ -1428,10 +1428,23 @@ __6. .delitem_via_pathlist(pathlist,**kwargs)__
 	pathlist = ['c','b']
 	edict1.delitem_via_pathlist(pathlist)
 	
-![](Images/utils.delitem_via_pathlist.png)
+![](Images/utils.edict.delitem_via_pathlist.png)
 
 
-__7. .
+__7. .sons_pathstrs(parent_pathstr,**kwargs)__
+----------------------------------------------
+
+        edict1 = edict({1:'a',2:{'x':'b'}})
+        edict1
+        
+        edict1.sons_pathstrs('')
+        edict1.sons_pathstrs('2')
+        edict1.sons_pathstrs('2/x')
+        
+![](Images/utils.edict.sons_pathstrs.png)
+
+
+
 
 
 
