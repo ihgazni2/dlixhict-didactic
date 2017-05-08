@@ -1460,12 +1460,23 @@ __8. .include_pathlist(spathlist,**kwargs)__
 __9. .keys_via_value(value)__
 -----------------------------
 
+        from xdict.utils import *
         edict1 = edict({1:'a',2:{'mm':'a'}})
         edict1
         edict1.keys_via_value('a')
 
+__10. .keys_via_value_non_recursive(value)__
+--------------------------------------------
 
-
+        from xdict.utils import *
+        edict1 = edict({1:'a',2:{'mm':'a'}})
+        edict1
+        edict1.keys_via_value_non_recursive('a')
+        
+        
+![](Images/utils.edict.keys_via_value.png)
+ 
+ 
 
 
 
