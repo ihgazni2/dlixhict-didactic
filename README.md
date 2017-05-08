@@ -1444,6 +1444,27 @@ __7. .sons_pathstrs(parent_pathstr,**kwargs)__
 ![](Images/utils.edict.sons_pathstrs.png)
 
 
+__8. .include_pathlist(spathlist,**kwargs)__
+--------------------------------------------
+
+        edict1 = edict({1:'a',2:{'x':'b'}})
+        edict1
+            
+        pathlist = [2,'x']
+        edict1.include_pathlist(pathlist)
+        
+
+![](Images/utils.edict.include_pathlist.png)
+        
+	
+__9. .keys_via_value(value)__
+-----------------------------
+
+        edict1 = edict({1:'a',2:{'mm':'a'}})
+        edict1
+        edict1.keys_via_value('a')
+
+
 
 
 
