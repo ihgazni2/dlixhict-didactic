@@ -2654,14 +2654,16 @@ class edict(dict):
             from xdict.jprint import pobj
             currd = { 'HRLimitHigh': 165, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}}]}
             edict1 = edict(currd)
-            desc_desc = edict1.pathstr_hierachy_description()
+            desc_dict = edict1.pathstr_hierachy_description()
             pobj(desc_dict)
         '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(dict_get_pathstr_hierachy_description(self,delimiter = delimiter))
+        # necessary for is_dict
+        d = dict(self)
+        return(dict_get_pathstr_hierachy_description(d,delimiter = delimiter))
 
     def tree_pathstr_hierachy_description(self,**kwargs):
         '''
