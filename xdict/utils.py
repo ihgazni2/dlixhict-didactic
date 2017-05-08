@@ -2702,19 +2702,19 @@ class edict(dict):
         return(dict_uniqualize(self))
 
     def xextend(self,dict2,**kwargs):
-    '''
-        from xdict.utils import *
-        from xdict.jprint import pobj
-        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
-        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
-        edict1.xextend(edict2)
-        pobj(edict1)
-        pobj(edict2)
-        edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
-        edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
-        edict1.xextend(edict2,overwrite=1)
-        pobj(edict1)
-    '''
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+            edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+            edict1.xextend(edict2)
+            pobj(edict1)
+            pobj(edict2)
+            edict1 = edict({1:'a',2:'b',3:'c',4:'d'})
+            edict2 = edict({5:'u',2:'v',3:'w',6:'x',7:'y'})
+            edict1.xextend(edict2,overwrite=1)
+            pobj(edict1)
+        '''
         if('deepcopy' in kwargs):
             deepcopy=kwargs['deepcopy']
         else:
@@ -3050,9 +3050,6 @@ class elist(list):
         return(list_get_max_wordwidth(self))
     def max_word_displaywidth(self):
         return(list_get_max_word_displaywidth(self))
-############################################################################
-#--------------------------------------------#
-
 
 
 # bitmap
