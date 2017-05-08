@@ -2768,6 +2768,10 @@ class edict(dict):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
+        tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description(self,delimiter = delimiter)
+        deep_search_path = tree_pathstr_hierachy_description['deep_search_path'] 
+        description_dict = tree_pathstr_hierachy_description['description_dict']
+    
         if('from' in kwargs):
             fr = kwargs['from']
         else:
@@ -2785,7 +2789,7 @@ class edict(dict):
             from xdict.jprint import pobj
             currd = {0:'AutoPauseSpeed', 125:'HRLimitLow', 6:'Activity'}
             edict1 = edict(currd)
-            edict1.get_max_wordwidth()
+            edict1.max_wordwidth()
         '''
         return(dict_get_max_wordwidth(self))
 
@@ -2795,7 +2799,7 @@ class edict(dict):
             from xdict.jprint import pobj
             currd = {0:'你们大家好', 125:'ABCDE', 6:'1234567'}
             edict1 = edict(currd)
-            edict1.get_max_word_displaywidth()
+            edict1.max_word_displaywidth()
         '''
         return(dict_get_max_word_displaywidth(self))
 
