@@ -1648,10 +1648,38 @@ __3. .getitem_via_pathlist(pathlist,**kwargs)__
 	'x'
 	>>> 
 	
-__4. .
+__4. .getitem_via_cmd(cmd_str,**kwargs)__
+-----------------------------------------
 
+	>>> from xdict.utils import *
+	>>> from xdict.jprint import pobj
+	>>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+	>>> cmd_str = '1 1 0'
+	>>> elist1.getitem_via_cmd(cmd_str)
+	'x'
+	>>> 
 
+__5. .getitem_via_pathstr(pathstr,**kwargs)__
+---------------------------------------------
 
+	>>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+	>>> pathstr = '1/1/0'
+	>>> elist1.getitem_via_pathstr(pathstr)
+	'x'
+	>>> 
+	
+__6. .delitem_via_pathlist(pathlist,**kwargs)__
+-----------------------------------------------
+
+	>>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+	>>> pathlist = [1,1,0]
+	>>> elist1.delitem_via_pathlist(pathlist)
+	['a', ['b', ['y'], 'u'], 'c']
+	>>> elist1
+	['a', ['b', ['y'], 'u'], 'c']
+	>>> 
+
+__7. .
 
 
 
