@@ -2706,6 +2706,70 @@
         
 14. list_get_value_indexes_description(l)  
 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a','b','b','a','c','b']
+        >>> list_get_value_indexes_description(l)
+        {'a': [0, 3], 'b': [1, 2, 5], 'c': [4]}
+        >>> 
+
+15. list_print_tree_pathstr_with_dynamic_indent(l,**kwargs)
+
+        >>> 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','b']],'b']
+        >>> s = list_print_tree_pathstr_with_dynamic_indent(l)
+        >>> print(s)
+        
+        
+        0
+        1
+        0
+        1
+        0
+        1
+        2
+        >>> 
+        
+        
+ 16. list_uniqualize(l)  
+                
+                >>> l = [1, 2, 2]
+                >>> list_uniqualize(l)
+                [1, 2]
+                >>> l
+                [1, 2, 2]
+                >>> 
+                
+17. list_comprise(list1,list2,**kwargs)
+
+        >>> list_comprise([1,2,3,4,5],[2,3,4],strict=0)
+        True
+        >>> list_comprise([1,2,3,4,5],[2,3,4])
+        True
+        >>> list_comprise([1,2,3,4,5],[2,3,4],strict=1)
+        False
+        >>> list_comprise([1,2,3,4,5],[1,2,3,4],strict=1)
+        True
+        >>> 
+        
+18. list_get_max_wordwidth(l)
+
+        >>> l = ['a','bb','hello','xx','你好吗']
+        >>> list_get_max_wordwidth(l)
+        5
+        >>> 
+        
+19. list_get_max_word_displaywidth(l)
+
+        >>> l = ['a','bb','hello','xx','你好吗']
+        >>> list_get_max_word_displaywidth(l)
+        6
+        
+        
+
+
 
 
 ## bitmap
