@@ -2464,8 +2464,123 @@
         'b'
         >>> 
         
+4. list_getitem_via_cmd(l,cmd,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b']]
+        >>> cmd = '1 0'
+        >>> list_getitem_via_cmd(l,cmd)
+        'b'
+        >>> pobj(l)
+        [
+        'a', 
+        [
+        'b'
+        ]
+        ]
+        >>> 
 
 
+5. list_delitem_via_path_list(l,path_list,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b']]
+        >>> path_list = [1,0]
+        >>> list_delitem_via_path_list(l,path_list)
+        ['a', []]
+        >>> pobj(l)
+        [
+        'a', 
+        []
+        ]
+        >>> 
+
+6. list_getitem_via_pathstr(l,pathstr,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b']]
+        >>> pathstr = '1/0'
+        >>> list_getitem_via_pathstr(l,pathstr)
+        'b'
+        >>> 
+
+7.  list_get_all_sons_pathstrs(l,full_key_path,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','y']],'c']
+        >>> list_get_all_sons_pathstrs(l,'')
+        ['0', '1', '2']
+        >>> list_get_all_sons_pathstrs(l,'1')
+        ['1/0', '1/1']
+        >>> list_get_all_sons_pathstrs(l,'1/1')
+        ['1/1/0', '1/1/1']
+        >>> 
+
+8.  list_include_pathlist(l,path_list,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','y']],'c']
+        >>> list_include_pathlist(l,[1,1,1])
+        True
+        >>> 
+        
+
+9. list_find_keys_via_value(l,value,**kwargs)
+ 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','b']],'b']
+        >>> list_find_keys_via_value(l,'b')
+        [[2], [1, 0], [1, 1, 1]]
+        >>> 
+        
+        
+10.  list_find_keys_via_value_non_recursive(l,value,**kwargs)  
+
+                >>> from xdict.utils import *  
+                >>> from xdict.jprint import pobj
+                >>> l = ['a',['b',['x','b']],'b']
+                >>> list_find_keys_via_value_non_recursive(l,'b')
+                [[2]]
+                >>> 
+                
+11. list_get_pathstr_hierachy_description(l,**kwargs)  
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','b']],'b']
+        >>> desc = list_get_pathstr_hierachy_description(l)
+        >>> pobj(desc)
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: '0', 
+            1: '1', 
+            2: '2'
+            }, 
+        2: 
+            {
+            0: '1/0', 
+            1: '1/1'
+            }, 
+        3: 
+            {
+            0: '1/1/0', 
+            1: '1/1/1'
+            }
+        }
+        >>> 
+
+12. 
 
 ## bitmap
 1. bitmaplist_to_num(bitmaplist)
