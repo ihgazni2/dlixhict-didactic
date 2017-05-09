@@ -1618,6 +1618,40 @@ __20. .max_word_displaywidth()__
 
 
 
+## Part7. [elist](ReadMeDetailed/utils.md)  
+
+__1. .creat_default_with_len(len,default_element=None)__
+--------------------------------------------------------
+
+	>>> elist1 = elist([])
+	>>> elist1.creat_default_with_len(5)
+	[None, None, None, None, None]
+	>>> elist1
+	[]
+	>>> 
+	
+__2. .setitem_via_pathlist(pathlist,value,**kwargs)__
+-----------------------------------------------------
+
+	>>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+	>>> pathlist = [1,1,0]
+	>>> elist1.setitem_via_pathlist(pathlist,6)
+	['a', ['b', [6, 'y'], 'u'], 'c']
+	>>> 
+	
+__3. .getitem_via_pathlist(pathlist,**kwargs)__
+-----------------------------------------------
+
+	>>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+	>>> pathlist = [1,1,0]
+	>>> elist1.getitem_via_pathlist(pathlist)
+	'x'
+	>>> 
+	
+__4. .
+
+
+
 
 
 
