@@ -2419,7 +2419,53 @@
 
 
 
-## list
+## list  
+
+1. list_creat_default_with_len(len,default_element=None)  
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = list_creat_default_with_len(5)
+        >>> pobj(l)
+        [
+        None, 
+        None, 
+        None, 
+        None, 
+        None
+        ]
+        >>> 
+
+
+2. list_setitem_via_path_list(l,path_list,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b']]
+        >>> path_list = [1,0]
+        >>> list_setitem_via_path_list(l,path_list,'x')
+        ['a', ['x']]
+        >>> pobj(l)
+        [
+        'a', 
+        [
+        'x'
+        ]
+        ]
+        >>> 
+
+3. list_getitem_via_path_list(l,path_list,**kwargs)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b']]
+        >>> path_list = [1,0]
+        >>> list_getitem_via_path_list(l,path_list)
+        'b'
+        >>> 
+        
+
+
 
 ## bitmap
 1. bitmaplist_to_num(bitmaplist)
