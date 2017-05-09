@@ -2842,7 +2842,7 @@ def list_getitem_via_cmd(l,cmd_str,**kwargs):
         from xdict.utils import *
         from xdict.jprint import pobj
         l = ['a',['b']]
-        cmd = '1,0'
+        cmd = '1 0'
         list_getitem_via_cmd(l,cmd)
         pobj(l)
     '''
@@ -2856,31 +2856,86 @@ list_delitem_via_path_list = dict_delitem_via_path_list
         # path_list = [1,0]
         # list_getitem_via_path_list(l,path_list)
         # pobj(l)
-list_getitem_via_pathstr = dict_getitem_via_pathstr
-        # list_getitem_via_path_list(l,path_list,**kwargs)
+def list_getitem_via_pathstr(l,pathstr,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        l = ['a',['b']]
+        pathstr = '1/0'
+        list_getitem_via_pathstr(l,pathstr)
+        pobj(l)
+    '''
+    return(dict_getitem_via_pathstr(l,pathstr,s2n=1))
+
+list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
+        # list_get_all_sons_pathstrs(l,full_key_path,**kwargs)
         # from xdict.utils import *
         # from xdict.jprint import pobj
-        # l = ['a',['b']]
-        # path_list = [1,0]
-        # list_getitem_via_path_list(l,path_list)
-        # pobj(l)
-list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
+        # l = ['a',['b',['x','y']],'c']
+        # list_get_all_sons_pathstrs(l,'')
+        # list_get_all_sons_pathstrs(l,'1')
+        # list_get_all_sons_pathstrs(l,'1/1')
+
 list_include_pathlist = dict_include_pathlist
+        # list_include_pathlist(l,path_list,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','y']],'c']
+        # list_include_pathlist(l,[1,1,1])
+
 list_find_keys_via_value = dict_find_keys_via_value
+        # list_find_keys_via_value(l,value,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # list_find_keys_via_value(l,'b')
 
 def list_non_recursive_find_keys_via_value(l,v):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        l = ['a',['b',['x','b']],'b']
+        list_find_keys_via_value_non_recursive(l,'b')
+    '''
     rslt = []
     for i in range(0,l.__len__()):
         if(l[i] == v):
             rslt.append(i)
     return(rslt)
 
-list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
-list_get_partent_pathstr_hierachy_description_from_description_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict
-list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
 
+list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
+        # list_get_pathstr_hierachy_description(l,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # desc = list_get_pathstr_hierachy_description(l)
+        # pobj(desc)
+list_get_partent_pathstr_hierachy_description_from_description_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict
+        # list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # desc = list_get_pathstr_hierachy_description(l)
+        # pobj(desc)
+        # ppdesc = list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
+        # pobj(ppdesc)
+list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
+        # list_get_tree_pathstr_hierachy_description(l,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # desc = list_get_tree_pathstr_hierachy_description(l)
+        # pobj(desc)
+
+#--------------------------continue----------------------------------
 def list_get_value_indexes_description(l):
+    '''
+        l = ['a','b','b','a','c','b']
+        list_get_value_indexes_description(l)
+    '''
     pt = copy.deepcopy(l)
+    desc = {}
     vset = set({})
     for v in pt:
         vset.add(v)
@@ -2962,6 +3017,8 @@ def list_comprise(list1,list2,**kwargs):
 
 
 def list_get_max_wordwidth(l):
+    '''
+    '''
     maxValueWidth = 0
     for each in l:
         eachValueWidth = each.__len__()
@@ -2970,6 +3027,8 @@ def list_get_max_wordwidth(l):
     return(maxValueWidth)
 
 def list_get_max_word_displaywidth(l):
+    '''
+    '''
     maxValueWidth = 0
     for each in l:
         eachValueWidth = str_display_width(each)
