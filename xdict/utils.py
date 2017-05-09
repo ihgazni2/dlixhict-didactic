@@ -2846,7 +2846,11 @@ def list_getitem_via_cmd(l,cmd_str,**kwargs):
         list_getitem_via_cmd(l,cmd)
         pobj(l)
     '''
-    return(dict_getitem_via_cmd(l,cmd_str,s2n=1))
+    if('cmd_sp' in kwargs):
+        cmd_sp = kwargs['cmd_sp']
+    else:
+        cmd_sp = ' '
+    return(dict_getitem_via_cmd(l,cmd_str,s2n=1,n2s=0,cmd_sp=cmd_sp))
 
 list_delitem_via_path_list = dict_delitem_via_path_list
         # list_getitem_via_path_list(l,path_list,**kwargs)
@@ -2931,6 +2935,8 @@ list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_desc
 #--------------------------continue----------------------------------
 def list_get_value_indexes_description(l):
     '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
         l = ['a','b','b','a','c','b']
         list_get_value_indexes_description(l)
     '''
@@ -2946,15 +2952,18 @@ def list_get_value_indexes_description(l):
     return(desc)
 
 list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
+        # list_print_tree_pathstr_with_dynamic_indent(l,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # s = list_print_tree_pathstr_with_dynamic_indent(l)
+        # print(s)
 
 def list_uniqualize(l):
     '''
-        >>> 
-        >>> l
-        [1, 2, 2]
-        >>> list_uniqualize(l)
-        [1, 2]
-        >>> 
+        l = [1, 2, 2]
+        list_uniqualize(l)
+        l
     '''
     pt = copy.deepcopy(l)
     seqs_for_del =[]
@@ -2981,16 +2990,10 @@ def list_uniqualize(l):
 
 def list_comprise(list1,list2,**kwargs):
     '''
-        >>> 
-        >>> list_comprise([1,2,3,4,5],[2,3,4],strict=0)
-        True
-        >>> list_comprise([1,2,3,4,5],[2,3,4])
-        True
-        >>> list_comprise([1,2,3,4,5],[2,3,4],strict=1)
-        False
-        >>> list_comprise([1,2,3,4,5],[1,2,3,4],strict=1)
-        True
-        >>> 
+        list_comprise([1,2,3,4,5],[2,3,4],strict=0)
+        list_comprise([1,2,3,4,5],[2,3,4])
+        list_comprise([1,2,3,4,5],[2,3,4],strict=1)
+        list_comprise([1,2,3,4,5],[1,2,3,4],strict=1)
     '''
     if('strict' in kwargs):
         strict = kwargs['strict']
@@ -3018,6 +3021,8 @@ def list_comprise(list1,list2,**kwargs):
 
 def list_get_max_wordwidth(l):
     '''
+        l = ['a','bb','hello','xx','你好吗']
+        list_get_max_wordwidth(l)
     '''
     maxValueWidth = 0
     for each in l:
@@ -3028,6 +3033,8 @@ def list_get_max_wordwidth(l):
 
 def list_get_max_word_displaywidth(l):
     '''
+        l = ['a','bb','hello','xx','你好吗']
+        list_get_max_word_displaywidth(l)
     '''
     maxValueWidth = 0
     for each in l:
@@ -3039,22 +3046,18 @@ def list_get_max_word_displaywidth(l):
 #######################################################################
 class elist(list):
     def creat_default_with_len(self,len,default_element=None):
+        '''
+            elist1 = elist([])
+            elist1.creat_default_with_len(5)
+            elist1
+        '''
         return(list_creat_default_with_len(len,default_element))
-    def setdefault_via_pathlist(self,pathlist,**kwargs):
-        if('s2n' in kwargs):
-            s2n = kwargs['s2n']
-        else:
-            s2n = 0
-        if('n2s' in kwargs):
-            n2s = kwargs['n2s']
-        else:
-            n2s = 0
-        if('default_element' in kwargs):
-            default_element = kwargs['default_element']
-        else:
-            default_element = {}
-        return(list_setdefault_via_path_list(self,pathlist,s2n=s2n,n2s=n2s,default_element = default_element))
     def setitem_via_pathlist(self,pathlist,value,**kwargs):
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            pathlist = [1,1,0]
+            elist1.setitem_via_pathlist(pathlist,6)
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -3065,6 +3068,11 @@ class elist(list):
             n2s = 0
         return(list_setitem_via_path_list(self,pathlist,value,s2n=s2n,n2s=n2s))
     def getitem_via_pathlist(self,pathlist,**kwargs):
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            pathlist = [1,1,0]
+            elist1.getitem_via_pathlist(pathlist)
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -3074,20 +3082,18 @@ class elist(list):
         else:
             n2s = 0
         return(list_getitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+    #------------------------------continue---------------------------------------
     def getitem_via_cmd(self,cmd_str,**kwargs):
-        if('s2n' in kwargs):
-            s2n = kwargs['s2n']
-        else:
-            s2n = 0
-        if('n2s' in kwargs):
-            n2s = kwargs['n2s']
-        else:
-            n2s = 0
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            cmd_str = '1 1 0'
+            elist1.getitem_via_cmd(cmd_str)
+        '''
         if('cmd_sp' in kwargs):
             cmd_sp = kwargs['cmd_sp']
         else:
             cmd_sp = ' '
-        return(list_getitem_via_cmd(self,cmd_str,s2n=s2n,n2s=n2s,cmd_sp=cmd_sp))
+        return(list_getitem_via_cmd(self,cmd_str,cmd_sp=cmd_sp))
     def getitem_via_pathstr(self,pathstr,**kwargs):
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
