@@ -2704,7 +2704,9 @@
             2
         >>> 
         
-14. 
+14. list_get_value_indexes_description(l)  
+
+
 
 ## bitmap
 1. bitmaplist_to_num(bitmaplist)
