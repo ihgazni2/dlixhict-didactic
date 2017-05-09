@@ -2807,18 +2807,63 @@ class edict(dict):
 
 #list
 
+## -------------------------continue-----------------------------------
 def list_creat_default_with_len(len,default_element=None):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        l = list_creat_default_with_len(5)
+        pobj(l)
+    '''
     rslt = []
     for i in range(0,len):
         rslt.append(default_element)
     return(rslt)
 
-list_setdefault_via_path_list = dict_setdefault_via_path_list
+
 list_setitem_via_path_list = dict_setitem_via_path_list
+        # list_setitem_via_path_list(l,path_list,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b']]
+        # path_list = [1,0]
+        # list_setitem_via_path_list(l,path_list,'x')
+        # pobj(l)
 list_getitem_via_path_list = dict_getitem_via_path_list
-list_getitem_via_cmd = dict_getitem_via_cmd
+        # list_getitem_via_path_list(l,path_list,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b']]
+        # path_list = [1,0]
+        # list_getitem_via_path_list(l,path_list)
+        # pobj(l)
+def list_getitem_via_cmd(l,cmd_str,**kwargs):
+    '''
+        from xdict.utils import *
+        from xdict.jprint import pobj
+        l = ['a',['b']]
+        cmd = '1,0'
+        list_getitem_via_cmd(l,cmd)
+        pobj(l)
+    '''
+    return(dict_getitem_via_cmd(l,cmd_str,s2n=1))
+
 list_delitem_via_path_list = dict_delitem_via_path_list
+        # list_getitem_via_path_list(l,path_list,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b']]
+        # path_list = [1,0]
+        # list_getitem_via_path_list(l,path_list)
+        # pobj(l)
 list_getitem_via_pathstr = dict_getitem_via_pathstr
+        # list_getitem_via_path_list(l,path_list,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b']]
+        # path_list = [1,0]
+        # list_getitem_via_path_list(l,path_list)
+        # pobj(l)
 list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
 list_include_pathlist = dict_include_pathlist
 list_find_keys_via_value = dict_find_keys_via_value
