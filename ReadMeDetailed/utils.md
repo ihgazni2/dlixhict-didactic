@@ -2580,7 +2580,131 @@
         }
         >>> 
 
-12. 
+12. list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','b']],'b']
+        >>> desc = list_get_pathstr_hierachy_description(l)
+        >>> pobj(desc)
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: '0', 
+            1: '1', 
+            2: '2'
+            }, 
+        2: 
+            {
+            0: '1/0', 
+            1: '1/1'
+            }, 
+        3: 
+            {
+            0: '1/1/0', 
+            1: '1/1/1'
+            }
+        }
+        >>> ppdesc = list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
+        >>> pobj(ppdesc)
+        {
+        0: 
+            {
+            0: -1
+            }, 
+        1: 
+            {
+            0: 0, 
+            1: 0, 
+            2: 0
+            }, 
+        2: 
+            {
+            0: 1, 
+            1: 1
+            }, 
+        3: 
+            {
+            0: 1, 
+            1: 1
+            }
+        }
+        >>> 
+        
+13. list_get_tree_pathstr_hierachy_description(l,**kwargs)
+
+        >>> 
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> l = ['a',['b',['x','b']],'b']
+        >>> desc = list_get_tree_pathstr_hierachy_description(l)
+        >>> desc.keys()
+        dict_keys(['parent_dict', 'deep_search_path', 'description_dict', 'text'])
+        >>> pobj(desc['parent_dict'])
+        {
+        0: 
+            {
+            0: -1
+            }, 
+        1: 
+            {
+            0: 0, 
+            1: 0, 
+            2: 0
+            }, 
+        2: 
+            {
+            0: 1, 
+            1: 1
+            }, 
+        3: 
+            {
+            0: 1, 
+            1: 1
+            }
+        }
+        >>> pobj(desc['deep_search_path'],fixed_indent=1)
+        [(0, 0), (1, 0), (1, 1), (2, 0), (2, 1), (3, 0), (3, 1), (1, 2)]
+        >>> pobj(desc['description_dict'])
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: '0', 
+            1: '1', 
+            2: '2'
+            }, 
+        2: 
+            {
+            0: '1/0', 
+            1: '1/1'
+            }, 
+        3: 
+            {
+            0: '1/1/0', 
+            1: '1/1/1'
+            }
+        }
+        >>> print(desc['text'])
+        
+        
+            0
+            1
+                1/0
+                1/1
+                    1/1/0
+                    1/1/1
+            2
+        >>> 
+        
+14. 
 
 ## bitmap
 1. bitmaplist_to_num(bitmaplist)
