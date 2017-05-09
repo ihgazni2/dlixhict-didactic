@@ -2807,7 +2807,6 @@ class edict(dict):
 
 #list
 
-## -------------------------continue-----------------------------------
 def list_creat_default_with_len(len,default_element=None):
     '''
         from xdict.utils import *
@@ -2869,6 +2868,10 @@ def list_getitem_via_pathstr(l,pathstr,**kwargs):
         list_getitem_via_pathstr(l,pathstr)
         pobj(l)
     '''
+    if('delimiter' in kwargs):
+        delimiter = kwargs['delimiter']
+    else:
+        delimiter = '/'
     return(dict_getitem_via_pathstr(l,pathstr,s2n=1))
 
 list_get_all_sons_pathstrs = dict_get_all_sons_pathstrs
@@ -2932,7 +2935,6 @@ list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_desc
         # desc = list_get_tree_pathstr_hierachy_description(l)
         # pobj(desc)
 
-#--------------------------continue----------------------------------
 def list_get_value_indexes_description(l):
     '''
         from xdict.utils import *
@@ -3082,7 +3084,6 @@ class elist(list):
         else:
             n2s = 0
         return(list_getitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
-    #------------------------------continue---------------------------------------
     def getitem_via_cmd(self,cmd_str,**kwargs):
         '''
             elist1 = elist(['a',['b',['x','y'],'u'],'c'])
@@ -3095,12 +3096,23 @@ class elist(list):
             cmd_sp = ' '
         return(list_getitem_via_cmd(self,cmd_str,cmd_sp=cmd_sp))
     def getitem_via_pathstr(self,pathstr,**kwargs):
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            pathstr = '1/1/0'
+            elist1.getitem_via_pathstr(pathstr)
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
         return(list_getitem_via_pathstr(self,pathstr,delimiter = delimiter))
     def delitem_via_pathlist(self,pathlist,**kwargs):
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            pathlist = [1,1,0]
+            elist1.delitem_via_pathlist(pathlist)
+            elist1
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -3110,12 +3122,20 @@ class elist(list):
         else:
             n2s = 0
         return(list_delitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
+    #-------------------------------continue--------------------------------------------
     def sons_pathstrs(self,parent_pathstr,**kwargs):
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            elist1.sons_pathstrs('')
+            elist1.sons_pathstrs('1')
+            elist1.sons_pathstrs('1/1')
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(list_get_all_sons_pathstrs(d,parent_pathstr,delimiter = delimiter))
+        l = list(self)
+        return(list_get_all_sons_pathstrs(l,parent_pathstr,delimiter = delimiter))
     def include_pathlist(self,pathlist,**kwargs):
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
