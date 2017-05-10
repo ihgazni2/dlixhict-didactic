@@ -1679,10 +1679,34 @@ __6. .delitem_via_pathlist(pathlist,**kwargs)__
 	['a', ['b', ['y'], 'u'], 'c']
 	>>> 
 
-__7. .
+__7. .sons_pathstrs(parent_pathstr,**kwargs)__
+----------------------------------------------
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+        >>> elist1.sons_pathstrs('')
+        ['0', '1', '2']
+        >>> elist1.sons_pathstrs('1')
+        ['1/0', '1/1', '1/2']
+        >>> elist1.sons_pathstrs('1/1')
+        ['1/1/0', '1/1/1']
+        >>> 
 
 
+__8. .include_pathlist(pathlist,**kwargs)__
+-------------------------------------------
 
+	>>> elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+	>>> elist1.include_pathlist([1,1,1])
+	True
+	>>> elist1.include_pathlist([1,1,2])
+	False
+	>>> elist1.include_pathlist([1,1,3])
+	False
+	>>> 
+
+__9. .
 
 
 
