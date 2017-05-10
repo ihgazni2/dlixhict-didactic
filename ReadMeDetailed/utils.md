@@ -2773,12 +2773,67 @@
 
 
 ## bitmap
-1. bitmaplist_to_num(bitmaplist)
-2. num_to_bitmaplist(num,bitmap_size)
-3. bitmaplist_bitsum(bitmaplist)
-4. subset_bitmap(n,k)  
+1. bitmaplist_to_num(bitmaplist)  
+
+        >>> bitmaplist_to_num([1, 0, 1, 0])
+        5
+        >>> bitmaplist_to_num([1, 0, 1, 0],bigend=1)
+        10
+        >>> 
+
+2. num_to_bitmaplist(num,bitmap_size)   
+ 
+        >>> 
+        >>> num_to_bitmaplist(10)
+        [0, 1, 0, 1]
+        >>> num_to_bitmaplist(10,size=6)
+        [0, 1, 0, 1, 0, 0]
+        >>> num_to_bitmaplist(10,bigend=1)
+        [1, 0, 1, 0]
+        >>> num_to_bitmaplist(10,bigend=1,size=6)
+
+3. bitmaplist_bitsum(bitmaplist)  
+
+        >>> bitmaplist_bitsum([1,0,1])
+        2
+        >>> bitmaplist_bitsum([1,0,1,0])
+        2
+        >>> 
+
+
+4. subset_bitmap(n,k,**kwargs) 
+
+        >>> pobj(subset_bitmap(3,1),fixed_indent=1)
+        {
+            0: [1, 0, 0],
+            1: [0, 1, 0],
+            2: [0, 0, 1]
+        }
+        >>> pobj(subset_bitmap(4,2),fixed_indent=1)
+        {
+            0: [1, 1, 0, 0],
+            1: [1, 0, 1, 0],
+            2: [0, 1, 1, 0],
+            3: [1, 0, 0, 1],
+            4: [0, 1, 0, 1],
+            5: [0, 0, 1, 1]
+        }
+        >>> 
+
+
 5. bitmap_contain(bm1,bm2)  
 
+        >>> bitmaplist_contain([1,0,1,0],[0,0,0,0])
+        True
+        >>> bitmaplist_contain([1,0,1,0],[0,0,1,0])
+        True
+        >>> bitmaplist_contain([1,0,1,0],[1,0,0,0])
+        True
+        >>> bitmaplist_contain([1,0,1,0],[1,0,1,0])
+        True
+        >>> bitmaplist_contain([1,0,1,0],[0,0,0,1])
+        False
+        >>> 
 
 
 
