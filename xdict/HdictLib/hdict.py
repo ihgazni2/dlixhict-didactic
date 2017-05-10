@@ -6,5 +6,5 @@ from xdict import hdict_object
 from xdict import hdict_xml
 
 class hdict():
-    def __init__(**kwargs):
+    def __init__(self,**kwargs):
         pass    
