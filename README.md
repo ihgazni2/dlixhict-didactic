@@ -1897,6 +1897,103 @@ __18. .max_word_displaywidth()__
 
 ## Part9. [ebitmap](ReadMeDetailed/utils.md)  
 
+__1. init__
+-----------  
+
+        >>> 
+        >>> ebitmap1 = ebitmap(bitmap=[1,0,1])
+        >>> ebitmap1.num
+        5
+        >>> ebitmap1.list
+        [1, 0, 1]
+        >>> ebitmap1.size
+        3
+        >>> ebitmap1.bigend
+        0
+        >>> ebitmap1 = ebitmap(bitmap=5)
+        >>> ebitmap1.num
+        5
+        >>> ebitmap1.list
+        [1, 0, 1]
+        >>> ebitmap1.size
+        3
+        >>> ebitmap1.bigend
+        0
+        >>> ebitmap1 = ebitmap(bitmap=[1,0,1,1])
+        >>> ebitmap1.num
+        13
+        >>> ebitmap1.list
+        [1, 0, 1, 1]
+        >>> ebitmap1.size
+        4
+        >>> ebitmap1.bigend
+        0
+        >>> ebitmap1 = ebitmap(bitmap=[1,0,1,1],bigend=1)
+        >>> ebitmap1.num
+        11
+        >>> ebitmap1.list
+        [1, 0, 1, 1]
+        >>> ebitmap1.size
+        4
+        >>> ebitmap1.bigend
+        1
+        >>> 
+	
+
+__2. .reverse()__
+------------------
+
+        >>> 
+        >>> ebitmap1 = ebitmap(bitmap=[1,0,1])
+        >>> ebitmap1.num
+        5
+        >>> ebitmap1.list
+        [1, 0, 1]
+        >>> ebitmap1.size
+        3
+        >>> ebitmap1.bigend
+        0
+        >>> ebitmap1 = ebitmap(bitmap=5)
+        >>> ebitmap1.num
+        5
+        >>> ebitmap1.list
+        [1, 0, 1]
+        >>> ebitmap1.size
+        3
+        >>> ebitmap1.bigend
+        0
+        >>> ebitmap1 = ebitmap(bitmap=[1,0,1,1])
+        >>> ebitmap1.num
+        13
+        >>> ebitmap1.list
+        [1, 0, 1, 1]
+        >>> ebitmap1.size
+        4
+        >>> ebitmap1.bigend
+        0
+        >>> ebitmap1 = ebitmap(bitmap=[1,0,1,1],bigend=1)
+        >>> ebitmap1.num
+        11
+        >>> ebitmap1.list
+        [1, 0, 1, 1]
+        >>> ebitmap1.size
+        4
+        >>> ebitmap1.bigend
+        1
+        >>> 
+	
+	
+__3. .contain(bitmap2)__
+------------------------
+
+	>>> ebitmap1 = ebitmap(bitmap=[1,0,1,1])
+	>>> ebitmap2 = ebitmap(bitmap=[1,0,0,1])
+	>>> ebitmap1.contain(ebitmap2)
+	True
+	>>> ebitmap2.contain(ebitmap1)
+	False
+	>>> 
+
 
 
 		
