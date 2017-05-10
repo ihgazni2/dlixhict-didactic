@@ -1618,7 +1618,7 @@ __20. .max_word_displaywidth()__
 
 
 
-## Part7. [elist](ReadMeDetailed/utils.md)  
+## Part8. [elist](ReadMeDetailed/utils.md)  
 
 __1. .creat_default_with_len(len,default_element=None)__
 --------------------------------------------------------
@@ -1706,9 +1706,196 @@ __8. .include_pathlist(pathlist,**kwargs)__
 	False
 	>>> 
 
-__9. .
+__9. .keys_via_value(value)__
+-----------------------------
+
+	>>> from xdict.jprint import pobj
+	>>> from xdict.utils import *
+	>>> elist1 = elist(['a',['b',['x','a'],'a'],'c'])
+	>>> elist1.keys_via_value('a')
+	[[0], [1, 2], [1, 1, 1]]
+	>>> 
+	
+__10. .keys_via_value_non_recursive(value)__
+--------------------------------------------
+
+	>>> elist1 = elist(['a',['b',['x','a'],'a'],'c'])
+	>>> elist1.keys_via_value_non_recursive('a')
+	[0]
+	>>> 
 
 
+__11. .pathstr_hierachy_description(**kwargs)__
+-----------------------------------------------
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> elist1 = elist(['a',['b',['x','b']],'b'])
+        >>> desc = elist1.pathstr_hierachy_description()
+        >>> pobj(desc)
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: '0', 
+            1: '1', 
+            2: '2'
+            }, 
+        2: 
+            {
+            0: '1/0', 
+            1: '1/1'
+            }, 
+        3: 
+            {
+            0: '1/1/0', 
+            1: '1/1/1'
+            }
+        }
+        >>> 
+	
+__12. .tree_pathstr_hierachy_description(**kwargs)__
+----------------------------------------------------
+
+        >>> from xdict.utils import *
+        >>> from xdict.jprint import pobj
+        >>> elist1 = elist(['a',['b',['x','b']],'b'])
+        >>> desc = elist1.tree_pathstr_hierachy_description()
+        >>> pobj(desc['description_dict'])
+        {
+        0: 
+            {
+            0: ''
+            }, 
+        1: 
+            {
+            0: '0', 
+            1: '1', 
+            2: '2'
+            }, 
+        2: 
+            {
+            0: '1/0', 
+            1: '1/1'
+            }, 
+        3: 
+            {
+            0: '1/1/0', 
+            1: '1/1/1'
+            }
+        }
+        >>> pobj(desc['parent_dict'])
+        {
+        0: 
+            {
+            0: -1
+            }, 
+        1: 
+            {
+            0: 0, 
+            1: 0, 
+            2: 0
+            }, 
+        2: 
+            {
+            0: 1, 
+            1: 1
+            }, 
+        3: 
+            {
+            0: 1, 
+            1: 1
+            }
+        }
+        >>> pobj(desc['deep_search_path'],fixed_indent=1)
+        [(0, 0), (1, 0), (1, 1), (2, 0), (2, 1), (3, 0), (3, 1), (1, 2)]
+        >>> print(desc['text'])
+        
+        
+            0
+            1
+                1/0
+                1/1
+                    1/1/0
+                    1/1/1
+            2
+        >>> 
+
+
+__13. .value_indexes_description()__
+------------------------------------
+
+	>>> from xdict.utils import *
+	>>> from xdict.jprint import pobj
+	>>> elist1 = elist(['a','b','b','a','c','b'])
+	>>> elist1.value_indexes_description()
+	{'b': [1, 2, 5], 'a': [0, 3], 'c': [4]}
+	>>> 
+	
+__14. .tree_pathstr_with_dynamic_indent()__
+-------------------------------------------
+
+	>>> from xdict.utils import *
+	>>> from xdict.jprint import pobj
+	>>> elist1 = elist(['a',['b',['x','b']],'b'])
+	>>> s = elist1.tree_pathstr_with_dynamic_indent()
+	>>> print(s)
+	
+	
+	0
+	1
+	 0
+	 1
+	  0
+	  1
+	2
+	>>> 
+
+__15. .uniqualize()__
+---------------------
+
+	>>> elist1 = elist([1, 2, 2])
+	>>> elist1.uniqualize()
+	[1, 2]
+	>>> elist1
+	[1, 2, 2]
+	>>> 
+	
+__16. .comprise(list2,**kwargs)__
+----------------------------------
+
+	>>> elist1 = elist([1,2,3,4,5])
+	>>> elist1.comprise([2,3,4],strict=0)
+	True
+	>>> elist1.comprise([2,3,4])
+	True
+	>>> elist1.comprise([2,3,4],strict=1)
+	False
+	>>> elist1.comprise([1,2,3,4],strict=1)
+        True
+	>>> 
+	
+__17. .max_wordwidth()__
+------------------------
+
+	>>> elist1 = elist(['a','bb','hello','xx','你好吗'])
+	>>> elist1.max_wordwidth()
+	5
+	>>> 
+	
+__18. .max_word_displaywidth()__
+--------------------------------
+
+	>>> elist1 = elist(['a','bb','hello','xx','你好吗'])
+	>>> elist1.max_word_displaywidth()
+	6
+	>>> 
+
+
+## Part9. [ebitmap](ReadMeDetailed/utils.md)  
 
 
 
