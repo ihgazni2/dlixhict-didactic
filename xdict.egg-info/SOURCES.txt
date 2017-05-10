@@ -14,5 +14,7 @@ xdict.egg-info/dependency_links.txt
 xdict.egg-info/top_level.txt
 xdict/CrtableLib/__init__.py
 xdict/CrtableLib/crtable.py
+xdict/HdictLib/__init__.py
+xdict/HdictLib/hdict.py
 xdict/TestLib/__init__.py
 xdict/TestLib/genrand.py
