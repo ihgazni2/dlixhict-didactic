@@ -3184,7 +3184,10 @@ class elist(list):
             from xdict.jprint import pobj
             elist1 = elist(['a',['b',['x','b']],'b'])
             desc = elist1.tree_pathstr_hierachy_description()
-            pobj(desc)
+            pobj(desc['description_dict'])
+            pobj(desc['parent_dict'])
+            pobj(desc['deep_search_path'],fixed_indent=1)
+            print(desc['text'])
         '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
@@ -3204,8 +3207,8 @@ class elist(list):
         '''
             from xdict.utils import *
             from xdict.jprint import pobj
-            l = ['a',['b',['x','b']],'b']
-            s = list_print_tree_pathstr_with_dynamic_indent(l)
+            elist1 = elist(['a',['b',['x','b']],'b'])
+            s = elist1.tree_pathstr_with_dynamic_indent()
             print(s)
         '''
         l = list(self)
@@ -3229,17 +3232,17 @@ class elist(list):
     def uniqualize(self):
         '''
             elist1 = elist([1, 2, 2])
-            elist1.uniqualize(elist1)
+            elist1.uniqualize()
             elist1
         '''
         return(list_uniqualize(self))
     def comprise(self,list2,**kwargs):
         '''
             elist1 = elist([1,2,3,4,5])
-            elist1.comprise(elist1,[2,3,4],strict=0)
-            elist1.comprise(elist1,[2,3,4])
-            elist1.comprise(elist1,[2,3,4],strict=1)
-            elist1.comprise(elist1,[1,2,3,4],strict=1)
+            elist1.comprise([2,3,4],strict=0)
+            elist1.comprise([2,3,4])
+            elist1.comprise([2,3,4],strict=1)
+            elist1.comprise([1,2,3,4],strict=1)
         '''
         if('strict' in kwargs):
             strict = kwargs['strict']
@@ -3249,13 +3252,13 @@ class elist(list):
     def max_wordwidth(self):
         '''
             elist1 = elist(['a','bb','hello','xx','你好吗'])
-            elist1.max_wordwidth(l)
+            elist1.max_wordwidth()
         '''
         return(list_get_max_wordwidth(self))
     def max_word_displaywidth(self):
         '''
             elist1 = elist(['a','bb','hello','xx','你好吗'])
-            elist1.max_word_displaywidth(l)
+            elist1.max_word_displaywidth()
         '''
         return(list_get_max_word_displaywidth(self))
 
@@ -3281,8 +3284,14 @@ def bitmaplist_to_num(bitmaplist,**kwargs):
     return(num)
 
 def num_to_bitmaplist(num,**kwargs):
+    '''
+        num_to_bitmaplist(10)
+        num_to_bitmaplist(10,size=6)
+        num_to_bitmaplist(10,bigend=1)
+        num_to_bitmaplist(10,bigend=1,size=6)
+    '''
     if('size' in kwargs):
-        bitmap_size = kwargs['bitmap_size']
+        bitmap_size = kwargs['size']
     else:
         bitmap_size = bin(num).__len__() - 2
     if('bigend' in kwargs):
@@ -3304,21 +3313,22 @@ def num_to_bitmaplist(num,**kwargs):
     return(bitmaplist)
 
 def bitmaplist_bitsum(bitmaplist):
+    '''
+        bitmaplist_bitsum([1,0,1])
+        bitmaplist_bitsum([1,0,1,0])
+    '''
     sum = 0
     for i in range(0,bitmaplist.__len__()):
         sum = sum + bitmaplist[i]
     return(sum)
 
-def bitmaplist_contain(bm1,bm2):
-    bm3 = list(map(lambda x,y:(x|y),bm1,bm2))
-    if(bm3 == bm1):
-        return(True)
-    else:
-        return(False)
-
 
 
 def subset_bitmap(n,k,**kwargs):
+    '''
+        pobj(subset_bitmap(3,1),fixed_indent=1)
+        pobj(subset_bitmap(4,2),fixed_indent=1)
+    '''
     if('bigend' in kwargs):
         bigend = kwargs['bigend']
     else:
@@ -3337,17 +3347,53 @@ def subset_bitmap(n,k,**kwargs):
     return(rslt)
 
 
+def bitmaplist_contain(bm1,bm2):
+    '''
+        bitmaplist_contain([1,0,1,0],[0,0,0,0])
+        bitmaplist_contain([1,0,1,0],[0,0,1,0])
+        bitmaplist_contain([1,0,1,0],[1,0,0,0])
+        bitmaplist_contain([1,0,1,0],[1,0,1,0])
+        bitmaplist_contain([1,0,1,0],[0,0,0,1])
+    '''
+    bm3 = list(map(lambda x,y:(x|y),bm1,bm2))
+    if(bm3 == bm1):
+        return(True)
+    else:
+        return(False)
 
 
 
-class bitmap():
+
+class ebitmap():
     def __init__(self,**kwargs):
+        '''
+            ebitmap1 = ebitmap(bitmap=[1,0,1])
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+            ebitmap1 = ebitmap(bitmap=5)
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+            ebitmap1 = ebitmap(bitmap=[1,0,1,1])
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+            ebitmap1 = ebitmap(bitmap=[1,0,1,1],bigend=1)
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+        '''
         bm = kwargs['bitmap']
         if('size' in kwargs):
             size = kwargs['size']
         else:
             if(is_int(bm)):
-                size = bin(num).__len__() - 2
+                size = bin(bm).__len__() - 2
             else:
                 size = bm.__len__()
         if('bigend' in kwargs):
@@ -3370,10 +3416,47 @@ class bitmap():
                 else:
                     self.list = [0] * (size) +  self.list 
             self.size = self.list.__len__()
-            self.num = bitmaplist_to_num(bm)
+            self.num = bitmaplist_to_num(bm,size=size,bigend=bigend)
         else:
             self.num = -1
             self.list = []
             self.size = 0
+    def reverse(self):
+        '''
+            ebitmap1 = ebitmap(bitmap=[1,0,1,1])
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+            
+            ebitmap1.reverse()
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+            
+            ebitmap1 = ebitmap(bitmap=[1,0,1,1],bigend=1)
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+            
+            ebitmap1.reverse()
+            ebitmap1.num
+            ebitmap1.list
+            ebitmap1.size
+            ebitmap1.bigend
+        '''
+        self.bigend = int(not(self.bigend))
+        self.list.reverse()
+        self.size = self.size
+        self.num = bitmaplist_to_num(self.list,size=self.size,bigend=self.bigend)
     def contain(self,bm2):
+        '''
+            ebitmap1 = ebitmap(bitmap=[1,0,1,1])
+            ebitmap2 = ebitmap(bitmap=[1,0,0,1])
+            ebitmap1.contain(ebitmap2)
+            ebitmap2.contain(ebitmap1)
+        '''
         return(bitmaplist_contain(self.list,bm2.list))
+
