@@ -271,7 +271,8 @@ def hdict_get_paths_relationship(hdict):
         unhandled = next_unhandled
     return(r)
 
-def hdict_fullfill_sdict(sdict,hdict,prdict):
+#----------------obdseleted-----------------------
+def obseleted_hdict_fullfill_sdict(sdict,hdict,prdict):
     for i in range(sdict.__len__()-1,-1,-1):
         r = sdict[i]
         for j in range(r.__len__()-1,-1,-1):
@@ -345,6 +346,149 @@ def hdict_fullfill_sdict(sdict,hdict,prdict):
             d['hdict_rcin_path'] = hdict_rcin_path(hdict,sdict,prdict,d['hdict_path'])
             d['orig_rcin_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_rcin_path'])
     return(sdict)
+
+#--------------------------------------------------------
+
+
+
+#---------------------
+
+def hdict_fullfill_sdict(sdict,hdict,prdict):
+    for i in range(sdict.__len__()-1,-1,-1):
+        r = sdict[i]
+        for j in range(r.__len__()-1,-1,-1):
+            d = r[j]
+            d['leaf_sons'] = 0
+            d['non_leaf_sons']= 0
+            d['leaf_descendants']= 0
+            d['non_leaf_descendants']= 0
+            #################################
+            d['leaf_son_pathlists'] = []
+            d['non_leaf_son_pathlists']= []
+            d['leaf_descendant_pathlists']= []
+            d['non_leaf_descendant_pathlists']= []
+            ##################################
+    for i in range(sdict.__len__()-1,-1,-1):
+        r = sdict[i]
+        for j in range(r.__len__()-1,-1,-1):
+            d = r[j]
+            if(d['breadth_path'].__len__()>1):
+                parent_breadth = d['breadth_path'][-2]
+                if('leaf_sons' in sdict[i-1][parent_breadth]):
+                    if(d['leaf']):
+                        sdict[i-1][parent_breadth]['leaf_sons'] = sdict[i-1][parent_breadth]['leaf_sons'] + 1
+                        ########################
+                        sdict[i-1][parent_breadth]['leaf_son_pathlists'].append(d['orig_obj_path'])
+                        ########################
+                    else:
+                        pass
+                else:
+                    if(d['leaf']):
+                        sdict[i-1][parent_breadth]['leaf_sons'] = 1
+                        ########################
+                        sdict[i-1][parent_breadth]['leaf_son_pathlists'].append(d['orig_obj_path'])
+                        ########################
+                    else:
+                        pass
+                if('non_leaf_sons' in sdict[i-1][parent_breadth]):
+                    if(d['leaf']):
+                        pass
+                    else:
+                        sdict[i-1][parent_breadth]['non_leaf_sons'] = sdict[i-1][parent_breadth]['non_leaf_sons'] + 1
+                        ########################
+                        sdict[i-1][parent_breadth]['non_leaf_son_pathlists'].append(d['orig_obj_path'])
+                        ########################
+                else:
+                    if(d['leaf']):
+                        pass
+                    else:
+                        sdict[i-1][parent_breadth]['non_leaf_sons'] = 1
+                        ########################
+                        sdict[i-1][parent_breadth]['non_leaf_son_pathlists'].append(d['orig_obj_path'])
+                        ########################
+                if('leaf_descendants' in sdict[i-1][parent_breadth]):
+                    if(d['leaf']):
+                        sdict[i-1][parent_breadth]['leaf_descendants'] = sdict[i-1][parent_breadth]['leaf_descendants']+d['leaf_descendants'] + 1
+                        ##################################
+                        sdict[i-1][parent_breadth]['leaf_descendant_pathlists'] = sdict[i-1][parent_breadth]['leaf_descendant_pathlists']+d['leaf_descendant_pathlists']
+                        sdict[i-1][parent_breadth]['leaf_descendant_pathlists'].append(d['orig_obj_path'])
+                        ##################################
+                    else:
+                        sdict[i-1][parent_breadth]['leaf_descendants'] = sdict[i-1][parent_breadth]['leaf_descendants']+d['leaf_descendants']
+                        ##################################
+                        sdict[i-1][parent_breadth]['leaf_descendant_pathlists'] = sdict[i-1][parent_breadth]['leaf_descendant_pathlists']+d['leaf_descendant_pathlists']
+                        ##################################
+                else:
+                    if(d['leaf']):
+                        sdict[i-1][parent_breadth]['leaf_descendants'] = d['leaf_descendants'] + 1
+                        ##################################
+                        sdict[i-1][parent_breadth]['leaf_descendant_pathlists'] = d['leaf_descendant_pathlistss']
+                        sdict[i-1][parent_breadth]['leaf_descendant_pathlists'].append(d['orig_obj_path'])
+                        ##################################
+                    else:
+                        sdict[i-1][parent_breadth]['leaf_descendants'] = d['leaf_descendants']
+                        ##################################
+                        sdict[i-1][parent_breadth]['leaf_descendant_pathlists'] = d['leaf_descendant_pathlistss']
+                        ##################################
+                if('non_leaf_descendants' in sdict[i-1][parent_breadth]):
+                    if(d['leaf']):
+                        sdict[i-1][parent_breadth]['non_leaf_descendants'] = sdict[i-1][parent_breadth]['non_leaf_descendants']+d['non_leaf_descendants'] 
+                        ##################################
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists']+d['non_leaf_descendant_pathlists']
+                        ##################################
+                    else:
+                        sdict[i-1][parent_breadth]['non_leaf_descendants'] = sdict[i-1][parent_breadth]['non_leaf_descendants']+d['non_leaf_descendants'] + 1
+                        ##################################
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = d['non_leaf_descendant_pathlists']
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'].append(d['orig_obj_path'])
+                        ##################################
+                else:
+                    if(d['leaf']):
+                        sdict[i-1][parent_breadth]['non_leaf_descendants'] = d['non_leaf_descendants']
+                        ##################################
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = d['non_leaf_descendant_pathlists']
+                        ##################################
+                    else:
+                        sdict[i-1][parent_breadth]['non_leaf_descendants'] = d['non_leaf_descendants'] + 1
+                        ##################################
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = d['non_leaf_descendant_pathlists']
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'].append(d['orig_obj_path'])
+                        ##################################
+            else:
+                pass
+    for i in range(sdict.__len__()-1,-1,-1):
+        r = sdict[i]
+        for j in range(r.__len__()-1,-1,-1):
+            d = r[j]
+            d['hdict_parent_path'] = copy.deepcopy(d['hdict_path'])
+            d['hdict_parent_path'].pop(-1)
+            d['orig_parent_path'] = copy.deepcopy(d['orig_obj_path'])
+            d['orig_parent_path'].pop(-1)
+            d['hdict_lsib_path'] = hdict_lsib_path(hdict,sdict,prdict,d['hdict_path'])
+            d['orig_lsib_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_lsib_path'])
+            d['hdict_rsib_path'] = hdict_rsib_path(hdict,sdict,prdict,d['hdict_path'])
+            d['orig_rsib_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_rsib_path'])
+            d['hdict_lcin_path'] = hdict_lcin_path(hdict,sdict,prdict,d['hdict_path'])
+            d['orig_lcin_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_lcin_path'])
+            d['hdict_rcin_path'] = hdict_rcin_path(hdict,sdict,prdict,d['hdict_path'])
+            d['orig_rcin_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_rcin_path'])
+    return(sdict)
+
+
+
+
+
+
+
+
+
+
+
+
+#--------------------
+
+
+
 
 def hdict_get_value(hdict,path_list_or_path_string,**kwargs):
     if('prdict' in kwargs):
