@@ -3122,7 +3122,6 @@ class elist(list):
         else:
             n2s = 0
         return(list_delitem_via_path_list(self,pathlist,s2n=s2n,n2s=n2s))
-    #-------------------------------continue--------------------------------------------
     def sons_pathstrs(self,parent_pathstr,**kwargs):
         '''
             elist1 = elist(['a',['b',['x','y'],'u'],'c'])
@@ -3137,6 +3136,12 @@ class elist(list):
         l = list(self)
         return(list_get_all_sons_pathstrs(l,parent_pathstr,delimiter = delimiter))
     def include_pathlist(self,pathlist,**kwargs):
+        '''
+            elist1 = elist(['a',['b',['x','y'],'u'],'c'])
+            elist1.include_pathlist([1,1,1])
+            elist1.include_pathlist([1,1,2])
+            elist1.include_pathlist([1,1,3])
+        '''
         if('s2n' in kwargs):
             s2n = kwargs['s2n']
         else:
@@ -3147,28 +3152,70 @@ class elist(list):
             n2s = 0
         return(list_include_pathlist(self,pathlist,s2n=s2n,n2s=n2s))
     def keys_via_value(self,value):
-        return(list_find_keys_via_value(self,value))
+        '''
+            elist1 = elist(['a',['b',['x','a'],'a'],'c'])
+            elist1.keys_via_value('a')
+        '''
+        l = list(self)
+        return(list_find_keys_via_value(l,value))
     def keys_via_value_non_recursive(self,value):
+        '''
+            elist1 = elist(['a',['b',['x','a'],'a'],'c'])
+            elist1.keys_via_value_non_recursive('a')
+        '''
         return(list_non_recursive_find_keys_via_value(self,value))
     def pathstr_hierachy_description(self,**kwargs):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            elist1 = elist(['a',['b',['x','b']],'b'])
+            desc = elist1.pathstr_hierachy_description()
+            pobj(desc)
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(list_get_pathstr_hierachy_description(self,delimiter = delimiter))
+        l = list(self)
+        return(list_get_pathstr_hierachy_description(l,delimiter = delimiter))
     def tree_pathstr_hierachy_description(self,**kwargs):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            elist1 = elist(['a',['b',['x','b']],'b'])
+            desc = elist1.tree_pathstr_hierachy_description()
+            pobj(desc)
+        '''
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
-        return(list_get_tree_pathstr_hierachy_description(self,delimiter = delimiter))
+        l = list(self)
+        return(list_get_tree_pathstr_hierachy_description(l,delimiter = delimiter))
     def value_indexes_description(self):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            elist1 = elist(['a','b','b','a','c','b'])
+            elist1.value_indexes_description()
+        '''
         return(list_get_value_indexes_description(self))
     def tree_pathstr_with_dynamic_indent(self,**kwargs):
+        '''
+            from xdict.utils import *
+            from xdict.jprint import pobj
+            l = ['a',['b',['x','b']],'b']
+            s = list_print_tree_pathstr_with_dynamic_indent(l)
+            print(s)
+        '''
+        l = list(self)
         if('delimiter' in kwargs):
             delimiter = kwargs['delimiter']
         else:
             delimiter = '/'
+        tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description(l,delimiter = delimiter)
+        deep_search_path = tree_pathstr_hierachy_description['deep_search_path'] 
+        description_dict = tree_pathstr_hierachy_description['description_dict']
         if('from' in kwargs):
             fr = kwargs['from']
         else:
@@ -3178,18 +3225,38 @@ class elist(list):
             to = kwargs['to']
         else:
             to = dsp_len
-        return(list_print_tree_pathstr_with_dynamic_indent(self,delimiter =delimiter,fr=fr,to=to))
+        return(list_print_tree_pathstr_with_dynamic_indent(l,delimiter =delimiter,fr=fr,to=to))
     def uniqualize(self):
+        '''
+            elist1 = elist([1, 2, 2])
+            elist1.uniqualize(elist1)
+            elist1
+        '''
         return(list_uniqualize(self))
     def comprise(self,list2,**kwargs):
+        '''
+            elist1 = elist([1,2,3,4,5])
+            elist1.comprise(elist1,[2,3,4],strict=0)
+            elist1.comprise(elist1,[2,3,4])
+            elist1.comprise(elist1,[2,3,4],strict=1)
+            elist1.comprise(elist1,[1,2,3,4],strict=1)
+        '''
         if('strict' in kwargs):
             strict = kwargs['strict']
         else:
             strict = 0
         return(list_comprise(self,list2,strict=strict))
     def max_wordwidth(self):
+        '''
+            elist1 = elist(['a','bb','hello','xx','你好吗'])
+            elist1.max_wordwidth(l)
+        '''
         return(list_get_max_wordwidth(self))
     def max_word_displaywidth(self):
+        '''
+            elist1 = elist(['a','bb','hello','xx','你好吗'])
+            elist1.max_word_displaywidth(l)
+        '''
         return(list_get_max_word_displaywidth(self))
 
 
@@ -3213,7 +3280,6 @@ def bitmaplist_to_num(bitmaplist,**kwargs):
         num = num + 2 **i * bm[i]
     return(num)
 
-# ----------------------------
 def num_to_bitmaplist(num,**kwargs):
     if('size' in kwargs):
         bitmap_size = kwargs['bitmap_size']
