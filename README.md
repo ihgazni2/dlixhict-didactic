@@ -773,9 +773,292 @@ __7. .node(pathlist)__
 
 	
 __8. .init(html\=html_text)__
------------------------------
+-----------------------------  
 
 
+        # use a html to init a hdict
+        from xdict.HdictLib import hdict
+        from xdict.jprint import pobj
+        
+        html_text = '''
+        <AutoPause type="NoneType">
+        </AutoPause>
+        <LoggedRuleIDs type="list">
+                    <0 type="int">
+                        11516163
+                    </0>
+                    <1 type="int">
+                        11516164
+                    </1>
+                    <2 type="int">
+                        11516125
+                    </2>
+        </LoggedRuleIDs>
+        <Displays type="list">
+                <0 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="int">
+                                11516125
+                        </RuleID>
+                        <Row type="NoneType">
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                37
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="int">
+                                    11516163
+                            </RuleID>
+                            <Row type="NoneType">
+                            </Row>
+                            </0>
+                    </Views>
+                </0>
+                <1 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                41
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                39
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    40
+                            </Row>
+                            </0>
+                    </Views>
+                </1>
+                <2 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                68
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                38
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    10
+                            </Row>
+                            </0>
+                    </Views>
+                </2>
+                <3 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                49
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                48
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    50
+                            </Row>
+                            </0>
+                    </Views>
+                </3>
+                <4 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                52
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                51
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    53
+                            </Row>
+                            </0>
+                    </Views>
+                </4>
+                <5 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                56
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                54
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    57
+                            </Row>
+                            </0>
+                    </Views>
+                </5>
+                <6 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                59
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                58
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    12
+                            </Row>
+                            </0>
+                    </Views>
+                </6>
+                <7 type="dict">
+                    <RequiresHRBelt type="NoneType">
+                    </RequiresHRBelt>
+                    <Row2 type="dict">
+                        <RuleID type="NoneType">
+                        </RuleID>
+                        <Row type="int">
+                                4
+                        </Row>
+                    </Row2>
+                    <Row1 type="dict">
+                        <RuleID type="int">
+                                11516164
+                        </RuleID>
+                        <Row type="NoneType">
+                        </Row>
+                    </Row1>
+                    <Type type="int">
+                        5
+                    </Type>
+                    <Views type="list">
+                            <0 type="dict">
+                            <RuleID type="NoneType">
+                            </RuleID>
+                            <Row type="int">
+                                    20
+                            </Row>
+                            </0>
+                    </Views>
+                </7>
+        </Displays>
+        <RuleIDs type="list">
+                <0 type="int">
+                    11516125
+                </0>
+                <1 type="int">
+                    11516163
+                </1>
+                <2 type="int">
+                    11516164
+                </2>
+        </RuleIDs>
+        <AutomaticLogRecording type="NoneType">
+        </AutomaticLogRecording>
+        <UseSpeedLimits type="NoneType">
+        </UseSpeedLimits>
+        '''
+        
+        
+        hdict1 = hdict.hdict(object=currd)
+        dir(hdict1)
+        hdict1.object
+
+![](Images/HdictLib.hdict.hdict.__init__.2.png)
 
 
 
