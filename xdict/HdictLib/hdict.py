@@ -122,7 +122,7 @@ class hdict():
             lsib_readable_path = hdict_object.path_list_to_console_key_str(lsib_pathlist)
             lsib_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,lsib_pathlist)
             lsib_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,lsib_hdict_pathlist)
-            lsib_depth,lsib_breadth = breadth_path_to_sdict_location(lsib_breadth_path)
+            lsib_depth,lsib_breadth = hdict_object.breadth_path_to_sdict_location(lsib_breadth_path)
             lsib_siblings_seq = self.sdict[lsib_depth][lsib_breadth]['siblings_seq_path'][-1]
             lsib_tag = hdict_object.hdict_get_value(self.hdict,lsib_pathlist)['tag']
             lsib_attrib = self.sdict[lsib_depth][lsib_breadth]['attrib']
@@ -163,7 +163,7 @@ class hdict():
             rsib_readable_path = hdict_object.path_list_to_console_key_str(rsib_pathlist)
             rsib_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,rsib_pathlist)
             rsib_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,rsib_hdict_pathlist)
-            rsib_depth,rsib_breadth = breadth_path_to_sdict_location(rsib_breadth_path)
+            rsib_depth,rsib_breadth = hdict_object.breadth_path_to_sdict_location(rsib_breadth_path)
             rsib_siblings_seq = self.sdict[rsib_depth][rsib_breadth]['siblings_seq_path'][-1]
             rsib_tag = hdict_object.hdict_get_value(self.hdict,rsib_pathlist)['tag']
             rsib_attrib = self.sdict[rsib_depth][rsib_breadth]['attrib']
@@ -204,7 +204,7 @@ class hdict():
             lcin_readable_path = hdict_object.path_list_to_console_key_str(lcin_pathlist)
             lcin_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,lcin_pathlist)
             lcin_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,lcin_hdict_pathlist)
-            lcin_depth,lcin_breadth = breadth_path_to_sdict_location(lcin_breadth_path)
+            lcin_depth,lcin_breadth = hdict_object.breadth_path_to_sdict_location(lcin_breadth_path)
             lcin_siblings_seq = self.sdict[lcin_depth][lcin_breadth]['siblings_seq_path'][-1]
             lcin_tag = hdict_object.hdict_get_value(self.hdict,lcin_pathlist)['tag']
             lcin_attrib = self.sdict[lcin_depth][lcin_breadth]['attrib']
@@ -245,7 +245,7 @@ class hdict():
             rcin_readable_path = hdict_object.path_list_to_console_key_str(rcin_pathlist)
             rcin_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,rcin_pathlist)
             rcin_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,rcin_hdict_pathlist)
-            rcin_depth,rcin_breadth = breadth_path_to_sdict_location(rcin_breadth_path)
+            rcin_depth,rcin_breadth = hdict_object.breadth_path_to_sdict_location(rcin_breadth_path)
             rcin_siblings_seq = self.sdict[rcin_depth][rcin_breadth]['siblings_seq_path'][-1]
             rcin_tag = hdict_object.hdict_get_value(self.hdict,rcin_pathlist)['tag']
             rcin_attrib = self.sdict[rcin_depth][rcin_breadth]['attrib']
