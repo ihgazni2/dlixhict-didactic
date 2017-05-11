@@ -172,7 +172,7 @@ class hdict():
         elif('html' in kwargs):
             self.html = kwargs['html']
             hspr = hdict_xml.html_to_hdict(html_text=self.html)
-            self.cmdt = cmdline.cmdict(html_text=self.html
+            self.cmdt = cmdline.cmdict(html_text=self.html)
             self.object = hdict_object.hdict_to_obj(hspr['hdict'],hspr['sdict'],hspr['prdict'])
             self.orig = 'html'
         elif('cmdline' in kwargs):
