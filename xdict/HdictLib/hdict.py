@@ -156,12 +156,29 @@ class nodedescription():
         printed_str = ''
         l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants','lsib','rsib','lcin','rcin']
         for i in range(0,l.__len__()):
+            print(l[i])
+            print(str(self.__getattribute__(l[i])))
             s = '{0} : {1}'.format(l[i],str(self.__getattribute__(l[i])))
+            print(s)
             printed_str = ''.join((printed_str,s,'\n'))
         return(printed_str)
 
-
 class hdict():
+    '''
+        from xdict.HdictLib import hdict
+        from xdict.jprint import pobj
+        currd = {'UseSpeedLimits': None, 'RuleIDs': [11516125, 11516163, 11516164], 'Displays': [{'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 37, 'RuleID': None}, 'Row2': {'Row': None, 'RuleID': 11516125}, 'Views': [{'Row': None, 'RuleID': 11516163}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 39, 'RuleID': None}, 'Row2': {'Row': 41, 'RuleID': None}, 'Views': [{'Row': 40, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 38, 'RuleID': None}, 'Row2': {'Row': 68, 'RuleID': None}, 'Views': [{'Row': 10, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 48, 'RuleID': None}, 'Row2': {'Row': 49, 'RuleID': None}, 'Views': [{'Row': 50, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 51, 'RuleID': None}, 'Row2': {'Row': 52, 'RuleID': None}, 'Views': [{'Row': 53, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 54, 'RuleID': None}, 'Row2': {'Row': 56, 'RuleID': None}, 'Views': [{'Row': 57, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': 58, 'RuleID': None}, 'Row2': {'Row': 59, 'RuleID': None}, 'Views': [{'Row': 12, 'RuleID': None}]}, {'RequiresHRBelt': None, 'Type': 5, 'Row1': {'Row': None, 'RuleID': 11516164}, 'Row2': {'Row': 4, 'RuleID': None}, 'Views': [{'Row': 20, 'RuleID': None}]}], 'AutomaticLogRecording': None, 'AutoPause': None, 'LoggedRuleIDs': [11516163, 11516164, 11516125]}
+        hdict1 = hdict.hdict(object=currd)
+        dir(hdict1)
+        
+        hdict1.depth
+        hdict.widths
+        print(hdict1.html)
+        hdict1.showall()
+        hdict1.search('uleIDs')
+        
+        
+    '''
     def __init__(self,**kwargs):
         if('object' in kwargs):
             self.object = kwargs['object']
@@ -397,9 +414,14 @@ class hdict():
         return(desc)
     def node(self,pathlist):
         hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
+        print(hdict_pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
+        print(breadth_path)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
+        print(depth)
+        print(breadth)
         node_pathlist = self.sdict[depth][breadth]['orig_obj_path']
+        print(node_pathlist)
         if(node_pathlist == []):
             node_pathlist = None
             node_readable_path = None
