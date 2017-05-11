@@ -221,6 +221,7 @@ class hdict():
             readables = {}
             for i in range(0,self.cmdt.pathlists.__len__()):
                 readable = hdict_object.path_list_to_console_key_str(self.cmdt.pathlists[i])
+                readables[i] = readable
             jprint.pobj(readables,fixed_indent = 1)
     def search(self,cmd_str):
         return(self.cmdt.__getitem__(cmd_str))
