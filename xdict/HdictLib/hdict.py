@@ -213,9 +213,9 @@ class hdict():
             mode = kwargs['mode']
         else:
             mode = 'readable_path'
-        if(mode = 'pathlist'):
+        if(mode == 'pathlist'):
             jprint.pobj(self.cmdt.pathlists,fixed_indent = 1)
-        elif(mode = 'cmdline'):
+        elif(mode == 'cmdline'):
             jprint.pobj(self.cmdt.cmdlines,fixed_indent = 1)
         else:
             readables = {}
