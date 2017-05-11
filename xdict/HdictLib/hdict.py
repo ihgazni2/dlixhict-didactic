@@ -69,7 +69,7 @@ class description():
         jprint.pobj(l)
         return(l)
     def __repr__(self):
-        paint_str = ''
+        printed_str = ''
         l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants']
         for i in range(0,l.__len__()):
             s = '{0} : {1}'.format(l[i],str(self.__getattribute__(l[i])))
