@@ -212,7 +212,7 @@ class hdict():
         for i in range(0,self.depth):
             self.widths.append(self.sdict[i].__len__())
     def __dir__(self):
-        l = ['depth','widths','node','showall','search','html']
+        l = ['depth','widths','node','showall','search','html','object']
         jprint.pobj(l)
         return(l)
     def __repr__(self):
