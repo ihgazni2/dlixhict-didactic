@@ -31,8 +31,8 @@ for detailed usage and functions please refer to:
 
 ## Part0. [hdict](ReadMeDetailed/HdictReadMe/hdict.md) 
 
-__1. init__  
------------
+__1. init(object\=python_object)__  
+----------------------------------
 
 	# use a object to init a hdict 
 	from xdict.HdictLib import hdict
@@ -772,7 +772,8 @@ __7. .node(pathlist)__
 
 
 	
-	
+__8. .init(html\=html_text)__
+-----------------------------
 
 
 
