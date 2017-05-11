@@ -1,6 +1,6 @@
 # dlixhict-didactic
 >__1. transform and converting between html,json,python-dict,command-line,dir-path__  
-__2. dict, list, tuple, toolset__
+__2. dict/list/tuple/set toolsets __
 
 # install
 >__pip3 install xdict__
