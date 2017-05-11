@@ -1459,6 +1459,30 @@ def hdict_to_xml(hdict,**kwargs):
     rslt = utils.str_rstrip(rslt,line_sp,1)
     return(rslt)
 
+
+def hspr_to_xml(hspr,**kwargs):
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    sdict = hspr['sdict']
+    prdict = hspr['prdict']
+    tmp = creat_xml_tag_line_label(sdict)
+    sdict = tmp['sdict']
+    tag_lines = tmp['html_lines']
+    rslt = ''
+    for i in range(0,tag_lines.__len__()):
+        if(tag_lines[i] == ''):
+            pass
+        else:
+            rslt = ''.join((rslt,tag_lines[i],line_sp))
+    rslt = utils.str_rstrip(rslt,line_sp,1)
+    return(rslt)
+
+
+
+
+
 def obj_to_xml(obj,**kwargs):
     if('line_sp' in kwargs):
         line_sp = kwargs['line_sp']

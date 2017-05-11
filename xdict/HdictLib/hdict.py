@@ -7,15 +7,6 @@ from xdict import hdict_xml
 
 
 
-
-
-
-from xdict import hdict_object
-from xdict import hdict_xml
-from xdict import cmdline
-from xdict import jprint
-
-
 class description():
     def __init__(self,**kwargs):
         if('readable_path' in kwargs):
@@ -162,40 +153,55 @@ class nodedescription():
         jprint.pobj(l)
         return(l)
     def __repr__(self):
+        printed_str = ''
         l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants','lsib','rsib','lcin','rcin']
         for i in range(0,l.__len__()):
-            print(self.__getattribute__(l[i]))
+            s = '{0} : {1}'.format(l[i],str(self.__getattribute__(l[i])))
+            printed_str = ''.join((printed_str,s,'\n'))
+        return(printed_str)
 
 
 class hdict():
     def __init__(self,**kwargs):
         if('object' in kwargs):
-            obj = kwargs['object']
-            hspr = hdict_object.obj_to_hdict(obj)
-            self.hdict = hspr['hdict']
-            self.sdict = hspr['sdict']
-            self.prdict = hspr['prdict']
-            self.cmdt = cmdline.cmdict(dict=obj)
-            self.depth = self.sdict.__len__()
-            self.widths = []
-            for i in range(0,self.depth):
-                self.widths.append(self.sdict[i].__len__())
+            self.object = kwargs['object']
+            hspr = hdict_object.obj_to_hdict(self.object)
+            self.cmdt = cmdline.cmdict(dict=self.object)
+            self.html = hdict_object.hspr_to_xml(hspr)
             self.orig = 'object'
         elif('html' in kwargs):
-            html = kwargs['html']
+            self.html = kwargs['html']
+            hspr = hdict_xml.html_to_hdict(html_text=self.html)
+            self.cmdt = cmdline.cmdict(html_text=self.html
+            self.object = hdict_object.hdict_to_obj(hspr['hdict'],hspr['sdict'],hspr['prdict'])
             self.orig = 'html'
         elif('cmdline' in kwargs):
             self.cmdt = kwargs['cmdline']
+            cmdlines_full_dict = {}
+            cmdlines_full_dict['cmds'] = self.cmdt.cmdlines
+            cmdlines_full_dict['attribs'] = self.cmdt.attribs
+            cmdlines_full_dict['results'] = self.cmdt.results
+            #在cmdline.py 中加入代码支持cmds 是 pathlists 的情况
+            hspr = cmdline.cmdlines_full_dict_to_hdict(cmdlines_full_dict)
+            self.html = hdict_object.hspr_to_xml(hspr)
+            self.object = hdict_object.hdict_to_obj(hspr['hdict'],hspr['sdict'],hspr['prdict'])
             self.orig = 'cmdline'
         else:
             raise Exception("Invalid INIT!", kwargs)
+        self.hdict = hspr['hdict']
+        self.sdict = hspr['sdict']
+        self.prdict = hspr['prdict']
+        self.depth = self.sdict.__len__()
+        self.widths = []
+        for i in range(0,self.depth):
+            self.widths.append(self.sdict[i].__len__())
     def __dir__(self):
-        l = ['depth','widths','node','showall','search']
+        l = ['depth','widths','node','showall','search','html']
         jprint.pobj(l)
         return(l)
     def __repr__(self):
         if(self.orig == 'object'):
-            return(obj.__repr__())
+            return(self.object.__repr__())
         elif(self.orig == 'html'):
             return(html)
         elif(self.orig == 'cmdline'):
@@ -441,3 +447,4 @@ class hdict():
             #####
         desc = nodedescription(readable_path=node_readable_path,pathlist=node_pathlist,depth=node_depth,breadth=node_breadth,siblings_seq=node_siblings_seq,tag=node_tag,attrib=node_attrib,text=node_text,type=node_type,leaf=node_leaf,leaf_sons=node_leaf_sons,nonleaf_sons=node_nonleaf_sons,leaf_descendants=node_leaf_descendants,nonleaf_descendants=node_nonleaf_descendants,lsib=node_lsib,rsib=node_rsib,lcin=node_lcin,rcin=node_rcin)
         return(desc)
+
