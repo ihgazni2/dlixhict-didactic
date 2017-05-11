@@ -97,7 +97,7 @@ class hdict():
         jprint.pobj(l)
         return(l)
     def lsib(self,pathlist):
-        hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,pathlist)
+        hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
         lsib_pathlist = self.sdict[depth][breadth]['orig_lsib_path']
@@ -120,7 +120,7 @@ class hdict():
             #####
         else:
             lsib_readable_path = hdict_object.path_list_to_console_key_str(lsib_pathlist)
-            lsib_hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,lsib_pathlist)
+            lsib_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,lsib_pathlist)
             lsib_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,lsib_hdict_pathlist)
             lsib_depth,lsib_breadth = breadth_path_to_sdict_location(lsib_breadth_path)
             lsib_siblings_seq = self.sdict[lsib_depth][lsib_breadth]['siblings_seq_path'][-1]
@@ -138,7 +138,7 @@ class hdict():
         desc = description(readable_path=lsib_readable_path,pathlist=lsib_pathlist,depth=lsib_depth,breadth=lsib_breadth,siblings_seq=lsib_siblings_seq,tag=lsib_tag,attrib=lsib_attrib,text=lsib_text,type=lsib_type,leaf=lsib_leaf,leaf_sons=lsib_leaf_sons,nonleaf_sons=lsib_nonleaf_sons,leaf_descendants=lsib_leaf_descendants,nonleaf_descendants=lsib_nonleaf_descendants)
         return(desc)
     def rsib(self,pathlist):
-        hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,pathlist)
+        hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
         rsib_pathlist = self.sdict[depth][breadth]['orig_rsib_path']
@@ -161,7 +161,7 @@ class hdict():
             #####
         else:
             rsib_readable_path = hdict_object.path_list_to_console_key_str(rsib_pathlist)
-            rsib_hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,rsib_pathlist)
+            rsib_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,rsib_pathlist)
             rsib_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,rsib_hdict_pathlist)
             rsib_depth,rsib_breadth = breadth_path_to_sdict_location(rsib_breadth_path)
             rsib_siblings_seq = self.sdict[rsib_depth][rsib_breadth]['siblings_seq_path'][-1]
@@ -179,7 +179,7 @@ class hdict():
         desc = description(readable_path=rsib_readable_path,pathlist=rsib_pathlist,depth=rsib_depth,breadth=rsib_breadth,siblings_seq=rsib_siblings_seq,tag=rsib_tag,attrib=rsib_attrib,text=rsib_text,type=rsib_type,leaf=rsib_leaf,leaf_sons=rsib_leaf_sons,nonleaf_sons=rsib_nonleaf_sons,leaf_descendants=rsib_leaf_descendants,nonleaf_descendants=rsib_nonleaf_descendants)
         return(desc)
     def lcin(self,pathlist):
-        hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,pathlist)
+        hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
         lcin_pathlist = self.sdict[depth][breadth]['orig_lcin_path']
@@ -202,7 +202,7 @@ class hdict():
             #####
         else:
             lcin_readable_path = hdict_object.path_list_to_console_key_str(lcin_pathlist)
-            lcin_hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,lcin_pathlist)
+            lcin_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,lcin_pathlist)
             lcin_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,lcin_hdict_pathlist)
             lcin_depth,lcin_breadth = breadth_path_to_sdict_location(lcin_breadth_path)
             lcin_siblings_seq = self.sdict[lcin_depth][lcin_breadth]['siblings_seq_path'][-1]
@@ -220,7 +220,7 @@ class hdict():
         desc = description(readable_path=lcin_readable_path,pathlist=lcin_pathlist,depth=lcin_depth,breadth=lcin_breadth,siblings_seq=lcin_siblings_seq,tag=lcin_tag,attrib=lcin_attrib,text=lcin_text,type=lcin_type,leaf=lcin_leaf,leaf_sons=lcin_leaf_sons,nonleaf_sons=lcin_nonleaf_sons,leaf_descendants=lcin_leaf_descendants,nonleaf_descendants=lcin_nonleaf_descendants)
         return(desc)
     def rcin(self,pathlist):
-        hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,pathlist)
+        hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
         rcin_pathlist = self.sdict[depth][breadth]['orig_rcin_path']
@@ -243,7 +243,7 @@ class hdict():
             #####
         else:
             rcin_readable_path = hdict_object.path_list_to_console_key_str(rcin_pathlist)
-            rcin_hdict_pathlist = orig_obj_path_to_hdict_path(self.prdict,rcin_pathlist)
+            rcin_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,rcin_pathlist)
             rcin_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,rcin_hdict_pathlist)
             rcin_depth,rcin_breadth = breadth_path_to_sdict_location(rcin_breadth_path)
             rcin_siblings_seq = self.sdict[rcin_depth][rcin_breadth]['siblings_seq_path'][-1]
