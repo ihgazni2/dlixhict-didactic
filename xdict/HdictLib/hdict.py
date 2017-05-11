@@ -190,9 +190,9 @@ class hdict():
         else:
             raise Exception("Invalid INIT!", kwargs)
     def __dir__(self):
-        l = ['depth','widths','node']
+        l = ['depth','widths','node','showall','search']
         jprint.pobj(l)
-        return(l
+        return(l)
     def __repr__(self):
         if(self.orig == 'object'):
             return(obj.__repr__())
