@@ -44,8 +44,8 @@ __1. init__
 ![](Images/HdictLib.hdict.hdict.__init__.1.png) 
 
 
-__2. .depth
------------
+__2. .depth__
+-------------
 
 	#the depth of the trie
 	>>> hdict1.depth
@@ -53,16 +53,16 @@ __2. .depth
 	>>> 
 
 
-__3. .widths
-------------  
+__3. .widths__
+--------------  
 
 	#the number of elemets of each layer
 	>>> hdict.widths
 	[6, 14, 40, 40, 16]
 	>>> 
 
-__4. .html
-----------
+__4. .html__
+------------
 
 	#the html  of the object
 	print(hdict1.html)
@@ -340,6 +340,443 @@ __4. .html
         </Displays>
         >>> 
         
+
+
+__5. .showall()__
+-----------------
+
+	#showall will display all the paths of the object 
+	hdict1.showall()
+	
+
+
+
+        {
+            0: '["AutoPause"]',
+            1: '["AutomaticLogRecording"]',
+            2: '["Displays"]',
+            3: '["Displays"][0]',
+            4: '["Displays"][0]["RequiresHRBelt"]',
+            5: '["Displays"][0]["Row1"]',
+            6: '["Displays"][0]["Row1"]["Row"]',
+            7: '["Displays"][0]["Row1"]["RuleID"]',
+            8: '["Displays"][0]["Row2"]',
+            9: '["Displays"][0]["Row2"]["Row"]',
+            10: '["Displays"][0]["Row2"]["RuleID"]',
+            11: '["Displays"][0]["Type"]',
+            12: '["Displays"][0]["Views"]',
+            13: '["Displays"][0]["Views"][0]',
+            14: '["Displays"][0]["Views"][0]["Row"]',
+            15: '["Displays"][0]["Views"][0]["RuleID"]',
+            16: '["Displays"][1]',
+            17: '["Displays"][1]["RequiresHRBelt"]',
+            18: '["Displays"][1]["Row1"]',
+            19: '["Displays"][1]["Row1"]["Row"]',
+            20: '["Displays"][1]["Row1"]["RuleID"]',
+            21: '["Displays"][1]["Row2"]',
+            22: '["Displays"][1]["Row2"]["Row"]',
+            23: '["Displays"][1]["Row2"]["RuleID"]',
+            24: '["Displays"][1]["Type"]',
+            25: '["Displays"][1]["Views"]',
+            26: '["Displays"][1]["Views"][0]',
+            27: '["Displays"][1]["Views"][0]["Row"]',
+            28: '["Displays"][1]["Views"][0]["RuleID"]',
+            29: '["Displays"][2]',
+            30: '["Displays"][2]["RequiresHRBelt"]',
+            31: '["Displays"][2]["Row1"]',
+            32: '["Displays"][2]["Row1"]["Row"]',
+            33: '["Displays"][2]["Row1"]["RuleID"]',
+            34: '["Displays"][2]["Row2"]',
+            35: '["Displays"][2]["Row2"]["Row"]',
+            36: '["Displays"][2]["Row2"]["RuleID"]',
+            37: '["Displays"][2]["Type"]',
+            38: '["Displays"][2]["Views"]',
+            39: '["Displays"][2]["Views"][0]',
+            40: '["Displays"][2]["Views"][0]["Row"]',
+            41: '["Displays"][2]["Views"][0]["RuleID"]',
+            42: '["Displays"][3]',
+            43: '["Displays"][3]["RequiresHRBelt"]',
+            44: '["Displays"][3]["Row1"]',
+            45: '["Displays"][3]["Row1"]["Row"]',
+            46: '["Displays"][3]["Row1"]["RuleID"]',
+            47: '["Displays"][3]["Row2"]',
+            48: '["Displays"][3]["Row2"]["Row"]',
+            49: '["Displays"][3]["Row2"]["RuleID"]',
+            50: '["Displays"][3]["Type"]',
+            51: '["Displays"][3]["Views"]',
+            52: '["Displays"][3]["Views"][0]',
+            53: '["Displays"][3]["Views"][0]["Row"]',
+            54: '["Displays"][3]["Views"][0]["RuleID"]',
+            55: '["Displays"][4]',
+            56: '["Displays"][4]["RequiresHRBelt"]',
+            57: '["Displays"][4]["Row1"]',
+            58: '["Displays"][4]["Row1"]["Row"]',
+            59: '["Displays"][4]["Row1"]["RuleID"]',
+            60: '["Displays"][4]["Row2"]',
+            61: '["Displays"][4]["Row2"]["Row"]',
+            62: '["Displays"][4]["Row2"]["RuleID"]',
+            63: '["Displays"][4]["Type"]',
+            64: '["Displays"][4]["Views"]',
+            65: '["Displays"][4]["Views"][0]',
+            66: '["Displays"][4]["Views"][0]["Row"]',
+            67: '["Displays"][4]["Views"][0]["RuleID"]',
+            68: '["Displays"][5]',
+            69: '["Displays"][5]["RequiresHRBelt"]',
+            70: '["Displays"][5]["Row1"]',
+            71: '["Displays"][5]["Row1"]["Row"]',
+            72: '["Displays"][5]["Row1"]["RuleID"]',
+            73: '["Displays"][5]["Row2"]',
+            74: '["Displays"][5]["Row2"]["Row"]',
+            75: '["Displays"][5]["Row2"]["RuleID"]',
+            76: '["Displays"][5]["Type"]',
+            77: '["Displays"][5]["Views"]',
+            78: '["Displays"][5]["Views"][0]',
+            79: '["Displays"][5]["Views"][0]["Row"]',
+            80: '["Displays"][5]["Views"][0]["RuleID"]',
+            81: '["Displays"][6]',
+            82: '["Displays"][6]["RequiresHRBelt"]',
+            83: '["Displays"][6]["Row1"]',
+            84: '["Displays"][6]["Row1"]["Row"]',
+            85: '["Displays"][6]["Row1"]["RuleID"]',
+            86: '["Displays"][6]["Row2"]',
+            87: '["Displays"][6]["Row2"]["Row"]',
+            88: '["Displays"][6]["Row2"]["RuleID"]',
+            89: '["Displays"][6]["Type"]',
+            90: '["Displays"][6]["Views"]',
+            91: '["Displays"][6]["Views"][0]',
+            92: '["Displays"][6]["Views"][0]["Row"]',
+            93: '["Displays"][6]["Views"][0]["RuleID"]',
+            94: '["Displays"][7]',
+            95: '["Displays"][7]["RequiresHRBelt"]',
+            96: '["Displays"][7]["Row1"]',
+            97: '["Displays"][7]["Row1"]["Row"]',
+            98: '["Displays"][7]["Row1"]["RuleID"]',
+            99: '["Displays"][7]["Row2"]',
+            100: '["Displays"][7]["Row2"]["Row"]',
+            101: '["Displays"][7]["Row2"]["RuleID"]',
+            102: '["Displays"][7]["Type"]',
+            103: '["Displays"][7]["Views"]',
+            104: '["Displays"][7]["Views"][0]',
+            105: '["Displays"][7]["Views"][0]["Row"]',
+            106: '["Displays"][7]["Views"][0]["RuleID"]',
+            107: '["LoggedRuleIDs"]',
+            108: '["LoggedRuleIDs"][0]',
+            109: '["LoggedRuleIDs"][1]',
+            110: '["LoggedRuleIDs"][2]',
+            111: '["RuleIDs"]',
+            112: '["RuleIDs"][0]',
+            113: '["RuleIDs"][1]',
+            114: '["RuleIDs"][2]',
+            115: '["UseSpeedLimits"]'
+        }
+        >>> 
+        
+__6. .search(searching_string)__
+--------------------------------
+
+	#search will display all the possible paths matching the search string
+	hdict1.search('uleIDs')
+
+![](Images/HdictLib.hdict.hdict.search.1.png)  
+
+        >>> 
+        >>> hdict1.search('uleIDs')
+        LoggedRuleIDs
+        LoggedRuleIDs 0
+        LoggedRuleIDs 1
+        LoggedRuleIDs 2
+        RuleIDs
+        RuleIDs 0
+        RuleIDs 1
+        RuleIDs 2
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs']]
+        or:
+            cmdict.dict['LoggedRuleIDs']
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs', 0]]
+        or:
+            cmdict.dict['LoggedRuleIDs'][0]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs', 1]]
+        or:
+            cmdict.dict['LoggedRuleIDs'][1]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs', 2]]
+        or:
+            cmdict.dict['LoggedRuleIDs'][2]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs']]
+        or:
+            cmdict.dict['RuleIDs']
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs', 0]]
+        or:
+            cmdict.dict['RuleIDs'][0]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs', 1]]
+        or:
+            cmdict.dict['RuleIDs'][1]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs', 2]]
+        or:
+            cmdict.dict['RuleIDs'][2]
+        to get value
+        --------------------------------------------------------------
+        Traceback (most recent call last):
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/cmdline.py", line 4371, in __getitem__
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/cmdline.py", line 2260, in get_obj_value_via_cmd
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/utils.py", line 1665, in dict_getitem_via_path_list
+        KeyError: 'uleIDs'
+        
+        During handling of the above exception, another exception occurred:
+        
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/HdictLib/hdict.py", line 249, in search
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/cmdline.py", line 4385, in __getitem__
+        KeyError: ('should be', [(107, ['LoggedRuleIDs']), (108, ['LoggedRuleIDs', 0]), (109, ['LoggedRuleIDs', 1]), (110, ['LoggedRuleIDs', 2]), (111, ['RuleIDs']), (112, ['RuleIDs', 0]), (113, ['RuleIDs', 1]), (114, ['RuleIDs', 2])])
+        >>> 
+
+        >>> 
+        >>> hdict1.search('uleIDs')
+        LoggedRuleIDs
+        LoggedRuleIDs 0
+        LoggedRuleIDs 1
+        LoggedRuleIDs 2
+        RuleIDs
+        RuleIDs 0
+        RuleIDs 1
+        RuleIDs 2
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs']]
+        or:
+            cmdict.dict['LoggedRuleIDs']
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs', 0]]
+        or:
+            cmdict.dict['LoggedRuleIDs'][0]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs', 1]]
+        or:
+            cmdict.dict['LoggedRuleIDs'][1]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['LoggedRuleIDs', 2]]
+        or:
+            cmdict.dict['LoggedRuleIDs'][2]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs']]
+        or:
+            cmdict.dict['RuleIDs']
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs', 0]]
+        or:
+            cmdict.dict['RuleIDs'][0]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs', 1]]
+        or:
+            cmdict.dict['RuleIDs'][1]
+        to get value
+        --------------------------------------------------------------
+        ------the exact path to getitem as below----------------------
+        using:
+            cmdict[['RuleIDs', 2]]
+        or:
+            cmdict.dict['RuleIDs'][2]
+        to get value
+        --------------------------------------------------------------
+        Traceback (most recent call last):
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/cmdline.py", line 4371, in __getitem__
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/cmdline.py", line 2260, in get_obj_value_via_cmd
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/utils.py", line 1665, in dict_getitem_via_path_list
+        KeyError: 'uleIDs'
+        
+        During handling of the above exception, another exception occurred:
+        
+        Traceback (most recent call last):
+        File "<stdin>", line 1, in <module>
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/HdictLib/hdict.py", line 249, in search
+        File "/usr/local/lib/python3.4/site-packages/xdict-0.60-py3.4.egg/xdict/cmdline.py", line 4385, in __getitem__
+        KeyError: ('should be', [(107, ['LoggedRuleIDs']), (108, ['LoggedRuleIDs', 0]), (109, ['LoggedRuleIDs', 1]), (110, ['LoggedRuleIDs', 2]), (111, ['RuleIDs']), (112, ['RuleIDs', 0]), (113, ['RuleIDs', 1]), (114, ['RuleIDs', 2])])
+        >>> 
+
+
+__7. .node(pathlist)__
+----------------------
+
+	#find the node description via pathlist
+	node = hdict1.node(['Displays', 7])
+	dir(node)
+
+![](Images/HdictLib.hdict.hdict.node.1.png)
+
+	#path info 
+	>>> node.readable_path
+	'["Displays"][7]'
+	>>> node.pathlist
+	['Displays', 7]  
+	
+
+	# the depth positon 
+	>>> node.depth
+	1
+	>>>  
+	
+	# the width positon in layer
+	>>> node.breadth
+	13
+	>>> 
+
+	# the sequence of siblings(common parents)
+	>>> node.siblings_seq
+	7
+	>>> 
+	
+	>>> node.tag
+	7
+	>>> node.attrib
+	{'type': 'dict'}
+	>>> node.text
+	>>> node.type
+	'dict'
+	>>> 
+	
+	#is a leaf or not
+	>>> node.leaf
+	False
+	>>> 
+	
+	#leaf sons
+	pobj(node.leaf_sons,fixed_indent=1)
+	#nonleaf sons
+	pobj(node.nonleaf_sons,fixed_indent=1)
+	#leaf descendants
+	pobj(node.leaf_descendants,fixed_indent=1)
+	#nonleaf descendants
+	pobj(node.nonleaf_descendants,fixed_indent=1)  
+	
+        #leaf sons
+        ... 
+        >>> pobj(node.leaf_sons,fixed_indent=1)
+        [
+            ['Displays', 7, 'Type'],
+            ['Displays', 7, 'RequiresHRBelt']
+        ]
+        >>> 
+        
+        #nonleaf sons
+        ... 
+        >>> pobj(node.nonleaf_sons,fixed_indent=1)
+        [
+            ['Displays', 7, 'Row2'],
+            ['Displays', 7, 'Views'],
+            ['Displays', 7, 'Row1']
+        ]
+        >>> 
+        
+        #leaf descendants
+        ... 
+        >>> pobj(node.leaf_descendants,fixed_indent=1)
+        [
+            ['Displays', 7, 'Type'],
+            ['Displays', 7, 'Row2', 'Row'],
+            ['Displays', 7, 'Row2', 'RuleID'],
+            ['Displays', 7, 'RequiresHRBelt'],
+            ['Displays', 7, 'Views', 0, 'Row'],
+            ['Displays', 7, 'Views', 0, 'RuleID'],
+            ['Displays', 7, 'Row1', 'Row'],
+            ['Displays', 7, 'Row1', 'RuleID']
+        ]
+        >>> 
+        
+        #nonleaf descendants
+        ... 
+        >>> pobj(node.nonleaf_descendants,fixed_indent=1)
+        [
+            ['Displays', 7, 'Row1'],
+            ['Displays', 7]
+        ]
+        >>> 
+	
+	#left sibling (common parents)
+	node.lsib
+	dir(node.lsib)
+	
+![](Images/HdictLib.hdict.hdict.node.lsib.1.png)
+![](Images/HdictLib.hdict.hdict.node.lsib.2.png)
+
+	#right sibling (common parents)
+	node.rsib
+	dir(node.rsib)  
+	
+![](Images/HdictLib.hdict.hdict.node.rsib.1.png)
+![](Images/HdictLib.hdict.hdict.node.rsib.2.png)
+
+	#left cousin (adjacent to the left but NO common parents)
+	node.lcin
+	dir(node.lcin)  
+
+![](Images/HdictLib.hdict.hdict.node.lcin.1.png)
+![](Images/HdictLib.hdict.hdict.node.lcin.2.png)
+
+
+
+	#right cousin (adjacent to the right but NO common parents)
+	node.rcin
+	dir(node.rcin)  
+	
+![](Images/HdictLib.hdict.hdict.node.rcin.1.png)
+![](Images/HdictLib.hdict.hdict.node.rcin.2.png)
+
+
+
+	
+	
+
+
+
+
 
 -------------------------------------------------------------------
 
