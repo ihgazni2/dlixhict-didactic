@@ -6,7 +6,6 @@ from xdict import hdict_object
 from xdict import hdict_xml
 
 
-
 class description():
     def __init__(self,**kwargs):
         if('readable_path' in kwargs):
@@ -70,9 +69,12 @@ class description():
         jprint.pobj(l)
         return(l)
     def __repr__(self):
+        paint_str = ''
         l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants']
         for i in range(0,l.__len__()):
-            print(self.__getattribute__(l[i]))
+            s = '{0} : {1}'.format(l[i],str(self.__getattribute__(l[i])))
+            printed_str = ''.join((printed_str,s,'\n'))
+        return(printed_str)
 
 class nodedescription():
     def __init__(self,**kwargs):
@@ -156,10 +158,7 @@ class nodedescription():
         printed_str = ''
         l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants','lsib','rsib','lcin','rcin']
         for i in range(0,l.__len__()):
-            print(l[i])
-            print(str(self.__getattribute__(l[i])))
             s = '{0} : {1}'.format(l[i],str(self.__getattribute__(l[i])))
-            print(s)
             printed_str = ''.join((printed_str,s,'\n'))
         return(printed_str)
 
@@ -414,14 +413,9 @@ class hdict():
         return(desc)
     def node(self,pathlist):
         hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
-        print(hdict_pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
-        print(breadth_path)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
-        print(depth)
-        print(breadth)
         node_pathlist = self.sdict[depth][breadth]['orig_obj_path']
-        print(node_pathlist)
         if(node_pathlist == []):
             node_pathlist = None
             node_readable_path = None
