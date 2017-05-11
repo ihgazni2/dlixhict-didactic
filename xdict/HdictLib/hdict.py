@@ -10,6 +10,12 @@ from xdict import hdict_xml
 
 
 
+from xdict import hdict_object
+from xdict import hdict_xml
+from xdict import cmdline
+from xdict import jprint
+
+
 class description():
     def __init__(self,**kwargs):
         if('readable_path' in kwargs):
@@ -72,6 +78,93 @@ class description():
         l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants']
         jprint.pobj(l)
         return(l)
+    def __repr__(self):
+        l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants']
+        for i in range(0,l.__len__()):
+            print(self.__getattribute__(l[i]))
+
+class nodedescription():
+    def __init__(self,**kwargs):
+        if('readable_path' in kwargs):
+            self.readable_path = kwargs['readable_path']
+        else:
+            self.readable_path = None
+        if('pathlist' in kwargs):
+            self.pathlist = kwargs['pathlist']
+        else:
+            self.pathlist = None
+        if('depth' in kwargs):
+            self.depth = kwargs['depth']
+        else:
+            self.depth = None
+        if('breadth' in kwargs):
+            self.breadth = kwargs['breadth']
+        else:
+            self.breadth = None
+        if('siblings_seq' in kwargs):
+            self.siblings_seq = kwargs['siblings_seq']
+        else:
+            self.siblings_seq = None
+        if('tag' in kwargs):
+            self.tag = kwargs['tag']
+        else:
+            self.tag = None
+        if('attrib' in kwargs):
+            self.attrib = kwargs['attrib']
+        else:
+            self.attrib = None
+        if('text' in kwargs):
+            self.text = kwargs['text']
+        else:
+            self.text = None
+        if('type' in kwargs):
+            self.type = kwargs['type']
+        else:
+            self.type = None
+        if('leaf' in kwargs):
+            self.leaf = kwargs['leaf']
+        else:
+            self.leaf = None
+        if('leaf_sons' in kwargs):
+            self.leaf_sons = kwargs['leaf_sons']
+        else:
+            self.leaf_sons = None
+        if('nonleaf_sons' in kwargs):
+            self.nonleaf_sons = kwargs['nonleaf_sons']
+        else:
+            self.nonleaf_sons = None
+        if('leaf_descendants' in kwargs):
+            self.leaf_descendants = kwargs['leaf_descendants']
+        else:
+            self.leaf_descendants = None
+        if('nonleaf_descendants' in kwargs):
+            self.nonleaf_descendants = kwargs['nonleaf_descendants']
+        else:
+            self.nonleaf_descendants = None
+        if('lsib' in kwargs):
+            self.lsib = kwargs['lsib']
+        else:
+            self.lsib = None
+        if('rsib' in kwargs):
+            self.rsib = kwargs['rsib']
+        else:
+            self.rsib = None
+        if('lcin' in kwargs):
+            self.lcin = kwargs['lcin']
+        else:
+            self.lcin = None
+        if('rcin' in kwargs):
+            self.rcin = kwargs['rcin']
+        else:
+            self.rcin = None
+    def __dir__(self):
+        l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants','lsib','rsib','lcin','rcin']
+        jprint.pobj(l)
+        return(l)
+    def __repr__(self):
+        l = ['readable_path','pathlist','depth','breadth','siblings_seq','tag','attrib','text','type','leaf','leaf_sons','nonleaf_sons','leaf_descendants','nonleaf_descendants','lsib','rsib','lcin','rcin']
+        for i in range(0,l.__len__()):
+            print(self.__getattribute__(l[i]))
 
 
 class hdict():
@@ -82,21 +175,56 @@ class hdict():
             self.hdict = hspr['hdict']
             self.sdict = hspr['sdict']
             self.prdict = hspr['prdict']
+            self.cmdt = cmdline.cmdict(dict=obj)
             self.depth = self.sdict.__len__()
             self.widths = []
             for i in range(0,self.depth):
                 self.widths.append(self.sdict[i].__len__())
+            self.orig = 'object'
         elif('html' in kwargs):
             html = kwargs['html']
+            self.orig = 'html'
         elif('cmdline' in kwargs):
-            cmdline = kwargs['cmdline']
+            self.cmdt = kwargs['cmdline']
+            self.orig = 'cmdline'
         else:
             raise Exception("Invalid INIT!", kwargs)
     def __dir__(self):
-        l = ['depth','widths','lsib','rsib','lcin','rcin']
+        l = ['depth','widths','node']
         jprint.pobj(l)
-        return(l)
-    def lsib(self,pathlist):
+        return(l
+    def __repr__(self):
+        if(self.orig == 'object'):
+            return(obj.__repr__())
+        elif(self.orig == 'html'):
+            return(html)
+        elif(self.orig == 'cmdline'):
+            jprint.pobj(self.cmdt.pathlists,fixed_indent = 1)
+            print('\n')
+            jprint.pobj(self.cmdt.attribs,fixed_indent = 1)
+            print('\n')
+            jprint.pobj(self.cmdt.results,fixed_indent = 1)
+            print('\n')
+            return(self.cmdt.pathlists.__repr__() + self.cmdt.attribs.__repr__() + self.cmdt.results.__repr__())
+        else:
+            raise Exception("Invalid INIT!",'not object,not html_text,not cmdline')
+    def showall(self,**kwargs):
+        if('mode' in kwargs):
+            mode = kwargs['mode']
+        else:
+            mode = 'readable_path'
+        if(mode = 'pathlist'):
+            jprint.pobj(self.cmdt.pathlists,fixed_indent = 1)
+        elif(mode = 'cmdline'):
+            jprint.pobj(self.cmdt.cmdlines,fixed_indent = 1)
+        else:
+            readables = {}
+            for i in range(0,self.cmdt.pathlists.__len__()):
+                readable = hdict_object.path_list_to_console_key_str(self.cmdt.pathlists[i])
+            jprint.pobj(readables,fixed_indent = 1)
+    def search(self,cmd_str):
+        return(self.cmdt.__getitem__(cmd_str))
+    def getlsib(self,pathlist):
         hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
@@ -137,7 +265,7 @@ class hdict():
             ###########################################
         desc = description(readable_path=lsib_readable_path,pathlist=lsib_pathlist,depth=lsib_depth,breadth=lsib_breadth,siblings_seq=lsib_siblings_seq,tag=lsib_tag,attrib=lsib_attrib,text=lsib_text,type=lsib_type,leaf=lsib_leaf,leaf_sons=lsib_leaf_sons,nonleaf_sons=lsib_nonleaf_sons,leaf_descendants=lsib_leaf_descendants,nonleaf_descendants=lsib_nonleaf_descendants)
         return(desc)
-    def rsib(self,pathlist):
+    def getrsib(self,pathlist):
         hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
@@ -178,7 +306,7 @@ class hdict():
             ###########################################
         desc = description(readable_path=rsib_readable_path,pathlist=rsib_pathlist,depth=rsib_depth,breadth=rsib_breadth,siblings_seq=rsib_siblings_seq,tag=rsib_tag,attrib=rsib_attrib,text=rsib_text,type=rsib_type,leaf=rsib_leaf,leaf_sons=rsib_leaf_sons,nonleaf_sons=rsib_nonleaf_sons,leaf_descendants=rsib_leaf_descendants,nonleaf_descendants=rsib_nonleaf_descendants)
         return(desc)
-    def lcin(self,pathlist):
+    def getlcin(self,pathlist):
         hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
@@ -219,7 +347,7 @@ class hdict():
             ###########################################
         desc = description(readable_path=lcin_readable_path,pathlist=lcin_pathlist,depth=lcin_depth,breadth=lcin_breadth,siblings_seq=lcin_siblings_seq,tag=lcin_tag,attrib=lcin_attrib,text=lcin_text,type=lcin_type,leaf=lcin_leaf,leaf_sons=lcin_leaf_sons,nonleaf_sons=lcin_nonleaf_sons,leaf_descendants=lcin_leaf_descendants,nonleaf_descendants=lcin_nonleaf_descendants)
         return(desc)
-    def rcin(self,pathlist):
+    def getrcin(self,pathlist):
         hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
         breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
         depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
@@ -259,4 +387,56 @@ class hdict():
             rcin_nonleaf_descendants = self.sdict[rcin_depth][rcin_breadth]['non_leaf_descendant_pathlists']
             ###########################################
         desc = description(readable_path=rcin_readable_path,pathlist=rcin_pathlist,depth=rcin_depth,breadth=rcin_breadth,siblings_seq=rcin_siblings_seq,tag=rcin_tag,attrib=rcin_attrib,text=rcin_text,type=rcin_type,leaf=rcin_leaf,leaf_sons=rcin_leaf_sons,nonleaf_sons=rcin_nonleaf_sons,leaf_descendants=rcin_leaf_descendants,nonleaf_descendants=rcin_nonleaf_descendants)
+        return(desc)
+    def node(self,pathlist):
+        hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,pathlist)
+        breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,hdict_pathlist)
+        depth,breadth = hdict_object.breadth_path_to_sdict_location(breadth_path)
+        node_pathlist = self.sdict[depth][breadth]['orig_obj_path']
+        if(node_pathlist == []):
+            node_pathlist = None
+            node_readable_path = None
+            node_depth = None
+            node_breadth = None
+            node_siblings_seq = None
+            node_tag = None
+            node_attrib = None
+            node_text = None
+            node_type = None
+            node_leaf = None
+            #####
+            node_leaf_sons = None 
+            node_nonleaf_sons = None
+            node_leaf_descendants = None
+            node_nonleaf_descendants = None
+            #####
+            node_lsib = None
+            node_rsib = None
+            node_lcin = None
+            node_rcin = None
+            #####
+        else:
+            node_readable_path = hdict_object.path_list_to_console_key_str(node_pathlist)
+            node_hdict_pathlist = hdict_object.orig_obj_path_to_hdict_path(self.prdict,node_pathlist)
+            node_breadth_path = hdict_object.hdict_path_to_breadth_path(self.hdict,node_hdict_pathlist)
+            node_depth,node_breadth = hdict_object.breadth_path_to_sdict_location(node_breadth_path)
+            node_siblings_seq = self.sdict[node_depth][node_breadth]['siblings_seq_path'][-1]
+            node_tag = hdict_object.hdict_get_value(self.hdict,node_pathlist)['tag']
+            node_attrib = self.sdict[node_depth][node_breadth]['attrib']
+            node_text = self.sdict[node_depth][node_breadth]['text']
+            node_type = self.sdict[node_depth][node_breadth]['type']
+            node_leaf = self.sdict[node_depth][node_breadth]['leaf']
+            ##########################################
+            node_leaf_sons = self.sdict[node_depth][node_breadth]['leaf_son_pathlists']
+            node_nonleaf_sons = self.sdict[node_depth][node_breadth]['non_leaf_son_pathlists']
+            node_leaf_descendants = self.sdict[node_depth][node_breadth]['leaf_descendant_pathlists']
+            node_nonleaf_descendants = self.sdict[node_depth][node_breadth]['non_leaf_descendant_pathlists']
+            ###########################################
+            #####
+            node_lsib = self.getlsib(pathlist)
+            node_rsib = self.getrsib(pathlist)
+            node_lcin = self.getlcin(pathlist)
+            node_rcin = self.getrcin(pathlist)
+            #####
+        desc = nodedescription(readable_path=node_readable_path,pathlist=node_pathlist,depth=node_depth,breadth=node_breadth,siblings_seq=node_siblings_seq,tag=node_tag,attrib=node_attrib,text=node_text,type=node_type,leaf=node_leaf,leaf_sons=node_leaf_sons,nonleaf_sons=node_nonleaf_sons,leaf_descendants=node_leaf_descendants,nonleaf_descendants=node_nonleaf_descendants,lsib=node_lsib,rsib=node_rsib,lcin=node_lcin,rcin=node_rcin)
         return(desc)
