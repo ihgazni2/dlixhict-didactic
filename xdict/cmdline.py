@@ -4329,6 +4329,7 @@ class cmdict():
         self.s2n = 1
         self.line_sp = line_sp
         self.cmd_sp = cmd_sp
+        self.debug = debug
     def __repr__(self):
         return(self.dict.__repr__())
     def __getitem__(self,cmd):
@@ -4378,7 +4379,7 @@ class cmdict():
                 rslt = []
                 for each in prompt:
                     t = (each,self.pathlists[each])
-                    if(debug >=1):
+                    if(self.debug >=1):
                         print("------the exact path to getitem as below----------------------")
                         print("using:")
                         print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
@@ -4387,7 +4388,7 @@ class cmdict():
                         print("to get value")
                         print("--------------------------------------------------------------")
                     rslt.append(t)
-                if(debug >=2):
+                if(self.debug >=2):
                     raise KeyError('should be',rslt)
                 else:
                     pass
@@ -4402,7 +4403,7 @@ class cmdict():
                 rslt = []
                 for each in prompt:
                     t = (each,self.pathlists[each])
-                    if(debug>=1):
+                    if(self.debug>=1):
                         print("------the exact path to getitem as below----------------------")
                         print("using:")
                         print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
@@ -4411,7 +4412,7 @@ class cmdict():
                         print("to get value")
                         print("--------------------------------------------------------------")
                     rslt.append(t)
-                if(debug>=2):
+                if(self.debug>=2):
                     raise KeyError('should be',rslt)
                 else:
                     pass
