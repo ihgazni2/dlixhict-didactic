@@ -4297,6 +4297,10 @@ class cmdict():
             cmdt = cmdline.cmdict(dict=currd)
         '''
         self.dict = kwargs['dict']
+        if('debug' in kwargs):
+            debug = kwargs['debug']
+        else:
+            debug = 0
         if('line_sp' in kwargs):
             line_sp = kwargs['line_sp']
         else:
@@ -4374,15 +4378,19 @@ class cmdict():
                 rslt = []
                 for each in prompt:
                     t = (each,self.pathlists[each])
-                    print("------the exact path to getitem as below----------------------")
-                    print("using:")
-                    print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
-                    print("or:")
-                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
-                    print("to get value")
-                    print("--------------------------------------------------------------")
+                    if(debug >=1):
+                        print("------the exact path to getitem as below----------------------")
+                        print("using:")
+                        print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
+                        print("or:")
+                        print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
+                        print("to get value")
+                        print("--------------------------------------------------------------")
                     rslt.append(t)
-                raise KeyError('should be',rslt)
+                if(debug >=2):
+                    raise KeyError('should be',rslt)
+                else:
+                    pass
             else:
                 return(rslt)
         else:
@@ -4394,15 +4402,19 @@ class cmdict():
                 rslt = []
                 for each in prompt:
                     t = (each,self.pathlists[each])
-                    print("------the exact path to getitem as below----------------------")
-                    print("using:")
-                    print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
-                    print("or:")
-                    print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
-                    print("to get value")
-                    print("--------------------------------------------------------------")
+                    if(debug>=1):
+                        print("------the exact path to getitem as below----------------------")
+                        print("using:")
+                        print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
+                        print("or:")
+                        print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
+                        print("to get value")
+                        print("--------------------------------------------------------------")
                     rslt.append(t)
-                raise KeyError('should be',rslt)
+                if(debug>=2):
+                    raise KeyError('should be',rslt)
+                else:
+                    pass
             else:
                 return(rslt)
     def __setitem__(self,cmd,value):
