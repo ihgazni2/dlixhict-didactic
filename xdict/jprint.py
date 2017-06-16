@@ -1276,6 +1276,10 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
     return(rslt)
 
 def print_j_str(j_str,**kwargs):
+    if('display' in kwargs):
+        display = kwargs['display']
+    else:
+        display = 0
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -1392,8 +1396,11 @@ def print_j_str(j_str,**kwargs):
             # curr_head_len = indent * indent_num
         # else:
         painted_lines[i] = painted_string
-    for i in range(start,end+1):
-        print(painted_lines[i])
+    if(display):
+        for i in range(start,end+1):
+            print(painted_lines[i])
+    else:
+        pass
     return(painted_lines)
 
 
