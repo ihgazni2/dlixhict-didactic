@@ -1527,7 +1527,7 @@ def pobj(obj,**kwargs):
         print(jb.beautify(s,opts))
     else:
         if(with_color):
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
         else:
             print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
 
