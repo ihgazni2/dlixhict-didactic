@@ -4508,17 +4508,17 @@ class crtable():
             pass
         if('table' in kwargs):
         ####
-        table = copy.deepcopy(kwargs['table'])
-        if(utils.is_list(table)):
-            table = ltdict.list_to_ltdict(table)
-        else:
-            pass
-        for kseq in table:
-            eachrow = copy.deepcopy(table[kseq])
-            if(utils.is_list(eachrow)):
-                table[kseq] = ltdict.list_to_ltdict(eachrow)
+            table = copy.deepcopy(kwargs['table'])
+            if(utils.is_list(table)):
+                table = ltdict.list_to_ltdict(table)
             else:
                 pass
+            for kseq in table:
+                eachrow = copy.deepcopy(table[kseq])
+                if(utils.is_list(eachrow)):
+                    table[kseq] = ltdict.list_to_ltdict(eachrow)
+                else:
+                    pass
         ####
             self.crtable['table'] = nametable_to_indextable(kwargs['table'],self.crtable['animd'])
         else:
