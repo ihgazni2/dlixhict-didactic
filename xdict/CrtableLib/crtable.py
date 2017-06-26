@@ -4520,13 +4520,13 @@ class crtable():
                 else:
                     pass
         ####
-            self.crtable['table'] = nametable_to_indextable(kwargs['table'],self.crtable['animd'])
+            self.crtable['table'] = nametable_to_indextable(table,self.crtable['animd'])
         else:
             pass
         condk = ('keynameslist' in kwargs)
         ####
-        keynameslist = copy.deepcopy(kwargs['keynameslist'])
         if(condk):
+            keynameslist = copy.deepcopy(kwargs['keynameslist'])
             for k in range(0,keynameslist.__len__()):
                 keynameslist[k] = str(keynameslist[k])
         else:
@@ -4534,8 +4534,8 @@ class crtable():
         ####
         condv = ('valuenameslist' in kwargs)
         ####
-        valuenameslist = copy.deepcopy(kwargs['valuenameslist'])
         if(condv):
+            valuenameslist = copy.deepcopy(kwargs['valuenameslist'])
             for k in range(0,valuenameslist.__len__()):
                 valuenameslist[k] = str(valuenameslist[k])
         else:
