@@ -4498,10 +4498,11 @@ class crtable():
         self.crtable['animd'] = {}
         if('colnameslist' in kwargs):
             ####
-            ####for k in range(0,kwargs['colnameslist'].__len__()):
-            ####    kwargs['colnameslist'][k] = str(kwargs['colnameslist']) 
+            colnameslist = copy.deepcopy(kwargs['colnameslist'])
+            for k in range(0,colnameslist.__len__()):
+                colnameslist[k] = str(colnameslist) 
             ####
-            refdict = ltdict.list_to_ltdict(kwargs['colnameslist'])
+            refdict = ltdict.list_to_ltdict(colnameslist)
             self.crtable['animd'] = creat_mirror_dict(refdict)
         else:
             pass
