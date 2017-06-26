@@ -4500,7 +4500,7 @@ class crtable():
             ####
             colnameslist = copy.deepcopy(kwargs['colnameslist'])
             for k in range(0,colnameslist.__len__()):
-                colnameslist[k] = str(colnameslist) 
+                colnameslist[k] = str(colnameslist[k]) 
             ####
             refdict = ltdict.list_to_ltdict(colnameslist)
             self.crtable['animd'] = creat_mirror_dict(refdict)
