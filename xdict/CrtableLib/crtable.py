@@ -4497,6 +4497,8 @@ class crtable():
         self.crtable['table'] = {}
         self.crtable['animd'] = {}
         if('colnameslist' in kwargs):
+            for k in range(0,kwargs['colnameslist'].__len__()):
+                kwargs['colnameslist'][k] = str(kwargs['colnameslist']) 
             refdict = ltdict.list_to_ltdict(kwargs['colnameslist'])
             self.crtable['animd'] = creat_mirror_dict(refdict)
         else:
@@ -4506,7 +4508,17 @@ class crtable():
         else:
             pass
         condk = ('keynameslist' in kwargs)
+        if(condk):
+            for k in range(0,kwargs['keynameslist'].__len__()):
+                kwargs['keynameslist'][k] = str(kwargs['keynameslist'])
+        else:
+            pass
         condv = ('valuenameslist' in kwargs)
+        if(condv):
+            for k in range(0,kwargs['valuenameslist'].__len__()):
+                kwargs['valuenameslist'][k] = str(kwargs['valuenameslist'])
+        else:
+            pass
         if(condk & condv):
             self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
             self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
