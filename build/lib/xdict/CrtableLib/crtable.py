@@ -4507,23 +4507,40 @@ class crtable():
         else:
             pass
         if('table' in kwargs):
+        ####
+        table = copy.deepcopy(kwargs['table'])
+        if(utils.is_list(table)):
+            table = ltdict.list_to_ltdict(table)
+        else:
+            pass
+        for kseq in table:
+            eachrow = copy.deepcopy(table[kseq])
+            if(utils.is_list(eachrow)):
+                table[kseq] = ltdict.list_to_ltdict(eachrow)
+            else:
+                pass
+        ####
             self.crtable['table'] = nametable_to_indextable(kwargs['table'],self.crtable['animd'])
         else:
             pass
         condk = ('keynameslist' in kwargs)
         ####
-        ####if(condk):
-        ####    for k in range(0,kwargs['keynameslist'].__len__()):
-        ####        kwargs['keynameslist'][k] = str(kwargs['keynameslist'])
-        ####else:
-        ####    pass
+        keynameslist = copy.deepcopy(kwargs['keynameslist'])
+        if(condk):
+            for k in range(0,keynameslist.__len__()):
+                keynameslist[k] = str(keynameslist[k])
+        else:
+            pass
+        ####
         condv = ('valuenameslist' in kwargs)
         ####
-        ####if(condv):
-        ####    for k in range(0,kwargs['valuenameslist'].__len__()):
-        ####        kwargs['valuenameslist'][k] = str(kwargs['valuenameslist'])
-        ####else:
-        ####    pass
+        valuenameslist = copy.deepcopy(kwargs['valuenameslist'])
+        if(condv):
+            for k in range(0,valuenameslist.__len__()):
+                valuenameslist[k] = str(valuenameslist[k])
+        else:
+            pass
+        ####
         if(condk & condv):
             self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
             self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
