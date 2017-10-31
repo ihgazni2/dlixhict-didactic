@@ -4496,6 +4496,9 @@ class crtable():
         self.crtable = {}
         self.crtable['table'] = {}
         self.crtable['animd'] = {}
+        self.colnameslist = []
+        self.keynameslist = []
+        self.valuenameslist = []
         if('colnameslist' in kwargs):
             ####
             colnameslist = copy.deepcopy(kwargs['colnameslist'])
@@ -4504,6 +4507,7 @@ class crtable():
             ####
             refdict = ltdict.list_to_ltdict(colnameslist)
             self.crtable['animd'] = creat_mirror_dict(refdict)
+            self.colnameslist = colnameslist
         else:
             pass
         if('table' in kwargs):
@@ -4529,6 +4533,7 @@ class crtable():
             keynameslist = copy.deepcopy(kwargs['keynameslist'])
             for k in range(0,keynameslist.__len__()):
                 keynameslist[k] = str(keynameslist[k])
+            self.keynameslist = keynameslist
         else:
             pass
         ####
@@ -4538,6 +4543,7 @@ class crtable():
             valuenameslist = copy.deepcopy(kwargs['valuenameslist'])
             for k in range(0,valuenameslist.__len__()):
                 valuenameslist[k] = str(valuenameslist[k])
+            self.valuenameslist = valuenameslist
         else:
             pass
         ####
