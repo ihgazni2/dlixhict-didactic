@@ -4848,6 +4848,35 @@ class crtable():
             crtb
             crtb.col('color')
             crtb.col('color',show=0)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'language': 2, 'size': 0}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            
+            >>> crtb.col('color')
+            +++++++
+            |color|
+            +++++++
+            |green|
+            +++++++
+            |green|
+            +++++++
+            |green|
+            +++++++
+            ['green', 'green', 'green']
+            >>> crtb.col('color',show=0)
+            ['green', 'green', 'green']
+            >>> 
         '''
         colslist = [colname]
         subcols = self.choose_cols(colslist)
