@@ -90,7 +90,10 @@ key\_name\_index\_mirror\_dict: knimd
 			'table': {...two-dimension ltdict...}, 
 			'animd': {...attrib_name_index_mirror_dict...},  
 			'knimd': {...key_name_index_mirror_dict...},    
-			'vnimd': {...value_name_index_mirror_dict...}  
+			'vnimd': {...value_name_index_mirror_dict...},
+			'keynameslist' :[...keynameslist...],
+			'valuenameslist' :[...valuenameslist...],
+			'colnameslist' :[...colnameslist...]
 		}
 
 
