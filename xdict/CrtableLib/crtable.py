@@ -4842,6 +4842,23 @@ class crtable():
         else:
             ncrtb = get_newcrtable_via_colnameslist(colslist,self.crtable)
         return(ncrtb)
+    ####
+    def col(self,colname,show=1):
+        '''
+            crtb
+            crtb.col('color')
+            crtb.col('color',show=0)
+        '''
+        colslist = [colname]
+        subcols = self.choose_cols(colslist)
+        if(show):
+            show_crtable(subcols)
+        col = []
+        table = subcols['table']
+        for i in range(0,table.__len__()):
+            col.append(table[i][0])
+        return(col)
+    ####
     def choose_rows(self,rownumslist):
         '''
             crtb
