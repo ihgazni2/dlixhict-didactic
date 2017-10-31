@@ -1323,6 +1323,16 @@ __6. .choose_cols(colslist)__
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.choose_cols.1.png)  
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.choose_cols.2.png)  
 
+__6.1. .col(colname)__
+----------------------
+		crtb
+		crtb.col('color')
+		crtb.col('color',show=0) 
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.col.png)  
+
+
+
 
 __7. .choose_rows(rownumslist)__
 --------------------------------
