@@ -4553,9 +4553,21 @@ class crtable():
         elif(condk):
             self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
             self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
+            #####
+            vrefd = get_indexonly_refdict(self.crtable['vnimd'])
+            vrefd_items_list = sorted(vrefd.items(),key=lambda a_tuple:a_tuple[0])
+            valuenameslist = list(map(lambda a_tuple:a_tuple[1],vrefd_items_list))
+            self.valuenameslist = valuenameslist
+            #####
         elif(condv):
             self.crtable['vnimd'] = get_mirror_dict_via_nameslist(kwargs['valuenameslist'],self.crtable['animd'])
             self.crtable['knimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['valuenameslist'],self.crtable['animd'])
+            #####
+            krefd = get_indexonly_refdict(self.crtable['vnimd'])
+            krefd_items_list = sorted(krefd.items(),key=lambda a_tuple:a_tuple[0])
+            keynameslist = list(map(lambda a_tuple:a_tuple[1],krefd_items_list))
+            self.keynameslist = keynameslist
+            #####
         else:
             self.crtable['knimd'] = {}
             self.crtable['vnimd'] = {}
