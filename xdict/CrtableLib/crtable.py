@@ -3428,16 +3428,15 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
         nnkrefd = {}
         nnvrefd = {}
         nnrefd = naturalize_refdict(nrefd)
-        krefd_temp = get_indexonly_refdict(naturalize_refdict(nkrefd))
-        vrefd_temp = get_indexonly_refdict(naturalize_refdict(nvrefd))
-        for ncolnum in krefd_temp:
-            colname = krefd_temp[ncolnum]
+        nirefd = get_indexonly_refdict(naturalize_refdict(nnrefd))
+        for ncolnum in nirefd:
+            colname = nirefd[ncolnum]
             if(colname in nkrefd.values()):
                 nnkrefd[ncolnum] = colname 
             else:
                 pass
-        for ncolnum in vrefd_temp:     
-            colname = vrefd_temp[ncolnum]
+        for ncolnum in nirefd:     
+            colname = nirefd[ncolnum]
             if(colname in nvrefd.values()):
                 nnvrefd[ncolnum] = colname
             else:
@@ -3462,10 +3461,10 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
             else:
                 pass
         crtb['table'][rownum] = nr
-    #if(naturalize):
-    #    return(naturalize_crtable(crtb))
-    #else:
-    return(crtb)
+    if(naturalize):
+        return(naturalize_crtable(crtb))
+    else:
+        return(crtb)
 
 def get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs):
     '''
