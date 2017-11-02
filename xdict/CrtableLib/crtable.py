@@ -3415,10 +3415,6 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
             nrefd[index] = refd[index]
         else:
             pass
-    if(naturalize):
-        nrefd = naturalize_refdict(nrefd)
-    else:
-        pass 
     nkrefd = {}
     nvrefd = {}
     for index in nrefd:
@@ -3427,6 +3423,24 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
             nkrefd[index] = name
         else:
             nvrefd[index] = name
+    ####
+    if(naturalize):
+        nnkrefd = {}
+        nnvrefd = {}
+        nnrefd = naturalize_refdict(nrefd)
+        nirefd = get_indexonly_refdict(nrefd)
+        for ncolnum in nirefd:
+            colname = nirefd[ncolnum]
+            if(colname in nkrefd.values()):
+                nnkrefd[ncolnum] = colname      
+            else:
+                nnvrefd[ncolnum] = colname
+        nkrefd = nnkrefd
+        nvrefd = nnvrefd
+        nrefd = nnrefd
+    else:
+        pass
+    ####
     crtb = {}
     crtb['animd'] = creat_mirror_dict(nrefd)
     crtb['knimd'] = creat_mirror_dict(nkrefd)
