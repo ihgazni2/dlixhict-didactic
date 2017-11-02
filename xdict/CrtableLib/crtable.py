@@ -3433,8 +3433,12 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
         for ncolnum in krefd_temp:
             colname = krefd_temp[ncolnum]
             if(colname in nkrefd.values()):
-                nnkrefd[ncolnum] = colname      
-            elif(colname in nvrefd.values()):
+                nnkrefd[ncolnum] = colname 
+            else:
+                pass
+        for ncolnum in vrefd_temp:     
+            colname = vrefd_temp[ncolnum]
+            if(colname in nvrefd.values()):
                 nnvrefd[ncolnum] = colname
             else:
                 pass
