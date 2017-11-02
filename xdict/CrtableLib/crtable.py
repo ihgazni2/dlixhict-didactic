@@ -4491,7 +4491,26 @@ class crtable():
             ====values==:
                 :{'color': 1, 'expire': 3}
             
-            >>> 
+            import copy
+            crtb.crtable
+            {'animd': {0: 'size', 1: 'color', 2: 'language', 'size': 0, 3: 'expire', 'expire': 3, 'color': 1, 'language': 2}, 'knimd': {0: 'size', 2: 'language', 'size': 0, 'language': 2}, 'vnimd': {'expire': 3, 3: 'expire', 'color': 1, 1: 'color'}, 'table': {0: {0: 500, 1: 'green', 2: 'espanol', 3: '2018-dec-01'}, 1: {0: 74, 1: 'green', 2: 'chinese', 3: '2017-oct-01'}, 2: {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}}}
+            crtable = copy.deepcopy(crtb.crtable)
+            crtb2 = xcr.crtable(crtable=crtable)
+            crtb2
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+                 
         '''
         self.crtable = {}
         self.crtable['table'] = {}
@@ -4917,6 +4936,35 @@ class crtable():
             crtb
             crtb.cols(['size','language'])
             crtb.cols(['size','language'],show=0)
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'expire': 3, 'color': 1}
+            
+            >>> crtb.cols(['size','language'])
+            +++++++++++++++
+            |size|language|
+            +++++++++++++++
+            | 500| espanol|
+            +++++++++++++++
+            |  74| chinese|
+            +++++++++++++++
+            |  74| espanol|
+            +++++++++++++++
+            {'size': [500, 74, 74], 'language': ['espanol', 'chinese', 'espanol']}
+            >>> crtb.cols(['size','language'],show=0)
+            {'size': [500, 74, 74], 'language': ['espanol', 'chinese', 'espanol']}
+
         '''
         subcols = self.choose_cols(subcolnameslist)
         if(show):
@@ -4933,13 +4981,14 @@ class crtable():
         return(cols)
     def sub(self,subcolnameornumslist,subrownumslist,show=1):
         '''
+
         '''
         subcols_crtable = self.choose_cols(subcolnameornumslist)
         ncrtb = copy.deepcopy(subcols_crtable)
         realrownumslist = sorted(list(self.crtable['table'].keys()))
         ncrtb['table'] = {}
         seq = 0
-        for i in rownumslist:
+        for i in subrownumslist:
             ncrtb['table'][seq] = self.crtable['table'][realrownumslist[i]]
             seq = seq + 1
         if(show):
