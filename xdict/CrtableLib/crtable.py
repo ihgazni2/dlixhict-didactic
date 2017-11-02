@@ -4985,11 +4985,11 @@ class crtable():
         '''
         subcols_crtable = self.choose_cols(subcolnameornumslist)
         ncrtb = copy.deepcopy(subcols_crtable)
-        realrownumslist = sorted(list(self.crtable['table'].keys()))
+        realrownumslist = sorted(list(subcols_crtable['table'].keys()))
         ncrtb['table'] = {}
         seq = 0
         for i in subrownumslist:
-            ncrtb['table'][seq] = self.crtable['table'][realrownumslist[i]]
+            ncrtb['table'][seq] = subcols_crtable['table'][realrownumslist[i]]
             seq = seq + 1
         if(show):
             show_crtable(ncrtb)
