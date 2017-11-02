@@ -3455,10 +3455,10 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
             else:
                 pass
         crtb['table'][rownum] = nr
-    if(naturalize):
-        return(naturalize_crtable(crtb))
-    else:
-        return(crtb)
+    #if(naturalize):
+    #    return(naturalize_crtable(crtb))
+    #else:
+    return(crtb)
 
 def get_newcrtable_via_colnameslist(colnameslist,crtable,**kwargs):
     '''
