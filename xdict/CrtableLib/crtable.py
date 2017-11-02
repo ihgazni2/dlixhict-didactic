@@ -4499,78 +4499,85 @@ class crtable():
         self.colnameslist = []
         self.keynameslist = []
         self.valuenameslist = []
-        if('colnameslist' in kwargs):
-            ####
-            colnameslist = copy.deepcopy(kwargs['colnameslist'])
-            for k in range(0,colnameslist.__len__()):
-                colnameslist[k] = str(colnameslist[k]) 
-            ####
-            refdict = ltdict.list_to_ltdict(colnameslist)
-            self.crtable['animd'] = creat_mirror_dict(refdict)
-            self.colnameslist = colnameslist
+        if('crtable' in kwargs):
+            ncrtb = kwargs['crtable']
+            self.crtable = ncrtb
+            self.keynameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['knimd']))
+            self.valuenameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['vnimd']))
+            self.colnameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['animd']))
         else:
-            pass
-        if('table' in kwargs):
-        ####
-            table = copy.deepcopy(kwargs['table'])
-            if(utils.is_list(table)):
-                table = ltdict.list_to_ltdict(table)
+            if('colnameslist' in kwargs):
+                ####
+                colnameslist = copy.deepcopy(kwargs['colnameslist'])
+                for k in range(0,colnameslist.__len__()):
+                    colnameslist[k] = str(colnameslist[k]) 
+                ####
+                refdict = ltdict.list_to_ltdict(colnameslist)
+                self.crtable['animd'] = creat_mirror_dict(refdict)
+                self.colnameslist = colnameslist
             else:
                 pass
-            for kseq in table:
-                eachrow = copy.deepcopy(table[kseq])
-                if(utils.is_list(eachrow)):
-                    table[kseq] = ltdict.list_to_ltdict(eachrow)
+            if('table' in kwargs):
+            ####
+                table = copy.deepcopy(kwargs['table'])
+                if(utils.is_list(table)):
+                    table = ltdict.list_to_ltdict(table)
                 else:
                     pass
-        ####
-            self.crtable['table'] = nametable_to_indextable(table,self.crtable['animd'])
-        else:
-            pass
-        condk = ('keynameslist' in kwargs)
-        ####
-        if(condk):
-            keynameslist = copy.deepcopy(kwargs['keynameslist'])
-            for k in range(0,keynameslist.__len__()):
-                keynameslist[k] = str(keynameslist[k])
-            self.keynameslist = keynameslist
-        else:
-            pass
-        ####
-        condv = ('valuenameslist' in kwargs)
-        ####
-        if(condv):
-            valuenameslist = copy.deepcopy(kwargs['valuenameslist'])
-            for k in range(0,valuenameslist.__len__()):
-                valuenameslist[k] = str(valuenameslist[k])
-            self.valuenameslist = valuenameslist
-        else:
-            pass
-        ####
-        if(condk & condv):
-            self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
-            self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
-        elif(condk):
-            self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
-            self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
-            #####
-            vrefd = get_indexonly_refdict(self.crtable['vnimd'])
-            vrefd_items_list = sorted(vrefd.items(),key=lambda a_tuple:a_tuple[0])
-            valuenameslist = list(map(lambda a_tuple:a_tuple[1],vrefd_items_list))
-            self.valuenameslist = valuenameslist
-            #####
-        elif(condv):
-            self.crtable['vnimd'] = get_mirror_dict_via_nameslist(kwargs['valuenameslist'],self.crtable['animd'])
-            self.crtable['knimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['valuenameslist'],self.crtable['animd'])
-            #####
-            krefd = get_indexonly_refdict(self.crtable['vnimd'])
-            krefd_items_list = sorted(krefd.items(),key=lambda a_tuple:a_tuple[0])
-            keynameslist = list(map(lambda a_tuple:a_tuple[1],krefd_items_list))
-            self.keynameslist = keynameslist
-            #####
-        else:
-            self.crtable['knimd'] = {}
-            self.crtable['vnimd'] = {}
+                for kseq in table:
+                    eachrow = copy.deepcopy(table[kseq])
+                    if(utils.is_list(eachrow)):
+                        table[kseq] = ltdict.list_to_ltdict(eachrow)
+                    else:
+                        pass
+            ####
+                self.crtable['table'] = nametable_to_indextable(table,self.crtable['animd'])
+            else:
+                pass
+            condk = ('keynameslist' in kwargs)
+            ####
+            if(condk):
+                keynameslist = copy.deepcopy(kwargs['keynameslist'])
+                for k in range(0,keynameslist.__len__()):
+                    keynameslist[k] = str(keynameslist[k])
+                self.keynameslist = keynameslist
+            else:
+                pass
+            ####
+            condv = ('valuenameslist' in kwargs)
+            ####
+            if(condv):
+                valuenameslist = copy.deepcopy(kwargs['valuenameslist'])
+                for k in range(0,valuenameslist.__len__()):
+                    valuenameslist[k] = str(valuenameslist[k])
+                self.valuenameslist = valuenameslist
+            else:
+                pass
+            ####
+            if(condk & condv):
+                self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
+                self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
+            elif(condk):
+                self.crtable['knimd'] = get_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
+                self.crtable['vnimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['keynameslist'],self.crtable['animd'])
+                #####
+                vrefd = get_indexonly_refdict(self.crtable['vnimd'])
+                vrefd_items_list = sorted(vrefd.items(),key=lambda a_tuple:a_tuple[0])
+                valuenameslist = list(map(lambda a_tuple:a_tuple[1],vrefd_items_list))
+                self.valuenameslist = valuenameslist
+                #####
+            elif(condv):
+                self.crtable['vnimd'] = get_mirror_dict_via_nameslist(kwargs['valuenameslist'],self.crtable['animd'])
+                self.crtable['knimd'] = get_the_other_mirror_dict_via_nameslist(kwargs['valuenameslist'],self.crtable['animd'])
+                #####
+                krefd = get_indexonly_refdict(self.crtable['vnimd'])
+                krefd_items_list = sorted(krefd.items(),key=lambda a_tuple:a_tuple[0])
+                keynameslist = list(map(lambda a_tuple:a_tuple[1],krefd_items_list))
+                self.keynameslist = keynameslist
+                #####
+            else:
+                self.crtable['knimd'] = {}
+                self.crtable['vnimd'] = {}
     def __repr__(self):
         '''
             crtb
@@ -4905,10 +4912,13 @@ class crtable():
         for i in range(0,table.__len__()):
             col.append(table[i][0])
         return(col)
-    def cols(self,colslist,show=0):
+    def cols(self,subcolnameslist,show=1):
         '''
+            crtb
+            crtb.cols(['size','language'])
+            crtb.cols(['size','language'],show=0)
         '''
-        subcols = self.choose_cols(colslist)
+        subcols = self.choose_cols(subcolnameslist)
         if(show):
             show_crtable(subcols)
         cols = {}
@@ -4921,6 +4931,22 @@ class crtable():
                 col.append(table[i][colnum])
                 cols[name] = col
         return(cols)
+    def sub(self,subcolnameornumslist,subrownumslist,show=1):
+        '''
+        '''
+        subcols_crtable = self.choose_cols(subcolnameornumslist)
+        ncrtb = copy.deepcopy(subcols_crtable)
+        realrownumslist = sorted(list(self.crtable['table'].keys()))
+        ncrtb['table'] = {}
+        seq = 0
+        for i in rownumslist:
+            ncrtb['table'][seq] = self.crtable['table'][realrownumslist[i]]
+            seq = seq + 1
+        if(show):
+            show_crtable(ncrtb)
+        else:
+            pass
+        return(ncrtb)
     ####
     def choose_rows(self,rownumslist):
         '''
