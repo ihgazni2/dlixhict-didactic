@@ -4905,6 +4905,22 @@ class crtable():
         for i in range(0,table.__len__()):
             col.append(table[i][0])
         return(col)
+    def cols(self,colslist,show=0):
+        '''
+        '''
+        subcols = self.choose_cols(colslist)
+        if(show):
+            show_crtable(subcols)
+        cols = {}
+        table = subcols['table']
+        nrefd = get_nameonly_refdict(subcols['animd'])
+        for name in nrefd:
+            colnum = nrefd[name]
+            col = []
+            for i in range(0,table.__len__()):
+                col.append(table[i][colnum])
+                cols[name] = col
+        return(cols)
     ####
     def choose_rows(self,rownumslist):
         '''
