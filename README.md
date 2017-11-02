@@ -1250,8 +1250,15 @@ __1. init__
 		table[2] = {0: 74, 1: 'green', 2: 'espanol', 3: '2017-oct-01'}
 		crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
 		crtb
+		
+		import copy
+		crtb.crtable
+		crtable = copy.deepcopy(crtb.crtable)
+		crtb2 = xcr.crtable(crtable=crtable)
+		crtb2
 
-![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__init__.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__init__.1.png) 
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.__init__.2.png)
 
 __2. crtb[keys]__
 -----------------  
@@ -1331,6 +1338,22 @@ __6.1. .col(colname)__
 
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.col.png)  
 
+__6.2. .cols(colnameslist)__
+----------------------------
+		crtb
+		crtb.cols(['size','language'])
+		crtb.cols(['size','language'],show=0)
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.cols.png)  
+
+
+__6.3. .sub(subcolnameslist,subrownumslist)__
+---------------------------------------------
+		crtb
+		crtb.sub(['color','language'],[1,2])
+		crtb.sub(['color','language'],[1,2],show=0)
+
+![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.sub.png)  
 
 
 
