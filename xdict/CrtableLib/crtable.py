@@ -5001,6 +5001,39 @@ class crtable():
         return(cols)
     def sub(self,subcolnameornumslist,subrownumslist,show=1):
         '''
+            crtb
+            crtb.sub(['color','language'],[1,2])
+            crtb.sub(['color','language'],[1,2],show=0)
+
+            >>> crtb
+            +++++++++++++++++++++++++++++++++
+            |size|color|language|     expire|
+            +++++++++++++++++++++++++++++++++
+            | 500|green| espanol|2018-dec-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| chinese|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|green| espanol|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            |  74|black|  korean|2017-oct-01|
+            +++++++++++++++++++++++++++++++++
+            ====keys====:
+                :{'size': 0, 'language': 2}
+            ====values==:
+                :{'color': 1, 'expire': 3}
+            
+            >>> crtb.sub(['color','language'],[1,2])
+            ++++++++++++++++
+            |color|language|
+            ++++++++++++++++
+            |green| chinese|
+            ++++++++++++++++
+            |green| espanol|
+            ++++++++++++++++
+            {'vnimd': {0: 'color', 'color': 0}, 'animd': {0: 'color', 1: 'language', 'color': 0, 'language': 1}, 'knimd': {1: 'language', 'language': 1}, 'table': {0: {0: 'green', 1: 'chinese'}, 1: {0: 'green', 1: 'espanol'}}}
+            >>> crtb.sub(['color','language'],[1,2],show=0)
+            {'vnimd': {0: 'color', 'color': 0}, 'animd': {0: 'color', 1: 'language', 'color': 0, 'language': 1}, 'knimd': {1: 'language', 'language': 1}, 'table': {0: {0: 'green', 1: 'chinese'}, 1: {0: 'green', 1: 'espanol'}}}
+            >>> 
 
         '''
         subcols_crtable = self.choose_cols(subcolnameornumslist)
