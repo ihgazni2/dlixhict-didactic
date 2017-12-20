@@ -1539,6 +1539,23 @@ def pobj(obj,**kwargs):
 
 
 def pdir(obj,**kwargs):
+    '''
+        >>> import os
+        >>> from xdict.jprint import  pdir
+        >>> pdir(os,range=(1,10))
+        [
+         'CLD_DUMPED', 
+         'CLD_EXITED', 
+         'CLD_TRAPPED', 
+         'EX_CANTCREAT', 
+         'EX_CONFIG', 
+         'EX_DATAERR', 
+         'EX_IOERR', 
+         'EX_NOHOST', 
+         'EX_NOINPUT'
+        ]
+        >>> 
+    '''
     obj = dir(obj)
     if('range' in kwargs):
         start = kwargs['range'][0]
