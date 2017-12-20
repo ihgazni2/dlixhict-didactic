@@ -1540,6 +1540,12 @@ def pobj(obj,**kwargs):
 
 def pdir(obj,**kwargs):
     obj = dir(obj)
+    if('range' in kwargs):
+        start = range[0]
+        end = range[1]
+        obj = obj[start,end]
+    else:
+        pass
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
