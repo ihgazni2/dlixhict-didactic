@@ -1531,3 +1531,126 @@ def pobj(obj,**kwargs):
         else:
             print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
 
+
+
+
+
+
+
+
+def pdir(obj,**kwargs):
+    obj = dir(obj)
+    if('spaces' in kwargs):
+        spaces = kwargs['spaces']
+    else:
+        spaces = [' ','\t']
+    if('colons' in kwargs):
+        colons = kwargs['colons']
+    else:
+        colons = [':']
+    if('commas' in kwargs):
+        commas = kwargs['commas']
+    else:
+        commas = [',']
+    if('line_sps' in kwargs):
+        line_sps = kwargs['line_sps']
+    else:
+        line_sps = ['\r','\n']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
+    if('path_sps' in kwargs):
+        path_sps = kwargs['path_sps']
+    else:
+        path_sps = ['/']
+    if('spaces' in kwargs):
+        spaces = kwargs['spaces']
+    else:
+        spaces = [' ','\t']
+    if('colons' in kwargs):
+        colons = kwargs['colons']
+    else:
+        colons = [':']
+    if('commas' in kwargs):
+        commas = kwargs['commas']
+    else:
+        commas = [',']
+    if('fixed_indent' in kwargs):
+        fixed_indent = kwargs['fixed_indent']
+    else:
+        fixed_indent =0
+    if('indent_bumber' in kwargs):
+        indent_number = kwargs['indent_number']
+    else:
+        indent_number =4
+    if('sp' in kwargs):
+        sp = kwargs['sp']
+    else:
+        sp = '/'
+    if('with_color' in kwargs):
+        with_color = kwargs['with_color']
+    else:
+        with_color = 1
+    if(with_color):
+        if('key_color' in kwargs):
+            key_color = kwargs['key_color']
+        else:
+            key_color=3
+        if('value_color' in kwargs):
+            value_color = kwargs['value_color']
+        else:
+            value_color=7
+        if('list_ele_color' in kwargs):
+            list_ele_color = kwargs['list_ele_color']
+        else:
+            list_ele_color=4
+        if('op_color' in kwargs):
+            op_color = kwargs['op_color']
+        else:
+            op_color=8
+        if('default_color' in kwargs):
+            default_color = kwargs['default_color']
+        else:
+            default_color=9
+        grey = "\033[1;30;40m"
+        red =  "\033[1;31;40m"
+        green =  "\033[1;32;40m"
+        yellow =  "\033[1;33;40m"
+        blue =  "\033[1;34;40m"
+        purple = "\033[1;35;40m"
+        azure = "\033[1;36;40m"
+        white =  "\033[1;37;40m"
+        default =  "\033[0m"
+        painted_string = default
+        if('colors' in kwargs):
+            colors = kwargs['colors']
+        else:
+            colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
+    else:
+        pass
+    if('start' in kwargs):
+        start = kwargs['start']
+    else:
+        start = 0
+    if('block_op_pairs' in kwargs):
+        block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
+    else:
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
+    if('end' in kwargs):
+        end = kwargs['end']
+    else:
+        end = 2**32
+    if('fixed_indent' in kwargs):
+        fixed_indent = kwargs['fixed_indent']
+    else:
+        fixed_indent =0
+    if(with_color):
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+    else:
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
+
