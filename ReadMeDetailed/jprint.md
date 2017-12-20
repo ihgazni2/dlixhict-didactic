@@ -27,4 +27,5 @@
 25. pobj(obj,**kwargs)  
 ![](/Images/jprint.pobj_1.png)
 ![](/Images/jprint.pobj_2.png)
-
+26. pdir(obj,**kwargs)
+![](/Images/jprint.pdir.png)
