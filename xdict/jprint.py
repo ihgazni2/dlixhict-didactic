@@ -1541,8 +1541,8 @@ def pobj(obj,**kwargs):
 def pdir(obj,**kwargs):
     obj = dir(obj)
     if('range' in kwargs):
-        start = range[0]
-        end = range[1]
+        start = kwargs['range'][0]
+        end = kwargs['range'][1]
         obj = obj[start,end]
     else:
         pass
