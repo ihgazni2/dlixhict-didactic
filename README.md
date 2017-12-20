@@ -1353,6 +1353,8 @@ __6.3. .sub(subcolnameslist,subrownumslist)__
 		crtb.sub(['color','language'],[1,2])
 		crtb.sub(['color','language'],[1,2],show=0)
 
+
+
 ![](ReadMeDetailed/CrtableReadMe/Images/crtable.crtable.sub.png)  
 
 
