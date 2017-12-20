@@ -1543,7 +1543,7 @@ def pdir(obj,**kwargs):
     if('range' in kwargs):
         start = kwargs['range'][0]
         end = kwargs['range'][1]
-        obj = obj[start,end]
+        obj = obj[start:end]
     else:
         pass
     if('spaces' in kwargs):
