@@ -1408,6 +1408,16 @@ def unicode_num_array_to_str(num_arr):
         rslt = ''.join((rslt,ch))
     return(rslt)
 
+def fromCharCode(*args):
+    '''
+        >>> fromCharCode(97,98)
+        'ab'
+        >>> 
+    '''
+    return(unicode_num_array_to_str(args))
+
+
+
 class estr(str):
     '''
         from xdict.utils import *
