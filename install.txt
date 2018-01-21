@@ -1,1 +1,1 @@
-/usr/local/lib/python3.4/site-packages/xdict-0.71-py3.4.egg
+/usr/local/lib/python3.4/site-packages/xdict-0.72-py3.4.egg
