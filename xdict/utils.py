@@ -3470,3 +3470,33 @@ class ebitmap():
         '''
         return(bitmaplist_contain(self.list,bm2.list))
 
+
+####numbers
+
+def num_to_bin_str(num,**kwargs):
+    if("length" in kwargs):
+        length = kwargs['length']
+    else:
+        length = 32
+    return('{0:0>{1}}'.format(bin(num)[2:],length))
+
+def num_to_hex_str(num,**kwargs):
+    if("length" in kwargs):
+        length = kwargs['length']
+    else:
+        length = 8
+    return('{0:0>{1}}'.format(hex(num)[2:],length))
+
+####the below is for javascript 
+
+def javascript_unsigned_right_shift(num,shift_num,**kwargs):
+    if(num >=0):
+        return(num>>shift_num)
+    else:
+        if("length" in kwargs):
+            length = kwargs['length']
+        else:
+            length = 32
+        b = num_to_bin_str(2**length + num,length=length)
+        return(int(b,2)>> shift_num)
+
