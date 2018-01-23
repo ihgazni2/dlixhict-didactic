@@ -1,6 +1,33 @@
 import random
+import math
 from xdict import utils
+#####
+def gen_random_ascii_chr():
+    return(chr(math.floor(random.random() * 256 + 1) % 256))
 
+def gen_random_ascii_str(length):
+    rslt = ""
+    for i in range(0,length):
+        rslt = rslt + gen_random_ascii_chr()
+    return(rslt)
+
+
+def gen_random_str_of_length(length,**kwargs):
+    '''JZ._$'''
+    if('char_set' in kwargs):
+        char_set = kwargs['char_set']
+    else:
+        char_set = "0123456789abcdefghijklmnopqrstuvwxyz"
+    rslt = ''
+    for i in range(0,length):
+        seq = math.floor(random.random()*36+1) % 36
+        c = char_set[seq]
+        rslt = rslt + c
+    return(rslt)
+
+
+
+######
 def gen_random_word(**kwargs):
     if('max_word_length' in kwargs):
         max_word_length = kwargs['max_word_length']

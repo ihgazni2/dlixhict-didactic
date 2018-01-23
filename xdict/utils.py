@@ -3500,3 +3500,80 @@ def javascript_unsigned_right_shift(num,shift_num,**kwargs):
         b = num_to_bin_str(2**length + num,length=length)
         return(int(b,2)>> shift_num)
 
+def javascript_logical_or(x,y):
+    if(x):
+        return(x)
+    else:
+        return(y)
+
+def javascript_logical_and(x,y):
+    if(x):
+        return(y)
+    else:
+        return(x)
+
+
+
+def str_tail_to_head(str, tail_len,**kwargs):
+    '''
+        >>> str_tail_to_head("abcdefghi",0)
+        'abcdefghi'
+        >>> str_tail_to_head("abcdefghi",1)
+        'iabcdefgh'
+        >>> str_tail_to_head("abcdefghi",2)
+        'hiabcdefg'
+        >>> str_tail_to_head("abcdefghi",3)
+        'ghiabcdef'
+        >>> str_tail_to_head("abcdefghi",4)
+        'fghiabcde'
+        >>> str_tail_to_head("abcdefghi",5)
+        'efghiabcd'
+        >>> str_tail_to_head("abcdefghi",6)
+        'defghiabc'
+        >>> str_tail_to_head("abcdefghi",7)
+        'cdefghiab'
+        >>> str_tail_to_head("abcdefghi",8)
+        'bcdefghia'
+        >>> str_tail_to_head("abcdefghi",9)
+        'abcdefghi'
+        >>> str_tail_to_head("abcdefghi",10)
+        'iabcdefgh'
+        >>> str_tail_to_head("abcdefghi",10,repeat=0)
+        '\x00abcdefgh'
+        >>> str_tail_to_head("abcdefghi",11,repeat=0)
+        '\x00\x00abcdefg'
+        >>> str_tail_to_head("abcdefghi",12,repeat=0)
+        '\x00\x00\x00abcdef'
+        >>> 
+    '''
+    if("repeat" in kwargs):
+        repeat = kwargs['repeat']
+    else:
+        repeat = 1
+    if("padding" in kwargs):
+        padding = kwargs['padding']
+    else:
+        padding = '\x00'
+    I = ""
+    if(repeat):
+        for J in range(0,str.__len__()):
+            seq = (J + str.__len__() - tail_len) % str.__len__()
+            I = I + str[seq]
+    else:
+        for J in range(0,str.__len__()):
+            seq = (J + str.__len__() - tail_len) 
+            if(seq < 0):
+                I = I + padding
+            else:
+                seq = seq % str.__len__()
+                I = I + str[seq]
+    return(I)
+
+
+
+def str_head_to_tail(str, head_len):
+    return(str_tail_to_head(str, str.__len__() - head_len))
+
+
+
+
