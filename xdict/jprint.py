@@ -1557,6 +1557,16 @@ def pdir(obj,**kwargs):
         >>> 
     '''
     obj = dir(obj)
+    if('egrep' in kwargs):
+        nobj = []
+        for each in obj:
+            if(kwargs['egrep'] in each):
+                nobj.append(each)
+            else:
+                pass
+        obj = nobj
+    else:
+        pass
     if('range' in kwargs):
         start = kwargs['range'][0]
         end = kwargs['range'][1]
