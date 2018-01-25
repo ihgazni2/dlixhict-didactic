@@ -1167,7 +1167,7 @@ def str_to_ord_list(s):
 def ord_list_to_str(l):
     rslt = ''
     for i in range(0,l.__len__()):
-        rslt = rslt + str(l[i])
+        rslt = rslt + chr(l[i])
     return(rslt)
 
 
