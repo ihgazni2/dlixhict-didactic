@@ -1161,6 +1161,19 @@ def str_append_basedon_displaywidth(s,width,**kwargs):
     return(new_S)
 
 
+def str_to_ord_list(s):
+    return(s.split(''))
+
+def ord_list_to_str(l):
+    rslt = ''
+    for i in range(0,l.__len__()):
+        rslt = rslt + str(l[i])
+    return(rslt)
+
+
+
+
+
 
 
 # char encode decode
