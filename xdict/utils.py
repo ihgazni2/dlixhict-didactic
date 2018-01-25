@@ -3597,8 +3597,11 @@ def str_head_to_tail(s, head_len,**kwargs):
     if(repeat):
         pass
     else:
-        r = head_len % s.__len__()
-        rslt = rslt[:s.__len__()-r] + padding * r
+        if(s.__len__() < head_len):
+            r = head_len % s.__len__()
+            rslt = rslt[:s.__len__()-r] + padding * r
+        else:
+            pass
     return(rslt)
 
 
