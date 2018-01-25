@@ -3527,7 +3527,7 @@ def javascript_logical_and(x,y):
 
 
 
-def str_tail_to_head(str, tail_len,**kwargs):
+def str_tail_to_head(s, tail_len,**kwargs):
     '''
         >>> str_tail_to_head("abcdefghi",0)
         'abcdefghi'
@@ -3569,22 +3569,22 @@ def str_tail_to_head(str, tail_len,**kwargs):
         padding = '\x00'
     I = ""
     if(repeat):
-        for J in range(0,str.__len__()):
-            seq = (J + str.__len__() - tail_len) % str.__len__()
-            I = I + str[seq]
+        for J in range(0,s.__len__()):
+            seq = (J + s.__len__() - tail_len) % s.__len__()
+            I = I + s[seq]
     else:
-        for J in range(0,str.__len__()):
-            seq = (J + str.__len__() - tail_len) 
+        for J in range(0,s.__len__()):
+            seq = (J + s.__len__() - tail_len) 
             if(seq < 0):
                 I = I + padding
             else:
-                seq = seq % str.__len__()
-                I = I + str[seq]
+                seq = seq % s.__len__()
+                I = I + s[seq]
     return(I)
 
 
 
-def str_head_to_tail(str, head_len,**kwargs):
+def str_head_to_tail(s, head_len,**kwargs):
     if("repeat" in kwargs):
         repeat = kwargs['repeat']
     else:
@@ -3593,7 +3593,13 @@ def str_head_to_tail(str, head_len,**kwargs):
         padding = kwargs['padding']
     else:
         padding = '\x00'
-    return(str_tail_to_head(str, str.__len__() - head_len,repeat=repeat,padding=padding))
+    rslt =str_tail_to_head(s, s.__len__() - head_len,repeat=repeat,padding=padding)
+    if(repeat):
+        pass
+    else:
+        r = head_len % .s.__len__()
+        rslt = rslt[:s.__len__()-r] + padding * r
+    return(rslt)
 
 
 
