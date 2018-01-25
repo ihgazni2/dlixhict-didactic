@@ -3584,9 +3584,25 @@ def str_tail_to_head(str, tail_len,**kwargs):
 
 
 
-def str_head_to_tail(str, head_len):
-    return(str_tail_to_head(str, str.__len__() - head_len))
+def str_head_to_tail(str, head_len,**kwargs):
+    if("repeat" in kwargs):
+        repeat = kwargs['repeat']
+    else:
+        repeat = 1
+    if("padding" in kwargs):
+        padding = kwargs['padding']
+    else:
+        padding = '\x00'
+    return(str_tail_to_head(str, str.__len__() - head_len,repeat=repeat,padding=padding))
 
 
 
-
+##bytes
+def four_bytes_order_reverse(L):
+    ''' 255       0x00ff
+        65280     0xff00
+        byte4-byte3-byte2-byte1
+        byte1-byte2-byte3-byte4
+    '''
+    L = (L & 255) << 24 | (L & 65280) << 8 | L >> 8 & 65280 | L >> 24 & 255
+    return(L)
