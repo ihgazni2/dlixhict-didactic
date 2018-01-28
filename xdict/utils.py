@@ -989,6 +989,16 @@ class pathlist(list):
 
 #string
 
+def str_repeat(s,times):
+    return(s*times)
+
+def str_xor_str(s1,s2):
+    S = ""
+    for I in range(0,s1.__len__()):
+        S += chr(ord(s1[I]) ^ ord(s2[I]));
+    return(S)
+
+
 def str_to_bool(s,**kwargs):
     '''
         from xdict.utils import *
@@ -1420,6 +1430,26 @@ def unicode_num_array_to_str(num_arr):
         ch = unicode_num_to_char_str(num_arr[i])
         rslt = ''.join((rslt,ch))
     return(rslt)
+
+def str_to_unicode_hex_str(s):
+    def m(n):
+        return('{:0>2}'.format(hex(n)[2:]))
+    l = list(map(m,str_to_unicode_num_array(s)))
+    rslt = ''
+    for i in range(0,l.__len__()):
+        rslt = rslt + str(l[i])
+    return(rslt)
+
+
+def unicode_hex_str_to_str(s):
+    '''JZ.lZ'''
+    rslt = ""
+    for i in range(0,s.__len__(),2):
+        n = int(s[i:i+2],16)
+        c = chr(n)
+        rslt = rslt + c
+    return(rslt)
+
 
 def fromCharCode(*args):
     '''

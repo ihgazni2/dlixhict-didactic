@@ -71,3 +71,47 @@ def toString(n,radix,**kwargs):
     return(rslt)
 
 
+
+def uint2str(ui,**kwargs):
+    if('LE' in kwargs):
+        LE = kwargs['LE']
+    else:
+        LE=False
+    if('length' in kwargs):
+        length = kwargs['length']
+    else:
+        length = None
+    rslt = ''
+    while(ui>0):
+        c = chr(ui & 0xff)
+        ui = ui >> 8
+        rslt = rslt + c
+    if(LE):
+        pass
+    else:
+        rslt = rslt[::-1]
+    if(length):
+        if(LE):
+            rslt = rslt + '\x00' * (length-rslt.__len__())
+        else:
+            rslt = '\x00' * (length-rslt.__len__()) + rslt
+    else:
+        pass
+    return(rslt)
+
+
+def str2uint(s,**kwargs):
+    if('LE' in kwargs):
+        LE = kwargs['LE']
+    else:
+        LE=False
+    if(LE):
+        s = s[::-1]
+    rslt = 0
+    for i in range(0,s.__len__()):
+        rslt = rslt + ord(s[i])*(256**(s.__len__()-i-1))
+    return(rslt)
+
+
+
+
