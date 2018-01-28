@@ -1400,12 +1400,8 @@ def print_j_str(j_str,**kwargs):
     if('range' in kwargs):
         start = kwargs['range'][0]
         end = kwargs['range'][1]
-        print("----")
-        print(start)
-        print(type(start))
-        print(start)
-        print(type(start))
-        print("-----")
+        print(type(painted_lines))
+        print(painted_lines)
         painted_lines = painted_lines[start:end]
     else:
         pass
