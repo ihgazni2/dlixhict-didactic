@@ -1396,6 +1396,14 @@ def print_j_str(j_str,**kwargs):
             # curr_head_len = indent * indent_num
         # else:
         painted_lines[i] = painted_string
+    ####
+    if('range' in kwargs):
+        start = kwargs['range'][0]
+        end = kwargs['range'][1]
+        painted_lines = painted_lines[start:end]
+    else:
+        pass
+    ####
     if(display):
         for i in range(start,end+1):
             print(painted_lines[i])
@@ -1526,10 +1534,16 @@ def pobj(obj,**kwargs):
         opts.indent_size = indent_number
         print(jb.beautify(s,opts))
     else:
-        if(with_color):
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+        ####
+        if('range' in kwargs):
+            ran = kwargs['range']
         else:
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
+            ran = (0,2**32)
+        ####
+        if(with_color):
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,range=ran)
+        else:
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,range=ran)
 
 
 
