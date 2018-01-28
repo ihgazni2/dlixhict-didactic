@@ -1397,7 +1397,6 @@ def print_j_str(j_str,**kwargs):
         # else:
         painted_lines[i] = painted_string
     ####
-        painted_lines = painted_lines[start:end]
     ####
     if(display):
         for i in range(start,end+1):
