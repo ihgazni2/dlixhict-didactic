@@ -64,7 +64,7 @@ class FSM():
         if('fsm_dict' in kwargs):
             self.fsm_dict = kwargs['fsm_dict']
         else:
-            self.fsm_dict = None
+            self.fsm_dict = {}
         if('do_action' in kwargs):
             self.do_action = kwargs['do_action']
         else:
