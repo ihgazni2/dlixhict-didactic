@@ -86,6 +86,7 @@ class FSM():
             print("trigger_checker: "+input_symbol.__str__())
             print("action: "+action.__qualname__)
             print("next_state: "+next_state)
+        return("")
     def modify(self,*args):
         if((args[0],args[1]) in self.fsm_dict):
             self.fsm_dict[(args[0],args[1])] = (args[2],args[3])
