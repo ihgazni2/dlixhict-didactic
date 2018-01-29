@@ -79,7 +79,7 @@ class FSM():
         print("trigger_checker is ised to check the INPUT,if passed checked goto the CORRESPONDING NEXT STATE")
         print("next_state is the FSM NEXT STATE if be triggered")
     def __repr__(self):    
-        for key in fsm_dict:
+        for key in self.fsm_dict:
             curr_state, trigger_checker = key
             action,next_state = fsm_dict[key]
             print("curr_state: "+curr_state)
