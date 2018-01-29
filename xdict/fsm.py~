@@ -83,7 +83,7 @@ class FSM():
             curr_state, trigger_checker = key
             action,next_state = fsm_dict[key]
             print("curr_state: "+curr_state)
-            print("trigger_checker: "+input_symbol.__str__())
+            print("trigger_checker: "+trigger_checker.__str__())
             print("action: "+action.__qualname__)
             print("next_state: "+next_state)
         return("")

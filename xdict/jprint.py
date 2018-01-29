@@ -267,24 +267,40 @@ def convert_token_in_quote(j_str,**kwargs):
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
     # ----------------------------------------------------------------- #
+    ####
     def do_replace(ch):
         if(ch in token_set):
             ch = replace_ref_dict[ch]
         return(ch)
+    def do_throw(curr_state,trigger_checker,input_symbol):
+        print("curr_state: "+curr_state)
+        print("trigger_checker: "+trigger_checker.__str__())
+        print("input_symbol: "+ input_symbol.__str__())
+        print("triggered ERROR")
     ####
     machine = fsm.FSM()
-    regex_lquote = 
+    regex_lquote = fsm.creat_regex_from_arr(lquotes)
+    regex_rquote = fsm.creat_regex_from_arr(rquotes) 
+    regex_b = re.compile('b')
+    regex_spaces = fsm.creat_regex_from_arr(spaces)
+    regex_colons = fsm.creat_regex_from_arr(colons)
+    regex_commas = fsm.creat_regex_from_arr(commas)
+    regex_slash = re.compile("\\\\")
+    not_LqRqBSpColComSl_arr = ['b','\\']
+    not_LqRqBSpColComSl_arr = not_LqRqBSpColComSl_arr + lquotes + rquotes + spaces + colons+commas 
+    regex_not_LqRqBSpColComSl = fsm.creat_regex_not_from_arr(not_LqRqBSpColComSl_arr) 
     # ############################
     # ############################
     fsm_dict = {
-        ("INIT",non_regex_BytesQuoteSlashColonEmpty) : (do_replace,"OTHER"),
-        ("INIT",re.compile("\\\\") : (do_replace,"INITSLASH"),
+        ("INIT",regex_rquote) : (do_throw,"ERROR"),
+        ("INIT",b) : (None,"ERROR"),
+        ####
         ("INITSLASH",re.compile(".")) :(do_replace,"OTHER"),
         ("OTHER",non_regex_QuoteSlashColonEmpty) : (do_replace,"OTHER"),
         
         
     }
-    for i in range(0,regex_lquotes.__len__()):
+    for i in range(0,lquotes.__len__()):
         ####INIT -lq_n-> LQ_n
         k = ("INIT",regex_lquotes[i])
         sn = ''.join(("LQ",'_',str(i)))
@@ -314,6 +330,8 @@ def convert_token_in_quote(j_str,**kwargs):
             v = (do_replace,sn)
             fsm_dict[k] = v
         #####
+    for i in range(0,regex_rquotes.__len__()):
+        machine.add("INIT",regex_rquote,do_throw,"ERROR")
     # #################################
     def search_fsm(curr_state,input_symbol,fsm_dict):
         for key in fsm_dict:
