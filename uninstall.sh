@@ -7,4 +7,4 @@ rm -r build
 rm -r xdict.egg-info
 git add .
 git commit -m "remove old build"
-git push origin master
+#git push origin master

@@ -4,6 +4,7 @@ import jsbeautifier as jb
 from xdict import utils
 import html
 import copy
+from xdict import fsm
 
 # lv_dict
 ## {"key_4_UF0aJJ6v": "value_1", "key_2_Hd0t": ["value_16", "value_8", "value_8", "value_15", "value_14", "value_19", {"key_7_tl": [[], "value_2", "value_4", "value_4"], "key_13_TVj_lP": "value_6", "key_8_9vPp6PT": "value_9", "key_10_Uy": ["value_1"]
@@ -266,23 +267,15 @@ def convert_token_in_quote(j_str,**kwargs):
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
     # ----------------------------------------------------------------- #
-    #Q: QUOTE
-    #PISIQ: PRE_IS_SLASH_IN_QUOTE
-    
-    
-    #SQ:SINGLE_QUOTE
-    #DQ:DOUBLE_QUOTE
-    #PISIQ:PRE_IS_SLASH_IN_SQ
-    #PISID:PRE_IS_SLASH_IN_DQ
-    #input_symbol_array = ['"',"'",'\\']
-    #states_array = ["INIT","Q","PIIQ"]
-    
     def do_replace(ch):
         if(ch in token_set):
             ch = replace_ref_dict[ch]
         return(ch)
+    ####
     
-    #regex_quotes = []
+    
+
+
     ####
     regex_lquotes = []
     regex_rquotes = []
@@ -327,8 +320,14 @@ def convert_token_in_quote(j_str,**kwargs):
     non_regex_quote_str = ''.join((non_regex_quote_str,']'))
     non_regex_quote = re.compile(non_regex_quote_str)
     # ############################
+    # ############################
     fsm_dict = {
-        ("INIT",non_regex_quote) : (None,"INIT")
+        ("INIT",non_regex_BytesQuoteSlashColonEmpty) : (do_replace,"OTHER"),
+        ("INIT",re.compile("\\\\") : (do_replace,"INITSLASH"),
+        ("INITSLASH",re.compile(".")) :(do_replace,"OTHER"),
+        ("OTHER",non_regex_QuoteSlashColonEmpty) : (do_replace,"OTHER"),
+        
+        
     }
     for i in range(0,regex_lquotes.__len__()):
         ####INIT -lq_n-> LQ_n
@@ -370,7 +369,7 @@ def convert_token_in_quote(j_str,**kwargs):
                     pass
             else:
                 pass
-        return(None)
+        return((None,None))
     curr_state = "INIT"
     rslt = ''
     for i in range(0,j_str.__len__()):
@@ -1007,50 +1006,6 @@ def get_line_color_sec(line,path,**kwargs):
         ops.append(block_op_pairs_dict[i][0])
         ops.append(block_op_pairs_dict[i][1])
     ######
-    def creat_regexes_array(quotes):
-        regex_quotes = []
-        for i in range(0,quotes.__len__()):
-            regex_quote_str = ''.join(('[',quotes[i],']'))
-            regex_quote = re.compile(regex_quote_str)
-            regex_quotes.append(regex_quote)
-        return(regex_quotes)
-    #####
-    def creat_nonqses_regexes_array(quotes):
-        regex_nonqses =[]
-        for i in range(0,quotes.__len__()):
-            regex_nonqs_str = ''.join(('[^',quotes[i],'\\\\]'))
-            regex_nonqs = re.compile(regex_nonqs_str)
-            regex_nonqses.append(regex_nonqs)
-        return(regex_nonqses)
-    def creat_regex(quotes):
-        regex_quote_str = '['
-        for i in range(0,quotes.__len__()):
-            regex_quote_str = ''.join((regex_quote_str,'\\',quotes[i]))
-        regex_quote_str = ''.join((regex_quote_str,']'))
-        return(re.compile(regex_quote_str))
-    def creat_not_regex(quotes):
-        regex_quote_str = '[^'
-        for i in range(0,quotes.__len__()):
-            regex_quote_str = ''.join((regex_quote_str,'\\',quotes[i]))
-        regex_quote_str = ''.join((regex_quote_str,']'))
-        return(re.compile(regex_quote_str))
-    def creat_others_regexes(quotes,colons,ops,commas,spaces,bchars):
-        non_regex_qco_str = '[^'
-        for i in range(0,quotes.__len__()):
-            non_regex_qco_str = ''.join((non_regex_qco_str,quotes[i]))
-        for i in range(0,colons.__len__()):
-            non_regex_qco_str = ''.join((non_regex_qco_str,colons[i]))
-        for i in range(0,ops.__len__()):
-            non_regex_qco_str = ''.join((non_regex_qco_str,'\\',ops[i]))
-        for i in range(0,commas.__len__()):
-            non_regex_qco_str = ''.join((non_regex_qco_str,commas[i]))
-        for i in range(0,spaces.__len__()):
-            non_regex_qco_str = ''.join((non_regex_qco_str,spaces[i]))
-        for i in range(0,bchars.__len__()):
-            non_regex_qco_str = ''.join((non_regex_qco_str,bchars[i]))
-        non_regex_qco_str = ''.join((non_regex_qco_str,']'))
-        non_regex_qco = re.compile(non_regex_qco_str)
-        return(non_regex_qco)
     #-------------------------------------------------------------------------------------
     regex_quotes_array = creat_regexes_array(quotes)
     regex_nonqses_array = creat_nonqses_regexes_array(quotes)
