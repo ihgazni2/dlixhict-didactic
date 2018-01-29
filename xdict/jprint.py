@@ -18,7 +18,7 @@ import copy
 
 __doc__ = '''
 '''
-
+# tools
 #-----------------------------------------------
 def html_number_escape_char(ch):
     '''
@@ -59,6 +59,7 @@ def html_number_escape_str(s):
         escaped = ''.join((escaped,esch))
     return(escaped)
 
+#operators ,such as {} [] ()  ......could be user-defined
 def get_block_op_pairs(pairs_str):
     '''
         # >>> get_block_op_pairs("{}[]")  
@@ -75,11 +76,9 @@ def get_block_op_pairs(pairs_str):
         pairs_dict[i] = pairs_str[i*2-2],pairs_str[i*2-1]
     return(pairs_dict)
 
-##quotes_pairs
+##quotes  left-quote,right-quote ,such as "" '' <>  ......could be user-defined
 get_quotes_pairs = get_block_op_pairs
 ##
-
-
 
 def get_jdict_token_set(**kwargs):
     def get_slashxs(ch):
@@ -104,11 +103,8 @@ def get_jdict_token_set(**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    ############        
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
+    ####
+    ####
     if('block_op_pairs_dict' in kwargs):
         block_op_pairs_dict = kwargs['block_op_pairs_dict']
     else:
@@ -169,14 +165,6 @@ def get_jdict_token_set(**kwargs):
             pass
         else:
             pass
-    #for each in quotes:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #####
     for each in lquotes:
         try:
             ctrls.remove(each)
@@ -191,7 +179,6 @@ def get_jdict_token_set(**kwargs):
             pass
         else:
             pass
-    ####
     for each in path_sps:
         try:
             ctrls.remove(each)
@@ -232,6 +219,7 @@ def get_jdict_token_set(**kwargs):
         d[recover_token_r] = block_op_pairs_dict[i][1]
     return({'token_set':s,'replace_ref_dict':d})
 
+#######################
 def convert_token_in_quote(j_str,**kwargs):
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
@@ -306,7 +294,7 @@ def convert_token_in_quote(j_str,**kwargs):
     non_regex_rquote_str = '[^'
     non_regex_quote_str = '[^'
     
-    for i in range(0,quotes.__len__()):
+    for i in range(0,lquotes.__len__()):
         #regex_quote_str = ''.join(('[',quotes[i],']'))
         #regex_quote = re.compile(regex_quote_str)
         #regex_quotes.append(regex_quote)
