@@ -842,7 +842,7 @@ def get_print_lines_and_paths(j_str,**kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    j_str = convert_token_in_quote(j_str,block_op_pairs_dict=block_op_pairs_dict,quotes_pair_dict=quotes_pair_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    j_str = convert_token_in_quote(j_str,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
     j_str = format_j_str(j_str,block_op_pairs_dict)
     j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
     orig_lines = j_str.split('\n')
