@@ -973,7 +973,7 @@ def get_line_color_sec(line,path,**kwargs):
         else:
             quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
     else:
-        quotes_pairs_dict = get_quotes_pairs('{}[]()')
+        quotes_pairs_dict = get_quotes_pairs('""\'\'')
     lquotes = []
     rquotes = []
     quotes = []
@@ -1533,7 +1533,7 @@ def print_j_str(j_str,**kwargs):
         else:
             quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
     else:
-        quotes_pairs_dict = get_quotes_pairs('{}[]()')
+        quotes_pairs_dict = get_quotes_pairs('""\'\'')
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
         if(utils.is_dict(block_op_pairs)):
@@ -1691,21 +1691,13 @@ def pobj(obj,**kwargs):
     ##########
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
     else:
-        quotes_pairs_dict = get_quotes_pairs('{}[]()')
+        quotes_pairs = get_quotes_pairs('""\'\'')
     ############
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
-        if(utils.is_dict(block_op_pairs)):
-            block_op_pairs_dict = block_op_pairs
-        else:
-            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
-        block_op_pairs_dict = get_block_op_pairs('{}[]()')
+        block_op_pairs = get_block_op_pairs('{}[]()')
     ############1
     if('end' in kwargs):
         end = kwargs['end']
@@ -1865,23 +1857,18 @@ def pdir(obj,**kwargs):
     #else:
     #    quotes = ['"',"'"]
     ##########
+    ##########
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
     else:
-        quotes_pairs_dict = get_quotes_pairs('{}[]()')
+        quotes_pairs = get_quotes_pairs('""\'\'')
     ############
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
-        if(utils.is_dict(block_op_pairs)):
-            block_op_pairs_dict = block_op_pairs
-        else:
-            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
-        block_op_pairs_dict = get_block_op_pairs('{}[]()')
+        block_op_pairs = get_block_op_pairs('{}[]()')
+    ############1
+    ############
     ############
     if('end' in kwargs):
         end = kwargs['end']
@@ -1894,5 +1881,5 @@ def pdir(obj,**kwargs):
     if(with_color):
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs)
 
