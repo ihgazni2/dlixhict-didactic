@@ -263,9 +263,12 @@ def convert_token_in_quote(j_str,**kwargs):
         quotes_pairs_dict=get_quotes_pairs('""\'\'')
     lquotes = []
     rquotes = []
+    quotes = []
     for i in range(1,quotes_pairs_dict.__len__()+1):
         lquotes.append(quotes_pairs_dict[i][0])
         rquotes.append(quotes_pairs_dict[i][1])
+        quotes.append(quotes_pairs_dict[i][0])
+        quotes.append(quotes_pairs_dict[i][1])
     ###############
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
