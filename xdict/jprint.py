@@ -272,53 +272,8 @@ def convert_token_in_quote(j_str,**kwargs):
             ch = replace_ref_dict[ch]
         return(ch)
     ####
-    
-    
-
-
-    ####
-    regex_lquotes = []
-    regex_rquotes = []
-    ####
-    regex_nonlqses = []
-    regex_nonrqses = []
-    regex_nonqses = []
-    non_regex_lquote_str = '[^'
-    non_regex_rquote_str = '[^'
-    non_regex_quote_str = '[^'
-    
-    for i in range(0,lquotes.__len__()):
-        #regex_quote_str = ''.join(('[',quotes[i],']'))
-        #regex_quote = re.compile(regex_quote_str)
-        #regex_quotes.append(regex_quote)
-        regex_lquote_str = ''.join(('[',lquotes[i],']'))
-        regex_lquote = re.compile(regex_lquote_str)
-        regex_lquotes.append(regex_lquote)
-        regex_rquote_str = ''.join(('[',rquotes[i],']'))
-        regex_rquote = re.compile(regex_rquote_str)
-        regex_rquotes.append(regex_rquote)
-        #####
-        regex_nonlqs_str = ''.join(('[^',lquotes[i],'\\\\]'))
-        regex_nonlqs = re.compile(regex_nonlqs_str)
-        regex_nonlqses.append(regex_nonlqs)
-        non_regex_lquote_str = ''.join((non_regex_lquote_str,lquotes[i]))
-        ####
-        regex_nonrqs_str = ''.join(('[^',rquotes[i],'\\\\]'))
-        regex_nonrqs = re.compile(regex_nonrqs_str)
-        regex_nonrqses.append(regex_nonrqs)
-        non_regex_rquote_str = ''.join((non_regex_rquote_str,rquotes[i]))
-        ####
-        regex_nonqs_str = ''.join(('[^',lquotes[i],rquotes[i],'\\\\]'))
-        regex_nonqs = re.compile(regex_nonqs_str)
-        regex_nonqses.append(regex_nonqs)
-        non_regex_quote_str = ''.join((non_regex_quote_str,lquotes[i],rquotes[i]))
-        #####
-    non_regex_lquote_str = ''.join((non_regex_lquote_str,']'))
-    non_regex_lquote = re.compile(non_regex_lquote_str)
-    non_regex_rquote_str = ''.join((non_regex_rquote_str,']'))
-    non_regex_rquote = re.compile(non_regex_rquote_str)
-    non_regex_quote_str = ''.join((non_regex_quote_str,']'))
-    non_regex_quote = re.compile(non_regex_quote_str)
+    machine = fsm.FSM()
+    regex_lquote = 
     # ############################
     # ############################
     fsm_dict = {
