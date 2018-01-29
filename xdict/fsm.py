@@ -84,7 +84,10 @@ class FSM():
             action,next_state = self.fsm_dict[key]
             print("curr_state: "+curr_state)
             print("trigger_checker: "+trigger_checker.__str__())
-            print("action: "+action.__qualname__)
+            if(action == None):
+                print("action: None")
+            else:
+                print("action: "+action.__qualname__)
             print("next_state: "+next_state)
         return("")
     def modify(self,*args):
@@ -180,7 +183,10 @@ class FSM():
                         print("curr_state: "+curr_state)
                         print("trigger_checker: "+trigger_checker.__str__())
                         print("input_symbol: "+input_symbol.__str__())
-                        print("action: "+action.__qualname__)
+                        if(action == None):
+                            print("action: None")
+                        else:
+                            print("action: "+action.__qualname__)
                         print("    params: ")
                         print("        ",end='')
                         print(*action_args)

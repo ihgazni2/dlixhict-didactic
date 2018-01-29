@@ -279,60 +279,137 @@ def convert_token_in_quote(j_str,**kwargs):
         print("triggered ERROR")
     ####
     machine = fsm.FSM()
-    regex_lquote = fsm.creat_regex_from_arr(lquotes)
-    regex_rquote = fsm.creat_regex_from_arr(rquotes) 
+    regex_lquotes = fsm.creat_regex_from_arr(lquotes)
+    regex_rquotes = fsm.creat_regex_from_arr(rquotes) 
     regex_b = re.compile('b')
     regex_spaces = fsm.creat_regex_from_arr(spaces)
     regex_colons = fsm.creat_regex_from_arr(colons)
     regex_commas = fsm.creat_regex_from_arr(commas)
     regex_slash = re.compile("\\\\")
-    not_LqRqBSpColComSl_arr = ['b','\\']
-    not_LqRqBSpColComSl_arr = not_LqRqBSpColComSl_arr + lquotes + rquotes + spaces + colons+commas 
-    regex_not_LqRqBSpColComSl = fsm.creat_regex_not_from_arr(not_LqRqBSpColComSl_arr) 
+    LqRqBSpColComSl_arr = ['b','\\']
+    LqRqBSpColComSl_arr = not_LqRqBSpColComSl_arr + lquotes + rquotes + spaces + colons+commas 
+    regex_not_LqRqBSpColComSl = fsm.creat_regex_not_from_arr(LqRqBSpColComSl_arr) 
     # ############################
     # ############################
-    fsm_dict = {
-        ("INIT",regex_rquote) : (do_throw,"ERROR"),
-        ("INIT",b) : (None,"ERROR"),
-        ####
-        ("INITSLASH",re.compile(".")) :(do_replace,"OTHER"),
-        ("OTHER",non_regex_QuoteSlashColonEmpty) : (do_replace,"OTHER"),
-        
-        
-    }
+    machine.add("INIT",regex_b,None,"BYTES")
+    machine.add("INIT",regex_spaces,do_replace,"INIT")
+    machine.add("INIT",regex_colons,do_throw,"ERROR")
+    machine.add("INIT",regex_commas,do_throw,"ERROR")
+    machine.add("INIT",regex_slash,None,"SLASHINIT")
+    machine.add("INIT",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
+    ####
+    machine.add("BYTES",regex_b,None,"OTHER")
+    machine.add("BYTES",regex_spaces,do_replace,"INIT")
+    machine.add("BYTES",regex_colons,None,"INIT")
+    machine.add("BYTES",regex_commas,None,"INIT")
+    machine.add("BYTES",regex_slash,None,"SLASHBYTES")
+    machine.add("BYTES",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
+    ####
+    machine.add("SLASHINIT",re.compile("."),do_replace,"OTHER")
+    ####
+    machine.add("SLASHBYTES",re.compile("."),do_replace,"OTHER")
+    ####
+    machine.add("OTHER",regex_lquotes,do_throw,"ERROR")
+    machine.add("OTHER",regex_rquotes,do_throw,"ERROR")
+    machine.add("OTHER",regex_b,None,"OTHER")
+    machine.add("OTHER",regex_spaces,do_replace,"INIT")
+    machine.add("OTHER",regex_colons,None,"INIT")
+    machine.add("OTHER",regex_commas,None,"INIT")
+    machine.add("OTHER",regex_slash,None,"SLASHOTHER")
+    machine.add("OTHER",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
+    ####
+    machine.add("SLASHOTHER",re.compile("."),do_replace,"OTHER")
+    ####
+    regex_lqoute_array = fsm.creat_regexes_array(lquotes)
+    regex_rquote_array = fsm.creat_regexes_array(rquotes)
+    ###@@@@@@@@@@@@@@@
     for i in range(0,lquotes.__len__()):
         ####INIT -lq_n-> LQ_n
-        k = ("INIT",regex_lquotes[i])
+        k = ("INIT",regex_lquote_array[i])
         sn = ''.join(("LQ",'_',str(i)))
         v = (None,sn)
         fsm_dict[k] = v
-        #### LQ_n -rq_n-> INIT
-        k = (sn,regex_rquotes[i])
-        v = (None,"INIT")
+    for i in range(0,rquotes.__len__()):
+        ####INIT -rq_n-> ERROR
+        if(regex_rquote_array[i] == regex_lquote_array[i]):
+            pass
+        else:
+            k = ("INIT",regex_rquote_array[i])
+            sn = ''.join(("LQ",'_',str(i)))
+            v = (None,sn)
+            fsm_dict[k] = v
+    ####
+    for i in range(0,lquotes.__len__()):
+        ####BYTES -lq_n-> LQ_n
+        k = ("BYTES",regex_lquote_array[i])
+        sn = ''.join(("LQ",'_',str(i)))
+        v = (None,sn)
         fsm_dict[k] = v
-        #####LQ_n -pisiq_n-> PISIQ_n 
-        pisiq = ''.join(("PISIQ",'_',str(i)))
-        k = (sn,re.compile("\\\\"))
-        v = (None,pisiq)
+    for i in range(0,rquotes.__len__()):
+        ####BYTES -rq_n-> ERROR
+        if(rquotes[i] == lquotes[i]):
+            pass
+        else:
+            k = ("BYTES",regex_rquote_array[i])
+            sn = ''.join(("LQ",'_',str(i)))
+            v = (None,sn)
+            fsm_dict[k] = v
+    ####
+    for i in range(0,lquotes.__len__()):
+        ####LQ_n -lq_n-> ERROR
+        sn = ''.join(("LQ",'_',str(i)))
+        if(lquotes[i] == rquotes[i]):
+            pass
+        else:
+            k = (sn,regex_lquotes_array[i])
+            v = (do_throw,'ERROR')
+            fsm_dict[k] = v
+        ####LQ_n -rq_n-> INIT
+        k = (sn,regex_rquotes_array[i])
+        v = (None,'INIT')
         fsm_dict[k] = v
-        ####PISIQ_n -any-> LQ_n
-        k = (pisiq,re.compile("."))
+        #####LQ_n -b-> LQ_n
+        k = (sn,regex_b)
+        v = (None,sn)
+        fsm_dict[k] = v
+        #####LQ_n -spaces-> LQ_n
+        k = (sn,regex_spaces)
         v = (do_replace,sn)
         fsm_dict[k] = v
-        #####LQ_n -nonq-> LQ_n
+        ####LQ_n -colons-> LQ_n
+        k = (sn,regex_colons)
+        v = (do_replace,sn)
+        fsm_dict[k] = v
+        ####LQ_n -commas-> LQ_n
+        k = (sn,regex_commas)
+        v = (do_replace,sn)
+        fsm_dict[k] = v
+        #####LQ_n -slash -> SLASHLQ_n
+        slashlq = ''.join(("SLASHLQ",'_',str(i)))
+        k = (sn,re.compile("\\\\"))
+        v = (None,slashlq)
+        fsm_dict[k] = v
+        ####SLASHLQ_n -any-> LQ_n
+        k = (slashlq,re.compile("."))
+        v = (do_replace,sn)
+        fsm_dict[k] = v
+        #####LQ_n -others-> LQ_n
+        tmp_arr = copy.deepcopy(LqRqBSpColComSl_arr)
+        tmp_arr_rq = copy.deepcopy(rquotes)
+        tmp_arr_lq = copy.deepcopy(lquotes)
+        tmp_arr_lq.pop(i)
         if(lquotes[i] == rquotes[i]):
-            k = (sn,regex_nonqses[i])
-            v = (do_replace,sn)
-            fsm_dict[k] = v
+            tmp_arr_rq.pop(i)
         else:
-            #####LQ_n -nonrq-> LQ_n
-            k = (sn,regex_nonrqses[i])
-            v = (do_replace,sn)
-            fsm_dict[k] = v
+            pass
+        tmp_final_arr = tmp_arr + tmp_arr_rq + tmp_arr_lq
+        ####
+        tmp_regex = fsm.creat_regex_not_from_arr(tmp_final_arr)
+        k = (sn,tmp_regex)
+        v = (do_replace,sn)
+        fsm_dict[k] = v
         #####
-    for i in range(0,regex_rquotes.__len__()):
-        machine.add("INIT",regex_rquote,do_throw,"ERROR")
-    # #################################
+    # #####@@@@@
     def search_fsm(curr_state,input_symbol,fsm_dict):
         for key in fsm_dict:
             if(key[0] == curr_state):
