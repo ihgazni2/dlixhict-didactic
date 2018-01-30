@@ -462,8 +462,8 @@ def convert_token_in_quote(j_str,**kwargs):
         machine.add(slashlq,re.compile("."),do_replace,sn)
         #####LQ_n -others-> LQ_n
         tmp_arr = ['b','\\\\'] + ops + colons + commas + spaces 
-        tmp_arr_rq = rquotes[i]
-        tmp_arr_lq = lquotes[i]
+        tmp_arr_rq = [rquotes[i]]
+        tmp_arr_lq = [lquotes[i]]
         if(lquotes[i] == rquotes[i]):
             tmp_arr_rq.pop(i)
         else:
