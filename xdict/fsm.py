@@ -1,6 +1,6 @@
 import re
 
-operators = {'.','^','$','*','+','?','{','}','|'}
+operators = {'.','^','$','*','+','?','{','}','[',']','(',')','|'}
 slash = '\\'
 
 def creat_regexes_array(chars_arr):
