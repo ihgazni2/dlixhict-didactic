@@ -352,7 +352,7 @@ def convert_token_in_quote(j_str,**kwargs):
         ops.append(block_op_pairs_dict[i][1])
     ######
     regex_ops = fsm.creat_regex_from_arr(ops)
-    LqRqBSpColComSlOp_arr = ['b','\\']
+    LqRqBSpColComSlOp_arr = ['b','\\\\']
     LqRqBSpColComSlOp_arr = LqRqBSpColComSlOp_arr + lquotes + rquotes + spaces + colons+commas + ops
     regex_not_LqRqBSpColComSlOp = fsm.creat_regex_not_from_arr(LqRqBSpColComSlOp_arr) 
     # ############################
@@ -480,8 +480,8 @@ def convert_token_in_quote(j_str,**kwargs):
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
-        #print('----------')
-        #print(curr_state,trigger_checker,input_symbol,action,next_state)
+        print('----------')
+        print(curr_state,trigger_checker,input_symbol,action,next_state)
         if(action == do_replace):
             ch = action(input_symbol)
             #print(ch)
