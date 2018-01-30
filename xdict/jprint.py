@@ -292,14 +292,14 @@ def convert_token_in_quote(j_str,**kwargs):
     # ############################
     # ############################
     machine.add("INIT",regex_b,None,"BYTES")
-    machine.add("INIT",regex_spaces,do_replace,"INIT")
+    machine.add("INIT",regex_spaces,None,"INIT")
     machine.add("INIT",regex_colons,do_throw,"ERROR")
     machine.add("INIT",regex_commas,do_throw,"ERROR")
     machine.add("INIT",regex_slash,None,"SLASHINIT")
     machine.add("INIT",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
     ####
     machine.add("BYTES",regex_b,None,"OTHER")
-    machine.add("BYTES",regex_spaces,do_replace,"INIT")
+    machine.add("BYTES",regex_spaces,None,"INIT")
     machine.add("BYTES",regex_colons,None,"INIT")
     machine.add("BYTES",regex_commas,None,"INIT")
     machine.add("BYTES",regex_slash,None,"SLASHBYTES")
@@ -312,7 +312,7 @@ def convert_token_in_quote(j_str,**kwargs):
     machine.add("OTHER",regex_lquotes,do_throw,"ERROR")
     machine.add("OTHER",regex_rquotes,do_throw,"ERROR")
     machine.add("OTHER",regex_b,None,"OTHER")
-    machine.add("OTHER",regex_spaces,do_replace,"INIT")
+    machine.add("OTHER",regex_spaces,None,"INIT")
     machine.add("OTHER",regex_colons,None,"INIT")
     machine.add("OTHER",regex_commas,None,"INIT")
     machine.add("OTHER",regex_slash,None,"SLASHOTHER")
