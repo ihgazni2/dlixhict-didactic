@@ -337,7 +337,7 @@ def convert_token_in_quote(j_str,**kwargs):
     machine.add("INIT",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
     ####
     machine.add("BYTES",regex_b,None,"OTHER")
-    machine.add("BYTES",regex_spaces,None,"INIT")
+    machine.add("BYTES",regex_spaces,None,"OTHER")
     machine.add("BYTES",regex_colons,None,"INIT")
     machine.add("BYTES",regex_commas,None,"INIT")
     machine.add("BYTES",regex_slash,None,"SLASHBYTES")
@@ -350,13 +350,22 @@ def convert_token_in_quote(j_str,**kwargs):
     machine.add("OTHER",regex_lquotes,do_throw,"ERROR")
     machine.add("OTHER",regex_rquotes,do_throw,"ERROR")
     machine.add("OTHER",regex_b,None,"OTHER")
-    machine.add("OTHER",regex_spaces,None,"INIT")
+    machine.add("OTHER",regex_spaces,None,"OTHER")
     machine.add("OTHER",regex_colons,None,"INIT")
     machine.add("OTHER",regex_commas,None,"INIT")
     machine.add("OTHER",regex_slash,None,"SLASHOTHER")
     machine.add("OTHER",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
     ####
     machine.add("SLASHOTHER",re.compile("."),do_replace,"OTHER")
+    ####
+    machine.add("READY",regex_lquotes,do_throw,"ERROR")
+    machine.add("READY",regex_rquotes,do_throw,"ERROR")
+    machine.add("READY",regex_b,do_throw,"ERROR")
+    machine.add("READY",regex_spaces,None,"READY")
+    machine.add("READY",regex_colons,None,"INIT")
+    machine.add("READY",regex_commas,None,"INIT")
+    machine.add("READY",regex_slash,do_throw,"ERROR")
+    machine.add("READY",regex_not_LqRqBSpColComSl,do_throw,"ERROR")
     ####
     regex_lquote_array = fsm.creat_regexes_array(lquotes)
     regex_rquote_array = fsm.creat_regexes_array(rquotes)
@@ -393,7 +402,7 @@ def convert_token_in_quote(j_str,**kwargs):
         else:
             machine.add(sn,regex_lquote_array[i],do_throw,'ERROR')
         ####LQ_n -rq_n-> INIT
-        machine.add(sn,regex_rquote_array[i],None,'INIT')
+        machine.add(sn,regex_rquote_array[i],None,'READY')
         #####LQ_n -b-> LQ_n
         machine.add(sn,regex_b,None,sn)
         #####LQ_n -spaces-> LQ_n
