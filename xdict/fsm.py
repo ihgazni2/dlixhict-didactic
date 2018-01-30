@@ -194,7 +194,10 @@ class FSM():
                     else:
                         pass
                     if(self.do_action):
-                        self.action_returned = action.__call__(*action_args)    
+                        if(action == None):
+                            pass
+                        else:
+                            self.action_returned = action.__call__(*action_args)    
                     else:
                         pass
                     return(self.fsm_dict[key])
