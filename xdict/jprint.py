@@ -310,10 +310,11 @@ def convert_token_in_quote(j_str,**kwargs):
             ch = replace_ref_dict[ch]
         return(ch)
     def do_throw(curr_state,trigger_checker,input_symbol):
-        print("curr_state: "+curr_state)
-        print("trigger_checker: "+trigger_checker.__str__())
-        print("input_symbol: "+ input_symbol.__str__())
-        print("triggered ERROR")
+        msg = "curr_state: " + curr_state + "\n"
+        msg = "trigger_checker: "+trigger_checker.__str__()) + "\n"
+        msg = "input_symbol: "+ input_symbol.__str__()) + "\n"
+        msg = "triggered ERROR" + "\n"
+        raise Exception(msg)
     ####
     machine = fsm.FSM()
     regex_lquotes = fsm.creat_regex_from_arr(lquotes)
@@ -424,9 +425,12 @@ def convert_token_in_quote(j_str,**kwargs):
     rslt = ''
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
-        action,next_state = machine.search(curr_state,input_symbol,input_symbol)
-        if(action):
-            ch = machine.action_returned
+        action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
+        if(action == do_replace):
+            ch = action(input_symbol)
+        elif(action == do_throw):
+            ch = ''
+            action(curr_state,trigger_checker,input_symbol)
         else:
             ch = input_symbol
         rslt = ''.join((rslt,ch))

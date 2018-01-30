@@ -60,15 +60,10 @@ def creat_regex_not_from_arr(chars_arr):
 
 class FSM():
     def __init__(self,**kwargs):
-        self.action_returned = None
         if('fsm_dict' in kwargs):
             self.fsm_dict = kwargs['fsm_dict']
         else:
             self.fsm_dict = {}
-        if('do_action' in kwargs):
-            self.do_action = kwargs['do_action']
-        else:
-            self.do_action = True
         if('enable_debug' in kwargs):
             self.enable_debug = kwargs['enable_debug']
         else:
@@ -178,6 +173,7 @@ class FSM():
         for key in self.fsm_dict:
             if(key[0] == curr_state):
                 if(key[1].search(input_symbol)):
+                    trigger_checker = key[1] 
                     action,next_state = self.fsm_dict[key]
                     if(self.enable_debug):
                         print("curr_state: "+curr_state)
@@ -193,19 +189,12 @@ class FSM():
                         print("next_state: "+next_state)
                     else:
                         pass
-                    if(self.do_action):
-                        if(action == None):
-                            pass
-                        else:
-                            self.action_returned = action.__call__(*action_args)    
-                    else:
-                        pass
-                    return(self.fsm_dict[key])
+                    return(action,next_state,trigger_checker)
                 else:
                     pass
             else:
                 pass
-        return((None,None))
+        return((None,None,None))
 
      
 
