@@ -474,17 +474,17 @@ def convert_token_in_quote(j_str,**kwargs):
         tmp_regex = fsm.creat_regex_not_from_arr(tmp_final_arr)
         machine.add(sn,tmp_regex,do_replace,sn)
         #####
-    print(machine.fsm_dict)
+    #print(machine.fsm_dict)
     curr_state = "INIT"
     rslt = ''
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
-        print('----------')
-        print(curr_state,trigger_checker,input_symbol,action,next_state)
+        #print('----------')
+        #print(curr_state,trigger_checker,input_symbol,action,next_state)
         if(action == do_replace):
             ch = action(input_symbol)
-            print(ch)
+            #print(ch)
         elif(action == do_throw):
             ch = ''
             action(curr_state,trigger_checker,input_symbol)
@@ -1117,6 +1117,9 @@ def get_line_color_sec(line,path,**kwargs):
         ops.append(block_op_pairs_dict[i][1])
     ######
     machine = fsm.FSM()
+    #
+    machine.enable_debug = True
+    #
     regex_lquotes = fsm.creat_regex_from_arr(lquotes)
     regex_rquotes = fsm.creat_regex_from_arr(rquotes)
     regex_b = re.compile('b')
