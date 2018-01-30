@@ -35,7 +35,17 @@ def help(fname=None):
     print('''pobj(obj,**kwargs)''')
     print('''pdir(obj,**kwargs)''')
     if(fname == "convert_token_in_quote"):
-        print("")
+        info = '''convert_token_in_quote(       
+                   spaces = [' ','\t'],
+                   colons = [':'],
+                   commas = [','],
+                   path_sps = ['/'],
+                   line_sps = ['\r','\n'],
+                   block_op_pairs_dict={1: ('{', '}'), 2: ('[', ']'), 3: ('(', ')')},
+                   quotes_pairs_dict={1: ('"', '"'), 2: ("'", "'")}
+                   )
+                '''
+        print(info)
 
 
 
@@ -262,6 +272,17 @@ def get_jdict_token_set(**kwargs):
 #######################
 def convert_token_in_quote(j_str,**kwargs):
     '''
+        >>> from xdict.jprint import convert_token_in_quote
+        >>> from xdict.jprint import help
+        >>> 
+        >>> convert_token_in_quote('"a b":"cd"')
+        '"a&#32;b":"cd"'
+        >>> convert_token_in_quote('"a b":cd')
+        '"a&#32;b":cd'
+        >>> 
+        >>> #help(convert_token_in_quote)
+        convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
+        '<a&#32;b>:"cd"'
     '''
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
@@ -324,24 +345,33 @@ def convert_token_in_quote(j_str,**kwargs):
     regex_colons = fsm.creat_regex_from_arr(colons)
     regex_commas = fsm.creat_regex_from_arr(commas)
     regex_slash = re.compile("\\\\")
-    LqRqBSpColComSl_arr = ['b','\\']
-    LqRqBSpColComSl_arr = LqRqBSpColComSl_arr + lquotes + rquotes + spaces + colons+commas 
-    regex_not_LqRqBSpColComSl = fsm.creat_regex_not_from_arr(LqRqBSpColComSl_arr) 
+    ######
+    ops = []
+    for i in range(1,block_op_pairs_dict.__len__()+1):
+        ops.append(block_op_pairs_dict[i][0])
+        ops.append(block_op_pairs_dict[i][1])
+    ######
+    regex_ops = fsm.creat_regex_from_arr(ops)
+    LqRqBSpColComSlOp_arr = ['b','\\']
+    LqRqBSpColComSlOp_arr = LqRqBSpColComSlOp_arr + lquotes + rquotes + spaces + colons+commas + ops
+    regex_not_LqRqBSpColComSlOp = fsm.creat_regex_not_from_arr(LqRqBSpColComSlOp_arr) 
     # ############################
     # ############################
     machine.add("INIT",regex_b,None,"BYTES")
     machine.add("INIT",regex_spaces,None,"INIT")
+    machine.add("INIT",regex_ops,None,"INIT")
     machine.add("INIT",regex_colons,do_throw,"ERROR")
     machine.add("INIT",regex_commas,do_throw,"ERROR")
     machine.add("INIT",regex_slash,None,"SLASHINIT")
-    machine.add("INIT",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
+    machine.add("INIT",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
     ####
     machine.add("BYTES",regex_b,None,"OTHER")
-    machine.add("BYTES",regex_spaces,None,"OTHER")
+    machine.add("BYTES",regex_spaces,None,"BYTES")
+    machine.add("BYTES",regex_ops,None,"INIT")
     machine.add("BYTES",regex_colons,None,"INIT")
     machine.add("BYTES",regex_commas,None,"INIT")
     machine.add("BYTES",regex_slash,None,"SLASHBYTES")
-    machine.add("BYTES",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
+    machine.add("BYTES",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
     ####
     machine.add("SLASHINIT",re.compile("."),do_replace,"OTHER")
     ####
@@ -351,21 +381,21 @@ def convert_token_in_quote(j_str,**kwargs):
     machine.add("OTHER",regex_rquotes,do_throw,"ERROR")
     machine.add("OTHER",regex_b,None,"OTHER")
     machine.add("OTHER",regex_spaces,None,"OTHER")
+    machine.add("OTHER",regex_ops,None,"INIT")
     machine.add("OTHER",regex_colons,None,"INIT")
     machine.add("OTHER",regex_commas,None,"INIT")
     machine.add("OTHER",regex_slash,None,"SLASHOTHER")
-    machine.add("OTHER",regex_not_LqRqBSpColComSl,do_replace,"OTHER")
+    machine.add("OTHER",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
     ####
     machine.add("SLASHOTHER",re.compile("."),do_replace,"OTHER")
     ####
-    machine.add("READY",regex_lquotes,do_throw,"ERROR")
-    machine.add("READY",regex_rquotes,do_throw,"ERROR")
-    machine.add("READY",regex_b,do_throw,"ERROR")
+    machine.add("READY",regex_b,None,"BYTES")
     machine.add("READY",regex_spaces,None,"READY")
+    machine.add("READY",regex_ops,None,"INIT")
     machine.add("READY",regex_colons,None,"INIT")
     machine.add("READY",regex_commas,None,"INIT")
     machine.add("READY",regex_slash,do_throw,"ERROR")
-    machine.add("READY",regex_not_LqRqBSpColComSl,do_throw,"ERROR")
+    machine.add("READY",regex_not_LqRqBSpColComSlOp,do_throw,"ERROR")
     ####
     regex_lquote_array = fsm.creat_regexes_array(lquotes)
     regex_rquote_array = fsm.creat_regexes_array(rquotes)
@@ -380,7 +410,7 @@ def convert_token_in_quote(j_str,**kwargs):
             pass
         else:
             sn = ''.join(("LQ",'_',str(i)))
-            machine.add("INIT",regex_rquote_array[i],None,sn)
+            machine.add("INIT",regex_rquote_array[i],do_throw,'ERROR')
     ####
     for i in range(0,lquotes.__len__()):
         ####BYTES -lq_n-> LQ_n
@@ -392,7 +422,19 @@ def convert_token_in_quote(j_str,**kwargs):
             pass
         else:
             sn = ''.join(("LQ",'_',str(i)))
-            machine.add("BYTES",regex_rquote_array[i],None,sn)
+            machine.add("BYTES",regex_rquote_array[i],do_throw,'ERROR')
+    ####
+    for i in range(0,lquotes.__len__()):
+        ####READY -lq_n-> LQ_n
+        sn = ''.join(("LQ",'_',str(i)))
+        machine.add("READY",regex_lquote_array[i],None,sn)
+    for i in range(0,rquotes.__len__()):
+        ####READY -rq_n-> ERROR
+        if(rquotes[i] == lquotes[i]):
+            pass
+        else:
+            sn = ''.join(("LQ",'_',str(i)))
+            machine.add("READY",regex_rquote_array[i],None,'ERROR')
     ####
     for i in range(0,lquotes.__len__()):
         ####LQ_n -lq_n-> ERROR
@@ -407,6 +449,8 @@ def convert_token_in_quote(j_str,**kwargs):
         machine.add(sn,regex_b,None,sn)
         #####LQ_n -spaces-> LQ_n
         machine.add(sn,regex_spaces,do_replace,sn)
+        #####LQ_n -ops-> LQ_n
+        machine.add(sn,regex_ops,do_replace,sn)
         ####LQ_n -colons-> LQ_n
         machine.add(sn,regex_colons,do_replace,sn)
         ####LQ_n -commas-> LQ_n
@@ -417,7 +461,7 @@ def convert_token_in_quote(j_str,**kwargs):
         ####SLASHLQ_n -any-> LQ_n
         machine.add(slashlq,re.compile("."),do_replace,sn)
         #####LQ_n -others-> LQ_n
-        tmp_arr = copy.deepcopy(LqRqBSpColComSl_arr)
+        tmp_arr = copy.deepcopy(LqRqBSpColComSlOp_arr)
         tmp_arr_rq = copy.deepcopy(rquotes)
         tmp_arr_lq = copy.deepcopy(lquotes)
         tmp_arr_lq.pop(i)
@@ -1068,24 +1112,18 @@ def get_line_color_sec(line,path,**kwargs):
         ops.append(block_op_pairs_dict[i][0])
         ops.append(block_op_pairs_dict[i][1])
     ######
-    #-------------------------------------------------------------------------------------
-    regex_quotes_array = creat_regexes_array(quotes)
-    regex_nonqses_array = creat_nonqses_regexes_array(quotes)
-    regex_lquotes_array = creat_regexes_array(lquotes)
-    regex_nonlqses_array = creat_nonqses_regexes_array(lquotes)
-    regex_rquotes_array = creat_regexes_array(rquotes)
-    regex_nonrqses_array = creat_nonqses_regexes_array(rquotes)
-    #-------------------------------------------------------------------------------------
-    regex_colons = creat_regex(colons)
-    regex_commas = creat_regex(commas)
-    regex_spaces = creat_regex(spaces)
-    #-------------------------------------------------------------------------------------
-    regex_ops = creat_regex(ops)
-    regex_others = creat_others_regexes(quotes,colons,ops,commas,spaces,[])
-    ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+    machine = fsm.FSM()
+    regex_lquotes = fsm.creat_regex_from_arr(lquotes)
+    regex_rquotes = fsm.creat_regex_from_arr(rquotes)
     regex_b = re.compile('b')
-    regex_others_without_b = creat_others_regexes(quotes,colons,ops,commas,spaces,['b'])
-    ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+    regex_spaces = fsm.creat_regex_from_arr(spaces)
+    regex_colons = fsm.creat_regex_from_arr(colons)
+    regex_commas = fsm.creat_regex_from_arr(commas)
+    regex_slash = re.compile("\\\\")
+    regex_ops = fsm.creat_regex_from_arr(ops)
+    LqRqBSpColComSlOp_arr = ['b','\\']
+    LqRqBSpColComSlOp_arr = LqRqBSpColComSlOp_arr + lquotes + rquotes + spaces + colons+commas + ops
+    regex_not_LqRqBSpColComSlOp = fsm.creat_regex_not_from_arr(LqRqBSpColComSlOp_arr)
     #-------------------------------------------------------------------
     head = utils.path_string_get_head(path)
     head_last = utils.str_rstrip(head,sp,1)
@@ -1095,6 +1133,12 @@ def get_line_color_sec(line,path,**kwargs):
     else:
         head_last = head_last[-1]
     #------------------------------------------------------
+    def do_throw(curr_state,trigger_checker,input_symbol):
+        msg = "curr_state: " + curr_state + "\n"
+        msg = msg + "trigger_checker: "+trigger_checker.__str__() + "\n"
+        msg = msg + "input_symbol: "+ input_symbol.__str__() + "\n"
+        msg = msg + "triggered ERROR" + "\n"
+        raise Exception(msg)
     def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor 
         curr_color = default_color
@@ -1178,14 +1222,16 @@ def get_line_color_sec(line,path,**kwargs):
         colon_meeted = 1
         return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol))
     #----------------------------------------------------------------------------------------
+    machine.add("INIT",regex_b,None,"BYTES")
+    machine.add("INIT",regex_spaces,None,"INIT")
+    machine.add("INIT",regex_colons,do_throw,"ERROR")
+    machine.add("INIT",regex_commas,do_throw,"ERROR")
+    machine.add("INIT",regex_slash,None,"SLASHINIT")
+    machine.add("INIT",regex_ops,do_op,"INIT")
+    machine.add("INIT",regex_not_LqRqBSpColComSlOp,do_open_var,"OTHER")
+    
     fsm_dict = {
-        ("INIT",regex_colons) : (do_colons,"INIT"),
-        ("INIT",regex_commas) : (None,"INIT"),
-        ("INIT",regex_spaces) : (None,"INIT"),
-        ("INIT",regex_ops) : (do_op,"INIT"),
-        ("INIT",regex_others_without_b) : (do_open_var,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
-        ("INIT",regex_b) : (None,"BYTES"),
         ("BYTES",regex_others) : (do_open_var,"OTHER"),
         ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
         ("OTHER",regex_others) : (None,"OTHER"),
