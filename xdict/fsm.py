@@ -1,5 +1,7 @@
 import re
 
+operators = {'.','^','$','*','+','?','{','}','|'}
+slash = '\\'
 
 def creat_regexes_array(chars_arr):
     '''
@@ -9,6 +11,12 @@ def creat_regexes_array(chars_arr):
     '''
     regex_chars_arr = []
     for i in range(0,chars_arr.__len__()):
+        if(chars_arr[i] in operators):
+            chars_arr[i] = '\\'+chars_arr[i]
+        elif(chars_arr[i] == slash):
+            chars_arr[i] = '\\\\'
+        else:
+            pass
         regex_str = ''.join(('[',chars_arr[i],']'))
         regex = re.compile(regex_str)
         regex_chars_arr.append(regex)
@@ -24,6 +32,12 @@ def creat_regexes_not_array(chars_arr):
     '''
     regex_chars_arr = []
     for i in range(0,chars_arr.__len__()):
+        if(chars_arr[i] in operators):
+            chars_arr[i] = '\\'+chars_arr[i]
+        elif(chars_arr[i] == slash):
+            chars_arr[i] = '\\\\'
+        else:
+            pass
         regex_str = ''.join(('[^',chars_arr[i],']'))
         regex = re.compile(regex_str)
         regex_chars_arr.append(regex)
@@ -38,6 +52,12 @@ def creat_regex_from_arr(chars_arr):
     '''
     regex_str = '['
     for i in range(0,chars_arr.__len__()):
+        if(chars_arr[i] in operators):
+            chars_arr[i] = '\\'+chars_arr[i]
+        elif(chars_arr[i] == slash):
+            chars_arr[i] = '\\\\'
+        else:
+            pass
         regex_str = ''.join((regex_str,chars_arr[i]))
     regex_str = ''.join((regex_str,']'))
     return(re.compile(regex_str))
@@ -52,6 +72,12 @@ def creat_regex_not_from_arr(chars_arr):
     '''
     regex_str = '[^'
     for i in range(0,chars_arr.__len__()):
+        if(chars_arr[i] in operators):
+            chars_arr[i] = '\\'+chars_arr[i]
+        elif(chars_arr[i] == slash):
+            chars_arr[i] = '\\\\'
+        else:
+            pass
         regex_str = ''.join((regex_str,chars_arr[i]))
     regex_str = ''.join((regex_str,']'))
     return(re.compile(regex_str))
@@ -172,7 +198,7 @@ class FSM():
     def search(self,curr_state,input_symbol,*action_args):
         for key in self.fsm_dict:
             if(key[0] == curr_state):
-                print(key[1])
+                #print(key[1])
                 if(key[1].search(input_symbol)):
                     trigger_checker = key[1] 
                     action,next_state = self.fsm_dict[key]
