@@ -424,7 +424,7 @@ def convert_token_in_quote(j_str,**kwargs):
     rslt = ''
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
-        action,next_state = machine.search(curr_state,input_symbol)
+        action,next_state = machine.search(curr_state,input_symbol,input_symbol)
         if(action):
             ch = machine.action_returned
         else:
