@@ -461,7 +461,7 @@ def convert_token_in_quote(j_str,**kwargs):
         ####SLASHLQ_n -any-> LQ_n
         machine.add(slashlq,re.compile("."),do_replace,sn)
         #####LQ_n -others-> LQ_n
-        tmp_arr = copy.deepcopy(LqRqBSpColComSlOp_arr)
+        tmp_arr = ['b','\\\\'] + ops + colons + commas + spaces 
         tmp_arr_rq = copy.deepcopy(rquotes)
         tmp_arr_lq = copy.deepcopy(lquotes)
         tmp_arr_lq.pop(i)
