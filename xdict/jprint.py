@@ -320,40 +320,32 @@ def convert_token_in_quote(j_str,**kwargs):
     ####
     machine.add("SLASHOTHER",re.compile("."),do_replace,"OTHER")
     ####
-    regex_lqoute_array = fsm.creat_regexes_array(lquotes)
+    regex_lquote_array = fsm.creat_regexes_array(lquotes)
     regex_rquote_array = fsm.creat_regexes_array(rquotes)
     ###@@@@@@@@@@@@@@@
     for i in range(0,lquotes.__len__()):
         ####INIT -lq_n-> LQ_n
-        k = ("INIT",regex_lquote_array[i])
         sn = ''.join(("LQ",'_',str(i)))
-        v = (None,sn)
-        fsm_dict[k] = v
+        machine.add("INIT",regex_lquote_array[i],None,sn)
     for i in range(0,rquotes.__len__()):
         ####INIT -rq_n-> ERROR
         if(regex_rquote_array[i] == regex_lquote_array[i]):
             pass
         else:
-            k = ("INIT",regex_rquote_array[i])
             sn = ''.join(("LQ",'_',str(i)))
-            v = (None,sn)
-            fsm_dict[k] = v
+            machine.add("INIT",regex_rquote_array[i],None,sn)
     ####
     for i in range(0,lquotes.__len__()):
         ####BYTES -lq_n-> LQ_n
-        k = ("BYTES",regex_lquote_array[i])
         sn = ''.join(("LQ",'_',str(i)))
-        v = (None,sn)
-        fsm_dict[k] = v
+        machine.add("BYTES",regex_lquote_array[i],None,sn)
     for i in range(0,rquotes.__len__()):
         ####BYTES -rq_n-> ERROR
         if(rquotes[i] == lquotes[i]):
             pass
         else:
-            k = ("BYTES",regex_rquote_array[i])
             sn = ''.join(("LQ",'_',str(i)))
-            v = (None,sn)
-            fsm_dict[k] = v
+            machine.add("BYTES",regex_rquote_array[i],None,sn)
     ####
     for i in range(0,lquotes.__len__()):
         ####LQ_n -lq_n-> ERROR
@@ -361,38 +353,22 @@ def convert_token_in_quote(j_str,**kwargs):
         if(lquotes[i] == rquotes[i]):
             pass
         else:
-            k = (sn,regex_lquotes_array[i])
-            v = (do_throw,'ERROR')
-            fsm_dict[k] = v
+            machine.add(sn,regex_lquotes_array[i],do_throw,'ERROR')
         ####LQ_n -rq_n-> INIT
-        k = (sn,regex_rquotes_array[i])
-        v = (None,'INIT')
-        fsm_dict[k] = v
+        machine.add(sn,regex_rquotes_array[i],None,'INIT')
         #####LQ_n -b-> LQ_n
-        k = (sn,regex_b)
-        v = (None,sn)
-        fsm_dict[k] = v
+        machine.add(sn,regex_b,None,sn)
         #####LQ_n -spaces-> LQ_n
-        k = (sn,regex_spaces)
-        v = (do_replace,sn)
-        fsm_dict[k] = v
+        machine.add(sn,regex_spaces,do_replace,sn)
         ####LQ_n -colons-> LQ_n
-        k = (sn,regex_colons)
-        v = (do_replace,sn)
-        fsm_dict[k] = v
+        machine.add(sn,regex_colons,do_replace,sn)
         ####LQ_n -commas-> LQ_n
-        k = (sn,regex_commas)
-        v = (do_replace,sn)
-        fsm_dict[k] = v
+        machine.add(sn,regex_commas,do_replace,sn)
         #####LQ_n -slash -> SLASHLQ_n
         slashlq = ''.join(("SLASHLQ",'_',str(i)))
-        k = (sn,re.compile("\\\\"))
-        v = (None,slashlq)
-        fsm_dict[k] = v
+        machine.add(sn,re.compile("\\\\"),None,slashlq)
         ####SLASHLQ_n -any-> LQ_n
-        k = (slashlq,re.compile("."))
-        v = (do_replace,sn)
-        fsm_dict[k] = v
+        machine.add(slashlq,re.compile("."),do_replace,sn)
         #####LQ_n -others-> LQ_n
         tmp_arr = copy.deepcopy(LqRqBSpColComSl_arr)
         tmp_arr_rq = copy.deepcopy(rquotes)
@@ -405,33 +381,19 @@ def convert_token_in_quote(j_str,**kwargs):
         tmp_final_arr = tmp_arr + tmp_arr_rq + tmp_arr_lq
         ####
         tmp_regex = fsm.creat_regex_not_from_arr(tmp_final_arr)
-        k = (sn,tmp_regex)
-        v = (do_replace,sn)
-        fsm_dict[k] = v
+        machine.add(sn,tmp_regex,do_replace,sn)
         #####
-    # #####@@@@@
-    def search_fsm(curr_state,input_symbol,fsm_dict):
-        for key in fsm_dict:
-            if(key[0] == curr_state):
-                if(key[1].search(input_symbol)):
-                    return(fsm_dict[key])
-                else:
-                    pass
-            else:
-                pass
-        return((None,None))
     curr_state = "INIT"
     rslt = ''
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
-        temp = search_fsm(curr_state,input_symbol,fsm_dict)
-        action = temp[0]
+        action,next_state = machine.search_fsm(curr_state,input_symbol)
         if(action):
-            ch = action(input_symbol)
+            ch = machine.action_returned
         else:
             ch = input_symbol
         rslt = ''.join((rslt,ch))
-        curr_state = temp[1]
+        curr_state = next_state
     return(rslt)
 
 def format_j_str(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs):

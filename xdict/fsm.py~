@@ -81,10 +81,13 @@ class FSM():
     def __repr__(self):    
         for key in self.fsm_dict:
             curr_state, trigger_checker = key
-            action,next_state = fsm_dict[key]
+            action,next_state = self.fsm_dict[key]
             print("curr_state: "+curr_state)
             print("trigger_checker: "+trigger_checker.__str__())
-            print("action: "+action.__qualname__)
+            if(action == None):
+                print("action: None")
+            else:
+                print("action: "+action.__qualname__)
             print("next_state: "+next_state)
         return("")
     def modify(self,*args):
@@ -113,7 +116,7 @@ class FSM():
             next_state = kwargs['next_state']
         else:
             next_state = None
-        if((curr_state,trigger_checker) in fsm_dict):
+        if((curr_state,trigger_checker) in self.fsm_dict):
             self.fsm_dict[(curr_state,trigger_checker)] = (action,next_state)
             return(True)
         else:
@@ -175,11 +178,15 @@ class FSM():
         for key in self.fsm_dict:
             if(key[0] == curr_state):
                 if(key[1].search(input_symbol)):
-                    action,next_state = fsm_dict[key]
+                    action,next_state = self.fsm_dict[key]
                     if(self.enable_debug):
                         print("curr_state: "+curr_state)
+                        print("trigger_checker: "+trigger_checker.__str__())
                         print("input_symbol: "+input_symbol.__str__())
-                        print("action: "+action.__qualname__)
+                        if(action == None):
+                            print("action: None")
+                        else:
+                            print("action: "+action.__qualname__)
                         print("    params: ")
                         print("        ",end='')
                         print(*action_args)
@@ -190,7 +197,7 @@ class FSM():
                         self.action_returned = action.__call__(*action_args)    
                     else:
                         pass
-                    return(fsm_dict[key])
+                    return(self.fsm_dict[key])
                 else:
                     pass
             else:
