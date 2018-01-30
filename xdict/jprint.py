@@ -311,8 +311,8 @@ def convert_token_in_quote(j_str,**kwargs):
         return(ch)
     def do_throw(curr_state,trigger_checker,input_symbol):
         msg = "curr_state: " + curr_state + "\n"
-        msg = "trigger_checker: "+trigger_checker.__str__()) + "\n"
-        msg = "input_symbol: "+ input_symbol.__str__()) + "\n"
+        msg = "trigger_checker: "+trigger_checker.__str__() + "\n"
+        msg = "input_symbol: "+ input_symbol.__str__() + "\n"
         msg = "triggered ERROR" + "\n"
         raise Exception(msg)
     ####
