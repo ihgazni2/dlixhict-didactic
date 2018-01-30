@@ -434,7 +434,7 @@ def convert_token_in_quote(j_str,**kwargs):
             pass
         else:
             sn = ''.join(("LQ",'_',str(i)))
-            machine.add("READY",regex_rquote_array[i],None,'ERROR')
+            machine.add("READY",regex_rquote_array[i],do_throw,'ERROR')
     ####
     for i in range(0,lquotes.__len__()):
         ####LQ_n -lq_n-> ERROR
@@ -443,7 +443,7 @@ def convert_token_in_quote(j_str,**kwargs):
             pass
         else:
             machine.add(sn,regex_lquote_array[i],do_throw,'ERROR')
-        ####LQ_n -rq_n-> INIT
+        ####LQ_n -rq_n-> READY
         machine.add(sn,regex_rquote_array[i],None,'READY')
         #####LQ_n -b-> LQ_n
         machine.add(sn,regex_b,None,sn)
@@ -479,8 +479,11 @@ def convert_token_in_quote(j_str,**kwargs):
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
+        print('----------')
+        print(curr_state,trigger_checker,input_symbol,action,next_state)
         if(action == do_replace):
             ch = action(input_symbol)
+            print(ch)
         elif(action == do_throw):
             ch = ''
             action(curr_state,trigger_checker,input_symbol)
