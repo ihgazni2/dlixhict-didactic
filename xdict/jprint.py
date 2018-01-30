@@ -465,7 +465,7 @@ def convert_token_in_quote(j_str,**kwargs):
         tmp_arr_rq = [rquotes[i]]
         tmp_arr_lq = [lquotes[i]]
         if(lquotes[i] == rquotes[i]):
-            tmp_arr_rq.pop(i)
+            tmp_arr_rq = []
         else:
             pass
         tmp_final_arr = tmp_arr + tmp_arr_rq + tmp_arr_lq
