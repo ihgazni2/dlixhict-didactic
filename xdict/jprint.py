@@ -1118,7 +1118,7 @@ def get_line_color_sec(line,path,**kwargs):
     ######
     machine = fsm.FSM()
     #
-    machine.enable_debug = True
+    #machine.enable_debug = True
     #
     regex_lquotes = fsm.creat_regex_from_arr(lquotes)
     regex_rquotes = fsm.creat_regex_from_arr(rquotes)
