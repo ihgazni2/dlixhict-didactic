@@ -1146,7 +1146,7 @@ def get_line_color_sec(line,path,**kwargs):
         msg = msg + "input_symbol: "+ input_symbol.__str__() + "\n"
         msg = msg + "triggered ERROR" + "\n"
         raise Exception(msg)
-    def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+    def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ####@
         if(byte_meeted):
             byte_meeted = 0
@@ -1158,8 +1158,8 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor + 1
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_close_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_close_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ei = cursor - 1
         if(colon_meeted):
             curr_color = value_color
@@ -1176,8 +1176,8 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ei = cursor - 1
         #if(prev_symbol == 'b'):
         #    ei = ei - 1
@@ -1187,19 +1187,19 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_open_var_bytes(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_open_var_bytes(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         byte_meeted = 1
         ei = cursor - 1
         curr_color = default_color
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_clear_byte_meeted(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_clear_byte_meeted(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         byte_meeted = 0
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ei = cursor - 1
         if(colon_meeted):
             curr_color = value_color
@@ -1216,11 +1216,11 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_colons(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_colons(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         colon_meeted = 1
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ei = cursor - 1
         curr_color = default_color
         if(ei >= si):
@@ -1241,10 +1241,10 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor + 1
-        return(si,ei,color_sec,color_sec_seq,colon_meeted)
-    def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
+    def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         colon_meeted = 1
-        return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol))
+        return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted))
     #---------------------------------------------------------------------------------------
     ####
     machine.add("INIT",regex_b,do_open_var_bytes,"BYTES")
@@ -1364,7 +1364,7 @@ def get_line_color_sec(line,path,**kwargs):
         #print('----------')
         #print(curr_state,trigger_checker,input_symbol,action,next_state)
         if(action):
-            si,ei,color_sec,color_sec_seq,colon_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+            si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
         else:
             pass
         curr_state = next_state
@@ -1376,7 +1376,7 @@ def get_line_color_sec(line,path,**kwargs):
         if(is_op(input_symbol)):
             pass
         else:
-            si,ei,color_sec,color_sec_seq,colon_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+            si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
         curr_state = "INIT"
     #######
     state_is_bytes = (curr_state == "BYTES")
@@ -1388,13 +1388,13 @@ def get_line_color_sec(line,path,**kwargs):
     #######
     if(cond):
         cursor = cursor + 1
-        si,ei,color_sec,color_sec_seq,colon_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+        si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
         curr_state = "INIT"
     ######
     cond = ("SLASHLQ" in curr_state)
     if(cond):
         cursor = cursor + 1
-        si,ei,color_sec,color_sec_seq,colon_meeted = do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+        si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
         curr_state = "INIT"
     return(color_sec)
 
