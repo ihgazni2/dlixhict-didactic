@@ -1015,9 +1015,6 @@ def get_line_color_sec(line,path,**kwargs):
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
     def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
-        print('---------------')
-        print(ei)
-        print(si)
         curr_color = default_color
         if(ei >= si):
             color_sec[color_sec_seq] = (si,ei,curr_color)
@@ -1025,8 +1022,7 @@ def get_line_color_sec(line,path,**kwargs):
         else:
             pass
         si = cursor 
-        ei = cursor
-        print(head_last)
+        ei = cursor 
         if(is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
             curr_color = value_color
         elif(is_colon(head_last)):
@@ -1692,4 +1688,5 @@ def pdir(obj,**kwargs):
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
+
 
