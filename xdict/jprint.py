@@ -1363,10 +1363,12 @@ def get_line_color_sec(line,path,**kwargs):
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
         #print('----------')
         #print(curr_state,trigger_checker,input_symbol,action,next_state)
-        if(action):
-            si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
-        else:
+        if(action == do_throw):
+            action(curr_state,trigger_checker,input_symbol)   
+        elif(action == None):
             pass
+        else:
+            si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
         curr_state = next_state
         prev_symbol = input_symbol
     #-----Final handle------------------------------------------------------------
