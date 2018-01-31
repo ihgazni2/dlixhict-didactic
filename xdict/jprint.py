@@ -1247,7 +1247,7 @@ def get_line_color_sec(line,path,**kwargs):
         return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol))
     #---------------------------------------------------------------------------------------
     ####
-    machene.add("INIT",regex_b,do_open_var_bytes,"BYTES")
+    machine.add("INIT",regex_b,do_open_var_bytes,"BYTES")
     machine.add("INIT",regex_spaces,None,"INIT")
     machine.add("INIT",regex_colons,None,"INIT")
     machine.add("INIT",regex_commas,None,"INIT")
