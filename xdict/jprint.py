@@ -1088,11 +1088,7 @@ def get_line_color_sec(line,path,**kwargs):
         mas = msg + "index : " + str(index)
         raise Exception(msg)
     def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
-        ####@
-        if(byte_meeted):
-            byte_meeted = 0
-        else:
-            pass
+        byte_meeted = 0
         ####
         ei = cursor 
         curr_color = default_color
@@ -1186,7 +1182,7 @@ def get_line_color_sec(line,path,**kwargs):
     ####
     machine.add("INIT",regex_b,do_open_var_bytes,"BYTES")
     machine.add("INIT",regex_spaces,None,"INIT")
-    machine.add("INIT",regex_colons,None,"INIT")
+    machine.add("INIT",regex_colons,do_colons,"INIT")
     machine.add("INIT",regex_commas,None,"INIT")
     machine.add("INIT",regex_slash,do_open_var,"SLASHINIT")
     machine.add("INIT",regex_ops,do_op,"INIT")
