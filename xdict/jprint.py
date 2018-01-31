@@ -359,9 +359,9 @@ def convert_token_in_quote(j_str,**kwargs):
     # ############################
     machine.add("INIT",regex_b,None,"BYTES")
     machine.add("INIT",regex_spaces,None,"INIT")
-    machine.add("INIT",regex_ops,None,"READY")
-    machine.add("INIT",regex_colons,do_throw,"ERROR")
-    machine.add("INIT",regex_commas,do_throw,"ERROR")
+    machine.add("INIT",regex_ops,None,"INIT")
+    machine.add("INIT",regex_colons,None,"INIT")
+    machine.add("INIT",regex_commas,None,"INIT")
     machine.add("INIT",regex_slash,None,"SLASHINIT")
     machine.add("INIT",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
     ####
@@ -377,8 +377,6 @@ def convert_token_in_quote(j_str,**kwargs):
     ####
     machine.add("SLASHBYTES",re.compile("."),do_replace,"OTHER")
     ####
-    machine.add("OTHER",regex_lquotes,do_throw,"ERROR")
-    machine.add("OTHER",regex_rquotes,do_throw,"ERROR")
     machine.add("OTHER",regex_b,None,"OTHER")
     machine.add("OTHER",regex_spaces,None,"OTHER")
     machine.add("OTHER",regex_ops,None,"INIT")
@@ -388,14 +386,6 @@ def convert_token_in_quote(j_str,**kwargs):
     machine.add("OTHER",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
     ####
     machine.add("SLASHOTHER",re.compile("."),do_replace,"OTHER")
-    ####
-    machine.add("READY",regex_b,None,"BYTES")
-    machine.add("READY",regex_spaces,None,"READY")
-    machine.add("READY",regex_ops,None,"INIT")
-    machine.add("READY",regex_colons,None,"INIT")
-    machine.add("READY",regex_commas,None,"INIT")
-    machine.add("READY",regex_slash,do_throw,"ERROR")
-    machine.add("READY",regex_not_LqRqBSpColComSlOp,do_throw,"ERROR")
     ####
     regex_lquote_array = fsm.creat_regexes_array(lquotes)
     regex_rquote_array = fsm.creat_regexes_array(rquotes)
@@ -425,16 +415,16 @@ def convert_token_in_quote(j_str,**kwargs):
             machine.add("BYTES",regex_rquote_array[i],do_throw,'ERROR')
     ####
     for i in range(0,lquotes.__len__()):
-        ####READY -lq_n-> LQ_n
+        ####OTHER -lq_n-> LQ_n
         sn = ''.join(("LQ",'_',str(i)))
-        machine.add("READY",regex_lquote_array[i],None,sn)
+        machine.add("OTHER",regex_lquote_array[i],None,sn)
     for i in range(0,rquotes.__len__()):
-        ####READY -rq_n-> ERROR
+        ####OTHER -rq_n-> ERROR
         if(rquotes[i] == lquotes[i]):
             pass
         else:
             sn = ''.join(("LQ",'_',str(i)))
-            machine.add("READY",regex_rquote_array[i],do_throw,'ERROR')
+            machine.add("OTHER",regex_rquote_array[i],do_throw,'ERROR')
     ####
     for i in range(0,lquotes.__len__()):
         ####LQ_n -lq_n-> ERROR
@@ -444,7 +434,7 @@ def convert_token_in_quote(j_str,**kwargs):
         else:
             machine.add(sn,regex_lquote_array[i],do_throw,'ERROR')
         ####LQ_n -rq_n-> READY
-        machine.add(sn,regex_rquote_array[i],None,'READY')
+        machine.add(sn,regex_rquote_array[i],None,'INIT')
         #####LQ_n -b-> LQ_n
         machine.add(sn,regex_b,None,sn)
         #####LQ_n -spaces-> LQ_n
