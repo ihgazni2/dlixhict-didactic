@@ -1065,8 +1065,10 @@ def get_line_color_sec(line,path,**kwargs):
     else:
         block_non_ordered_op_pairs_dict = get_block_op_pairs('{}')
     ####
+    print(kwargs)
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
+        print(quotes_pairs)
         if(utils.is_dict(quotes_pairs)):
             quotes_pairs_dict = quotes_pairs
         else:
@@ -1365,9 +1367,10 @@ def get_line_color_sec(line,path,**kwargs):
         input_symbol = line[i]
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
         print('----------')
-        print(lquotes)
-        print(rquotes)
         print(curr_state,trigger_checker,input_symbol,action,next_state)
+        print(line)
+        print(path)
+        print(i)
         if(action == do_throw):
             action(curr_state,trigger_checker,input_symbol,line,path,i)   
         elif(action == None):
