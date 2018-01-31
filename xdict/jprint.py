@@ -34,7 +34,18 @@ def help(fname=None):
     print('''print_j_str(j_str,**kwargs)''')
     print('''pobj(obj,**kwargs)''')
     print('''pdir(obj,**kwargs)''')
-    if(fname == "convert_token_in_quote"):
+    if(fanme == "get_block_op_pairs"):
+        info = '''get_block_op_pairs(pairs_str)
+                  pairs_str = "{}[]()"
+               '''
+        print(info)
+        return(True)
+    elif(fanme == "get_jdict_token_set"):
+        info = '''get_jdict_token_set(
+               '''
+        print(info)
+        return(True)
+    elif(fname == "convert_token_in_quote"):
         info = '''convert_token_in_quote(       
                    spaces = [' ','\t'],
                    colons = [':'],
@@ -46,6 +57,11 @@ def help(fname=None):
                    )
                 '''
         print(info)
+        return(True)
+    else:
+        print("NOT founded")
+        #edit distance
+        return(False)
 
 
 
@@ -134,14 +150,13 @@ def get_jdict_token_set(**kwargs):
     '''
         from xdict.jprint import get_jdict_token_set
         get_jdict_token_set(quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
-        {'replace_ref_dict': {' ': '&#32;', '&#62;': '>', '&#123;': '{', '&#13;': '\r', '[': '&#91;', '\r': '&#13;', '"': '&#34;', ')': '&#41;', '>': '&#62;', '\t': '&#9;', '&#34;': '"', '&#40;': '(', '<': '&#60;', '\n': '&#10;', '&#47;': '/', ',': '&#44;', '&#60;': '<', '&#125;': '}', '&#91;': '[', '&#10;': '\n', '&#9;': '\t', '&#58;': ':', '(': '&#40;', ']': '&#93;', '&#44;': ',', '{': '&#123;', '}': '&#125;', '&#41;': ')', '&#93;': ']', '/': '&#47;', ':': '&#58;', '&#32;': ' '}, 'token_set': {' ', '&#47;', '[', '&#10;', '"', ')', '>', '\t', '&#34;', '&#93;', '<', '&#9;', '&#13;', '(', '&#44;', '&#32;', '&#58;', '&#62;', '\r', '&#123;', '&#40;', '\n', ',', '&#60;', '&#125;', '&#91;', ']', '{', '}', '&#41;', '/', ':'}}
     '''
-    def get_slashxs(ch):
-        d = {1:ch}
-        if('\\' in d.__str__()):
-            return(True)
-        else:
-            return(False)
+    #def get_slashxs(ch):
+    #    d = {1:ch}
+    #    if('\\' in d.__str__()):
+    #        return(True)
+    #    else:
+    #        return(False)
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -179,68 +194,68 @@ def get_jdict_token_set(**kwargs):
     else:
         path_sps = ['/']
     #html.unescape("{1: '&#8;&#2;'}")  "{1: ''}"
-    if('slashxs' in kwargs):
-        slashxs = kwargs['slashxs']
-    else:
-        slashxs = []
-        for i in range(0,256):
-            if(get_slashxs(chr(i))):
-                slashxs.append(chr(i))
-            else:
-                pass
-    if('ctrls' in kwargs):
-        ctrls = kwargs['ctrls']
-    else:
-        ctrls = ['\x00', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\t', '\n', '\x0b', '\x0c', '\r', '\x0e', '\x0f', '\x10', '\x11', '\x12', '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1a', '\x1b', '\x1c', '\x1d', '\x1e', '\x1f']
-    for each in spaces:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in colons:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in commas:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in line_sps:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in lquotes:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in rquotes:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in path_sps:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
+    #if('slashxs' in kwargs):
+    #    slashxs = kwargs['slashxs']
+    #else:
+    #    slashxs = []
+    #    for i in range(0,256):
+    #        if(get_slashxs(chr(i))):
+    #            slashxs.append(chr(i))
+    #        else:
+    #            pass
+    #if('ctrls' in kwargs):
+    #    ctrls = kwargs['ctrls']
+    #else:
+    #    ctrls = ['\x00', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\t', '\n', '\x0b', '\x0c', '\r', '\x0e', '\x0f', '\x10', '\x11', '\x12', '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1a', '\x1b', '\x1c', '\x1d', '\x1e', '\x1f']
+    #for each in spaces:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
+    #for each in colons:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
+    #for each in commas:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
+    #for each in line_sps:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
+    #for each in lquotes:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
+    #for each in rquotes:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
+    #for each in path_sps:
+    #    try:
+    #        ctrls.remove(each)
+    #    except:
+    #        pass
+    #    else:
+    #        pass
     d = {}
     s = set({})
     def add_bi_table(s,d,x):
@@ -255,7 +270,6 @@ def get_jdict_token_set(**kwargs):
     add_bi_table(s,d,colons)
     add_bi_table(s,d,commas)
     add_bi_table(s,d,line_sps)
-    #add_bi_table(s,d,quotes)
     ####
     add_bi_table(s,d,lquotes)
     add_bi_table(s,d,rquotes)
@@ -266,8 +280,8 @@ def get_jdict_token_set(**kwargs):
         s.add(block_op_pairs_dict[i][1])
         recover_token_l = html_number_escape_str(block_op_pairs_dict[i][0])
         recover_token_r = html_number_escape_str(block_op_pairs_dict[i][1])
-        s.add(recover_token_l)
-        s.add(recover_token_r)
+        #s.add(recover_token_l)
+        #s.add(recover_token_r)
         d[block_op_pairs_dict[i][0]] = recover_token_l 
         d[block_op_pairs_dict[i][1]] = recover_token_r
         d[recover_token_l] = block_op_pairs_dict[i][0]
