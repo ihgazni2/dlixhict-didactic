@@ -1065,10 +1065,8 @@ def get_line_color_sec(line,path,**kwargs):
     else:
         block_non_ordered_op_pairs_dict = get_block_op_pairs('{}')
     ####
-    print(kwargs)
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
-        print(quotes_pairs)
         if(utils.is_dict(quotes_pairs)):
             quotes_pairs_dict = quotes_pairs
         else:
@@ -1426,20 +1424,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
     ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
-    else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    ############
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1518,6 +1503,14 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
             block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
         block_op_pairs_dict = get_block_op_pairs('{}[]()')
+    if('quotes_pairs' in kwargs):
+        quotes_pairs = kwargs['quotes_pairs']
+        if(utils.is_dict(quotes_pairs)):
+            quotes_pairs_dict = quotes_pairs
+        else:
+            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
+    else:
+        quotes_pairs_dict = get_quotes_pairs('""\'\'')
     lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
     lines = lps['lines']
     paths = lps['paths']
@@ -1532,7 +1525,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
     for i in range(start,end+1):
         line = lines[i]
         if(with_color):
-            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
+            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
@@ -1675,7 +1668,7 @@ def print_j_str(j_str,**kwargs):
     for i in range(start,end+1):
         line = lines[i]
         if(with_color):
-            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
+            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
