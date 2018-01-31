@@ -35,13 +35,26 @@ def help(fname=None):
     print('''pobj(obj,**kwargs)''')
     print('''pdir(obj,**kwargs)''')
     if(fanme == "get_block_op_pairs"):
-        info = '''get_block_op_pairs(pairs_str)
-                  pairs_str = "{}[]()"
+        info = '''PARAMS: pairs_str = "{}[]()"
+                  EXEC:   get_block_op_pairs(pairs_str)
+                  RESULT: {
+                              1: ('{', '}'), 
+                              2: ('[', ']'), 
+                              3: ('(', ')')
+                          }
                '''
         print(info)
         return(True)
     elif(fanme == "get_jdict_token_set"):
         info = '''get_jdict_token_set(
+                   spaces = [' ','\t'],
+                   colons = [':'],
+                   commas = [','],
+                   path_sps = ['/'],
+                   line_sps = ['\r','\n'],
+                   block_op_pairs_dict={1: ('{', '}'), 2: ('[', ']'), 3: ('(', ')')},
+                   quotes_pairs_dict={1: ('"', '"'), 2: ("'", "'")}
+                   )
                '''
         print(info)
         return(True)
@@ -167,6 +180,10 @@ def get_jdict_token_set(**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
+    if('path_sps' in kwargs):
+        path_sps = kwargs['path_sps']
+    else:
+        path_sps = ['/']
     if('block_op_pairs_dict' in kwargs):
         block_op_pairs_dict = kwargs['block_op_pairs_dict']
     else:
@@ -180,10 +197,6 @@ def get_jdict_token_set(**kwargs):
     for i in range(1,quotes_pairs_dict.__len__()+1):
         lquotes.append(quotes_pairs_dict[i][0])
         rquotes.append(quotes_pairs_dict[i][1])
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
     d = {}
     s = set({})
     def add_bi_table(s,d,x):
@@ -193,7 +206,6 @@ def get_jdict_token_set(**kwargs):
             d[k] = v
             d[v] = k
             s.add(k)
-            s.add(v)
     add_bi_table(s,d,spaces)
     add_bi_table(s,d,colons)
     add_bi_table(s,d,commas)
