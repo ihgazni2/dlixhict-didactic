@@ -151,12 +151,6 @@ def get_jdict_token_set(**kwargs):
         from xdict.jprint import get_jdict_token_set
         get_jdict_token_set(quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
     '''
-    #def get_slashxs(ch):
-    #    d = {1:ch}
-    #    if('\\' in d.__str__()):
-    #        return(True)
-    #    else:
-    #        return(False)
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -173,8 +167,6 @@ def get_jdict_token_set(**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    ####
-    ####
     if('block_op_pairs_dict' in kwargs):
         block_op_pairs_dict = kwargs['block_op_pairs_dict']
     else:
@@ -188,74 +180,10 @@ def get_jdict_token_set(**kwargs):
     for i in range(1,quotes_pairs_dict.__len__()+1):
         lquotes.append(quotes_pairs_dict[i][0])
         rquotes.append(quotes_pairs_dict[i][1])
-    ###########
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    #html.unescape("{1: '&#8;&#2;'}")  "{1: ''}"
-    #if('slashxs' in kwargs):
-    #    slashxs = kwargs['slashxs']
-    #else:
-    #    slashxs = []
-    #    for i in range(0,256):
-    #        if(get_slashxs(chr(i))):
-    #            slashxs.append(chr(i))
-    #        else:
-    #            pass
-    #if('ctrls' in kwargs):
-    #    ctrls = kwargs['ctrls']
-    #else:
-    #    ctrls = ['\x00', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\t', '\n', '\x0b', '\x0c', '\r', '\x0e', '\x0f', '\x10', '\x11', '\x12', '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1a', '\x1b', '\x1c', '\x1d', '\x1e', '\x1f']
-    #for each in spaces:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in colons:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in commas:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in line_sps:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in lquotes:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in rquotes:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in path_sps:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
     d = {}
     s = set({})
     def add_bi_table(s,d,x):
@@ -270,18 +198,14 @@ def get_jdict_token_set(**kwargs):
     add_bi_table(s,d,colons)
     add_bi_table(s,d,commas)
     add_bi_table(s,d,line_sps)
-    ####
     add_bi_table(s,d,lquotes)
     add_bi_table(s,d,rquotes)
-    ####
     add_bi_table(s,d,path_sps)
     for i in range(1,block_op_pairs_dict.__len__()+1):
         s.add(block_op_pairs_dict[i][0])
         s.add(block_op_pairs_dict[i][1])
         recover_token_l = html_number_escape_str(block_op_pairs_dict[i][0])
         recover_token_r = html_number_escape_str(block_op_pairs_dict[i][1])
-        #s.add(recover_token_l)
-        #s.add(recover_token_r)
         d[block_op_pairs_dict[i][0]] = recover_token_l 
         d[block_op_pairs_dict[i][1]] = recover_token_r
         d[recover_token_l] = block_op_pairs_dict[i][0]
@@ -1196,10 +1120,6 @@ def get_line_color_sec(line,path,**kwargs):
         return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
     def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ei = cursor - 1
-        #if(prev_symbol == 'b'):
-        #    ei = ei - 1
-        #else:
-        #    pass
         curr_color = default_color
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1

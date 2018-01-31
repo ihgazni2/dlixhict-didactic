@@ -4,72 +4,6 @@ import jsbeautifier as jb
 from xdict import utils
 import html
 import copy
-from xdict import fsm
-
-def help(fname=None):
-    print('''html_number_escape_char(ch)''')
-    print('''html_number_escape_str(s)''')
-    print('''get_block_op_pairs(pairs_str)''')
-    print('''get_jdict_token_set(**kwargs)''')
-    print('''convert_token_in_quote(j_str,**kwargs)''')
-    print('''format_j_str(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs)''')
-    print('''is_lop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_rop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''which_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_comma(ch,commas=[','])''')
-    print('''is_colon(ch,colons=[':'])''')
-    print('''is_non_ordered_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'),block_non_ordered_op_pairs_dict=get_block_op_pairs('{}'))''')
-    print('''get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))''')
-    print('''get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))''')
-    print('''get_line_start_index_in_j_str(orig_lines)''')
-    print('''line_to_path_init(line,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
-    print('''line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
-    print('''get_print_lines_and_paths(j_str,**kwargs)''')
-    print('''paint_str(orig_string,**kwargs)''')
-    print('''get_line_color_sec(line,path,**kwargs)''')
-    print('''get_dynamic_indent_j_str(j_str,**kwargs)''')
-    print('''print_j_str(j_str,**kwargs)''')
-    print('''pobj(obj,**kwargs)''')
-    print('''pdir(obj,**kwargs)''')
-    if(fanme == "get_block_op_pairs"):
-        info = '''get_block_op_pairs(pairs_str)
-                  pairs_str = "{}[]()"
-               '''
-        print(info)
-        return(True)
-    elif(fanme == "get_jdict_token_set"):
-        info = '''get_jdict_token_set(
-               '''
-        print(info)
-        return(True)
-    elif(fname == "convert_token_in_quote"):
-        info = '''convert_token_in_quote(       
-                   spaces = [' ','\t'],
-                   colons = [':'],
-                   commas = [','],
-                   path_sps = ['/'],
-                   line_sps = ['\r','\n'],
-                   block_op_pairs_dict={1: ('{', '}'), 2: ('[', ']'), 3: ('(', ')')},
-                   quotes_pairs_dict={1: ('"', '"'), 2: ("'", "'")}
-                   )
-                '''
-        print(info)
-        return(True)
-    else:
-        print("NOT founded")
-        #edit distance
-        return(False)
-
-
-
-
-
-
-
-
 
 # lv_dict
 ## {"key_4_UF0aJJ6v": "value_1", "key_2_Hd0t": ["value_16", "value_8", "value_8", "value_15", "value_14", "value_19", {"key_7_tl": [[], "value_2", "value_4", "value_4"], "key_13_TVj_lP": "value_6", "key_8_9vPp6PT": "value_9", "key_10_Uy": ["value_1"]
@@ -84,7 +18,7 @@ def help(fname=None):
 
 __doc__ = '''
 '''
-# tools
+
 #-----------------------------------------------
 def html_number_escape_char(ch):
     '''
@@ -125,7 +59,6 @@ def html_number_escape_str(s):
         escaped = ''.join((escaped,esch))
     return(escaped)
 
-#operators ,such as {} [] ()  ......could be user-defined
 def get_block_op_pairs(pairs_str):
     '''
         # >>> get_block_op_pairs("{}[]")  
@@ -142,21 +75,13 @@ def get_block_op_pairs(pairs_str):
         pairs_dict[i] = pairs_str[i*2-2],pairs_str[i*2-1]
     return(pairs_dict)
 
-##quotes  left-quote,right-quote ,such as "" '' <>  ......could be user-defined
-get_quotes_pairs = get_block_op_pairs
-##
-
-def get_jdict_token_set(**kwargs):
-    '''
-        from xdict.jprint import get_jdict_token_set
-        get_jdict_token_set(quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
-    '''
-    #def get_slashxs(ch):
-    #    d = {1:ch}
-    #    if('\\' in d.__str__()):
-    #        return(True)
-    #    else:
-    #        return(False)
+def get_jdict_token_set(block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs):
+    def get_slashxs(ch):
+        d = {1:ch}
+        if('\\' in d.__str__()):
+            return(True)
+        else:
+            return(False)
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -173,89 +98,70 @@ def get_jdict_token_set(**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    ####
-    ####
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-    ###########
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
     #html.unescape("{1: '&#8;&#2;'}")  "{1: ''}"
-    #if('slashxs' in kwargs):
-    #    slashxs = kwargs['slashxs']
-    #else:
-    #    slashxs = []
-    #    for i in range(0,256):
-    #        if(get_slashxs(chr(i))):
-    #            slashxs.append(chr(i))
-    #        else:
-    #            pass
-    #if('ctrls' in kwargs):
-    #    ctrls = kwargs['ctrls']
-    #else:
-    #    ctrls = ['\x00', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\t', '\n', '\x0b', '\x0c', '\r', '\x0e', '\x0f', '\x10', '\x11', '\x12', '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1a', '\x1b', '\x1c', '\x1d', '\x1e', '\x1f']
-    #for each in spaces:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in colons:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in commas:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in line_sps:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in lquotes:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in rquotes:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
-    #for each in path_sps:
-    #    try:
-    #        ctrls.remove(each)
-    #    except:
-    #        pass
-    #    else:
-    #        pass
+    if('slashxs' in kwargs):
+        slashxs = kwargs['slashxs']
+    else:
+        slashxs = []
+        for i in range(0,256):
+            if(get_slashxs(chr(i))):
+                slashxs.append(chr(i))
+            else:
+                pass
+    if('ctrls' in kwargs):
+        ctrls = kwargs['ctrls']
+    else:
+        ctrls = ['\x00', '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\t', '\n', '\x0b', '\x0c', '\r', '\x0e', '\x0f', '\x10', '\x11', '\x12', '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1a', '\x1b', '\x1c', '\x1d', '\x1e', '\x1f']
+    for each in spaces:
+        try:
+            ctrls.remove(each)
+        except:
+            pass
+        else:
+            pass
+    for each in colons:
+        try:
+            ctrls.remove(each)
+        except:
+            pass
+        else:
+            pass
+    for each in commas:
+        try:
+            ctrls.remove(each)
+        except:
+            pass
+        else:
+            pass
+    for each in line_sps:
+        try:
+            ctrls.remove(each)
+        except:
+            pass
+        else:
+            pass
+    for each in quotes:
+        try:
+            ctrls.remove(each)
+        except:
+            pass
+        else:
+            pass
+    for each in path_sps:
+        try:
+            ctrls.remove(each)
+        except:
+            pass
+        else:
+            pass
     d = {}
     s = set({})
     def add_bi_table(s,d,x):
@@ -270,42 +176,22 @@ def get_jdict_token_set(**kwargs):
     add_bi_table(s,d,colons)
     add_bi_table(s,d,commas)
     add_bi_table(s,d,line_sps)
-    ####
-    add_bi_table(s,d,lquotes)
-    add_bi_table(s,d,rquotes)
-    ####
+    add_bi_table(s,d,quotes)
     add_bi_table(s,d,path_sps)
     for i in range(1,block_op_pairs_dict.__len__()+1):
         s.add(block_op_pairs_dict[i][0])
         s.add(block_op_pairs_dict[i][1])
         recover_token_l = html_number_escape_str(block_op_pairs_dict[i][0])
         recover_token_r = html_number_escape_str(block_op_pairs_dict[i][1])
-        #s.add(recover_token_l)
-        #s.add(recover_token_r)
+        s.add(recover_token_l)
+        s.add(recover_token_r)
         d[block_op_pairs_dict[i][0]] = recover_token_l 
         d[block_op_pairs_dict[i][1]] = recover_token_r
         d[recover_token_l] = block_op_pairs_dict[i][0]
         d[recover_token_r] = block_op_pairs_dict[i][1]
     return({'token_set':s,'replace_ref_dict':d})
 
-#######################
-def convert_token_in_quote(j_str,**kwargs):
-    '''
-        >>> from xdict.jprint import convert_token_in_quote
-        >>> from xdict.jprint import help
-        >>> 
-        >>> convert_token_in_quote('"a b":"cd"')
-        '"a&#32;b":"cd"'
-        >>> import html
-        >>> html.unescape('"a&#32;b":"cd"')
-        '"a b":"cd"'
-        >>> convert_token_in_quote('"a b":cd')
-        '"a&#32;b":cd'
-        >>> 
-        >>> #help(convert_token_in_quote)
-        convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
-        '<a&#32;b>:"cd"'
-    '''
+def convert_token_in_quote(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs):
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -322,188 +208,95 @@ def convert_token_in_quote(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    quotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-        quotes.append(quotes_pairs_dict[i][0])
-        quotes.append(quotes_pairs_dict[i][1])
-    ###############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    temp = get_jdict_token_set(block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    temp = get_jdict_token_set(block_op_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
     # ----------------------------------------------------------------- #
-    ####
+    #Q: QUOTE
+    #PISIQ: PRE_IS_SLASH_IN_QUOTE
+    
+    
+    #SQ:SINGLE_QUOTE
+    #DQ:DOUBLE_QUOTE
+    #PISIQ:PRE_IS_SLASH_IN_SQ
+    #PISID:PRE_IS_SLASH_IN_DQ
+    #input_symbol_array = ['"',"'",'\\']
+    #states_array = ["INIT","Q","PIIQ"]
+    
     def do_replace(ch):
         if(ch in token_set):
             ch = replace_ref_dict[ch]
         return(ch)
-    def do_throw(curr_state,trigger_checker,input_symbol):
-        msg = "curr_state: " + curr_state + "\n"
-        msg = msg + "trigger_checker: "+trigger_checker.__str__() + "\n"
-        msg = msg + "input_symbol: "+ input_symbol.__str__() + "\n"
-        msg = msg + "triggered ERROR" + "\n"
-        raise Exception(msg)
-    ####
-    machine = fsm.FSM()
-    regex_lquotes = fsm.creat_regex_from_arr(lquotes)
-    regex_rquotes = fsm.creat_regex_from_arr(rquotes) 
-    regex_b = re.compile('b')
-    regex_spaces = fsm.creat_regex_from_arr(spaces)
-    regex_colons = fsm.creat_regex_from_arr(colons)
-    regex_commas = fsm.creat_regex_from_arr(commas)
-    regex_slash = re.compile("\\\\")
-    ######
-    ops = []
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        ops.append(block_op_pairs_dict[i][0])
-        ops.append(block_op_pairs_dict[i][1])
-    ######
-    regex_ops = fsm.creat_regex_from_arr(ops)
-    LqRqBSpColComSlOp_arr = ['b','\\\\']
-    LqRqBSpColComSlOp_arr = LqRqBSpColComSlOp_arr + lquotes + rquotes + spaces + colons+commas + ops
-    regex_not_LqRqBSpColComSlOp = fsm.creat_regex_not_from_arr(LqRqBSpColComSlOp_arr) 
+    
+    regex_quotes = []
+    regex_nonqses = []
+    non_regex_quote_str = '[^'
+    
+    for i in range(0,quotes.__len__()):
+        regex_quote_str = ''.join(('[',quotes[i],']'))
+        regex_quote = re.compile(regex_quote_str)
+        regex_quotes.append(regex_quote)
+        regex_nonqs_str = ''.join(('[^',quotes[i],'\\\\]'))
+        regex_nonqs = re.compile(regex_nonqs_str)
+        regex_nonqses.append(regex_nonqs)
+        non_regex_quote_str = ''.join((non_regex_quote_str,quotes[i]))
+    
+    non_regex_quote_str = ''.join((non_regex_quote_str,']'))
+    non_regex_quote = re.compile(non_regex_quote_str)
     # ############################
-    # ############################
-    machine.add("INIT",regex_b,None,"BYTES")
-    machine.add("INIT",regex_spaces,None,"INIT")
-    machine.add("INIT",regex_ops,None,"INIT")
-    machine.add("INIT",regex_colons,None,"INIT")
-    machine.add("INIT",regex_commas,None,"INIT")
-    machine.add("INIT",regex_slash,None,"SLASHINIT")
-    machine.add("INIT",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
-    ####
-    machine.add("BYTES",regex_b,None,"OTHER")
-    machine.add("BYTES",regex_spaces,None,"BYTES")
-    machine.add("BYTES",regex_ops,None,"INIT")
-    machine.add("BYTES",regex_colons,None,"INIT")
-    machine.add("BYTES",regex_commas,None,"INIT")
-    machine.add("BYTES",regex_slash,None,"SLASHBYTES")
-    machine.add("BYTES",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
-    ####
-    machine.add("SLASHINIT",re.compile("."),do_replace,"OTHER")
-    ####
-    machine.add("SLASHBYTES",re.compile("."),do_replace,"OTHER")
-    ####
-    machine.add("OTHER",regex_b,None,"OTHER")
-    machine.add("OTHER",regex_spaces,None,"OTHER")
-    machine.add("OTHER",regex_ops,None,"INIT")
-    machine.add("OTHER",regex_colons,None,"INIT")
-    machine.add("OTHER",regex_commas,None,"INIT")
-    machine.add("OTHER",regex_slash,None,"SLASHOTHER")
-    machine.add("OTHER",regex_not_LqRqBSpColComSlOp,do_replace,"OTHER")
-    ####
-    machine.add("SLASHOTHER",re.compile("."),do_replace,"OTHER")
-    ####
-    regex_lquote_array = fsm.creat_regexes_array(lquotes)
-    regex_rquote_array = fsm.creat_regexes_array(rquotes)
-    ###@@@@@@@@@@@@@@@
-    for i in range(0,lquotes.__len__()):
-        ####INIT -lq_n-> LQ_n
-        sn = ''.join(("LQ",'_',str(i)))
-        machine.add("INIT",regex_lquote_array[i],None,sn)
-    for i in range(0,rquotes.__len__()):
-        ####INIT -rq_n-> ERROR
-        if(regex_rquote_array[i] == regex_lquote_array[i]):
-            pass
-        else:
-            sn = ''.join(("LQ",'_',str(i)))
-            machine.add("INIT",regex_rquote_array[i],do_throw,'ERROR')
-    ####
-    for i in range(0,lquotes.__len__()):
-        ####BYTES -lq_n-> LQ_n
-        sn = ''.join(("LQ",'_',str(i)))
-        machine.add("BYTES",regex_lquote_array[i],None,sn)
-    for i in range(0,rquotes.__len__()):
-        ####BYTES -rq_n-> ERROR
-        if(rquotes[i] == lquotes[i]):
-            pass
-        else:
-            sn = ''.join(("LQ",'_',str(i)))
-            machine.add("BYTES",regex_rquote_array[i],do_throw,'ERROR')
-    ####
-    for i in range(0,lquotes.__len__()):
-        ####OTHER -lq_n-> LQ_n
-        sn = ''.join(("LQ",'_',str(i)))
-        machine.add("OTHER",regex_lquote_array[i],None,sn)
-    for i in range(0,rquotes.__len__()):
-        ####OTHER -rq_n-> ERROR
-        if(rquotes[i] == lquotes[i]):
-            pass
-        else:
-            sn = ''.join(("LQ",'_',str(i)))
-            machine.add("OTHER",regex_rquote_array[i],do_throw,'ERROR')
-    ####
-    for i in range(0,lquotes.__len__()):
-        ####LQ_n -lq_n-> ERROR
-        sn = ''.join(("LQ",'_',str(i)))
-        if(lquotes[i] == rquotes[i]):
-            pass
-        else:
-            machine.add(sn,regex_lquote_array[i],do_throw,'ERROR')
-        ####LQ_n -rq_n-> READY
-        machine.add(sn,regex_rquote_array[i],None,'INIT')
-        #####LQ_n -b-> LQ_n
-        machine.add(sn,regex_b,None,sn)
-        #####LQ_n -spaces-> LQ_n
-        machine.add(sn,regex_spaces,do_replace,sn)
-        #####LQ_n -ops-> LQ_n
-        machine.add(sn,regex_ops,do_replace,sn)
-        ####LQ_n -colons-> LQ_n
-        machine.add(sn,regex_colons,do_replace,sn)
-        ####LQ_n -commas-> LQ_n
-        machine.add(sn,regex_commas,do_replace,sn)
-        #####LQ_n -slash -> SLASHLQ_n
-        slashlq = ''.join(("SLASHLQ",'_',str(i)))
-        machine.add(sn,re.compile("\\\\"),None,slashlq)
-        ####SLASHLQ_n -any-> LQ_n
-        machine.add(slashlq,re.compile("."),do_replace,sn)
-        #####LQ_n -others-> LQ_n
-        tmp_arr = ['b','\\\\'] + ops + colons + commas + spaces 
-        tmp_arr_rq = [rquotes[i]]
-        tmp_arr_lq = [lquotes[i]]
-        if(lquotes[i] == rquotes[i]):
-            tmp_arr_rq = []
-        else:
-            pass
-        tmp_final_arr = tmp_arr + tmp_arr_rq + tmp_arr_lq
-        ####
-        tmp_regex = fsm.creat_regex_not_from_arr(tmp_final_arr)
-        machine.add(sn,tmp_regex,do_replace,sn)
-        #####
-    ####
-    ####
+    fsm_dict = {
+        ("INIT",non_regex_quote) : (None,"INIT")
+    }
+    for i in range(0,regex_quotes.__len__()):
+        k = ("INIT",regex_quotes[i])
+        sn = ''.join(("Q",'_',str(i)))
+        v = (None,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_quotes[i])
+        v = (None,"INIT")
+        fsm_dict[k] = v
+        pisiq = ''.join(("PISIQ",'_',str(i)))
+        k = (sn,re.compile("\\\\"))
+        v = (None,pisiq)
+        fsm_dict[k] = v
+        k = (pisiq,re.compile("."))
+        v = (do_replace,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_nonqses[i])
+        v = (do_replace,sn)
+        fsm_dict[k] = v
+        
+    # #################################
+    def search_fsm(curr_state,input_symbol,fsm_dict):
+        for key in fsm_dict:
+            if(key[0] == curr_state):
+                if(key[1].search(input_symbol)):
+                    return(fsm_dict[key])
+                else:
+                    pass
+            else:
+                pass
+        return(None)
     curr_state = "INIT"
     rslt = ''
     for i in range(0,j_str.__len__()):
         input_symbol = j_str[i]
-        action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
-        #print('----------')
-        #print(curr_state,trigger_checker,input_symbol,action,next_state)
-        if(action == do_replace):
+        temp = search_fsm(curr_state,input_symbol,fsm_dict)
+        action = temp[0]
+        if(action):
             ch = action(input_symbol)
-            #print(ch)
-        elif(action == do_throw):
-            ch = ''
-            action(curr_state,trigger_checker,input_symbol)
         else:
             ch = input_symbol
         rslt = ''.join((rslt,ch))
-        curr_state = next_state
+        curr_state = temp[1]
     return(rslt)
 
 def format_j_str(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs):
@@ -582,7 +375,6 @@ def format_j_str(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs
         j_str = j_str.replace(block_op_pairs_dict[i][1],''.join(("\n",block_op_pairs_dict[i][1],"\n")))
     j_str = j_str.replace("\n\n","\n")
     # format step 5: move empty to one line 
-    # such as {} [] ()
     for i in range(1,block_op_pairs_dict.__len__()+1):
         j_str = j_str.replace(''.join((block_op_pairs_dict[i][0],'\n',block_op_pairs_dict[i][1])),''.join((block_op_pairs_dict[i][0],block_op_pairs_dict[i][1])))
     # format step 6: 
@@ -914,13 +706,7 @@ def line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_o
             curr_path = ''.join((head_head,curr_base_name))
     return(curr_path)
 
-def get_print_lines_and_paths(j_str,**kwargs):
-    ####
-    if('sp' in kwargs):
-        sp = kwargs['sp']
-    else:
-        sp = '/'
-    ####
+def get_print_lines_and_paths(j_str,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp='/',**kwargs):
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -937,25 +723,15 @@ def get_print_lines_and_paths(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    ############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    j_str = convert_token_in_quote(j_str,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    j_str = convert_token_in_quote(j_str,block_op_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     j_str = format_j_str(j_str,block_op_pairs_dict)
     j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
     orig_lines = j_str.split('\n')
@@ -1054,6 +830,10 @@ def get_line_color_sec(line,path,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1078,24 +858,6 @@ def get_line_color_sec(line,path,**kwargs):
             block_non_ordered_op_pairs_dict = get_block_op_pairs(block_non_ordered_op_pairs)
     else:
         block_non_ordered_op_pairs_dict = get_block_op_pairs('{}')
-    ####
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    quotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-        quotes.append(quotes_pairs_dict[i][0])
-        quotes.append(quotes_pairs_dict[i][1])
-    ####
     if('key_color' in kwargs):
         key_color = kwargs['key_color']
     else:
@@ -1123,28 +885,68 @@ def get_line_color_sec(line,path,**kwargs):
     color_sec = {}
     color_sec_seq = 1
     colon_meeted = 0
-    byte_meeted = 0
     #-------------------------------------------------------------
     ops = []
     for i in range(1,block_op_pairs_dict.__len__()+1):
         ops.append(block_op_pairs_dict[i][0])
         ops.append(block_op_pairs_dict[i][1])
-    ######
-    machine = fsm.FSM()
-    #
-    #machine.enable_debug = True
-    #
-    regex_lquotes = fsm.creat_regex_from_arr(lquotes)
-    regex_rquotes = fsm.creat_regex_from_arr(rquotes)
+    def creat_regexes_array(quotes):
+        regex_quotes = []
+        for i in range(0,quotes.__len__()):
+            regex_quote_str = ''.join(('[',quotes[i],']'))
+            regex_quote = re.compile(regex_quote_str)
+            regex_quotes.append(regex_quote)
+        return(regex_quotes)
+    def creat_nonqses_regexes_array(quotes):
+        regex_nonqses =[]
+        for i in range(0,quotes.__len__()):
+            regex_nonqs_str = ''.join(('[^',quotes[i],'\\\\]'))
+            regex_nonqs = re.compile(regex_nonqs_str)
+            regex_nonqses.append(regex_nonqs)
+        return(regex_nonqses)
+    def creat_regex(quotes):
+        regex_quote_str = '['
+        for i in range(0,quotes.__len__()):
+            regex_quote_str = ''.join((regex_quote_str,'\\',quotes[i]))
+        regex_quote_str = ''.join((regex_quote_str,']'))
+        return(re.compile(regex_quote_str))
+    def creat_not_regex(quotes):
+        regex_quote_str = '[^'
+        for i in range(0,quotes.__len__()):
+            regex_quote_str = ''.join((regex_quote_str,'\\',quotes[i]))
+        regex_quote_str = ''.join((regex_quote_str,']'))
+        return(re.compile(regex_quote_str))
+    def creat_others_regexes(quotes,colons,ops,commas,spaces,bchars):
+        non_regex_qco_str = '[^'
+        for i in range(0,quotes.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,quotes[i]))
+        for i in range(0,colons.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,colons[i]))
+        for i in range(0,ops.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,'\\',ops[i]))
+        for i in range(0,commas.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,commas[i]))
+        for i in range(0,spaces.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,spaces[i]))
+        for i in range(0,bchars.__len__()):
+            non_regex_qco_str = ''.join((non_regex_qco_str,bchars[i]))
+        non_regex_qco_str = ''.join((non_regex_qco_str,']'))
+        non_regex_qco = re.compile(non_regex_qco_str)
+        return(non_regex_qco)
+    #-------------------------------------------------------------------------------------
+    regex_quotes_array = creat_regexes_array(quotes)
+    regex_nonqses_array = creat_nonqses_regexes_array(quotes)
+    #-------------------------------------------------------------------------------------
+    regex_colons = creat_regex(colons)
+    regex_commas = creat_regex(commas)
+    regex_spaces = creat_regex(spaces)
+    #-------------------------------------------------------------------------------------
+    regex_ops = creat_regex(ops)
+    regex_others = creat_others_regexes(quotes,colons,ops,commas,spaces,[])
+    ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     regex_b = re.compile('b')
-    regex_spaces = fsm.creat_regex_from_arr(spaces)
-    regex_colons = fsm.creat_regex_from_arr(colons)
-    regex_commas = fsm.creat_regex_from_arr(commas)
-    regex_slash = re.compile("\\\\")
-    regex_ops = fsm.creat_regex_from_arr(ops)
-    LqRqBSpColComSlOp_arr = ['b','\\\\']
-    LqRqBSpColComSlOp_arr = LqRqBSpColComSlOp_arr + lquotes + rquotes + spaces + colons+commas + ops
-    regex_not_LqRqBSpColComSlOp = fsm.creat_regex_not_from_arr(LqRqBSpColComSlOp_arr)
+    regex_others_without_b = creat_others_regexes(quotes,colons,ops,commas,spaces,['b'])
+    ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #-------------------------------------------------------------------
     head = utils.path_string_get_head(path)
     head_last = utils.str_rstrip(head,sp,1)
@@ -1154,29 +956,14 @@ def get_line_color_sec(line,path,**kwargs):
     else:
         head_last = head_last[-1]
     #------------------------------------------------------
-    def do_throw(curr_state,trigger_checker,input_symbol,line,path,index):
-        msg = "curr_state: " + curr_state + "\n"
-        msg = msg + "trigger_checker: "+trigger_checker.__str__() + "\n"
-        msg = msg + "input_symbol: "+ input_symbol.__str__() + "\n"
-        msg = msg + "triggered ERROR" + "\n"
-        msg = msg + line + "\n"
-        msg = msg + path + "\n"
-        mas = msg + "index : " + str(index)
-        raise Exception(msg)
-    def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
-        ####@
-        if(byte_meeted):
-            byte_meeted = 0
-        else:
-            pass
-        ####
+    def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor 
         curr_color = default_color
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor + 1
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_close_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted)
+    def do_close_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
         if(colon_meeted):
             curr_color = value_color
@@ -1193,30 +980,19 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted)
+    def do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
-        #if(prev_symbol == 'b'):
-        #    ei = ei - 1
-        #else:
-        #    pass
+        if(prev_symbol == 'b'):
+            ei = ei - 1
+        else:
+            pass
         curr_color = default_color
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_open_var_bytes(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
-        byte_meeted = 1
-        ei = cursor - 1
-        curr_color = default_color
-        color_sec[color_sec_seq] = (si,ei,curr_color)
-        color_sec_seq = color_sec_seq + 1
-        si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_clear_byte_meeted(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
-        byte_meeted = 0
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted)
+    def do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
         if(colon_meeted):
             curr_color = value_color
@@ -1233,12 +1009,15 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_colons(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted)
+    def do_colons(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         colon_meeted = 1
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted)
+    def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
+        print('---------------')
+        print(ei)
+        print(si)
         curr_color = default_color
         if(ei >= si):
             color_sec[color_sec_seq] = (si,ei,curr_color)
@@ -1246,7 +1025,8 @@ def get_line_color_sec(line,path,**kwargs):
         else:
             pass
         si = cursor 
-        ei = cursor 
+        ei = cursor
+        print(head_last)
         if(is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
             curr_color = value_color
         elif(is_colon(head_last)):
@@ -1258,165 +1038,104 @@ def get_line_color_sec(line,path,**kwargs):
         color_sec[color_sec_seq] = (si,ei,curr_color)
         color_sec_seq = color_sec_seq + 1
         si = cursor + 1
-        return(si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted)
-    def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
+        return(si,ei,color_sec,color_sec_seq,colon_meeted)
+    def do_close_var_colon(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         colon_meeted = 1
-        return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted))
-    #---------------------------------------------------------------------------------------
-    ####
-    machine.add("INIT",regex_b,do_open_var_bytes,"BYTES")
-    machine.add("INIT",regex_spaces,None,"INIT")
-    machine.add("INIT",regex_colons,None,"INIT")
-    machine.add("INIT",regex_commas,None,"INIT")
-    machine.add("INIT",regex_slash,do_open_var,"SLASHINIT")
-    machine.add("INIT",regex_ops,do_op,"INIT")
-    machine.add("INIT",regex_not_LqRqBSpColComSlOp,do_open_var,"OTHER")
-    ####
-    machine.add("BYTES",regex_b,do_clear_byte_meeted,"OTHER")
-    machine.add("BYTES",regex_spaces,do_close_var,"BYTES")
-    machine.add("BYTES",regex_ops,do_throw,"ERROR")
-    machine.add("BYTES",regex_colons,do_close_var_colon,"INIT")
-    machine.add("BYTES",regex_commas,do_close_var,"INIT")
-    machine.add("BYTES",regex_slash,do_clear_byte_meeted,"SLASHBYTES")
-    machine.add("BYTES",regex_not_LqRqBSpColComSlOp,do_clear_byte_meeted,"OTHER")
-    ####
-    ####
-    machine.add("SLASHINIT",re.compile("."),None,"OTHER")
-    ####
-    machine.add("SLASHBYTES",re.compile("."),None,"OTHER")
-    ####
-    machine.add("OTHER",regex_b,None,"OTHER")
-    machine.add("OTHER",regex_spaces,do_close_var,"OTHER")
-    machine.add("OTHER",regex_ops,do_throw,"ERROR")
-    machine.add("OTHER",regex_colons,do_close_var_colon,"INIT")
-    machine.add("OTHER",regex_commas,do_close_var,"INIT")
-    machine.add("OTHER",regex_slash,None,"SLASHOTHER")
-    machine.add("OTHER",regex_not_LqRqBSpColComSlOp,None,"OTHER")
-    ####
-    machine.add("SLASHOTHER",re.compile("."),None,"OTHER")
-    ####
-    regex_lquote_array = fsm.creat_regexes_array(lquotes)
-    regex_rquote_array = fsm.creat_regexes_array(rquotes)
-    ###
-    for i in range(0,lquotes.__len__()):
-        ####INIT -lq_n-> LQ_n
-        sn = ''.join(("LQ",'_',str(i)))
-        machine.add("INIT",regex_lquote_array[i],do_open_quote,sn)
-    for i in range(0,rquotes.__len__()):
-        ####INIT -rq_n-> ERROR
-        if(regex_rquote_array[i] == regex_lquote_array[i]):
-            pass
-        else:
-            sn = ''.join(("LQ",'_',str(i)))
-            machine.add("INIT",regex_rquote_array[i],do_throw,'ERROR')
-    ####
-    for i in range(0,lquotes.__len__()):
-        ####BYTES -lq_n-> LQ_n
-        sn = ''.join(("LQ",'_',str(i)))
-        machine.add("BYTES",regex_lquote_array[i],do_open_quote,sn)
-    for i in range(0,rquotes.__len__()):
-        ####BYTES -rq_n-> ERROR
-        if(rquotes[i] == lquotes[i]):
-            pass
-        else:
-            sn = ''.join(("LQ",'_',str(i)))
-            machine.add("BYTES",regex_rquote_array[i],do_throw,'ERROR')
-    ####
-    for i in range(0,lquotes.__len__()):
-        ####OTHER -lq_n-> ERROR
-        sn = ''.join(("LQ",'_',str(i)))
-        machine.add("OTHER",regex_lquote_array[i],do_throw,'ERROR')
-    for i in range(0,rquotes.__len__()):
-        ####OTHER -rq_n-> ERROR
-        if(rquotes[i] == lquotes[i]):
-            pass
-        else:
-            sn = ''.join(("LQ",'_',str(i)))
-            machine.add("OTHER",regex_rquote_array[i],do_throw,'ERROR')
-    ####
-    for i in range(0,lquotes.__len__()):
-        ####LQ_n -lq_n-> ERROR
-        sn = ''.join(("LQ",'_',str(i)))
-        if(lquotes[i] == rquotes[i]):
-            pass
-        else:
-            machine.add(sn,regex_lquote_array[i],do_throw,'ERROR')
-        ####LQ_n -rq_n-> INIT
-        machine.add(sn,regex_rquote_array[i],do_close_quote,'INIT')
-        #####LQ_n -b-> LQ_n
-        machine.add(sn,regex_b,None,sn)
-        #####LQ_n -spaces-> LQ_n
-        machine.add(sn,regex_spaces,None,sn)
-        #####LQ_n -ops-> LQ_n
-        machine.add(sn,regex_ops,do_throw,'ERROR')
-        ####LQ_n -colons-> LQ_n
-        machine.add(sn,regex_colons,do_throw,'ERROR')
-        ####LQ_n -commas-> LQ_n
-        machine.add(sn,regex_commas,do_throw,'ERROR')
-        #####LQ_n -slash -> SLASHLQ_n
-        slashlq = ''.join(("SLASHLQ",'_',str(i)))
-        machine.add(sn,re.compile("\\\\"),None,slashlq)
-        ####SLASHLQ_n -any-> LQ_n
-        machine.add(slashlq,re.compile("."),None,sn)
-        #####LQ_n -others-> LQ_n
-        tmp_arr = ['b','\\\\'] + ops + colons + commas + spaces 
-        tmp_arr_rq = [rquotes[i]]
-        tmp_arr_lq = [lquotes[i]]
-        if(lquotes[i] == rquotes[i]):
-            tmp_arr_rq = []
-        else:
-            pass
-        tmp_final_arr = tmp_arr + tmp_arr_rq + tmp_arr_lq
-        ####
-        tmp_regex = fsm.creat_regex_not_from_arr(tmp_final_arr)
-        machine.add(sn,tmp_regex,None,sn)
-        #####
+        return(do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol))
+    #----------------------------------------------------------------------------------------
+    fsm_dict = {
+        ("INIT",regex_colons) : (do_colons,"INIT"),
+        ("INIT",regex_commas) : (None,"INIT"),
+        ("INIT",regex_spaces) : (None,"INIT"),
+        ("INIT",regex_ops) : (do_op,"INIT"),
+        ("INIT",regex_others_without_b) : (do_open_var,"OTHER"),
+        ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+        ("INIT",regex_b) : (None,"BYTES"),
+        ("BYTES",regex_others) : (do_open_var,"OTHER"),
+        ##--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+        ("OTHER",regex_others) : (None,"OTHER"),
+        ("OTHER",regex_colons) : (do_close_var_colon,"INIT"),
+        ("OTHER",regex_commas) : (do_close_var,"INIT"),
+        ("OTHER",regex_spaces) : (do_close_var,"INIT")
+    }    
+    for i in range(0,regex_quotes_array.__len__()):
+        k = ("INIT",regex_quotes_array[i])
+        sn = ''.join(("Q",'_',str(i)))
+        v = (do_open_quote,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_quotes_array[i])
+        v = (do_close_quote,"INIT")
+        fsm_dict[k] = v
+        pisiq = ''.join(("PISIQ",'_',str(i)))
+        k = (sn,re.compile("\\\\"))
+        v = (None,pisiq)
+        fsm_dict[k] = v
+        k = (pisiq,re.compile("."))
+        v = (None,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_nonqses_array[i])
+        v = (None,sn)
+        fsm_dict[k] = v
+    #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
+    for i in range(0,regex_quotes_array.__len__()):
+        k = ("BYTES",regex_quotes_array[i])
+        sn = ''.join(("BQ",'_',str(i)))
+        v = (do_open_quote,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_quotes_array[i])
+        v = (do_close_quote,"INIT")
+        fsm_dict[k] = v
+        bpisiq = ''.join(("BPISIQ",'_',str(i)))
+        k = (sn,re.compile("\\\\"))
+        v = (None,bpisiq)
+        fsm_dict[k] = v
+        k = (bpisiq,re.compile("."))
+        v = (None,sn)
+        fsm_dict[k] = v
+        k = (sn,regex_nonqses_array[i])
+        v = (None,sn)
+        fsm_dict[k] = v
+    #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #----------------------------------------------------------------
+    def search_fsm(curr_state,input_symbol,fsm_dict):
+        for key in fsm_dict:
+            if(key[0] == curr_state):
+                if(key[1].search(input_symbol)):
+                    return(fsm_dict[key])
+                else:
+                    pass
+            else:
+                pass
+        return(None)
     curr_state = "INIT"
     prev_symbol = ''
     for i in range(0,line.__len__()):
         cursor = i
         input_symbol = line[i]
-        action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
-        print('----------')
-        print(curr_state,trigger_checker,input_symbol,action,next_state)
-        print(line)
-        print(path)
-        print(i)
-        if(action == do_throw):
-            action(curr_state,trigger_checker,input_symbol,line,path,i)   
-        elif(action == None):
-            pass
+        temp = search_fsm(curr_state,input_symbol,fsm_dict)
+        action = temp[0]
+        if(action):
+            si,ei,color_sec,color_sec_seq,colon_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
         else:
-            si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = action(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
-        curr_state = next_state
+            pass
+        curr_state = temp[1]
         prev_symbol = input_symbol
-    #-----Final handle------------------------------------------------------------
-    #######
+    #-------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"--------------------------------
+    if(curr_state == "BYTES"):
+        cursor = cursor + 1
+        si,ei,color_sec,color_sec_seq,colon_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+        curr_state = "INIT"
+    #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"-------------------------------
+    if(curr_state == "OTHER"):
+        cursor = cursor + 1
+        si,ei,color_sec,color_sec_seq,colon_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
+        curr_state = "INIT"
     if(curr_state == "INIT"):
         cursor = cursor + 1
         if(is_op(input_symbol)):
             pass
         else:
-            si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
-        curr_state = "INIT"
-    #######
-    state_is_bytes = (curr_state == "BYTES")
-    state_is_other = (curr_state == "OTHER")
-    state_is_slashinit = (curr_state == "SLASHINIT")
-    state_is_slashbytes = (curr_state == "SLASHBYTES")
-    state_is_slashother = (curr_state == "SLASHOTHER")
-    cond = (state_is_bytes|state_is_other|state_is_slashinit|state_is_slashbytes|state_is_slashother)
-    #######
-    if(cond):
-        cursor = cursor + 1
-        si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_close_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
-        curr_state = "INIT"
-    ######
-    cond = ("SLASHLQ" in curr_state)
-    if(cond):
-        cursor = cursor + 1
-        si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
+            si,ei,color_sec,color_sec_seq,colon_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol)
         curr_state = "INIT"
     return(color_sec)
 
@@ -1438,7 +1157,10 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    ##########
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1517,15 +1239,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
             block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
         block_op_pairs_dict = get_block_op_pairs('{}[]()')
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = get_quotes_pairs('""\'\'')
-    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    lps = get_print_lines_and_paths(j_str,block_op_pairs_dict,sp,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     lines = lps['lines']
     paths = lps['paths']
     if('end' in kwargs):
@@ -1539,7 +1253,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
     for i in range(start,end+1):
         line = lines[i]
         if(with_color):
-            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
+            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
@@ -1586,12 +1300,10 @@ def print_j_str(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    ############
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1651,15 +1363,6 @@ def print_j_str(j_str,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    ######
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = get_quotes_pairs('""\'\'')
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
         if(utils.is_dict(block_op_pairs)):
@@ -1668,7 +1371,7 @@ def print_j_str(j_str,**kwargs):
             block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
         block_op_pairs_dict = get_block_op_pairs('{}[]()')
-    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    lps = get_print_lines_and_paths(j_str,block_op_pairs_dict,sp,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     lines = lps['lines']
     paths = lps['paths']
     if('end' in kwargs):
@@ -1682,7 +1385,7 @@ def print_j_str(j_str,**kwargs):
     for i in range(start,end+1):
         line = lines[i]
         if(with_color):
-            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
+            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
@@ -1727,20 +1430,10 @@ def pobj(obj,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    ############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1814,17 +1507,14 @@ def pobj(obj,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    ##########
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-    else:
-        quotes_pairs = get_quotes_pairs('""\'\'')
-    ############
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
-        block_op_pairs = get_block_op_pairs('{}[]()')
-    ############1
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
     if('end' in kwargs):
         end = kwargs['end']
     else:
@@ -1843,9 +1533,9 @@ def pobj(obj,**kwargs):
         print(jb.beautify(s,opts))
     else:
         if(with_color):
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end)
         else:
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,start=start,end=end)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,start=start,end=end)
 
 
 
@@ -1905,6 +1595,10 @@ def pdir(obj,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1978,24 +1672,14 @@ def pdir(obj,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    ##########
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-    else:
-        quotes_pairs = get_quotes_pairs('""\'\'')
-    ############
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
-        block_op_pairs = get_block_op_pairs('{}[]()')
-    ############1
-    ############
-    ############
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
     if('end' in kwargs):
         end = kwargs['end']
     else:
@@ -2005,7 +1689,7 @@ def pdir(obj,**kwargs):
     else:
         fixed_indent =0
     if(with_color):
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
 

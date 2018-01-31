@@ -1015,6 +1015,9 @@ def get_line_color_sec(line,path,**kwargs):
         return(si,ei,color_sec,color_sec_seq,colon_meeted)
     def do_op(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol):
         ei = cursor - 1
+        print('---------------')
+        print(ei)
+        print(si)
         curr_color = default_color
         if(ei >= si):
             color_sec[color_sec_seq] = (si,ei,curr_color)
@@ -1022,7 +1025,8 @@ def get_line_color_sec(line,path,**kwargs):
         else:
             pass
         si = cursor 
-        ei = cursor 
+        ei = cursor
+        print(head_last)
         if(is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
             curr_color = value_color
         elif(is_colon(head_last)):
