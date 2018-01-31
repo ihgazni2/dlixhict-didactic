@@ -18,7 +18,7 @@ import copy
 
 __doc__ = '''
 '''
-# tools
+
 #-----------------------------------------------
 def html_number_escape_char(ch):
     '''
@@ -59,7 +59,6 @@ def html_number_escape_str(s):
         escaped = ''.join((escaped,esch))
     return(escaped)
 
-#operators ,such as {} [] ()  ......could be user-defined
 def get_block_op_pairs(pairs_str):
     '''
         # >>> get_block_op_pairs("{}[]")  
@@ -76,11 +75,7 @@ def get_block_op_pairs(pairs_str):
         pairs_dict[i] = pairs_str[i*2-2],pairs_str[i*2-1]
     return(pairs_dict)
 
-##quotes  left-quote,right-quote ,such as "" '' <>  ......could be user-defined
-get_quotes_pairs = get_block_op_pairs
-##
-
-def get_jdict_token_set(**kwargs):
+def get_jdict_token_set(block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs):
     def get_slashxs(ch):
         d = {1:ch}
         if('\\' in d.__str__()):
@@ -103,22 +98,10 @@ def get_jdict_token_set(**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    ####
-    ####
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-    ###########
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -165,14 +148,7 @@ def get_jdict_token_set(**kwargs):
             pass
         else:
             pass
-    for each in lquotes:
-        try:
-            ctrls.remove(each)
-        except:
-            pass
-        else:
-            pass
-    for each in rquotes:
+    for each in quotes:
         try:
             ctrls.remove(each)
         except:
@@ -200,11 +176,7 @@ def get_jdict_token_set(**kwargs):
     add_bi_table(s,d,colons)
     add_bi_table(s,d,commas)
     add_bi_table(s,d,line_sps)
-    #add_bi_table(s,d,quotes)
-    ####
-    add_bi_table(s,d,lquotes)
-    add_bi_table(s,d,rquotes)
-    ####
+    add_bi_table(s,d,quotes)
     add_bi_table(s,d,path_sps)
     for i in range(1,block_op_pairs_dict.__len__()+1):
         s.add(block_op_pairs_dict[i][0])
@@ -219,8 +191,7 @@ def get_jdict_token_set(**kwargs):
         d[recover_token_r] = block_op_pairs_dict[i][1]
     return({'token_set':s,'replace_ref_dict':d})
 
-#######################
-def convert_token_in_quote(j_str,**kwargs):
+def convert_token_in_quote(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs):
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -237,32 +208,15 @@ def convert_token_in_quote(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    quotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-        quotes.append(quotes_pairs_dict[i][0])
-        quotes.append(quotes_pairs_dict[i][1])
-    ###############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    temp = get_jdict_token_set(block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    temp = get_jdict_token_set(block_op_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
     # ----------------------------------------------------------------- #
@@ -282,84 +236,44 @@ def convert_token_in_quote(j_str,**kwargs):
             ch = replace_ref_dict[ch]
         return(ch)
     
-    #regex_quotes = []
-    ####
-    regex_lquotes = []
-    regex_rquotes = []
-    ####
-    regex_nonlqses = []
-    regex_nonrqses = []
+    regex_quotes = []
     regex_nonqses = []
-    non_regex_lquote_str = '[^'
-    non_regex_rquote_str = '[^'
     non_regex_quote_str = '[^'
     
-    for i in range(0,lquotes.__len__()):
-        #regex_quote_str = ''.join(('[',quotes[i],']'))
-        #regex_quote = re.compile(regex_quote_str)
-        #regex_quotes.append(regex_quote)
-        regex_lquote_str = ''.join(('[',lquotes[i],']'))
-        regex_lquote = re.compile(regex_lquote_str)
-        regex_lquotes.append(regex_lquote)
-        regex_rquote_str = ''.join(('[',rquotes[i],']'))
-        regex_rquote = re.compile(regex_rquote_str)
-        regex_rquotes.append(regex_rquote)
-        #####
-        regex_nonlqs_str = ''.join(('[^',lquotes[i],'\\\\]'))
-        regex_nonlqs = re.compile(regex_nonlqs_str)
-        regex_nonlqses.append(regex_nonlqs)
-        non_regex_lquote_str = ''.join((non_regex_lquote_str,lquotes[i]))
-        ####
-        regex_nonrqs_str = ''.join(('[^',rquotes[i],'\\\\]'))
-        regex_nonrqs = re.compile(regex_nonrqs_str)
-        regex_nonrqses.append(regex_nonrqs)
-        non_regex_rquote_str = ''.join((non_regex_rquote_str,rquotes[i]))
-        ####
-        regex_nonqs_str = ''.join(('[^',lquotes[i],rquotes[i],'\\\\]'))
+    for i in range(0,quotes.__len__()):
+        regex_quote_str = ''.join(('[',quotes[i],']'))
+        regex_quote = re.compile(regex_quote_str)
+        regex_quotes.append(regex_quote)
+        regex_nonqs_str = ''.join(('[^',quotes[i],'\\\\]'))
         regex_nonqs = re.compile(regex_nonqs_str)
         regex_nonqses.append(regex_nonqs)
-        non_regex_quote_str = ''.join((non_regex_quote_str,lquotes[i],rquotes[i]))
-        #####
-    non_regex_lquote_str = ''.join((non_regex_lquote_str,']'))
-    non_regex_lquote = re.compile(non_regex_lquote_str)
-    non_regex_rquote_str = ''.join((non_regex_rquote_str,']'))
-    non_regex_rquote = re.compile(non_regex_rquote_str)
+        non_regex_quote_str = ''.join((non_regex_quote_str,quotes[i]))
+    
     non_regex_quote_str = ''.join((non_regex_quote_str,']'))
     non_regex_quote = re.compile(non_regex_quote_str)
     # ############################
     fsm_dict = {
         ("INIT",non_regex_quote) : (None,"INIT")
     }
-    for i in range(0,regex_lquotes.__len__()):
-        ####INIT -lq_n-> LQ_n
-        k = ("INIT",regex_lquotes[i])
-        sn = ''.join(("LQ",'_',str(i)))
+    for i in range(0,regex_quotes.__len__()):
+        k = ("INIT",regex_quotes[i])
+        sn = ''.join(("Q",'_',str(i)))
         v = (None,sn)
         fsm_dict[k] = v
-        #### LQ_n -rq_n-> INIT
-        k = (sn,regex_rquotes[i])
+        k = (sn,regex_quotes[i])
         v = (None,"INIT")
         fsm_dict[k] = v
-        #####LQ_n -pisiq_n-> PISIQ_n 
         pisiq = ''.join(("PISIQ",'_',str(i)))
         k = (sn,re.compile("\\\\"))
         v = (None,pisiq)
         fsm_dict[k] = v
-        ####PISIQ_n -any-> LQ_n
         k = (pisiq,re.compile("."))
         v = (do_replace,sn)
         fsm_dict[k] = v
-        #####LQ_n -nonq-> LQ_n
-        if(lquotes[i] == rquotes[i]):
-            k = (sn,regex_nonqses[i])
-            v = (do_replace,sn)
-            fsm_dict[k] = v
-        else:
-            #####LQ_n -nonrq-> LQ_n
-            k = (sn,regex_nonrqses[i])
-            v = (do_replace,sn)
-            fsm_dict[k] = v
-        #####
+        k = (sn,regex_nonqses[i])
+        v = (do_replace,sn)
+        fsm_dict[k] = v
+        
     # #################################
     def search_fsm(curr_state,input_symbol,fsm_dict):
         for key in fsm_dict:
@@ -792,13 +706,7 @@ def line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_o
             curr_path = ''.join((head_head,curr_base_name))
     return(curr_path)
 
-def get_print_lines_and_paths(j_str,**kwargs):
-    ####
-    if('sp' in kwargs):
-        sp = kwargs['sp']
-    else:
-        sp = '/'
-    ####
+def get_print_lines_and_paths(j_str,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp='/',**kwargs):
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -815,25 +723,15 @@ def get_print_lines_and_paths(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    ############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    j_str = convert_token_in_quote(j_str,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    j_str = convert_token_in_quote(j_str,block_op_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     j_str = format_j_str(j_str,block_op_pairs_dict)
     j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
     orig_lines = j_str.split('\n')
@@ -932,6 +830,10 @@ def get_line_color_sec(line,path,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -956,24 +858,6 @@ def get_line_color_sec(line,path,**kwargs):
             block_non_ordered_op_pairs_dict = get_block_op_pairs(block_non_ordered_op_pairs)
     else:
         block_non_ordered_op_pairs_dict = get_block_op_pairs('{}')
-    ####
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    quotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-        quotes.append(quotes_pairs_dict[i][0])
-        quotes.append(quotes_pairs_dict[i][1])
-    ####
     if('key_color' in kwargs):
         key_color = kwargs['key_color']
     else:
@@ -1006,7 +890,6 @@ def get_line_color_sec(line,path,**kwargs):
     for i in range(1,block_op_pairs_dict.__len__()+1):
         ops.append(block_op_pairs_dict[i][0])
         ops.append(block_op_pairs_dict[i][1])
-    ######
     def creat_regexes_array(quotes):
         regex_quotes = []
         for i in range(0,quotes.__len__()):
@@ -1014,7 +897,6 @@ def get_line_color_sec(line,path,**kwargs):
             regex_quote = re.compile(regex_quote_str)
             regex_quotes.append(regex_quote)
         return(regex_quotes)
-    #####
     def creat_nonqses_regexes_array(quotes):
         regex_nonqses =[]
         for i in range(0,quotes.__len__()):
@@ -1054,10 +936,6 @@ def get_line_color_sec(line,path,**kwargs):
     #-------------------------------------------------------------------------------------
     regex_quotes_array = creat_regexes_array(quotes)
     regex_nonqses_array = creat_nonqses_regexes_array(quotes)
-    regex_lquotes_array = creat_regexes_array(lquotes)
-    regex_nonlqses_array = creat_nonqses_regexes_array(lquotes)
-    regex_rquotes_array = creat_regexes_array(rquotes)
-    regex_nonrqses_array = creat_nonqses_regexes_array(rquotes)
     #-------------------------------------------------------------------------------------
     regex_colons = creat_regex(colons)
     regex_commas = creat_regex(commas)
@@ -1176,66 +1054,43 @@ def get_line_color_sec(line,path,**kwargs):
         ("OTHER",regex_commas) : (do_close_var,"INIT"),
         ("OTHER",regex_spaces) : (do_close_var,"INIT")
     }    
-    for i in range(0,regex_lquotes_array.__len__()):
-        ####INIT -lq_n-> LQ_n
-        k = ("INIT",regex_lquotes_array[i])
-        sn = ''.join(("LQ",'_',str(i)))
+    for i in range(0,regex_quotes_array.__len__()):
+        k = ("INIT",regex_quotes_array[i])
+        sn = ''.join(("Q",'_',str(i)))
         v = (do_open_quote,sn)
         fsm_dict[k] = v
-        ####LQ_n -rq_n-> INIT
-        k = (sn,regex_rquotes_array[i])
+        k = (sn,regex_quotes_array[i])
         v = (do_close_quote,"INIT")
         fsm_dict[k] = v
-        ####LQ_n -pisiq_n-> PISIQ_n
         pisiq = ''.join(("PISIQ",'_',str(i)))
         k = (sn,re.compile("\\\\"))
         v = (None,pisiq)
         fsm_dict[k] = v
-        ####PISIQ_n -any-> LQ_n
         k = (pisiq,re.compile("."))
         v = (None,sn)
         fsm_dict[k] = v
-        ####
-        #####LQ_n -nonq-> LQ_n
-        if(lquotes[i] == rquotes[i]):
-            k = (sn,regex_nonqses_array[i])
-            v = (None,sn)
-            fsm_dict[k] = v
-        else:
-            #####LQ_n -nonrq-> LQ_n
-            k = (sn,regex_nonrqses_array[i])
-            v = (None,sn)
-            fsm_dict[k] = v
-        ####
+        k = (sn,regex_nonqses_array[i])
+        v = (None,sn)
+        fsm_dict[k] = v
     #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
-    for i in range(0,regex_lquotes_array.__len__()):
-        k = ("BYTES",regex_lquotes_array[i])
-        sn = ''.join(("BLQ",'_',str(i)))
+    for i in range(0,regex_quotes_array.__len__()):
+        k = ("BYTES",regex_quotes_array[i])
+        sn = ''.join(("BQ",'_',str(i)))
         v = (do_open_quote,sn)
         fsm_dict[k] = v
-        ####
-        k = (sn,regex_rquotes_array[i])
+        k = (sn,regex_quotes_array[i])
         v = (do_close_quote,"INIT")
         fsm_dict[k] = v
-        ####
         bpisiq = ''.join(("BPISIQ",'_',str(i)))
         k = (sn,re.compile("\\\\"))
         v = (None,bpisiq)
         fsm_dict[k] = v
-        ####
         k = (bpisiq,re.compile("."))
         v = (None,sn)
         fsm_dict[k] = v
-        ####
-        if(regex_lquotes_array[i] == regex_rquotes_array[i]):
-            k = (sn,regex_nonqses_array[i])
-            v = (None,sn)
-            fsm_dict[k] = v
-        else:
-            k = (sn,regex_nonrqses_array[i])
-            v = (None,sn)
-            fsm_dict[k] = v
-        ####
+        k = (sn,regex_nonqses_array[i])
+        v = (None,sn)
+        fsm_dict[k] = v
     #--------------fix issues caused by bytes such as {'a': b'a'} whose str is : "{'a': b'a'}"
     #----------------------------------------------------------------
     def search_fsm(curr_state,input_symbol,fsm_dict):
@@ -1298,20 +1153,10 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    ############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1390,7 +1235,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
             block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
         block_op_pairs_dict = get_block_op_pairs('{}[]()')
-    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    lps = get_print_lines_and_paths(j_str,block_op_pairs_dict,sp,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     lines = lps['lines']
     paths = lps['paths']
     if('end' in kwargs):
@@ -1451,12 +1296,10 @@ def print_j_str(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    ############
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1516,15 +1359,6 @@ def print_j_str(j_str,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    ######
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = get_quotes_pairs('""\'\'')
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
         if(utils.is_dict(block_op_pairs)):
@@ -1533,7 +1367,7 @@ def print_j_str(j_str,**kwargs):
             block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
         block_op_pairs_dict = get_block_op_pairs('{}[]()')
-    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    lps = get_print_lines_and_paths(j_str,block_op_pairs_dict,sp,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps)
     lines = lps['lines']
     paths = lps['paths']
     if('end' in kwargs):
@@ -1562,8 +1396,6 @@ def print_j_str(j_str,**kwargs):
             # curr_head_len = indent * indent_num
         # else:
         painted_lines[i] = painted_string
-    ####
-    ####
     if(display):
         for i in range(start,end+1):
             print(painted_lines[i])
@@ -1592,20 +1424,10 @@ def pobj(obj,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
     else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    ############
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1679,17 +1501,14 @@ def pobj(obj,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    ##########
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-    else:
-        quotes_pairs = get_quotes_pairs('""\'\'')
-    ############
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
-        block_op_pairs = get_block_op_pairs('{}[]()')
-    ############1
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
     if('end' in kwargs):
         end = kwargs['end']
     else:
@@ -1708,9 +1527,9 @@ def pobj(obj,**kwargs):
         print(jb.beautify(s,opts))
     else:
         if(with_color):
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
         else:
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,start=start,end=end)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
 
 
 
@@ -1770,6 +1589,10 @@ def pdir(obj,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
+    if('quotes' in kwargs):
+        quotes = kwargs['quotes']
+    else:
+        quotes = ['"',"'"]
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
     else:
@@ -1843,24 +1666,14 @@ def pdir(obj,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    ##########
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-    else:
-        quotes_pairs = get_quotes_pairs('""\'\'')
-    ############
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
-        block_op_pairs = get_block_op_pairs('{}[]()')
-    ############1
-    ############
-    ############
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
     if('end' in kwargs):
         end = kwargs['end']
     else:
@@ -1870,8 +1683,7 @@ def pdir(obj,**kwargs):
     else:
         fixed_indent =0
     if(with_color):
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs)
-
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,quotes=quotes,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict)
 
