@@ -7,34 +7,35 @@ import copy
 from xdict import fsm
 
 def help(fname=None):
-    print('''html_number_escape_char(ch)''')
-    print('''html_number_escape_str(s)''')
-    print('''get_block_op_pairs(pairs_str)''')
-    print('''get_jdict_token_set(**kwargs)''')
-    print('''convert_token_in_quote(j_str,**kwargs)''')
-    print('''format_j_str(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs)''')
-    print('''is_lop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_rop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''which_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
-    print('''is_comma(ch,commas=[','])''')
-    print('''is_colon(ch,colons=[':'])''')
-    print('''is_non_ordered_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'),block_non_ordered_op_pairs_dict=get_block_op_pairs('{}'))''')
-    print('''get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))''')
-    print('''get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))''')
-    print('''get_line_start_index_in_j_str(orig_lines)''')
-    print('''line_to_path_init(line,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
-    print('''line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
-    print('''get_print_lines_and_paths(j_str,**kwargs)''')
-    print('''paint_str(orig_string,**kwargs)''')
-    print('''get_line_color_sec(line,path,**kwargs)''')
-    print('''get_dynamic_indent_j_str(j_str,**kwargs)''')
-    print('''print_j_str(j_str,**kwargs)''')
-    print('''pobj(obj,**kwargs)''')
-    print('''pdir(obj,**kwargs)''')
-    if(fanme == "get_block_op_pairs"):
+    if(fname == None):
+        print('''html_number_escape_char(ch)''')
+        print('''html_number_escape_str(s)''')
+        print('''get_block_op_pairs(pairs_str)''')
+        print('''get_jdict_token_set(**kwargs)''')
+        print('''convert_token_in_quote(j_str,**kwargs)''')
+        print('''format_j_str(j_str,block_op_pairs_dict=get_block_op_pairs('{}[]()'),**kwargs)''')
+        print('''is_lop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
+        print('''is_rop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
+        print('''is_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
+        print('''which_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
+        print('''is_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
+        print('''is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()'))''')
+        print('''is_comma(ch,commas=[','])''')
+        print('''is_colon(ch,colons=[':'])''')
+        print('''is_non_ordered_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()'),block_non_ordered_op_pairs_dict=get_block_op_pairs('{}'))''')
+        print('''get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))''')
+        print('''get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()"))''')
+        print('''get_line_start_index_in_j_str(orig_lines)''')
+        print('''line_to_path_init(line,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
+        print('''line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
+        print('''get_print_lines_and_paths(j_str,**kwargs)''')
+        print('''paint_str(orig_string,**kwargs)''')
+        print('''get_line_color_sec(line,path,**kwargs)''')
+        print('''get_dynamic_indent_j_str(j_str,**kwargs)''')
+        print('''print_j_str(j_str,**kwargs)''')
+        print('''pobj(obj,**kwargs)''')
+        print('''pdir(obj,**kwargs)''')
+    elif(fname == "get_block_op_pairs"):
         info = '''PARAMS: pairs_str = "{}[]()"
                   EXEC:   get_block_op_pairs(pairs_str)
                   RESULT: {
@@ -45,7 +46,7 @@ def help(fname=None):
                '''
         print(info)
         return(True)
-    elif(fanme == "get_jdict_token_set"):
+    elif(fname == "get_jdict_token_set"):
         info = '''get_jdict_token_set(
                    spaces = [' ','\t'],
                    colons = [':'],
@@ -1651,19 +1652,7 @@ def pobj(obj,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
     ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
-    else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
     ############
     if('path_sps' in kwargs):
         path_sps = kwargs['path_sps']
@@ -1693,6 +1682,22 @@ def pobj(obj,**kwargs):
         sp = kwargs['sp']
     else:
         sp = '/'
+    if('quotes_pairs' in kwargs):
+        quotes_pairs = kwargs['quotes_pairs']
+        if(utils.is_dict(quotes_pairs)):
+            quotes_pairs_dict = quotes_pairs
+        else:
+            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
+    else:
+        quotes_pairs_dict = get_quotes_pairs('""\'\'')
+    if('block_op_pairs' in kwargs):
+        block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
+    else:
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
     if('with_color' in kwargs):
         with_color = kwargs['with_color']
     else:
@@ -1739,15 +1744,6 @@ def pobj(obj,**kwargs):
     else:
         start = 0
     ##########
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-    else:
-        quotes_pairs = get_quotes_pairs('""\'\'')
-    ############
-    if('block_op_pairs' in kwargs):
-        block_op_pairs = kwargs['block_op_pairs']
-    else:
-        block_op_pairs = get_block_op_pairs('{}[]()')
     ############1
     if('end' in kwargs):
         end = kwargs['end']
@@ -1857,6 +1853,22 @@ def pdir(obj,**kwargs):
         sp = kwargs['sp']
     else:
         sp = '/'
+    if('quotes_pairs' in kwargs):
+        quotes_pairs = kwargs['quotes_pairs']
+        if(utils.is_dict(quotes_pairs)):
+            quotes_pairs_dict = quotes_pairs
+        else:
+            quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
+    else:
+        quotes_pairs_dict = get_quotes_pairs('""\'\'')
+    if('block_op_pairs' in kwargs):
+        block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
+    else:
+        block_op_pairs_dict = get_block_op_pairs('{}[]()')
     if('with_color' in kwargs):
         with_color = kwargs['with_color']
     else:
@@ -1902,24 +1914,6 @@ def pdir(obj,**kwargs):
         start = kwargs['start']
     else:
         start = 0
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
-    ##########
-    ##########
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-    else:
-        quotes_pairs = get_quotes_pairs('""\'\'')
-    ############
-    if('block_op_pairs' in kwargs):
-        block_op_pairs = kwargs['block_op_pairs']
-    else:
-        block_op_pairs = get_block_op_pairs('{}[]()')
-    ############1
-    ############
-    ############
     if('end' in kwargs):
         end = kwargs['end']
     else:
@@ -1929,7 +1923,7 @@ def pdir(obj,**kwargs):
     else:
         fixed_indent =0
     if(with_color):
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs)
 
