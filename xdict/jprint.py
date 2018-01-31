@@ -861,10 +861,6 @@ def get_print_lines_and_paths(j_str,**kwargs):
         line_sps = kwargs['line_sps']
     else:
         line_sps = ['\r','\n']
-    #if('quotes' in kwargs):
-    #    quotes = kwargs['quotes']
-    #else:
-    #    quotes = ['"',"'"]
     ##########
     if('block_op_pairs_dict' in kwargs):
         block_op_pairs_dict = kwargs['block_op_pairs_dict']
@@ -1294,11 +1290,11 @@ def get_line_color_sec(line,path,**kwargs):
         cursor = i
         input_symbol = line[i]
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
-        print('----------')
-        print(curr_state,trigger_checker,input_symbol,action,next_state)
-        print(line)
-        print(path)
-        print(i)
+        #print('----------')
+        #print(curr_state,trigger_checker,input_symbol,action,next_state)
+        #print(line)
+        #print(path)
+        #print(i)
         if(action == do_throw):
             action(curr_state,trigger_checker,input_symbol,line,path,i)   
         elif(action == None):
@@ -1455,7 +1451,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
     for i in range(start,end+1):
         line = lines[i]
         if(with_color):
-            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
+            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
@@ -1598,7 +1594,7 @@ def print_j_str(j_str,**kwargs):
     for i in range(start,end+1):
         line = lines[i]
         if(with_color):
-            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,sp=sp)
+            color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
             painted_string = paint_str(line,color_sec=color_sec,colors=colors)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
@@ -1759,9 +1755,9 @@ def pobj(obj,**kwargs):
         print(jb.beautify(s,opts))
     else:
         if(with_color):
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end)
         else:
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,start=start,end=end)
+            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs,start=start,end=end)
 
 
 
@@ -1921,7 +1917,7 @@ def pdir(obj,**kwargs):
     else:
         fixed_indent =0
     if(with_color):
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs,quotes_pairs=quotes_pairs)
 
