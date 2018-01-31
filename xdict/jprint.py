@@ -1140,13 +1140,14 @@ def get_line_color_sec(line,path,**kwargs):
     else:
         head_last = head_last[-1]
     #------------------------------------------------------
-    def do_throw(curr_state,trigger_checker,input_symbol,line,path):
+    def do_throw(curr_state,trigger_checker,input_symbol,line,path,index):
         msg = "curr_state: " + curr_state + "\n"
         msg = msg + "trigger_checker: "+trigger_checker.__str__() + "\n"
         msg = msg + "input_symbol: "+ input_symbol.__str__() + "\n"
         msg = msg + "triggered ERROR" + "\n"
         msg = msg + line + "\n"
         msg = msg + path + "\n"
+        mas = msg + "index : " + str(index)
         raise Exception(msg)
     def do_open_quote(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted):
         ####@
@@ -1363,10 +1364,12 @@ def get_line_color_sec(line,path,**kwargs):
         cursor = i
         input_symbol = line[i]
         action,next_state,trigger_checker = machine.search(curr_state,input_symbol)
-        #print('----------')
-        #print(curr_state,trigger_checker,input_symbol,action,next_state)
+        print('----------')
+        print(lquotes)
+        print(rquotes)
+        print(curr_state,trigger_checker,input_symbol,action,next_state)
         if(action == do_throw):
-            action(curr_state,trigger_checker,input_symbol,line,path)   
+            action(curr_state,trigger_checker,input_symbol,line,path,i)   
         elif(action == None):
             pass
         else:
