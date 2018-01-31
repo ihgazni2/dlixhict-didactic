@@ -198,7 +198,7 @@ class FSM():
     def search(self,curr_state,input_symbol,*action_args):
         for key in self.fsm_dict:
             if(key[0] == curr_state):
-                print(key[1])
+                #print(key[1])
                 if(key[1].search(input_symbol)):
                     trigger_checker = key[1] 
                     action,next_state = self.fsm_dict[key]
