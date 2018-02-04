@@ -1254,6 +1254,20 @@ def unpack_twobytes_using_unicode(two_bytes):
     s = u.decode('raw_unicode_escape')
     return(s)
 
+def unpack_fourbytes_using_unicode(four_bytes):
+    '''
+    '''
+    one,two,three,four = struct.unpack('BBBB',four_bytes)
+    one = '{0:0>2}'.format(hex(one).lstrip('0x'))
+    two = '{0:0>2}'.format(hex(two).lstrip('0x'))
+    three = '{0:0>2}'.format(hex(three).lstrip('0x'))
+    four = '{0:0>2}'.format(hex(four).lstrip('0x'))
+    u = ''.join(('\\U',one,two,three,four))
+    u = bytes(u,'utf-8')
+    s = u.decode('raw_unicode_escape')
+    return(s)
+
+
 def pack_str_using_unicode(str):
     '''
         >>> pack_str_using_unicode('abcdefg')
@@ -1314,10 +1328,6 @@ def char_to_slash_u_str(ch,with_slash_u=1):
 
 def slash_u_str_to_char(slash_u_str):
     '''
-        >>> slash_u_str_to_char('\\u0061')
-        'a'
-        >>> slash_u_str_to_char('0061')
-        'a'
         >>> slash_u_str_to_char('\\u4f60')
         '你'
         >>> slash_u_str_to_char('4f60')
@@ -1326,13 +1336,35 @@ def slash_u_str_to_char(slash_u_str):
     '''
     if(slash_u_str[:2]=='\\u'):
         slash_u_str = slash_u_str[2:]
+        one = chr(int(slash_u_str[0:2],16))
+        two = chr(int(slash_u_str[2:],16))
+        pk = ''.join((one,two))
+        bs = bytes(pk,'latin-1')
+    elif(slash_u_str[:2]=='\\U'):
+        slash_u_str = slash_u_str[2:]
+        one = chr(int(slash_u_str[0:2],16))
+        two = chr(int(slash_u_str[2:4],16))
+        three = chr(int(slash_u_str[4:6],16))
+        four = chr(int(slash_u_str[6:8],16))
+        pk = ''.join((one,two,three,four))
+        bs = bytes(pk,'latin-1')
     else:
-        pass
-    one = chr(int(slash_u_str[0:2],16))
-    two = chr(int(slash_u_str[2:],16))
-    pk = ''.join((one,two))
-    bs = bytes(pk,'latin-1')
-    return(unpack_twobytes_using_unicode(bs)) 
+        if(slash_u_str.__len__() == 4):
+            one = chr(int(slash_u_str[0:2],16))
+            two = chr(int(slash_u_str[2:],16))
+            pk = ''.join((one,two))
+            bs = bytes(pk,'latin-1')
+        else:
+            one = chr(int(slash_u_str[0:2],16))
+            two = chr(int(slash_u_str[2:4],16))
+            three = chr(int(slash_u_str[4:6],16))
+            four = chr(int(slash_u_str[6:8],16))
+            pk = ''.join((one,two,three,four))
+            bs = bytes(pk,'latin-1')
+    if(bs.__len__() == 2):
+        return(unpack_twobytes_using_unicode(bs)) 
+    else:
+        return(unpack_fourbytes_using_unicode(bs))
 
 def str_to_slash_u_str(a_string,with_slash_u=1):
     '''
@@ -1393,11 +1425,20 @@ def unicode_num_to_char_str(unicode_num):
         'a'
         >>> unicode_num_to_char_str(20320)
         '你'
-        >>> 
+        >>>
+        in javascript , only keep the low 2 bytes
+        String['fromCharCode'](270752) = String['fromCharCode'](0x421a0) 
+        0x000421a0
+        0x    21a0 = 8608
+        So:
+        String['fromCharCode'](270752) = String['fromCharCode'](8608) = '↠'     
     '''
     h = hex(unicode_num)
     h = h[2:]
-    prepend = "0" * (4 - h.__len__())
+    if(h.__len__()<=4):
+        prepend = "0" * (4 - h.__len__())
+    else:
+        prepend = "0" * (8 - h.__len__())
     h = ''.join((prepend,h))
     ch = slash_u_str_to_char(h)
     return(ch)
@@ -2859,6 +2900,9 @@ class edict(dict):
 
 
 #list
+def list_shift(l):
+    return(l.pop(0))
+
 
 def list_creat_default_with_len(len,default_element=None):
     '''

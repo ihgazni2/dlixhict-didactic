@@ -1,4 +1,6 @@
 import time
+import xdict.utils
+
 
 def unsigned_right_shift(num,shift_num,**kwargs):
     if(num >=0):
@@ -113,5 +115,18 @@ def str2uint(s,**kwargs):
     return(rslt)
 
 
+def fromCharCode(*args,**kwargs):
+    if('style' in kwargs):
+        style = kwargs['style']
+    else:
+        style = 'js'
+    rslt =''
+    if(style = 'py'):
+        for i in range(0,args.__len__()):
+            rslt = rslt + xdict.utils.unicode_num_to_char_str(args[i])
+    else:
+        for i in range(0,args.__len__()):
+            rslt = rslt + xdict.utils.unicode_num_to_char_str(0x0000ffff & args[i])
+    return(rslt)
 
 
