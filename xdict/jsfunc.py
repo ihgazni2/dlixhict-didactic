@@ -121,7 +121,7 @@ def fromCharCode(*args,**kwargs):
     else:
         style = 'js'
     rslt =''
-    if(style = 'py'):
+    if(style == 'py'):
         for i in range(0,args.__len__()):
             rslt = rslt + xdict.utils.unicode_num_to_char_str(args[i])
     else:
