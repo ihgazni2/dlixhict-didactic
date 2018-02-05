@@ -55,6 +55,10 @@ def newDate_num(**kwargs):
 
 
 def toString(n,radix,**kwargs):
+    if(type(n) == type("")):
+        return(n)
+    else:
+        pass
     if('char_set' in kwargs):
         char_set = kwargs['char_set']
     else:
@@ -128,5 +132,137 @@ def fromCharCode(*args,**kwargs):
         for i in range(0,args.__len__()):
             rslt = rslt + xdict.utils.unicode_num_to_char_str(0x0000ffff & args[i])
     return(rslt)
+
+
+#num
+def scinumstr2numstr(sci):
+    '''
+        >>> scinumstr2numstr("123.43(e1)")
+        '1234.3'
+        >>> scinumstr2numstr("123.43(e-1)")
+        '12.343'
+        >>> scinumstr2numstr("123.43(e+1)")
+        '1234.3'
+        >>> scinumstr2numstr("123.43(e5)")
+        '12343000'
+        >>> scinumstr2numstr("123.43(e-5)")
+        '0.0012343'
+        >>> scinumstr2numstr("123.43(e0)")
+        '123.43'
+        >>> scinumstr2numstr("123.43(e-3)")
+        '0.12343'
+        >>> scinumstr2numstr("123(e-3)")
+        '0.123'
+        >>> scinumstr2numstr("123(e3)")
+        '123000'
+        >>> 
+    '''
+    regex_im = re.compile("^([\d]+)\(e([\d]+)\)$")
+    regex_ex = re.compile("^([\d]+)\(e\+([\d]+)\)$")
+    regex_mi = re.compile("^([\d]+)\(e\-([\d]+)\)$")
+    regex_im_dot = re.compile("^([\d]*)\.([\d]*)\(e([\d]+)\)$")
+    regex_ex_dot = re.compile("^([\d]*)\.([\d]*)\(e\+([\d]+)\)$")
+    regex_mi_dot = re.compile("^([\d]*)\.([\d]*)\(e\-([\d]+)\)$")
+    im = regex_im.search(sci)
+    ex = regex_ex.search(sci)
+    mi = regex_mi.search(sci)
+    im_dot = regex_im_dot.search(sci)
+    ex_dot = regex_ex_dot.search(sci)
+    mi_dot = regex_mi_dot.search(sci)
+    regex_rm_zero = re.compile("([0]*)([0-9]\..*)")
+    if(im):
+        p1 = im.group(1)
+        p2 = im.group(2)
+        ns = p1 + "0" * int(p2)
+    elif(ex):
+        p1 = ex.group(1)
+        p2 = ex.group(2)
+        ns = p1 + "0" * int(p2)
+    elif(mi):
+        p1 = mi.group(1)
+        p2 = mi.group(2)
+        l = int(p2) - p1.__len__()
+        if(l<0):
+            ns = p1[0:-l] + "." + p1[-l:p1.__len__()]    
+        elif(l==0):
+            ns = "0."+ p1
+        else:
+            ns = "0."+"0"*l + p1
+    elif(im_dot):
+        p1 = im_dot.group(1)
+        p2 = im_dot.group(2)
+        p3 = im_dot.group(3)
+        if(p1 == ""):
+            p1 = "0"
+        else:
+            pass
+        l = int(p3) - p2.__len__()
+        if(l > 0):
+            ns = p1 + p2 + "0" * l
+            m = regex_rm_zero.search(ns)
+            if(m):
+                ns = m.group(2)
+            else:
+                pass
+        elif(l == 0):
+            ns = p1 + p2
+        else:
+            ns = p1 + p2[0:l] + "." + p2[l:] 
+    elif(ex_dot):
+        p1 = ex_dot.group(1)
+        p2 = ex_dot.group(2)
+        p3 = ex_dot.group(3)
+        if(p1 == ""):
+            p1 = "0"
+        else:
+            pass
+        l = int(p3) - p2.__len__()
+        if(l > 0):
+            ns = p1 + p2 + "0" * l
+            m = regex_rm_zero.search(ns)
+            if(m):
+                ns = m.group(2)
+            else:
+                pass
+        elif(l == 0):
+            ns = p1 + p2
+        else:
+            ns = p1 + p2[0:l] + "." + p2[l:] 
+    elif(mi_dot):
+        p1 = mi_dot.group(1)
+        p2 = mi_dot.group(2)
+        p3 = mi_dot.group(3)
+        l = int(p3) - p1.__len__()
+        if(p1 == ""):
+            p1 = "0"
+        else:
+            pass
+        if(l > 0):
+            ns =  "0." +"0" * l +p1 + p2
+        elif(l == 0):
+            ns = "0." +p1 + p2
+        else:
+            ns =  p1[0:-l] + "." + p1[-l:] + p2
+    else:
+        ns = sci
+    return(ns)
+
+
+def parseInt(nstr,radix=10,**kwargs):
+    if('char_set' in kwargs):
+        char_set = kwargs['char_set']
+    else:
+        char_set = "0123456789abcdefghijklmnopqrstuvwxyz"
+    real_char_set = char_set[0:radix]
+    rs = ''
+    for i in range(0,nstr.__len__()):
+        if(nstr[i] in real_char_set):
+            rs = rs + nstr[i]
+        else:
+            break
+    if(rs==''):
+        return(None)
+    else:
+        return(int(rs,radix)) 
 
 
