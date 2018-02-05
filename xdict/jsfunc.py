@@ -1,6 +1,6 @@
 import time
 import xdict.utils
-
+import re
 
 def unsigned_right_shift(num,shift_num,**kwargs):
     if(num >=0):
