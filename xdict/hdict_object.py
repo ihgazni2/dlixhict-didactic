@@ -417,7 +417,8 @@ def hdict_fullfill_sdict(sdict,hdict,prdict):
                         sdict[i-1][parent_breadth]['leaf_descendants'] = sdict[i-1][parent_breadth]['leaf_descendants']+d['leaf_descendants']
                         ##################################
                         sdict[i-1][parent_breadth]['leaf_descendant_pathlists'] = sdict[i-1][parent_breadth]['leaf_descendant_pathlists']+d['leaf_descendant_pathlists']
-                        ##################################
+                        ###############################@@##
+                        ###############################@@##
                 else:
                     if(d['leaf']):
                         sdict[i-1][parent_breadth]['leaf_descendants'] = d['leaf_descendants'] + 1
@@ -432,9 +433,8 @@ def hdict_fullfill_sdict(sdict,hdict,prdict):
                         ##################################
                 if('non_leaf_descendants' in sdict[i-1][parent_breadth]):
                     if(d['leaf']):
-                        sdict[i-1][parent_breadth]['non_leaf_descendants'] = sdict[i-1][parent_breadth]['non_leaf_descendants']+d['non_leaf_descendants'] 
+                        pass
                         ##################################
-                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists']+d['non_leaf_descendant_pathlists']
                         ##################################
                     else:
                         sdict[i-1][parent_breadth]['non_leaf_descendants'] = sdict[i-1][parent_breadth]['non_leaf_descendants']+d['non_leaf_descendants'] + 1
@@ -444,9 +444,7 @@ def hdict_fullfill_sdict(sdict,hdict,prdict):
                         ##################################
                 else:
                     if(d['leaf']):
-                        sdict[i-1][parent_breadth]['non_leaf_descendants'] = d['non_leaf_descendants']
-                        ##################################
-                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = d['non_leaf_descendant_pathlists']
+                        pass
                         ##################################
                     else:
                         sdict[i-1][parent_breadth]['non_leaf_descendants'] = d['non_leaf_descendants'] + 1

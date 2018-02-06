@@ -53,6 +53,13 @@ def newDate_num(**kwargs):
     return(int(s[:bitsnum]))
 
 
+def clock_seconds_with_accuracy(accuracy):
+    accuracy = int(accuracy) - 1
+    now = str(time.time())
+    now = now.replace('.','')
+    now = now[0:accuracy]
+    return(int(now))
+
 
 def toString(n,radix,**kwargs):
     if(type(n) == type("")):
