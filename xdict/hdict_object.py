@@ -439,7 +439,7 @@ def hdict_fullfill_sdict(sdict,hdict,prdict):
                     else:
                         sdict[i-1][parent_breadth]['non_leaf_descendants'] = sdict[i-1][parent_breadth]['non_leaf_descendants']+d['non_leaf_descendants'] + 1
                         ##################################
-                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] = d['non_leaf_descendant_pathlists']
+                        sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'] =  sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists']+d['non_leaf_descendant_pathlists']
                         sdict[i-1][parent_breadth]['non_leaf_descendant_pathlists'].append(d['orig_obj_path'])
                         ##################################
                 else:
