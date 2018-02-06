@@ -735,7 +735,9 @@ __7. .node(pathlist)__
         >>> pobj(node.nonleaf_descendants,fixed_indent=1)
         [
             ['Displays', 7, 'Row1'],
-            ['Displays', 7]
+            ['Displays', 7, 'Row2'],
+	    ['Displays', 7, 'Views'],
+	    ['Displays', 7, 'Views',0]
         ]
         >>> 
 	
