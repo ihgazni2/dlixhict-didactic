@@ -1817,6 +1817,8 @@ def pdir(obj,*args,**kwargs):
         end = 2 ** 32
     else:
         pass
+    print(start)
+    print(end)
     if('egrep' in kwargs):
         nobj = []
         for each in obj:
