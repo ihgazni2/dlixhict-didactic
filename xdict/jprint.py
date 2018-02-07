@@ -1639,13 +1639,13 @@ def pobj(obj,*args,**kwargs):
     try:
         start = args[0]
     except:
-        pass
+        start = 0
     else:
         pass
     try:
         end = args[1]
     except:
-        pass
+        end = 2 ** 32
     else:
         pass
     if('spaces' in kwargs):
@@ -1754,13 +1754,13 @@ def pobj(obj,*args,**kwargs):
     if('start' in kwargs):
         start = kwargs['start']
     else:
-        start = 0
+        pass
     ##########
     ############1
     if('end' in kwargs):
         end = kwargs['end']
     else:
-        end = 2**32
+        pass
     if(utils.is_str(obj)):
         s = obj
     else:
@@ -1808,13 +1808,13 @@ def pdir(obj,*args,**kwargs):
     try:
         start = args[0]
     except:
-        pass
+        start = 0
     else:
         pass
     try:
         end = args[1]
     except:
-        pass
+        end = 2 ** 32
     else:
         pass
     if('egrep' in kwargs):
@@ -1937,11 +1937,11 @@ def pdir(obj,*args,**kwargs):
     if('start' in kwargs):
         start = kwargs['start']
     else:
-        start = 0
+        pass
     if('end' in kwargs):
         end = kwargs['end']
     else:
-        end = 2**32
+        pass
     if('fixed_indent' in kwargs):
         fixed_indent = kwargs['fixed_indent']
     else:
