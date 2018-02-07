@@ -1572,10 +1572,6 @@ def print_j_str(j_str,**kwargs):
             colors = kwargs['colors']
         else:
             colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
-    if('start' in kwargs):
-        start = kwargs['start']
-    else:
-        start = 0
     ######
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
@@ -1596,10 +1592,27 @@ def print_j_str(j_str,**kwargs):
     lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
     lines = lps['lines']
     paths = lps['paths']
+    try:
+        start = args[0]
+    except:
+        start = 0
+    else:
+        pass
+    try:
+        end = args[1]
+    except:
+        end = lines.__len__()-1
+    else:
+        pass
+    if('start' in kwargs):
+        start = kwargs['start']
+    else:
+        pass
+
     if('end' in kwargs):
         end = kwargs['end']
     else:
-        end = lines.__len__()-1
+        pass
     if(end > lines.__len__()):
         end = lines.__len__()-1
     #-----------------------------------------careful  paths not escaped but lines escaped====>>>
@@ -1817,8 +1830,6 @@ def pdir(obj,*args,**kwargs):
         end = 2 ** 32
     else:
         pass
-    print(start)
-    print(end)
     if('egrep' in kwargs):
         nobj = []
         for each in obj:
