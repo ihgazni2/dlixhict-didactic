@@ -1832,7 +1832,6 @@ def pdir(obj,*args,**kwargs):
     if('range' in kwargs):
         start = kwargs['range'][0]
         end = kwargs['range'][1]
-        obj = obj[start:end]
     else:
         pass
     if('spaces' in kwargs):
@@ -1948,6 +1947,9 @@ def pdir(obj,*args,**kwargs):
         fixed_indent = kwargs['fixed_indent']
     else:
         fixed_indent =0
+    ###
+    obj = obj[start:end]
+    ###
     if(with_color):
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
     else:
