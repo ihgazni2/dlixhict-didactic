@@ -3,6 +3,14 @@ import re
 operators = {'.','^','$','*','+','?','{','}','[',']','(',')','|'}
 slash = '\\'
 
+def creat_noOPregex_from_str(regex_str):
+    regex_str = regex_str.replace('\\',"\\\\")
+    for each in operators:
+        regex_str = regex_str.replace(each,"\\"+each)
+    regex = re.compile(regex_str)
+    return(regex)
+
+
 def creat_regexes_array(chars_arr):
     '''
         >>> creat_regexes_array(['"',"'",'<','>'])
