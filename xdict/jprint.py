@@ -1635,7 +1635,19 @@ def print_j_str(j_str,**kwargs):
 beautify=get_dynamic_indent_j_str
 
 
-def pobj(obj,**kwargs):
+def pobj(obj,*args,**kwargs):
+    try:
+        start = args[0]
+    except:
+        pass
+    else:
+        pass
+    try:
+        end = args[1]
+    except:
+        pass
+    else:
+        pass
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
     else:
@@ -1774,7 +1786,7 @@ def pobj(obj,**kwargs):
 
 
 
-def pdir(obj,**kwargs):
+def pdir(obj,*args,**kwargs):
     '''
         >>> import os
         >>> from xdict.jprint import  pdir
@@ -1793,6 +1805,18 @@ def pdir(obj,**kwargs):
         >>> 
     '''
     obj = dir(obj)
+    try:
+        start = args[0]
+    except:
+        pass
+    else:
+        pass
+    try:
+        end = args[1]
+    except:
+        pass
+    else:
+        pass
     if('egrep' in kwargs):
         nobj = []
         for each in obj:
