@@ -25,21 +25,31 @@ def pipe_shell_cmds(shell_CMDs):
         returncode = p[len].wait()
     return(result)
 
-def check(fname):
+def check(fname,dname="./xdict"):
     fl = []
-    fl.append('cat ./xdict/console_color.py')
-    fl.append('cat ./xdict/CrtableLib/crtable.py ')
-    fl.append('cat ./xdict/CrtableLib/__init__.py ')
-    fl.append('cat ./xdict/cmdline.py ' )
-    fl.append('cat ./xdict/hdict_object.py ')
-    fl.append('cat ./xdict/hdict_xml.py' )
-    fl.append('cat ./xdict/__init__.py ')
-    fl.append('cat ./xdict/jprint.py ' )
-    fl.append('cat ./xdict/ltdict.py  ' )
-    fl.append('cat ./xdict/TestLib/genrand.py ')
-    fl.append('cat ./xdict/TestLib/__init__.py ' )
-    fl.append('cat ./xdict/tuple_list.py')
-    fl.append('cat ./xdict/utils.py')
+    shell_CMDs = {}
+    shell_CMDs[1] = 'tree -f ' + dname
+    shell_CMDs[2] = 'egrep "py"'
+    shell_CMDs[3] = 'egrep ""'
+    rslt = pipe_shell_cmds(shell_CMDs)[0].decode('utf-8')
+    fl = rslt.replace(chr(9500),"").replace(chr(9472),"").replace(chr(9474),"").replace("\xa0","").replace(chr(9492),"").split("\n")
+    for i in range(0,fl.__len__() -1):
+        ele = fl[i].strip(' ').strip('\t').strip(' ').strip('\t')
+        fl[i] = 'cat ' + ele 
+    fl.pop(fl.__len__() -1)
+    #fl.append('cat ./xdict/console_color.py')
+    #fl.append('cat ./xdict/CrtableLib/crtable.py ')
+    #fl.append('cat ./xdict/CrtableLib/__init__.py ')
+    #fl.append('cat ./xdict/cmdline.py ' )
+    #fl.append('cat ./xdict/hdict_object.py ')
+    #fl.append('cat ./xdict/hdict_xml.py' )
+    #fl.append('cat ./xdict/__init__.py ')
+    #fl.append('cat ./xdict/jprint.py ' )
+    #fl.append('cat ./xdict/ltdict.py  ' )
+    #fl.append('cat ./xdict/TestLib/genrand.py ')
+    #fl.append('cat ./xdict/TestLib/__init__.py ' )
+    #fl.append('cat ./xdict/tuple_list.py')
+    #fl.append('cat ./xdict/utils.py')
     for cmd in fl:
         shell_CMDs = {}
         shell_CMDs[1] = cmd
@@ -48,8 +58,16 @@ def check(fname):
         if(rslt == (b'', b'')):
             pass
         else:
+            print("---location---")
             print(cmd)
-            print(rslt)
+            print("---rslt----")
+            print(rslt[0].decode('utf-8'))
+            print("----info---")
+            print(rslt[1].decode('utf-8'))
 
-check(sys.argv[1])
-
+try:
+    check(sys.argv[1],sys.argv[2])
+except:
+    check(sys.argv[1])
+else:
+    pass
