@@ -1265,7 +1265,7 @@ def dict_list_comprise(dict_list1,dict_list2,**kwargs):
 #
 def dict_list_to_tuple_list(dl):
     tl = []
-    for in range(0,dl.__len__()):
+    for i in range(0,dl.__len__()):
         ele = tuple_to_dict_ele(dl[i])
         tl.append(ele)
     return(tl)
