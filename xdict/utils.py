@@ -2900,6 +2900,15 @@ class edict(dict):
 
 
 #list
+def list_intlize(l):
+    return(list(map(lambda ele:int(ele),l)))
+
+def list_strlize(l):
+    return(list(map(lambda ele:str(ele),l)))
+
+
+
+
 def list_shift(l):
     return(l.pop(0))
 
