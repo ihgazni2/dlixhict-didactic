@@ -2903,6 +2903,9 @@ class edict(dict):
 def list_shift(l):
     return(l.pop(0))
 
+def list_prepend(l,ele):
+    nl = [ele] + l
+    return(nl)
 
 def list_creat_default_with_len(len,default_element=None):
     '''
