@@ -1654,6 +1654,13 @@ class eunicode():
 
 #dict
 
+def dict_ele_to_tuple(d):
+    k = list(d.keys())[0]
+    v = list(d.values())[0]
+    return((k,v))
+
+
+
 def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
     '''
         #if path_list already in external_dict, will do nothing
@@ -3701,3 +3708,11 @@ def four_bytes_order_reverse(L):
     '''
     L = (L & 255) << 24 | (L & 65280) << 8 | L >> 8 & 65280 | L >> 24 & 255
     return(L)
+
+
+
+#tuple
+
+def tuple_to_dict_ele(t):
+    return({t[0]:t[1]})
+

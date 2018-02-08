@@ -53,7 +53,7 @@ def dict_to_tuple_list(this_dict,**kwargs):
     else:
         check = 1
     if(check):
-        if(utils.is_set(this_dict)):
+        if(utils.is_dict(this_dict)):
             pass
         else:
             return(None)
@@ -92,12 +92,12 @@ def tuple_list_to_dict(tuple_list,**kwargs):
     else:
         deepcopy = 1
     d = {}
-    len = tuple_list.__len__()
+    length = tuple_list.__len__()
     if(deepcopy):
         new = copy.deepcopy(tuple_list)
     else:
         new = tuple_list
-    for i in range(0,len):
+    for i in range(0,length):
         temp = new[i]
         key = temp[0]
         value = temp[1]
@@ -1256,4 +1256,14 @@ def tuple_list_comprise(tuple_list1,tuple_list2,**kwargs):
                 else:
                     pass
             return(False)
-            
+           
+
+#
+def tuple_list_to_dict_list(tl):
+    dl =[]
+    for i in range(0,tl.__len__()):
+        ele = utils.tuple_to_dict_ele(tl[i])
+        dl.append(ele)
+    return(dl)
+
+ 

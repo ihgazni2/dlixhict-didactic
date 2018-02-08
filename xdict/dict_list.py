@@ -2,7 +2,7 @@ import copy
 from operator import itemgetter
 from xdict import utils
 
-def is_tuple_list(obj):
+def is_dict_list(obj):
     if(utils.is_list(obj)):
         pass
     else:
@@ -11,15 +11,15 @@ def is_tuple_list(obj):
         return(True)
     else:
         for each in obj:
-            if(utils.is_tuple(each)):
-                if(each.__len__()==2):
+            if(utils.is_dict(each)):
+                if(each.__len__()==1):
                     return(True)
                 else:
                     return(False)
             else:
                 return(False)
 
-def tuple_list_to_json(tuple_list,**kwargs):
+def dict_list_to_json(dict_list,**kwargs):
     if('deepcopy' in kwargs):
         deepcopy = kwargs['deepcopy']
     else:
@@ -29,7 +29,7 @@ def tuple_list_to_json(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -37,23 +37,28 @@ def tuple_list_to_json(tuple_list,**kwargs):
         pass
     j = {}
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     for i in range(0,new.__len__()):
         temp = new[i]
-        key = temp[0]
-        value = temp[1]
+        key = list(temp.keys())[0]
+        value = list(temp.values())[0]
         j[str(key)] = new[key]
     return(j)
 
-def dict_to_tuple_list(this_dict,**kwargs):
+def dict_to_dict_list(this_dict,**kwargs):
+    '''
+        >>> dict_to_dict_list({1:2,3:4})
+        [{1: 2}, {3: 4}]
+        >>>
+    ''' 
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(utils.is_set(this_dict)):
+        if(utils.is_dict(this_dict)):
             pass
         else:
             return(None)
@@ -63,25 +68,23 @@ def dict_to_tuple_list(this_dict,**kwargs):
         deepcopy = kwargs['deepcopy']
     else:
         deepcopy = 1
-    tuple_list = {}
+    dict_list = []
     if(deepcopy):
         new = copy.deepcopy(this_dict)
     else:
         new = this_dict
-    i = 0
     for key in this_dict:
         value = this_dict[key]
-        tuple_list[i] = (key,value)
-        i = i + 1
-    return(tuple_list)
+        dict_list.append({key:value})
+    return(dict_list)
 
-def tuple_list_to_dict(tuple_list,**kwargs):
+def dict_list_to_dict(dict_list,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -92,19 +95,19 @@ def tuple_list_to_dict(tuple_list,**kwargs):
     else:
         deepcopy = 1
     d = {}
-    len = tuple_list.__len__()
+    length = dict_list.__len__()
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
-    for i in range(0,len):
+        new = dict_list
+    for i in range(0,length):
         temp = new[i]
-        key = temp[0]
-        value = temp[1]
+        key = list(temp.keys())[0]
+        value = list(temp.values())[0]
         d[key] = value
     return(s)
 
-def kv_list_to_tuple_list(klist,vlist,**kwargs):
+def kv_list_to_dict_list(klist,vlist,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
@@ -128,7 +131,7 @@ def kv_list_to_tuple_list(klist,vlist,**kwargs):
         deepcopy = kwargs['deepcopy']
     else:
         deepcopy = 1
-    tuple_list = {}
+    dict_list = {}
     len = klist.__len__()
     if(deepcopy):
         newk = copy.deepcopy(klist)
@@ -139,17 +142,16 @@ def kv_list_to_tuple_list(klist,vlist,**kwargs):
     for i in range(0,len):
         key = newk[i]
         value = newv[i]
-        tuple_list[i] = (key,value)
-    return(tuple_list)
+        dict_list[i] = {key:value}
+    return(dict_list)
 
-
-def tuple_list_to_kv_list(tuple_list,**kwargs):
+def dict_list_to_kv_list(dict_list,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -161,27 +163,27 @@ def tuple_list_to_kv_list(tuple_list,**kwargs):
         deepcopy = 1
     kl = []
     vl = []
-    len = tuple_list.__len__()
+    len = dict_list.__len__()
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     for i in range(0,len):
         temp = new[i]
-        key = temp[0]
-        value = temp[1]
+        key = list(temp.keys())[0]
+        value = list(temp.values())[0]
         kl.append(key)
         vl.append(value)
     return({"klist":kl,"vlist":vl})
 
-
-def tuple_list_extend(tuple_list_1,tuple_list_2,**kwargs):
+#180
+def dict_list_extend(dict_list_1,dict_list_2,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list_1) & is_tuple_list(tuple_list_2)):
+        if(is_dict_list(dict_list_1) & is_dict_list(dict_list_2)):
             pass
         else:
             return(None)
@@ -196,26 +198,26 @@ def tuple_list_extend(tuple_list_1,tuple_list_2,**kwargs):
     else:
         deepcopy_2 = 0
     if(deepcopy_1):
-        new_1 = copy.deepcopy(tuple_list_1)
+        new_1 = copy.deepcopy(dict_list_1)
     else:
-        new_1 = tuple_list_1
+        new_1 = dict_list_1
     if(deepcopy_2):
-        new_2 = copy.deepcopy(tuple_list_2)
+        new_2 = copy.deepcopy(dict_list_2)
     else:
-        new_2 = copy.copy(tuple_list_2)
+        new_2 = copy.copy(dict_list_2)
     len_1 = new_1.__len__()
     len_2 = new_2.__len__()
     for i in range(0,len_2):
         new_1.append(new_2[i])
     return(new_1)
 
-def tuple_list_prepend_extend(tuple_list_1,tuple_list_2,**kwargs):
+def dict_list_prepend_extend(dict_list_1,dict_list_2,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list_1) & is_tuple_list(tuple_list_2)):
+        if(is_dict_list(dict_list_1) & is_dict_list(dict_list_2)):
             pass
         else:
             return(None)
@@ -230,13 +232,13 @@ def tuple_list_prepend_extend(tuple_list_1,tuple_list_2,**kwargs):
     else:
         deepcopy_2 = 0
     if(deepcopy_1):
-        new_1 = copy.deepcopy(tuple_list_1)
+        new_1 = copy.deepcopy(dict_list_1)
     else:
-        new_1 = tuple_list_1
+        new_1 = dict_list_1
     if(deepcopy_2):
-        new_2 = copy.deepcopy(tuple_list_2)
+        new_2 = copy.deepcopy(dict_list_2)
     else:
-        new_2 = copy.copy(tuple_list_2)
+        new_2 = copy.copy(dict_list_2)
     len_1 = new_1.__len__()
     len_2 = new_2.__len__()
     swap = []
@@ -246,13 +248,13 @@ def tuple_list_prepend_extend(tuple_list_1,tuple_list_2,**kwargs):
         swap.append(new_1[i])
     return(swap)
 
-def tuple_list_concat(tuple_list_1,tuple_list_2,**kwargs):
+def dict_list_concat(dict_list_1,dict_list_2,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list_1) & is_tuple_list(tuple_list_2)):
+        if(is_dict_list(dict_list_1) & is_dict_list(dict_list_2)):
             pass
         else:
             return(None)
@@ -267,13 +269,13 @@ def tuple_list_concat(tuple_list_1,tuple_list_2,**kwargs):
     else:
         deepcopy_2 = 1
     if(deepcopy_1):
-        new_1 = copy.deepcopy(tuple_list_1)
+        new_1 = copy.deepcopy(dict_list_1)
     else:
-        new_1 = tuple_list_1
+        new_1 = dict_list_1
     if(deepcopy_2):
-        new_2 = copy.deepcopy(tuple_list_2)
+        new_2 = copy.deepcopy(dict_list_2)
     else:
-        new_2 = tuple_list_2
+        new_2 = dict_list_2
     len_1 = new_1.__len__()
     len_2 = new_2.__len__()
     new = []
@@ -282,8 +284,8 @@ def tuple_list_concat(tuple_list_1,tuple_list_2,**kwargs):
     for i in range(0,len_2):
         new.append(new_2[i])
     return(new)
-
-def tuple_list_first_continuous_indexes_slice(tuple_list,**kwargs):
+#287
+def dict_list_first_continuous_indexes_slice(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -301,7 +303,7 @@ def tuple_list_first_continuous_indexes_slice(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -309,10 +311,10 @@ def tuple_list_first_continuous_indexes_slice(tuple_list,**kwargs):
         pass
     rslt = []
     begin = 0
-    for i in range(start,tuple_list.__len__()):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+    for i in range(start,dict_list.__len__()):
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 rslt.append(i)
@@ -334,10 +336,10 @@ def tuple_list_first_continuous_indexes_slice(tuple_list,**kwargs):
                 break
             else:
                 pass
-    for i in range(begin,tuple_list.__len__()):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+    for i in range(begin,dict_list.__len__()):
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 rslt.append(i)
@@ -354,8 +356,8 @@ def tuple_list_first_continuous_indexes_slice(tuple_list,**kwargs):
             else:
                 break
     return(rslt)
-
-def tuple_list_last_continuous_indexes_slice(tuple_list,**kwargs):
+#359
+def dict_list_last_continuous_indexes_slice(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -373,20 +375,20 @@ def tuple_list_last_continuous_indexes_slice(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
     if(start==-1):
-        start = tuple_list.__len__()-1
+        start = dict_list.__len__()-1
     rslt = []
     begin = 0
     for i in range(start,-1,-1):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 rslt.append(i)
@@ -409,9 +411,9 @@ def tuple_list_last_continuous_indexes_slice(tuple_list,**kwargs):
             else:
                 pass
     for i in range(begin,-1,-1):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 rslt.append(i)
@@ -429,8 +431,8 @@ def tuple_list_last_continuous_indexes_slice(tuple_list,**kwargs):
                 break
     rslt.reverse()
     return(rslt)
-
-def tuple_list_all_continuous_indexes_slices_array(tuple_list,**kwargs):    
+#434
+def dict_list_all_continuous_indexes_slices_array(dict_list,**kwargs):    
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -444,27 +446,27 @@ def tuple_list_all_continuous_indexes_slices_array(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
-    len = tuple_list.__len__()
+    len = dict_list.__len__()
     sarray = []
     start = 0
     while(start < len):
         if(mode == 'key'):
-            rslt = tuple_list_first_continuous_indexes_slice(tuple_list,key=key,start=start,check=0,mode='key')
+            rslt = dict_list_first_continuous_indexes_slice(dict_list,key=key,start=start,check=0,mode='key')
         elif(mode == 'value'):
-            rslt = tuple_list_first_continuous_indexes_slice(tuple_list,value=value,start=start,check=0,mode='value')
+            rslt = dict_list_first_continuous_indexes_slice(dict_list,value=value,start=start,check=0,mode='value')
         else:
-            rslt = tuple_list_first_continuous_indexes_slice(tuple_list,key=key,value=value,start=start,check=0,mode='key_value')
+            rslt = dict_list_first_continuous_indexes_slice(dict_list,key=key,value=value,start=start,check=0,mode='key_value')
         sarray.append(rslt)
         start = rslt[-1] +1
     return(sarray)
 
-def tuple_list_indexes_array(tuple_list,value,**kwargs):
+def dict_list_indexes_array(dict_list,value,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -478,17 +480,17 @@ def tuple_list_indexes_array(tuple_list,value,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
     rslt = []
-    for i in range(0,tuple_list.__len__()):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+    for i in range(0,dict_list.__len__()):
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 rslt.append(i)
@@ -506,7 +508,7 @@ def tuple_list_indexes_array(tuple_list,value,**kwargs):
                 pass
     return(rslt)
 
-def tuple_list_first_index(tuple_list,**kwargs):
+def dict_list_first_index(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -524,16 +526,18 @@ def tuple_list_first_index(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
-    for i in range(start,tuple_list.__len__()):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+    for i in range(start,dict_list.__len__()):
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 return(i)
@@ -551,7 +555,7 @@ def tuple_list_first_index(tuple_list,**kwargs):
                 pass
     return(None)
 
-def tuple_list_last_index(tuple_list,**kwargs):
+def dict_list_last_index(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -569,18 +573,18 @@ def tuple_list_last_index(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
     if(start == -1):
-        start = tuple_list.__len__() - 1
+        start = dict_list.__len__() - 1
     for i in range(start,-1,-1):
-        temp = tuple_list[i]
-        k = temp[0]
-        v = temp[1]
+        temp = dict_list[i]
+        k = list(temp.keys())[0]
+        v = list(temp.values())[0]
         if(mode == 'key'):
             if(k == key):
                 return(i)
@@ -598,13 +602,13 @@ def tuple_list_last_index(tuple_list,**kwargs):
                 pass
     return(None)
 
-def tuple_list_append(tuple_list,key,value,**kwargs):
+def dict_list_append(dict_list,key,value,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -615,19 +619,19 @@ def tuple_list_append(tuple_list,key,value,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     new.append((key,value))
     return(new)
 
-def tuple_list_prepend(tuple_list,key,value,**kwargs):
+def dict_list_prepend(dict_list,key,value,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -638,23 +642,23 @@ def tuple_list_prepend(tuple_list,key,value,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
-    len = tuple_list.__len__()
+        new = dict_list
+    len = dict_list.__len__()
     swap = []
     swap.append((key,value))
     for i in range(0,len):
         swap.append(new[i])
     return(swap)
 
-def tuple_list_clear(tuple_list,**kwargs):
+def dict_list_clear(dict_list,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -667,47 +671,47 @@ def tuple_list_clear(tuple_list,**kwargs):
     if(deepcopy):
         new = []
     else:
-        new = tuple_list
+        new = dict_list
         new.clear()
     return(new)
 
-def tuple_list_copy(tuple_list,**kwargs):
+def dict_list_copy(dict_list,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
-    tuple_list = tuple_list.copy()
-    return(tuple_list)
+    dict_list = dict_list.copy()
+    return(dict_list)
 
-def tuple_list_deepcopy(tuple_list,**kwargs):
+def dict_list_deepcopy(dict_list,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
-    tuple_list = copy.deepcopy(tuple_list)
-    return(tuple_list)
+    dict_list = copy.deepcopy(dict_list)
+    return(dict_list)
 
-def tuple_list_insert(tuple_list,index,key,value,**kwargs):
+def dict_list_insert(dict_list,index,key,value,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -718,20 +722,20 @@ def tuple_list_insert(tuple_list,index,key,value,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     new.insert(index,(key,value))
     return(new)
 
 
-def tuple_list_insert_tuple_list(tuple_list_1,index,tuple_list_2,**kwargs):
+def dict_list_insert_dict_list(dict_list_1,index,dict_list_2,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list_1) & is_tuple_list(tuple_list_2)):
+        if(is_dict_list(dict_list_1) & is_dict_list(dict_list_2)):
             pass
         else:
             return(None)
@@ -746,13 +750,13 @@ def tuple_list_insert_tuple_list(tuple_list_1,index,tuple_list_2,**kwargs):
     else:
         deepcopy_2 = 0
     if(deepcopy_1):
-        new_1 = copy.deepcopy(tuple_list_1)
+        new_1 = copy.deepcopy(dict_list_1)
     else:
-        new_1 = tuple_list_1
+        new_1 = dict_list_1
     if(deepcopy_2):
-        new_2 = copy.deepcopy(tuple_list_2)
+        new_2 = copy.deepcopy(dict_list_2)
     else:
-        new_2 = copy.copy(tuple_list_2)
+        new_2 = copy.copy(dict_list_2)
     len_1 = new_1.__len__()
     len_2 = new_2.__len__()
     if(index >= len_1):
@@ -769,7 +773,7 @@ def tuple_list_insert_tuple_list(tuple_list_1,index,tuple_list_2,**kwargs):
     return(swap)
 
 
-def tuple_list_include(tuple_list,**kwargs):
+def dict_list_include(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -783,29 +787,29 @@ def tuple_list_include(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
     else:
         pass
     if(mode =='key'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(k == key):
                 return(True)
     elif(mode == 'value'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(v == value):
                 return(True)
     else:
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
             key = temp[0]
             value = temp[1]
             if((k==key)&(v==value)):
@@ -813,7 +817,7 @@ def tuple_list_include(tuple_list,**kwargs):
     return(False)
 
 
-def tuple_list_count(tuple_list,**kwargs):
+def dict_list_count(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -827,7 +831,7 @@ def tuple_list_count(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -835,29 +839,29 @@ def tuple_list_count(tuple_list,**kwargs):
         pass
     num = 0
     if(mode =='key'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(k == key):
                 num = num + 1
     elif(mode == 'value'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(v == value):
                 num = num + 1
     else:
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
             key = temp[0]
             value = temp[1]
             if((k==key)&(v==value)):
                 num = num + 1
     return(num)
 
-def tuple_list_pop(tuple_list,**kwargs):
+def dict_list_pop(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -871,7 +875,7 @@ def tuple_list_pop(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -882,10 +886,10 @@ def tuple_list_pop(tuple_list,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
-    len = tuple_list.__len__()
+        new = dict_list
+    len = dict_list.__len__()
     if(mode == 'index'):
         if(index in range(0,len)):
             rslt = new.pop(index)
@@ -893,21 +897,21 @@ def tuple_list_pop(tuple_list,**kwargs):
             rslt = None
     else:
         rslt = []
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(k == key):
-                rslt.append(tuple_list.pop(i))
+                rslt.append(dict_list.pop(i))
     return(rslt)
 
-def tuple_list_pop_range(tuple_list,start,end,**kwargs):
+def dict_list_pop_range(dict_list,start,end,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -918,10 +922,10 @@ def tuple_list_pop_range(tuple_list,start,end,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
-    len = tuple_list.__len__()
+        new = dict_list
+    len = dict_list.__len__()
     if(start < 0):
         start = 0
     elif(start >= len):
@@ -943,13 +947,13 @@ def tuple_list_pop_range(tuple_list,start,end,**kwargs):
         seq = seq + 1
     return(rslt)
 
-def tuple_list_pop_seqs(tuple_list,seqs_set,**kwargs):
+def dict_list_pop_seqs(dict_list,seqs_set,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -960,17 +964,17 @@ def tuple_list_pop_seqs(tuple_list,seqs_set,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     len = new.__len__()
     rslt = []
     if(utils.is_list(seqs_set)):
         pass
     elif(utils.is_set(seqs_set)):
         real_seqs = list(seqs_set)
-    elif(utils.is_tuple_list(seqs_set)):
-        real_seqs = tuple_list_to_list(seqs_set)
+    elif(utils.is_dict_list(seqs_set)):
+        real_seqs = dict_list_to_list(seqs_set)
     else:
         print("Error: <seqs_set> Invalid")
         return(None)
@@ -989,7 +993,7 @@ def tuple_list_pop_seqs(tuple_list,seqs_set,**kwargs):
         rslt.append(new.pop(seq))
     return(rslt)
 
-def tuple_list_remove_first(tuple_list,**kwargs):
+def dict_list_remove_first(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -1003,7 +1007,7 @@ def tuple_list_remove_first(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -1014,29 +1018,29 @@ def tuple_list_remove_first(tuple_list,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     len = new.__len__()
     if(mode =='key'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(k == key):
                 new.remove(temp)
                 break
     elif(mode == 'value'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(v == value):
                 new.remove(temp)
                 break
     else:
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
             key = temp[0]
             value = temp[1]
             if((k==key)&(v==value)):
@@ -1044,7 +1048,7 @@ def tuple_list_remove_first(tuple_list,**kwargs):
                 break
     return(new)
 
-def tuple_list_remove_last(tuple_list,**kwargs):
+def dict_list_remove_last(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -1058,7 +1062,7 @@ def tuple_list_remove_last(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -1069,29 +1073,29 @@ def tuple_list_remove_last(tuple_list,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     len = new.__len__()
     if(mode =='key'):
         for i in range(len-1,-1,-1):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(k == key):
                 new.remove(temp)
                 break
     elif(mode == 'value'):
         for i in range(len-1,-1,-1):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(v == value):
                 new.remove(temp)
                 break
     else:
         for i in range(len-1,-1,-1):
-            temp = tuple_list[i]
+            temp = dict_list[i]
             key = temp[0]
             value = temp[1]
             if((k==key)&(v==value)):
@@ -1099,7 +1103,7 @@ def tuple_list_remove_last(tuple_list,**kwargs):
                 break
     return(new)
 
-def tuple_list_remove_all(tuple_list,**kwargs):
+def dict_list_remove_all(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -1113,7 +1117,7 @@ def tuple_list_remove_all(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -1124,41 +1128,41 @@ def tuple_list_remove_all(tuple_list,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     len = new.__len__()
     i = 0
     if(mode =='key'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(k == key):
                 new.remove(temp)
     elif(mode == 'value'):
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
-            k = temp[0]
-            v = temp[1]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
+            k = list(temp.keys())[0]
+            v = list(temp.values())[0]
             if(v == value):
                 new.remove(temp)
     else:
-        for i in range(0,tuple_list.__len__()):
-            temp = tuple_list[i]
+        for i in range(0,dict_list.__len__()):
+            temp = dict_list[i]
             key = temp[0]
             value = temp[1]
             if((k==key)&(v==value)):
                 new.remove(temp)
     return(new)
 
-def tuple_list_reverse(tuple_list,**kwargs):
+def dict_list_reverse(dict_list,**kwargs):
     if('check' in kwargs):
         check = kwargs['check']
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -1169,14 +1173,14 @@ def tuple_list_reverse(tuple_list,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     len = new.__len__()
     new.reverse()
     return(new)
 
-def tuple_list_sort(tuple_list,**kwargs):
+def dict_list_sort(dict_list,**kwargs):
     if('mode' in kwargs):
         mode = kwargs['mode']
     else:
@@ -1194,7 +1198,7 @@ def tuple_list_sort(tuple_list,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list)):
+        if(is_dict_list(dict_list)):
             pass
         else:
             return(None)
@@ -1205,9 +1209,9 @@ def tuple_list_sort(tuple_list,**kwargs):
     else:
         deepcopy = 0
     if(deepcopy):
-        new = copy.deepcopy(tuple_list)
+        new = copy.deepcopy(dict_list)
     else:
-        new = tuple_list
+        new = dict_list
     len = new.__len__()
     if(mode == 'key'):
         new = sorted(new,reverse=inverse)
@@ -1215,7 +1219,7 @@ def tuple_list_sort(tuple_list,**kwargs):
         sorted(new, key=itemgetter(1),reverse=inverse)
     return(new)
 
-def tuple_list_comprise(tuple_list1,tuple_list2,**kwargs):
+def dict_list_comprise(dict_list1,dict_list2,**kwargs):
     if('strict' in kwargs):
         strict = kwargs['strict']
     else:
@@ -1225,35 +1229,45 @@ def tuple_list_comprise(tuple_list1,tuple_list2,**kwargs):
     else:
         check = 1
     if(check):
-        if(is_tuple_list(tuple_list1)):
+        if(is_dict_list(dict_list1)):
             pass
         else:
             return(None)
-        if(is_tuple_list(tuple_list2)):
+        if(is_dict_list(dict_list2)):
             pass
         else:
             return(None)
     else:
         pass
-    len_1 = tuple_list1.__len__()
-    len_2 = tuple_list2.__len__()
+    len_1 = dict_list1.__len__()
+    len_2 = dict_list2.__len__()
     if(len_2>len_1):
         return(False)
     else:
-        tuple_list1 = tuple_list_to_list(tuple_list1)
-        tuple_list2 = tuple_list_to_list(tuple_list2)
+        dict_list1 = dict_list_to_list(dict_list1)
+        dict_list2 = dict_list_to_list(dict_list2)
         if(strict):
-            if(tuple_list2 == tuple_list1[:len_2]):
+            if(dict_list2 == dict_list1[:len_2]):
                 return(True)
             else:
                 return(False)
         else:
             end = len_1 - len_2
             for i in range(0,end+1):
-                if(tuple_list2 == tuple_list1[i:(i+len_2)]):
+                if(dict_list2 == dict_list1[i:(i+len_2)]):
                     print(i)
                     return(i)
                 else:
                     pass
             return(False)
-            
+           
+
+#
+def dict_list_to_tuple_list(dl):
+    tl = []
+    for in range(0,dl.__len__()):
+        ele = tuple_to_dict_ele(dl[i])
+        tl.append(ele)
+    return(tl)
+
+ 
