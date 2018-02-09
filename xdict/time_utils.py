@@ -100,7 +100,7 @@ def str2dt(s,**kwargs):
     else:
         format_name = detect_time_format(s)
         format = TIMEFMT[format_name]
-    if(format ='asctime'):
+    if(format == 'asctime'):
         s = format_asc(s)
     else:
         s = standlize(s)
