@@ -1654,6 +1654,15 @@ class eunicode():
 
 #dict
 
+def in_ignore_upper(lora,key):
+    for each in lora:
+        if(key.lower() == each.lower()):
+            return((True,each))
+        else:
+            pass
+    return((False,None))
+
+
 def dict_ele_to_tuple(d):
     k = list(d.keys())[0]
     v = list(d.values())[0]
