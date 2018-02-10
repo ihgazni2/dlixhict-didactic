@@ -1670,6 +1670,15 @@ def dict_ele_to_tuple(d):
 
 
 
+def dict_diff_nonrecur(js1,js2):
+    rslt = []
+    for key in js1:
+        if(js1[key]!=js2[key]):
+            print(key)
+            rslt.append(key)
+    return(rslt)
+
+
 def dict_setdefault_via_path_list(external_dict,path_list,**kwargs):
     '''
         #if path_list already in external_dict, will do nothing
@@ -2922,8 +2931,13 @@ def list_intlize(l):
 def list_strlize(l):
     return(list(map(lambda ele:str(ele),l)))
 
-
-
+def list_diff_nonrecur(l1,l2):
+    rslt = []
+    for i in range(0,l1.__len__()):
+        if(l1[i]!=l2[i]):
+            print(i)
+            rslt.append(i)
+    return(rslt)
 
 def list_shift(l):
     return(l.pop(0))
