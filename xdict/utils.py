@@ -1663,6 +1663,43 @@ def in_ignore_upper(lora,key):
     return((False,None))
 
 
+def text_cond(text,condmatch,*args)
+    if(type(condmatch)==type("")):
+        if(condmatch in text):
+            return(True)
+        else:
+            return(False)
+    elif(type(condmatch) == type(re.compile(""))):
+        m = condmatch.search(text)
+        if(m):
+            return(true)
+        else:
+            return(False)
+    else:
+        return(condmatch(text,*args))
+
+
+def dict_loose_select_viaKeyCond(d,condmatch,**kwargs):
+    rslt = {}
+    for key in d:
+        if(text_cond(key,condmatch,*args)):
+            rslt[key] = d[key]
+        else:
+            pass
+    return(rslt)
+
+def dict_loose_select_viaValueCond(d,condmatch,**kwargs):
+    rslt = {}
+    for key in d:
+        value = d[key]
+        if(text_cond(value,condmatch,*args)):
+            rslt[key] = d[key]
+        else:
+            pass
+    return(rslt)
+
+
+
 def dict_ele_to_tuple(d):
     k = list(d.keys())[0]
     v = list(d.values())[0]
