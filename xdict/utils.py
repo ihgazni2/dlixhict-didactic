@@ -1663,7 +1663,7 @@ def in_ignore_upper(lora,key):
     return((False,None))
 
 
-def text_cond(text,condmatch,*args)
+def text_cond(text,condmatch,*args):
     if(type(condmatch)==type("")):
         if(condmatch in text):
             return(True)
