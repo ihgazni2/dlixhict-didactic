@@ -1649,6 +1649,10 @@ beautify=get_dynamic_indent_j_str
 
 
 def pobj(obj,*args,**kwargs):
+    '''
+        pobj(eles,quotes_pairs="''\"\"<>")
+        pobj(eles,block_op_pairs="{}[]()")
+    '''
     try:
         start = args[0]
     except:
