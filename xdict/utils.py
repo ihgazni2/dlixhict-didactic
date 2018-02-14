@@ -1679,6 +1679,21 @@ def text_cond(text,condmatch,*args):
         return(condmatch(text,*args))
 
 
+def dict_diff_detailed(d1,d2):
+    same =[]
+    kdiff =[]
+    vdiff = []
+    for key in d1:
+        value = d1[key]
+        if(key in d2):
+            if(value == d2[key]):
+                same.append(key)
+            else:
+                vdiff.append(key)
+        else:
+            kdiff.append(key)
+    return({'same':same,'kdiff':kdiff,'vdiff':vdiff})
+
 def dict_loose_select_viaKeyCond(d,condmatch,**kwargs):
     rslt = {}
     for key in d:
@@ -2980,8 +2995,25 @@ def list_shift(l):
     return(l.pop(0))
 
 def list_prepend(l,ele):
+    '''this will open a new list'''
     nl = [ele] + l
     return(nl)
+
+def list_samemem_prepend(l,*args):
+    '''this will on the same list
+    '''
+    length = l.__len__()
+    args_len = args.__len__()
+    for i in range(0,args_len):
+        l.append(None)
+    for i in range(length-1,-1,-1):
+        l[i+args_len] = l[i]
+    for i in range(0,args_len):
+        l[i] = args[i]
+    return(l)
+
+list_unshift = list_samemem_prepend
+
 
 def list_creat_default_with_len(len,default_element=None):
     '''
