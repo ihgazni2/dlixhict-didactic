@@ -2,6 +2,18 @@ import time
 import xdict.utils
 import re
 
+def unshift(l,*args):
+    length = l.__len__()
+    args_len = args.__len__()
+    for i in range(0,args_len):
+        l.append(None)
+    for i in range(length-1,-1,-1):
+        l[i+args_len] = l[i]
+    for i in range(0,args_len):
+        l[i] = args[i]
+    return(l)
+
+
 def unsigned_right_shift(num,shift_num,**kwargs):
     if(num >=0):
         return(num>>shift_num)
