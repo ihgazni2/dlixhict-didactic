@@ -989,6 +989,16 @@ class pathlist(list):
 
 #string
 
+def str_indexes(s,c):
+    rslt = []
+    for i in range(0,s.__len__()):
+        if(s[i]==c):
+            rslt.append(i)
+        else:
+            pass
+    return(rslt)
+
+
 def str_repeat(s,times):
     return(s*times)
 
