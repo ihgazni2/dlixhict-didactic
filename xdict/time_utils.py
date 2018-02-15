@@ -3,8 +3,22 @@ import time
 import datetime
 import html
 
+def _real_dollar(regex,s):
+    '''$ Matches the end of the string or just before the newline at the end of the string'''
+    m = regex.search(s)
+    if(m):
+        length_1 = s.__len__()
+        length_2 = m.group(0).__len__()
+        if(length_1 == length_2):
+            return(True)
+        else:
+            return(False)
+    else:
+        return(False)
 
-def detect_time_format(date_value):
+
+
+def detect_time_format(date_value,**kwargs):
     '''
         ####################HTTP-date###############
         # HTTP-date    = rfc1123-date | rfc850-date | asctime-date
@@ -24,31 +38,54 @@ def detect_time_format(date_value):
                # weekday      = "Monday" | "Tuesday" | "Wednesday"
                             # | "Thursday" | "Friday" | "Saturday" | "Sunday"
     '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "strict"
     month = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'
     weekday = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday'
     wkday = 'Mon|Tue|Wed|Thu|Fri|Sat|Sun'
     rfc1123 = ''.join(("(",wkday,")",", ","[0-9]{2} ","(",month,")"," [0-9]{4} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
+    rfc1123 = "^" + rfc1123 + "$"
     regex_rfc1123 = re.compile(rfc1123)
     rfc1123_hypen = ''.join(("(",wkday,")",", ","[0-9]{2}-","(",month,")","-[0-9]{4} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
+    regex_rfc1123_hypen = "^" + regex_rfc1123_hypen + "$"
     regex_rfc1123_hypen = re.compile(rfc1123_hypen)
     rfc850 = ''.join(("(",weekday,")",", ","[0-9]{2}-","(",month,")","-[0-9]{2} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
+    regex_rfc850 = "^" + regex_rfc850 + "$"
     regex_rfc850 = re.compile(rfc850)
     rfc850_a = ''.join(("(",wkday,")",", ","[0-9]{2}-","(",month,")","-[0-9]{2} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
+    regex_rfc850_a = "^" + regex_rfc850_a + "$"
     regex_rfc850_a = re.compile(rfc850_a)
     asctime = ''.join(("(",wkday,")"," ","(",month,")","(( [0-9]{2})|(  [0-9]{1}))"," ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","[0-9]{4}"))
+    regex_asctime = "^" + regex_asctime + "$"
     regex_asctime = re.compile(asctime)
-    if(regex_rfc1123.search(date_value)):
-        return('rfc1123')
-    elif(regex_rfc1123_hypen.search(date_value)):
-        return('rfc1123_hypen')
-    elif(regex_rfc850.search(date_value)):
-        return('rfc850')
-    elif(regex_rfc850_a.search(date_value)):
-        return('rfc850_a')
-    elif(regex_asctime.search(date_value)):
-        return('asctime')
+    if(mode == 'strict'):
+        if(_real_dollar(regex_rfc1123,date_value)):
+            return('rfc1123')
+        elif(_real_dollar(regex_rfc1123_hypen,date_value)):
+            return('rfc1123_hypen')
+        elif(_real_dollar(regex_rfc850,date_value)):
+            return('rfc850')
+        elif(_real_dollar(regex_rfc850_a,date_value)):
+            return('rfc850_a')
+        elif(_real_dollar(regex_asctime,date_value)):
+            return('asctime')
+        else:
+            return(None)
     else:
-        return(None)
+        if(regex_rfc1123.search(date_value)):
+            return('rfc1123')
+        elif(regex_rfc1123_hypen.search(date_value)):
+            return('rfc1123_hypen')
+        elif(regex_rfc850.search(date_value)):
+            return('rfc850')
+        elif(regex_rfc850_a.search(date_value)):
+            return('rfc850_a')
+        elif(regex_asctime.search(date_value)):
+            return('asctime')
+        else:
+            return(None)
 
         
 
