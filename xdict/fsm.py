@@ -1,4 +1,5 @@
 import re
+from xdict import utils
 
 operators = {'.','^','$','*','+','?','{','}','[',']','(',')','|','-','<','>','!',':'}
 slash = '\\'
@@ -207,7 +208,11 @@ class FSM():
         for key in self.fsm_dict:
             if(key[0] == curr_state):
                 #print(key[1])
-                if(key[1].search(input_symbol)):
+                if(utils.is_regex(key[1])):
+                    cond = key[1].search(input_symbol)
+                else:
+                    cond = key[1](input_symbol)
+                if(cond):
                     trigger_checker = key[1] 
                     action,next_state = self.fsm_dict[key]
                     if(self.enable_debug):
