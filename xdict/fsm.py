@@ -1,4 +1,5 @@
 import re
+import copy
 from xdict import utils
 
 operators = {'.','^','$','*','+','?','{','}','[',']','(',')','|','-','<','>','!',':'}
