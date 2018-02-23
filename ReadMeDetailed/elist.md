@@ -1,92 +1,92 @@
-def append(ol,ele,**kwargs):
-def append_some(ol,*eles,**kwargs):
-def extend(ol,nl,**kwargs):
-def deepcopy(ol):
-def prextend(ol,nl,**kwargs):
-def prepend(ol,ele,**kwargs):
-def prepend_some(ol,*eles,**kwargs):
-def uniform_index(index,length):
-def insert(ol,start_index,ele,**kwargs):
-def insert_some(ol,*eles,**kwargs):
-def sorted_refer_to(l,referer,reverse=False,**kwargs):
-def insert_many(ol,eles,locs,**kwargs):
-def index_first(ol,value):
-def index_firstnot(ol,value):
-def index_last(ol,value):
-def index_lastnot(ol,value):
-def index_which(ol,value,which):
-def index_whichnot(ol,value,which):
-def indexes_all(ol,value):
-def indexes_allnot(ol,value):
-def indexes_some(ol,value,*seqs):
-def indexes_somenot(ol,value,*seqs):
-def indexes_seqs(ol,value,seqs):
-def indexes_seqsnot(ol,value,seqs):
-def first_continuous_indexes_slice(ol,value):
-def first_continuous_indexesnot_slice(ol,value):
-def last_continuous_indexes_slice(ol,value):
-def last_continuous_indexesnot_slice(ol,value):
-def which_continuous_indexes_slice(ol,value,which):
-def which_continuous_indexesnot_slice(ol,value,which):
-def some_continuous_indexes_slices(ol,value,*seqs):
-def some_continuous_indexesnot_slices(ol,value,*seqs):
-def seqs_continuous_indexes_slices(ol,value,seqs):
-def seqs_continuous_indexesnot_slices(ol,value,seqs):
-def all_continuous_indexes_slices(ol,value):
-def all_continuous_indexesnot_slices(ol,value):
-def pop(ol,index,**kwargs):
-def pop_range(ol,start_index,end_index,**kwargs):
-def pop_some(ol,*indexes,**kwargs):
-def pop_indexes(ol,indexes,**kwargs):
-def remove_first(ol,value,**kwargs):
-def remove_firstnot(ol,value,**kwargs):
-def remove_last(ol,value,**kwargs):
-def remove_lastnot(ol,value,**kwargs):
-def remove_which(ol,value,which,**kwargs):
-def remove_whichnot(ol,value,which,**kwargs):
-def remove_some(ol,value,*seqs,**kwargs):
-def remove_somenot(ol,value,*seqs,**kwargs):
-def remove_seqs(ol,value,seqs,**kwargs):
-def remove_seqsnot(ol,value,seqs,**kwargs):
-def remove_all(ol,value,**kwargs):
-def remove_allnot(ol,value,**kwargs):
-def remove_many(ol,values,seqs,**kwargs):
-def remove_manynot(ol,values,seqs,**kwargs):
-def reverse(ol,**kwargs):
-def sort(ol,**kwargs):
-def comprise(list1,list2,**kwargs):
-def car(ol):
-def cdr(ol,**kwargs):
-def cons(head_ele,l,**kwargs):
-def array_from(obj,func,*args):
-def array_of(*eles):
-def concat(*arrays):
-def copy_within(ol,target, start=None, end=None):
-def entries(ol):
-def every(ol,test_func,*args):
-def fill(ol,value,start=None, end=None,**kwargs):
-def filter(ol,test_func,*args,**kwargs):
-def find_first(ol,test_func,*args):
-def find_firstnot(ol,test_func,*args):
-def find_last(ol,test_func,*args):
-def find_lastnot(ol,test_func,*args):
-def find_which(ol,which,test_func,*args):
-def find_whichnot(ol,which,test_func,*args):
-def find_seqs(ol,seqs,test_func,*args):
-def find_seqsnot(ol,seqs,test_func,*args):
-def find_all(ol,test_func,*args):
-def find_allnot(ol,test_func,*args):
-def push(l,*eles,**kwargs):
-def includes(ol,value):
-def toString(ol):
-def toSource(ol):
-def splice(ol,start,deleteCount,*eles,**kwargs):
-def some(ol,test_func,*args):
-def slice(ol,start,end=None,**kwargs):
-def shift(ol,**kwargs):
-def reduce_left(ol,callback,initialValue):
-def reduce_right(ol,callback,initialValue):
-def array_map(ol,map_func,*args):
-def join(ol,separator=","):
-def for_each(ol,test_func,*args):
-def help(func_name):
+    def append(ol,ele,**kwargs):
+    def append_some(ol,*eles,**kwargs):
+    def extend(ol,nl,**kwargs):
+    def deepcopy(ol):
+    def prextend(ol,nl,**kwargs):
+    def prepend(ol,ele,**kwargs):
+    def prepend_some(ol,*eles,**kwargs):
+    def uniform_index(index,length):
+    def insert(ol,start_index,ele,**kwargs):
+    def insert_some(ol,*eles,**kwargs):
+    def sorted_refer_to(l,referer,reverse=False,**kwargs):
+    def insert_many(ol,eles,locs,**kwargs):
+    def index_first(ol,value):
+    def index_firstnot(ol,value):
+    def index_last(ol,value):
+    def index_lastnot(ol,value):
+    def index_which(ol,value,which):
+    def index_whichnot(ol,value,which):
+    def indexes_all(ol,value):
+    def indexes_allnot(ol,value):
+    def indexes_some(ol,value,*seqs):
+    def indexes_somenot(ol,value,*seqs):
+    def indexes_seqs(ol,value,seqs):
+    def indexes_seqsnot(ol,value,seqs):
+    def first_continuous_indexes_slice(ol,value):
+    def first_continuous_indexesnot_slice(ol,value):
+    def last_continuous_indexes_slice(ol,value):
+    def last_continuous_indexesnot_slice(ol,value):
+    def which_continuous_indexes_slice(ol,value,which):
+    def which_continuous_indexesnot_slice(ol,value,which):
+    def some_continuous_indexes_slices(ol,value,*seqs):
+    def some_continuous_indexesnot_slices(ol,value,*seqs):
+    def seqs_continuous_indexes_slices(ol,value,seqs):
+    def seqs_continuous_indexesnot_slices(ol,value,seqs):
+    def all_continuous_indexes_slices(ol,value):
+    def all_continuous_indexesnot_slices(ol,value):
+    def pop(ol,index,**kwargs):
+    def pop_range(ol,start_index,end_index,**kwargs):
+    def pop_some(ol,*indexes,**kwargs):
+    def pop_indexes(ol,indexes,**kwargs):
+    def remove_first(ol,value,**kwargs):
+    def remove_firstnot(ol,value,**kwargs):
+    def remove_last(ol,value,**kwargs):
+    def remove_lastnot(ol,value,**kwargs):
+    def remove_which(ol,value,which,**kwargs):
+    def remove_whichnot(ol,value,which,**kwargs):
+    def remove_some(ol,value,*seqs,**kwargs):
+    def remove_somenot(ol,value,*seqs,**kwargs):
+    def remove_seqs(ol,value,seqs,**kwargs):
+    def remove_seqsnot(ol,value,seqs,**kwargs):
+    def remove_all(ol,value,**kwargs):
+    def remove_allnot(ol,value,**kwargs):
+    def remove_many(ol,values,seqs,**kwargs):
+    def remove_manynot(ol,values,seqs,**kwargs):
+    def reverse(ol,**kwargs):
+    def sort(ol,**kwargs):
+    def comprise(list1,list2,**kwargs):
+    def car(ol):
+    def cdr(ol,**kwargs):
+    def cons(head_ele,l,**kwargs):
+    def array_from(obj,func,*args):
+    def array_of(*eles):
+    def concat(*arrays):
+    def copy_within(ol,target, start=None, end=None):
+    def entries(ol):
+    def every(ol,test_func,*args):
+    def fill(ol,value,start=None, end=None,**kwargs):
+    def filter(ol,test_func,*args,**kwargs):
+    def find_first(ol,test_func,*args):
+    def find_firstnot(ol,test_func,*args):
+    def find_last(ol,test_func,*args):
+    def find_lastnot(ol,test_func,*args):
+    def find_which(ol,which,test_func,*args):
+    def find_whichnot(ol,which,test_func,*args):
+    def find_seqs(ol,seqs,test_func,*args):
+    def find_seqsnot(ol,seqs,test_func,*args):
+    def find_all(ol,test_func,*args):
+    def find_allnot(ol,test_func,*args):
+    def push(l,*eles,**kwargs):
+    def includes(ol,value):
+    def toString(ol):
+    def toSource(ol):
+    def splice(ol,start,deleteCount,*eles,**kwargs):
+    def some(ol,test_func,*args):
+    def slice(ol,start,end=None,**kwargs):
+    def shift(ol,**kwargs):
+    def reduce_left(ol,callback,initialValue):
+    def reduce_right(ol,callback,initialValue):
+    def array_map(ol,map_func,*args):
+    def join(ol,separator=","):
+    def for_each(ol,test_func,*args):
+    def help(func_name):
