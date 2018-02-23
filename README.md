@@ -24,7 +24,10 @@ for detailed usage and functions please refer to:
 ├── TestReadMe  
 >>>>├── [genrand](ReadMeDetailed/genrand.md)  
 
->├── [tuple_list](ReadMeDetailed/tuple_list.md)  
+>├── [elist](ReadMeDetailed/elist.md) 
+├── [dict_list](ReadMeDetailed/dict_list.md)
+├── [tuple_list](ReadMeDetailed/tuple_list.md)
+├── [fsm](ReadMeDetailed/fsm.md)
 └── [utils](ReadMeDetailed/utils.md)
 
 -------------------------------------------------------
