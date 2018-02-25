@@ -1,10 +1,17 @@
 import time
 import re
-import jsbeautifier as jb
+try:
+    import jsbeautifier as jb
+except:
+    pass
+else:
+    pass
 from xdict import utils
 import html
 import copy
 from xdict import fsm
+import os
+
 
 def help(fname=None):
     if(fname == None):

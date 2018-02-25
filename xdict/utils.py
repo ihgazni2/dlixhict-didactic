@@ -2,6 +2,24 @@
 import re
 import struct
 import copy
+import os
+import sys
+
+#platform
+def is_linux():
+    platform = os.sys.platform.lower()
+    if('linux' in platform):
+        return(True)
+    else:
+        return(False)
+
+def is_win():
+    platform = os.sys.platform.lower()
+    if('win' in platform):
+        return(True)
+    else:
+        return(False)
+
 
 #Utils
 ## for object type judgement
