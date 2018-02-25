@@ -1649,9 +1649,9 @@ def pobj(obj,*args,**kwargs):
     else:
         fixed_indent =0
     if('indent_bumber' in kwargs):
-        indent_number = kwargs['indent_number']
+        indent = kwargs['indent']
     else:
-        indent_number =4
+        indent =4
     if('sp' in kwargs):
         sp = kwargs['sp']
     else:
@@ -1715,6 +1715,10 @@ def pobj(obj,*args,**kwargs):
         fixed_indent = kwargs['fixed_indent']
     else:
         fixed_indent =0
+    if('indent' in kwargs):
+        indent = kwargs['indent']
+    else:
+        indent =4
     if(with_color):
         print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end,fixed_indent=fixed_indent,indent=indent)
     else:
@@ -1809,10 +1813,10 @@ def pdir(obj,*args,**kwargs):
         fixed_indent = kwargs['fixed_indent']
     else:
         fixed_indent =0
-    if('indent_bumber' in kwargs):
-        indent_number = kwargs['indent_number']
+    if('indent' in kwargs):
+        indent = kwargs['indent']
     else:
-        indent_number =4
+        indent =4
     if('sp' in kwargs):
         sp = kwargs['sp']
     else:
@@ -1872,6 +1876,10 @@ def pdir(obj,*args,**kwargs):
         fixed_indent = kwargs['fixed_indent']
     else:
         fixed_indent =0
+    if('indent' in kwargs):
+        indent = kwargs['indent']
+    else:
+        indent =4
     ###
     obj = obj[start:end]
     ###
