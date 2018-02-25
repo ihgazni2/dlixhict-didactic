@@ -989,23 +989,23 @@ def get_line_color_sec(line,path,**kwargs):
     if('key_color' in kwargs):
         key_color = kwargs['key_color']
     else:
-        key_color=3
+        key_color=32
     if('value_color' in kwargs):
         value_color = kwargs['value_color']
     else:
-        value_color=7
+        value_color=34
     if('list_ele_color' in kwargs):
         list_ele_color = kwargs['list_ele_color']
     else:
-        list_ele_color=4
+        list_ele_color=33
     if('op_color' in kwargs):
         op_color = kwargs['op_color']
     else:
-        op_color=8
+        op_color=37
     if('default_color' in kwargs):
         default_color = kwargs['default_color']
     else:
-        default_color=9
+        default_color=30
     #------------------------------------------------------------
     line_len = line.__len__()
     si = 0
@@ -1356,37 +1356,23 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=3
+            key_color=32
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=7
+            value_color=34
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=4
+            list_ele_color=33
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=8
+            op_color=37
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=9
-        grey = "\033[1;30;40m"
-        red =  "\033[1;31;40m"
-        green =  "\033[1;32;40m"
-        yellow =  "\033[1;33;40m"
-        blue =  "\033[1;34;40m"
-        purple = "\033[1;35;40m"
-        azure = "\033[1;36;40m"
-        white =  "\033[1;37;40m"
-        default =  "\033[0m"
-        painted_string = default
-        if('colors' in kwargs):
-            colors = kwargs['colors']
-        else:
-            colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
+            default_color=30
     if('start' in kwargs):
         start = kwargs['start']
     else:
@@ -1498,37 +1484,23 @@ def print_j_str(j_str,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=3
+            key_color=32
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=7
+            value_color=34
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=4
+            list_ele_color=33
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=8
+            op_color=37
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
             default_color=9
-        grey = "\033[1;30;40m"
-        red =  "\033[1;31;40m"
-        green =  "\033[1;32;40m"
-        yellow =  "\033[1;33;40m"
-        blue =  "\033[1;34;40m"
-        purple = "\033[1;35;40m"
-        azure = "\033[1;36;40m"
-        white =  "\033[1;37;40m"
-        default =  "\033[0m"
-        painted_string = default
-        if('colors' in kwargs):
-            colors = kwargs['colors']
-        else:
-            colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
     ######
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
@@ -1692,39 +1664,23 @@ def pobj(obj,*args,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=3
+            key_color=32
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=7
+            value_color=34
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=4
+            list_ele_color=33
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=8
+            op_color=37
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=9
-        grey = "\033[1;30;40m"
-        red =  "\033[1;31;40m"
-        green =  "\033[1;32;40m"
-        yellow =  "\033[1;33;40m"
-        blue =  "\033[1;34;40m"
-        purple = "\033[1;35;40m"
-        azure = "\033[1;36;40m"
-        white =  "\033[1;37;40m"
-        default =  "\033[0m"
-        painted_string = default
-        if('colors' in kwargs):
-            colors = kwargs['colors']
-        else:
-            colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
-    else:
-        pass
+            default_color=30
     if('start' in kwargs):
         start = kwargs['start']
     else:
@@ -1874,37 +1830,23 @@ def pdir(obj,*args,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=3
+            key_color=32
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=7
+            value_color=34
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=4
+            list_ele_color=33
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=8
+            op_color=37
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=9
-        grey = "\033[1;30;40m"
-        red =  "\033[1;31;40m"
-        green =  "\033[1;32;40m"
-        yellow =  "\033[1;33;40m"
-        blue =  "\033[1;34;40m"
-        purple = "\033[1;35;40m"
-        azure = "\033[1;36;40m"
-        white =  "\033[1;37;40m"
-        default =  "\033[0m"
-        painted_string = default
-        if('colors' in kwargs):
-            colors = kwargs['colors']
-        else:
-            colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
+            default_color=30
     else:
         pass
     if('start' in kwargs):
