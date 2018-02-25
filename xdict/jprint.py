@@ -924,10 +924,10 @@ def get_print_lines_and_paths(j_str,**kwargs):
     paths = {0: prev_path}
     for i in range(1, orig_lines.__len__()):
         curr_lv = int(j_lv_str[line_start_indexes[i]])
+        curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
         if(fixed_indent):
             prepend = " " * indent * curr_lv
         else:
-            curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
             paths[i] = curr_path
             curr_head = utils.path_string_get_head(curr_path,delimiter=sp).replace(sp,'')
             #---escaped to calculate the real prepend spaces
