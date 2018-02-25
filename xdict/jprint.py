@@ -928,7 +928,7 @@ def get_print_lines_and_paths(j_str,**kwargs):
         paths[i] = curr_path
         curr_head = utils.path_string_get_head(curr_path,delimiter=sp)
         if(fixed_indent):
-            prepend = " " * indent * (curr_head.count(sp))
+            prepend = " " * indent * (curr_head.count(sp) - 1)
         else:
             curr_head = curr_head.replace(sp,'')
             #---escaped to calculate the real prepend spaces
