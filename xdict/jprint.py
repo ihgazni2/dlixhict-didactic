@@ -926,10 +926,11 @@ def get_print_lines_and_paths(j_str,**kwargs):
         curr_lv = int(j_lv_str[line_start_indexes[i]])
         curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
         paths[i] = curr_path
+        curr_head = utils.path_string_get_head(curr_path,delimiter=sp)
         if(fixed_indent):
-            prepend = " " * indent * curr_lv
+            prepend = " " * indent * (curr_head.count(sp))
         else:
-            curr_head = utils.path_string_get_head(curr_path,delimiter=sp).replace(sp,'')
+            curr_head = curr_head.replace(sp,'')
             #---escaped to calculate the real prepend spaces
             curr_head = html.unescape(curr_head)
             #---escaped to calculate the real prepend spaces
