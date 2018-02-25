@@ -121,7 +121,7 @@ if(xdict.utils.is_win()):
             single_color = None
         ####color_sec multicolor for string (si,ei,fg,bg,style), ei is included
         ####"ab" +"bc"
-        ####color_sec = {1:(0,1,'blue'),2:(2,3,'green')}
+        ####color_sec = {1:(0,1,2),2:(2,3,4)}
         if('color_sec' in kwargs):
             color_sec = kwargs['color_sec']
         else:
@@ -135,7 +135,7 @@ if(xdict.utils.is_win()):
                 fg = color_sec[i][2]
                 length = ele.__len__()
                 if(length == 3):
-                    pass
+                    bg = bg
                 elif(length == 4):
                     bg = color_sec[i][3]
                 else:
@@ -144,8 +144,9 @@ if(xdict.utils.is_win()):
                 bg = ((bg -1)<<4) & 0xf0
                 sec = text[si:ei+1]
                 SetConsoleTextAttribute(hconsole, fg + bg)
-                print(sec)
+                print(sec,end='')
                 SetConsoleTextAttribute(hconsole, old_color)
+            print("")
         else:
             fg = single_color
             bg = bg

@@ -1584,6 +1584,7 @@ def print_j_str(j_str,**kwargs):
         painted_lines[i] = painted_string
         ####
         if(display):
+            print(painted_lines[i])
             print_str(painted_lines[i],color_sec=color_sec)
         else:
             pass
