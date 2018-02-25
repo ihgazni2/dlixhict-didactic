@@ -11,7 +11,7 @@ import html
 import copy
 from xdict import fsm
 import os
-
+from xdict.console import paint_str
 
 def help(fname=None):
     if(fname == None):
@@ -36,7 +36,6 @@ def help(fname=None):
         print('''line_to_path_init(line,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
         print('''line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':'])''')
         print('''get_print_lines_and_paths(j_str,**kwargs)''')
-        print('''paint_str(orig_string,**kwargs)''')
         print('''get_line_color_sec(line,path,**kwargs)''')
         print('''get_dynamic_indent_j_str(j_str,**kwargs)''')
         print('''print_j_str(j_str,**kwargs)''')
@@ -927,55 +926,6 @@ def get_print_lines_and_paths(j_str,**kwargs):
         prev_path = curr_path
     return({'lines':new_lines,'paths':paths})
 
-def paint_str(orig_string,**kwargs):
-    grey = "\033[1;30;40m"
-    red =  "\033[1;31;40m"
-    green =  "\033[1;32;40m"
-    yellow =  "\033[1;33;40m"
-    blue =  "\033[1;34;40m"
-    purple = "\033[1;35;40m"
-    azure = "\033[1;36;40m"
-    white =  "\033[1;37;40m"
-    default =  "\033[0m"
-    painted_string = default
-    if('colors' in kwargs):
-        colors = kwargs['colors']
-    else:
-        colors = {1:grey,2:red,3:green,4:yellow,5:blue,6:purple,7:azure,8:white,9:default}
-    if('color_sec' in kwargs):
-        color_sec = kwargs['color_sec']
-    else:
-        color_sec = None
-    colors_dict = {
-        'grey' : "\033[1;30;40m",
-        'red' :  "\033[1;31;40m",
-        'green' :  "\033[1;32;40m",
-        'yellow' :  "\033[1;33;40m",
-        'blue' :  "\033[1;34;40m",
-        'purple' : "\033[1;35;40m",
-        'azure' : "\033[1;36;40m",
-        'white' :  "\033[1;37;40m",
-        'default' :  "\033[0m"
-    }
-    if('single_color' in kwargs):
-        single_color = kwargs['single_color']
-        if(single_color in colors_dict):
-            single_color = colors_dict[single_color]
-    else:
-        single_color = None
-    if(color_sec):
-        color_sec_len = color_sec.__len__()
-        for i in range(1,color_sec_len + 1):
-            si = color_sec[i][0]
-            ei = color_sec[i][1]
-            color = colors[color_sec[i][2]]
-            sec = ''.join((color,orig_string[si:ei+1]))
-            painted_string = ''.join((painted_string,sec))
-        painted_string = ''.join((painted_string,default))
-    else:
-        color = single_color
-        painted_string = ''.join((painted_string,color,orig_string,default))
-    return(painted_string)
 
 def get_line_color_sec(line,path,**kwargs):
     if('spaces' in kwargs):
@@ -1472,7 +1422,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         line = lines[i]
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
-            painted_string = paint_str(line,color_sec=color_sec,colors=colors)
+            painted_string = paint_str(line,color_sec=color_sec)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
@@ -1628,7 +1578,7 @@ def print_j_str(j_str,**kwargs):
         line = lines[i]
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
-            painted_string = paint_str(line,color_sec=color_sec,colors=colors)
+            painted_string = paint_str(line,color_sec=color_sec)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
