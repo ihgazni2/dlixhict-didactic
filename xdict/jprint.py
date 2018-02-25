@@ -12,6 +12,19 @@ import copy
 from xdict import fsm
 import os
 from xdict.console import paint_str
+from xdict.console import COLORS_MD
+from xdict.console import print_str
+
+KEY_COLOR = COLORS_MD['green']
+VALUE_COLOR = COLORS_MD['blue']
+LIST_ELE_COLOR =  COLORS_MD['yellow']
+OP_COLOR = COLORS_MD['white']
+DEFAULT_COLOR = COLORS_MD['black']
+
+
+
+
+
 
 def help(fname=None):
     if(fname == None):
@@ -989,23 +1002,23 @@ def get_line_color_sec(line,path,**kwargs):
     if('key_color' in kwargs):
         key_color = kwargs['key_color']
     else:
-        key_color=32
+        key_color=KEY_COLOR
     if('value_color' in kwargs):
         value_color = kwargs['value_color']
     else:
-        value_color=34
+        value_color=VALUE_COLOR
     if('list_ele_color' in kwargs):
         list_ele_color = kwargs['list_ele_color']
     else:
-        list_ele_color=33
+        list_ele_color=LIST_ELE_COLOR
     if('op_color' in kwargs):
         op_color = kwargs['op_color']
     else:
-        op_color=37
+        op_color=OP_COLOR
     if('default_color' in kwargs):
         default_color = kwargs['default_color']
     else:
-        default_color=30
+        default_color=DEFAULT_COLOR
     #------------------------------------------------------------
     line_len = line.__len__()
     si = 0
@@ -1356,23 +1369,23 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=32
+            key_color=KEY_COLOR
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=34
+            value_color=VALUE_COLOR
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=33
+            list_ele_color=LIST_ELE_COLOR
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=37
+            op_color=OP_COLOR
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=30
+            default_color=DEFAULT_COLOR
     if('start' in kwargs):
         start = kwargs['start']
     else:
@@ -1484,23 +1497,23 @@ def print_j_str(j_str,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=32
+            key_color=KEY_COLOR
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=34
+            value_color=VALUE_COLOR
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=33
+            list_ele_color=LIST_ELE_COLOR
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=37
+            op_color=OP_COLOR
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=9
+            default_color=DEFAULT_COLOR
     ######
     if('quotes_pairs' in kwargs):
         quotes_pairs = kwargs['quotes_pairs']
@@ -1664,23 +1677,23 @@ def pobj(obj,*args,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=32
+            key_color=KEY_COLOR
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=34
+            value_color=VALUE_COLOR
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=33
+            list_ele_color=LIST_ELE_COLOR
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=37
+            op_color=OP_COLOR
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=30
+            default_color=DEFAULT_COLOR
     if('start' in kwargs):
         start = kwargs['start']
     else:
@@ -1830,23 +1843,23 @@ def pdir(obj,*args,**kwargs):
         if('key_color' in kwargs):
             key_color = kwargs['key_color']
         else:
-            key_color=32
+            key_color=KEY_COLOR
         if('value_color' in kwargs):
             value_color = kwargs['value_color']
         else:
-            value_color=34
+            value_color=VALUE_COLOR
         if('list_ele_color' in kwargs):
             list_ele_color = kwargs['list_ele_color']
         else:
-            list_ele_color=33
+            list_ele_color=LIST_ELE_COLOR
         if('op_color' in kwargs):
             op_color = kwargs['op_color']
         else:
-            op_color=37
+            op_color=OP_COLOR
         if('default_color' in kwargs):
             default_color = kwargs['default_color']
         else:
-            default_color=30
+            default_color=DEFAULT_COLOR
     else:
         pass
     if('start' in kwargs):

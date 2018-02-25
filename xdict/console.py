@@ -1,5 +1,6 @@
 import xdict.utils
 
+
 if(xdict.utils.is_win()):
     from ctypes import *
     from win32con import *
@@ -41,6 +42,7 @@ if(xdict.utils.is_win()):
      16: 'white'
     }
     
+    
     CloseHandle = windll.kernel32.CloseHandle
     GetStdHandle = windll.kernel32.GetStdHandle
     GetConsoleScreenBufferInfo = windll.kernel32.GetConsoleScreenBufferInfo
@@ -73,6 +75,10 @@ if(xdict.utils.is_win()):
         ]
     
     def paint_str(text,**kwargs):
+        '''for compatible with old code'''
+        return(text)    
+
+    def print_str(text,**kwargs):
         hconsole = GetStdHandle(STD_OUTPUT_HANDLE)
         cmd_info = CONSOLE_SCREEN_BUFFER_INFO()
         GetConsoleScreenBufferInfo(hconsole, byref(cmd_info))
@@ -103,6 +109,8 @@ if(xdict.utils.is_win()):
         print(text)
         SetConsoleTextAttribute(hconsole, old_color)
 else:
+    #for compatible with old code
+    print_str = print
     def paint_str(orig_string,**kwargs):
         '''
             currently only support 8 color name,
