@@ -103,11 +103,57 @@ if(xdict.utils.is_win()):
             pass
         else:
             bg = colors_md[bg]
-        fg = (fg -1) & 0x0f
-        bg = ((bg -1)<<4) & 0xf0
-        SetConsoleTextAttribute(hconsole, fg + bg)
-        print(text)
-        SetConsoleTextAttribute(hconsole, old_color)
+        if('single_color' in kwargs):
+            single_color = kwargs['single_color']
+            if(xdict.utils.is_str(single_color)):
+                single_color = single_color.lower()
+                if(single_color in COLORS_MD):
+                    single_color = COLORS_MD[single_color]
+                else:
+                    print("please input correct color name")
+                    pass
+            elif(xdict.utils.is_int(single_color)):
+                pass
+            else:
+                print("color must be name or int ")
+                pass
+        else:
+            single_color = None
+        ####color_sec multicolor for string (si,ei,fg,bg,style), ei is included
+        ####"ab" +"bc"
+        ####color_sec = {1:(0,1,'blue'),2:(2,3,'green')}
+        if('color_sec' in kwargs):
+            color_sec = kwargs['color_sec']
+        else:
+            color_sec = None
+        if(color_sec):
+            color_sec_len = color_sec.__len__()
+            for i in range(1,color_sec_len + 1):
+                ele = color_sec[i]
+                si = color_sec[i][0]
+                ei = color_sec[i][1]
+                fg = color_sec[i][2]
+                length = ele.__len__()
+                if(length == 3):
+                    pass
+                elif(length == 4):
+                    bg = color_sec[i][3]
+                else:
+                    bg = color_sec[i][3]
+                fg = (fg -1) & 0x0f
+                bg = ((bg -1)<<4) & 0xf0
+                sec = text[si:ei+1]
+                SetConsoleTextAttribute(hconsole, fg + bg)
+                print(sec)
+                SetConsoleTextAttribute(hconsole, old_color)
+        else:
+            fg = single_color
+            bg = bg
+            fg = (fg -1) & 0x0f
+            bg = ((bg -1)<<4) & 0xf0
+            SetConsoleTextAttribute(hconsole, fg + bg)
+            print(text)
+            SetConsoleTextAttribute(hconsole, old_color)
 else:
     #for compatible with old code
     print_str = print

@@ -1572,6 +1572,7 @@ def print_j_str(j_str,**kwargs):
             painted_string = html.unescape(painted_string)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
         else:
+            color_sec = None
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(line)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
