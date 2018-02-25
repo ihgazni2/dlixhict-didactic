@@ -156,7 +156,8 @@ if(xdict.utils.is_win()):
             SetConsoleTextAttribute(hconsole, old_color)
 else:
     #for compatible with old code
-    print_str = print
+    def print_str(text,**kwargs):
+        print(text)
     def paint_str(orig_string,**kwargs):
         '''
             currently only support 8 color name,
