@@ -1,11 +1,5 @@
 import time
 import re
-try:
-    import jsbeautifier as jb
-except:
-    pass
-else:
-    pass
 from xdict import utils
 import html
 import copy
@@ -20,8 +14,6 @@ VALUE_COLOR = COLORS_MD['blue']
 LIST_ELE_COLOR =  COLORS_MD['yellow']
 OP_COLOR = COLORS_MD['white']
 DEFAULT_COLOR = COLORS_MD['black']
-
-
 
 
 
@@ -907,6 +899,14 @@ def get_print_lines_and_paths(j_str,**kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
+    if('fixed_indent' in kwargs):
+        fixed_indent = kwargs['fixed_indent']
+    else:
+        fixed_indent =0
+    if('indent' in kwargs):
+        indent = kwargs['indent']
+    else:
+        indent =4
     j_str = convert_token_in_quote(j_str,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
     j_str = format_j_str(j_str,block_op_pairs_dict)
     j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
@@ -924,14 +924,17 @@ def get_print_lines_and_paths(j_str,**kwargs):
     paths = {0: prev_path}
     for i in range(1, orig_lines.__len__()):
         curr_lv = int(j_lv_str[line_start_indexes[i]])
-        curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
-        paths[i] = curr_path
-        curr_head = utils.path_string_get_head(curr_path,delimiter=sp).replace(sp,'')
-        #---escaped to calculate the real prepend spaces
-        curr_head = html.unescape(curr_head)
-        #---escaped to calculate the real prepend spaces
-        curr_head_len = curr_head.__len__()
-        prepend = " " * curr_head_len
+        if(fixed_indent):
+            prepend = " " * indent * curr_lv
+        else:
+            curr_path = line_to_path(orig_lines[i],curr_lv,prev_lv,prev_path,block_op_pairs_dict,sp,commas,colons)
+            paths[i] = curr_path
+            curr_head = utils.path_string_get_head(curr_path,delimiter=sp).replace(sp,'')
+            #---escaped to calculate the real prepend spaces
+            curr_head = html.unescape(curr_head)
+            #---escaped to calculate the real prepend spaces
+            curr_head_len = curr_head.__len__()
+            prepend = " " * curr_head_len
         #------------should not unescape here
         new_lines[i] = ''.join((prepend,orig_lines[i]))
         #------------should not unescape here
@@ -1406,7 +1409,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
             quotes_pairs_dict = get_quotes_pairs(quotes_pairs)
     else:
         quotes_pairs_dict = get_quotes_pairs('""\'\'')
-    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,fixed_indent=fixed_indent,indent=indent)
     lines = lps['lines']
     paths = lps['paths']
     if('end' in kwargs):
@@ -1531,7 +1534,7 @@ def print_j_str(j_str,**kwargs):
             block_op_pairs_dict = get_block_op_pairs(block_op_pairs)
     else:
         block_op_pairs_dict = get_block_op_pairs('{}[]()')
-    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    lps = get_print_lines_and_paths(j_str,sp=sp,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps,fixed_indent=fixed_indent,indent=indent)
     lines = lps['lines']
     paths = lps['paths']
     try:
@@ -1581,7 +1584,7 @@ def print_j_str(j_str,**kwargs):
     ####
     if(display):
         for i in range(start,end+1):
-            print(painted_lines[i])
+            print_str(painted_lines[i])
     else:
         pass
     return(painted_lines)
@@ -1712,15 +1715,10 @@ def pobj(obj,*args,**kwargs):
         fixed_indent = kwargs['fixed_indent']
     else:
         fixed_indent =0
-    if(fixed_indent):
-        opts = jb.default_options()
-        opts.indent_size = indent_number
-        print(jb.beautify(s,opts))
+    if(with_color):
+        print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end,fixed_indent=fixed_indent,indent=indent)
     else:
-        if(with_color):
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end)
-        else:
-            print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,start=start,end=end)
+        print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,start=start,end=end,fixed_indent=fixed_indent,indent=indent,display=1)
 
 
 
@@ -1878,7 +1876,7 @@ def pdir(obj,*args,**kwargs):
     obj = obj[start:end]
     ###
     if(with_color):
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,fixed_indent=fixed_indent,indent=indent)
     else:
-        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict)
+        pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,fixed_indent=fixed_indent,indent=indent,display=1)
 
