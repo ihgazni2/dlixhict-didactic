@@ -1581,13 +1581,11 @@ def print_j_str(j_str,**kwargs):
             # curr_head_len = indent * indent_num
         # else:
         painted_lines[i] = painted_string
-    ####
-    ####
-    if(display):
-        for i in range(start,end+1):
-            print_str(painted_lines[i])
-    else:
-        pass
+        ####
+        if(display):
+            print_str(painted_lines[i],color_sec=color_sec)
+        else:
+            pass
     return(painted_lines)
 
 
