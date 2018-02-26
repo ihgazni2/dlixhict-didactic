@@ -2694,6 +2694,553 @@ def for_each(ol,test_func,*args):
 
 forEach = for_each
 
+def intlize(l):
+    '''
+        from xdict.elist import *
+        l = ["1","3","4","5"]
+        intlize(l)
+    '''
+    return(list(map(lambda ele:int(ele),l)))
+
+def strlize(l):
+    '''
+        from xdict.elist import *
+        l = [1,3,4,5]
+        strlize(l)
+    '''
+    return(list(map(lambda ele:str(ele),l)))
+
+def diff_indexes(l1,l2):
+    '''
+        from xdict.elist import *
+        l1 = [1,2,3,5]
+        l2 = [0,2,3,4]
+        diff_indexes(l1,l2)
+    '''
+    rslt = []
+    for i in range(0,l1.__len__()):
+        if(l1[i]!=l2[i]):
+            rslt.append(i)
+    return(rslt)
+
+def diff_values(l1,l2):
+    '''
+        from xdict.elist import *
+        l1 = [1,2,3,5]
+        l2 = [0,2,3,4]
+        diff_values(l1,l2)
+    '''
+    rslt = []
+    for i in range(0,l1.__len__()):
+        if(l1[i]!=l2[i]):
+            rslt.append(l1[i])
+    return(rslt)
+
+def same_indexes(l1,l2):
+    '''
+        from xdict.elist import *
+        l1 = [1,2,3,5]
+        l2 = [0,2,3,4]
+        same_indexes(l1,l2)
+    '''
+    rslt = []
+    for i in range(0,l1.__len__()):
+        if(l1[i]==l2[i]):
+            rslt.append(i)
+    return(rslt)
+
+def same_values(l1,l2):
+    '''
+        from xdict.elist import *
+        l1 = [1,2,3,5]
+        l2 = [0,2,3,4]
+        same_values(l1,l2)
+    '''
+    rslt = []
+    for i in range(0,l1.__len__()):
+        if(l1[i]==l2[i]):
+            rslt.append(l1[i])
+    return(rslt)
+
+def init(len,default_element=None):
+    '''
+        from xdict.elist import *
+        init(5)
+        init(5,"x")
+    '''
+    rslt = []
+    for i in range(0,len):
+        rslt.append(default_element)
+    return(rslt)
+
+def uniqualize(l,**kwargs):
+    '''
+        from xdict.elist import *
+        l = [1, 2, 2]
+        new = uniqualize(l)
+        new
+        id(l)
+        id(new)
+        ####
+        l = [1, 2, 2]
+        rslt = uniqualize(l,mode="original")
+        rslt
+        id(l)
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = 'new'
+    pt = copy.deepcopy(l)
+    seqs_for_del =[]
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    tslen = vset.__len__()
+    freq = {}
+    for i in range(0,pt.__len__()):
+        v = pt[i]
+        if(v in freq):
+            freq[v] = freq[v] + 1
+            seqs_for_del.append(i)
+        else:
+            freq[v] = 0
+    npt = []
+    for i in range(0,pt.__len__()):
+        if(i in seqs_for_del):
+            pass
+        else:
+            npt.append(pt[i])
+    pt = npt
+    if(mode == 'new'):
+        return(npt)
+    else:
+        l.clear()
+        l.extend(new)
+        return(l)
+
+def value_indexes_mapping(l):
+    '''
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        l = ['a','b','b','a','c','b']
+        desc = value_indexes_mapping(l)
+        pobj(desc)
+    '''
+    pt = copy.deepcopy(l)
+    desc = {}
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    for v in vset:
+        desc[v] = []
+    for i in range(0,l.__len__()):
+        desc[l[i]].append(i)
+    return(desc)
+
+def getitem_via_pathlist(ol,pathlist):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        getitem_via_pathlist(y,[1,1])
+    '''
+    this = ol
+    for i in range(0,pathlist.__len__()):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    return(this)
+
+def getitem_via_sibseqs(ol,*sibseqs):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        getitem_via_sibseqs(y,1,1)
+    '''
+    pathlist = list(sibseqs)
+    this = ol
+    for i in range(0,pathlist.__len__()):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    return(this)
+
+def setitem_via_pathlist(ol,value,pathlist):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        setitem_via_pathlist(y,"500",[1,1])
+        y
+    '''
+    this = ol
+    for i in range(0,pathlist.__len__()-1):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    this.__setitem__(pathlist[-1],value)
+    return(ol)
+
+def setitem_via_sibseqs(ol,value,*sibseqs):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        setitem_via_sibseqs(y,"500",1,1)
+        y
+    '''
+    this = ol
+    pathlist = list(sibseqs)
+    for i in range(0,pathlist.__len__()-1):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    this.__setitem__(pathlist[-1],value)
+    return(ol)
+
+def delitem_via_pathlist(ol,pathlist):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        delitem_via_pathlist(y,[1,1])
+        y
+    '''
+    this = ol
+    for i in range(0,pathlist.__len__()-1):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    this.__delitem__(pathlist[-1])
+    return(ol)
+
+def delitem_via_sibseqs(ol,*sibseqs):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        delitem_via_sibseqs(y,1,1)
+        y
+    '''
+    pathlist = list(sibseqs)
+    this = ol
+    for i in range(0,pathlist.__len__()-1):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    this.__delitem__(pathlist[-1])
+    return(ol)
+
+def is_list(obj):
+    '''
+        from xdict.elist import *
+        is_list([1,2,3])
+        is_list(200)
+    '''
+    if(type(obj)==type([])):
+        return(True)
+    else:
+        return(False)
+
+isArray = is_list
+
+def is_leaf(obj):
+    '''
+        the below is for nested-list
+        any type is not list will be treated as a leaf
+        empty list will be treated as a leaf
+        from xdict.elist import *
+        is_leaf(1)
+        is_leaf([1,2,3])
+        is_leaf([])
+    '''
+    if(is_list(obj)):
+        length = obj.__len__()
+        if(length == 0):
+            return(True)
+        else:
+            return(False)
+    else:
+        return(True)
+
+def new_ele_description(**kwargs):
+    '''
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        root_desc = new_ele_description(leaf=False,depth=0,breadth_path=[],path=[],parent_path=[],parent_breadth_path=[])
+        pobj(root_desc)
+    '''
+    desc = {
+        'leaf':None,
+        'depth':None,
+        'breadth':None,
+        'breadth_path':None,
+        'sib_seq':None,
+        'path':None,
+        'parent_path':None,
+        'parent_breadth_path':None,
+        'lsib_path':None,
+        'rsib_path':None,
+        'lcin_path':None,
+        'rcin_path':None,
+        'sons_count':None,
+        'leaf_son_paths':[],
+        'non_leaf_son_paths':[],
+        'leaf_descendant_paths':[],
+        'non_leaf_descendant_paths':[],
+        'flat_offset':None,
+        'flat_len':None
+    }
+    for key in kwargs:
+        desc[key.lower()] = kwargs[key]
+    return(desc)
+
+def root_list(*args):
+    '''
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        root_list([1],2,[1,2,3])
+    '''
+    return(list(args))
+
+def init_desc_matrix(l):
+    '''
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        l = [1,[4],2,[3,[5,6]]]
+        matrix = init_desc_matrix(l)
+        pobj(matrix)
+    '''
+    leaf = is_leaf(l)
+    root_desc = new_ele_description(leaf=leaf,depth=0,breadth_path=[],path=[],parent_path=[],parent_breadth_path=[])
+    matrix = [
+        [root_desc]
+    ]
+    return(matrix)
+
+def init_unhandled(l,inited_matrix):
+    '''
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        l = [1,[4],2,[3,[5,6]]]
+        matrix = init_desc_matrix(l)
+        unhandled = init_unhandled(l,matrix)
+        unhandled_data = unhandled['data']
+        unhandled_desc = unhandled['desc']
+        unhandled_data[0]
+        unhandled_desc[0]
+        unhandled_data[1]
+        unhandled_desc[1]
+    '''
+    root_desc = inited_matrix[0][0]
+    unhandled = {'data':[],'desc':[]}
+    length = l.__len__()
+    root_desc['sons_count'] = length
+    inited_matrix.append([])
+    level = inited_matrix[1]
+    for i in range(0,length):
+        child = l[i]
+        desc = copy.deepcopy(root_desc)
+        desc['depth'] = 1
+        desc['breadth'] = i
+        desc['parent_breadth_path'] = desc['breadth_path']
+        desc['breadth_path'].append(i)
+        desc['sib_seq'] = i
+        desc['parent_path'] = desc['path']
+        desc['path'].append(i)
+        if(i==0):
+            pass
+        else:
+            desc['lsib_path'] = [i-1]
+        if(i == (length - 1)):
+            pass
+        else:
+            desc['rsib_path'] = [i+1]
+        if(is_leaf(child)):
+            desc['leaf'] = True
+            root_desc['leaf_son_paths'].append(desc['path'])
+        else:
+            desc['leaf'] = False
+            root_desc['non_leaf_son_paths'].append(desc['path'])
+            unhandled['data'].append(child)
+            unhandled['desc'].append(desc)
+        level.append(desc)
+    return(unhandled)
+
+def update_desc_lsib_path(desc):
+    '''
+        leftSibling
+        previousSibling
+        leftSib
+        prevSib
+        lsib
+        psib
+        
+        have the same parent,and on the left
+    '''
+    if(desc['sib_seq']>0):
+        lsib_path = copy.deepcopy(desc['path'])
+        lsib_path[-1] = desc['sib_seq']-1
+        desc['lsib_path'] = lsib_path
+    else:
+        pass
+    return(desc)
+
+def update_desc_rsib_path(desc,sibs_len):
+    '''
+        rightSibling
+        nextSibling
+        rightSib
+        nextSib
+        rsib
+        nsib
+        
+        have the same parent,and on the right
+    '''
+    if(desc['sib_seq']<(sibs_len-1)):
+        rsib_path = copy.deepcopy(desc['path'])
+        rsib_path[-1] = desc['sib_seq']+1
+    else:
+        pass
+    return(desc)
+
+
+#@@@@
+def description(l):
+    '''
+        
+    '''
+    ####list children list is self 
+    def get_children(l,*args):
+        return(l)
+    ####level ==  0
+    matrix = init_desc_matrix(l)
+    if(matrix[0][0]['leaf'] == True):
+        return(matrix)
+    else:
+        pass
+    ####level == 1
+    depth = 1
+    unhandled = init_unhandled(l,matrix)
+    unhandled_data = unhandled['data']
+    unhandled_desc = unhandled['desc']
+    length = unhandled_data.__len__()
+    ####level > 1
+    while(length > 0):
+        ####parent_level desc
+        pdesc_level = matrix[depth]
+        ####
+        depth = depth + 1
+        matrix.append([])
+        desc_level = matrix[depth]
+        next_unhandled_data = []
+        next_unhandled_desc = []
+        ### init breadth for son level
+        breadth = 0
+        for i in range(0,length):
+            #get parent description  and data
+            pdata = unhandled_data[i]
+            pdesc = unhandled_desc[i]
+            #children = get_children(parent_data)
+            children = get_children(pdata)
+            ch_len = children.__len__()
+            for j in range(0,ch_len):
+                breadth = breadth + j
+                child = children[j]
+                if(is_leaf(child)):
+                    #leaf_handler(child,*leaf_handler_args)
+                    desc = copy.deepcopy(pdesc)
+                    desc['leaf'] = True
+                    desc['depth'] = depth
+                    desc['sib_seq'] = j
+                    desc['path'].append(j)
+                    desc['breadth'] = breadth
+                    desc['breadth_path'].append(breadth)
+                    update_desc_lsib_path(desc)
+                    update_desc_rsib_path(desc,ch_len)
+                    
+                    ##
+                    if(j==(ch_len - 1)):
+                        if(i==(length -1)):
+                            pass
+                        else:
+                            rcin_path = copy.deepcopy(desc['parent_path'])
+                            rcin_path[-1] = rcin_path[-1] - 1
+                            
+                            desc['rcin_path'] = rcin_path
+                    else:
+                        pass
+                    
+                    
+                    if(j==0):
+                        if(i==0):
+                            lcin_path = 
+                            desc['lcin_path'] = lcin_path
+                        else:
+                            pass
+                    else:
+                        pass
+                else:
+                    #nonleaf_handler(child,*nonleaf_handler_args)
+                    next_unhandled.append(child)
+        unhandled = next_unhandled
+        
+
+    return(root)
+
+
+#@@@@
+def dig(is_leaf,*nodes,**kwargs):
+    def me(l,*args):
+        return(l)
+    def do_nothing(child,*args):
+        pass
+    if('get_children' in kwargs):
+        get_children = kwargs['get_children']
+    else:
+        get_children = me
+    if('leaf_handler' in kwargs):
+        leaf_handler = kwargs['leaf_handler']
+    else:
+        leaf_handler = do_nothing
+    if('nonleaf_handler' in kwargs):
+        nonleaf_handler = kwargs['nonleaf_handler']
+    else:
+        nonleaf_handler = do_nothing
+    if('get_children_args' in kwargs):
+        get_children_args = kwargs['get_children_args']
+    else:
+        get_children_args = []
+    if('leaf_handler_args' in kwargs):
+        leaf_handler_args = kwargs['leaf_handler_args']
+    else:
+        leaf_handler_args = []
+    if('nonleaf_handler_args' in kwargs):
+        nonleaf_handler_args = kwargs['nonleaf_handler_args']
+    else:
+        nonleaf_handler_args = []
+    root = copy.deepcopy(list(nodes))
+    unhandled = root
+    length = unhandled.__len__()
+    while(length > 0):
+        next_unhandled = []
+        for i in range(0,length):
+            node = unhandled[i]
+            children = get_children(node,*get_children_args)
+            ch_len = children.__len__()
+            for j in range(0,ch_len):
+                child = children[j]
+                if(is_leaf(child)):
+                    leaf_handler(child,*leaf_handler_args)
+                else:
+                    nonleaf_handler(child,*nonleaf_handler_args)
+                    next_unhandled.append(child)
+        unhandled = next_unhandled
+    return(root)
+
+
+
+# dict_get_all_sons_pathstrs
+# dict_include_pathlist
+# dict_get_pathstr_hierachy_description
+
 # Array.prototype.flatten()
 
 
@@ -4565,7 +5112,7 @@ def help(func_name):
             >>>
         '''
         print(doc)
-    elif(func_name == "for_each"):
+    elif((func_name == "for_each")|(func_name == "forEach")):
         doc = '''
             >>> from xdict.elist import *
             >>> def show_func(ele):
@@ -4581,16 +5128,346 @@ def help(func_name):
             >>> ####forEach is the same as for_each
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "intlize"):
         doc = '''
+            >>> from xdict.elist import *
+            >>> l = [1,3,4,5]
+            >>> intlize(l)
+            [1, 3, 4, 5]
+            >>>
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "strlize"):
         doc = '''
+            >>> from xdict.elist import *
+            >>> l = [1,3,4,5]
+            >>> strlize(l)
+            ['1', '3', '4', '5']
+            >>>
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "diff_indexes"):
         doc = '''
+            >>> from xdict.elist import *
+            >>> l1 = [1,2,3,5]
+            >>> l2 = [0,2,3,4]
+            >>> diff_indexes(l1,l2)
+            [0, 3]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "diff_values"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> l1 = [1,2,3,5]
+            >>> l2 = [0,2,3,4]
+            >>> diff_values(l1,l2)
+            [1, 5]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "same_indexes"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> l1 = [1,2,3,5]
+            >>> l2 = [0,2,3,4]
+            >>> same_indexes(l1,l2)
+            [1, 2]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "same_values"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> l1 = [1,2,3,5]
+            >>> l2 = [0,2,3,4]
+            >>> same_values(l1,l2)
+            [2, 3]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "init"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> init(5)
+            [None, None, None, None, None]
+            >>> init(5,"x")
+            ['x', 'x', 'x', 'x', 'x']
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "uniqualize"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> l = [1, 2, 2]
+            >>> new = uniqualize(l)
+            >>> new
+            [1, 2]
+            >>> id(l)
+            140623819972232
+            >>> id(new)
+            140623819972104
+            >>> ####
+            ... l = [1, 2, 2]
+            >>> rslt = uniqualize(l,mode="original")
+            >>> rslt
+            [1, 2]
+            >>> id(l)
+            140623819970696
+            >>> id(rslt)
+            140623819970696
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "value_indexes_mapping"):
+        doc = '''
+            >>> from xdict.utils import *
+            >>> from xdict.jprint import pobj
+            >>> l = ['a','b','b','a','c','b']
+            >>> desc = value_indexes_mapping(l)
+            >>> pobj(desc)
+            {
+             'c':
+                  [
+                   4
+                  ],
+             'a':
+                  [
+                   0,
+                   3
+                  ],
+             'b':
+                  [
+                   1,
+                   2,
+                   5
+                  ]
+            }
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "getitem_via_pathlist"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> getitem_via_pathlist(y,[1,1])
+            ['bb']
+        '''
+        print(doc)
+    elif(func_name == "getitem_via_sibseqs"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> getitem_via_sibseqs(y,1,1)
+            ['bb']
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "setitem_via_pathlist"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> setitem_via_pathlist(y,"500",[1,1])
+            ['a', ['b', '500'], 'c']
+            >>> y
+            ['a', ['b', '500'], 'c']
+        '''
+        print(doc)
+    elif(func_name == "setitem_via_sibseqs"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> setitem_via_sibseqs(y,"500",1,1)
+            ['a', ['b', '500'], 'c']
+            >>> y
+            ['a', ['b', '500'], 'c']
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "delitem_via_pathlist"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> delitem_via_pathlist(y,[1,1])
+            ['a', ['b'], 'c']
+            >>> y
+            ['a', ['b'], 'c']
+        '''
+        print(doc)
+    elif(func_name == "delitem_via_sibseqs"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> delitem_via_sibseqs(y,1,1)
+            ['a', ['b'], 'c']
+            >>> y
+            ['a', ['b'], 'c']
+        '''
+        print(doc)
+    elif((func_name == "is_list")|(func_name == "isArray")):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> is_list([1,2,3])
+            True
+            >>> is_list(200)
+            False
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "is_leaf"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> is_leaf(1)
+            True
+            >>> is_leaf([1,2,3])
+            False
+            >>> is_leaf([])
+            True
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "new_ele_description"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> from xdict.jprint import pobj
+            >>> root_desc = new_ele_description(leaf=False,depth=0,breadth=0,breadth_path=[],sib_seq=0,path=[])
+            >>> pobj(root_desc)
+            {
+             'leaf': False,
+             'breadth': None,
+             'lsib_path': None,
+             'depth': 0,
+             'parent_path':
+                            [],
+             'leaf_descendant_paths':
+                                      [],
+             'sons_count': None,
+             'parent_breadth_path':
+                                    [],
+             'flat_offset': None,
+             'path':
+                     [],
+             'non_leaf_descendant_paths':
+                                          [],
+             'lcin_path': None,
+             'flat_len': None,
+             'leaf_son_paths':
+                               [],
+             'breadth_path':
+                             [],
+             'rsib_path': None,
+             'sib_seq': None,
+             'non_leaf_son_paths':
+                                   [],
+             'rcin_path': None
+            }
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "root_list"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> from xdict.jprint import pobj
+            >>> root_list([1],2,[1,2,3])
+            [[1], 2, [1, 2, 3]]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "init_desc_matrix"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> from xdict.jprint import pobj
+            >>> l = [1,[4],2,[3,[5,6]]]
+            >>> matrix = init_desc_matrix(l)
+            >>> pobj(matrix)
+            [
+             [
+              {
+               'leaf': False,
+               'breadth': None,
+               'lsib_path': None,
+               'depth': 0,
+               'parent_path': None,
+               'leaf_descendant_paths':
+                                        [],
+               'sons_count': None,
+               'parent_breadth_path': None,
+               'flat_offset': None,
+               'path':
+                       [],
+               'non_leaf_descendant_paths':
+                                            [],
+               'lcin_path': None,
+               'flat_len': None,
+               'leaf_son_paths':
+                                 [],
+               'breadth_path':
+                               [],
+               'rsib_path': None,
+               'sib_seq': None,
+               'non_leaf_son_paths':
+                                     [],
+               'rcin_path': None
+              }
+             ]
+            ]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "init_unhandled"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> from xdict.jprint import pobj
+            >>> l = [1,[4],2,[3,[5,6]]]
+            >>> matrix = init_desc_matrix(l)
+            >>> unhandled = init_unhandled(l,matrix)
+            >>> unhandled_data = unhandled['data']
+            >>> unhandled_desc = unhandled['desc']
+            >>> unhandled_data[0]
+            [4]
+            >>> unhandled_desc[0]
+            {'leaf': False, 'breadth': 1, 'lsib_path': [0], 'depth': 1, 'parent_path': None, 'parent_breadth_path': None, 'leaf_son_paths': [], 'lcin_path': None, 'path': [1], 'non_leaf_descendant_paths': [], 'leaf_descendant_paths': [], 'flat_len': None, 'flat_offset': None, 'breadth_path': [1], 'rsib_path': [2], 'sib_seq': 1, 'rcin_path': None, 'non_leaf_son_paths': [], 'sons_count': None}
+            >>> unhandled_data[1]
+            [3, [5, 6]]
+            >>> unhandled_desc[1]
+            {'leaf': False, 'breadth': 3, 'lsib_path': [2], 'depth': 1, 'parent_path': None, 'parent_breadth_path': None, 'leaf_son_paths': [], 'lcin_path': None, 'path': [3], 'non_leaf_descendant_paths': [], 'leaf_descendant_paths': [], 'flat_len': None, 'flat_offset': None, 'breadth_path': [3], 'rsib_path': None, 'sib_seq': 3, 'rcin_path': None, 'non_leaf_son_paths': [], 'sons_count': None}
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "update_desc_lsib_path"):
+        doc = '''
+            leftSibling
+            previousSibling
+            leftSib
+            prevSib
+            lsib
+            psib
+            
+            have the same parent,and on the left
+        '''
+        print(doc)
+    elif(func_name == "update_desc_rsib_path"):
+        doc = '''
+            rightSibling
+            nextSibling
+            rightSib
+            nextSib
+            rsib
+            nsib
+            
+            have the same parent,and on the right
         '''
         print(doc)
     elif(func_name == ""):

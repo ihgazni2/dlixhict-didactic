@@ -1711,6 +1711,13 @@ def text_cond(text,condmatch,*args):
     else:
         return(condmatch(text,*args))
 
+def dict_mirror(d):
+    nd = {}
+    length = d.__len__()
+    for i in range(0,length):
+        nd[d[i]] = i
+    return(nd)
+
 
 def dict_diff_detailed(d1,d2):
     same =[]
