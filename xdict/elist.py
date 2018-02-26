@@ -3015,6 +3015,19 @@ def init_desc_matrix(l):
     ]
     return(matrix)
 
+def reset_parent_desc_template(desc):
+    '''
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        pobj(desc)
+        tem = reset_parent_desc_template(desc)
+        pobj(tem)
+    '''
+    tem = new_ele_description()
+    tem['path'] = desc['path']
+    tem['breadth_path'] = desc['breadth_path']
+    return(tem)
+
 def init_unhandled(l,inited_matrix):
     '''
         from xdict.elist import *
@@ -3038,12 +3051,13 @@ def init_unhandled(l,inited_matrix):
     for i in range(0,length):
         child = l[i]
         desc = copy.deepcopy(root_desc)
+        desc = reset_parent_desc_template(desc)
         desc['depth'] = 1
         desc['breadth'] = i
-        desc['parent_breadth_path'] = desc['breadth_path']
+        desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
         desc['breadth_path'].append(i)
         desc['sib_seq'] = i
-        desc['parent_path'] = desc['path']
+        desc['parent_path'] = copy.deepcopy(desc['path'])
         desc['path'].append(i)
         if(i==0):
             pass
@@ -3101,11 +3115,60 @@ def update_desc_rsib_path(desc,sibs_len):
         pass
     return(desc)
 
+def update_desc_lcin_path(desc,parent_breadth):
+    '''
+        leftCousin
+        previousCousin
+        leftCin
+        prevCin
+        lcin
+        pcin
+        
+        parents are neighbors,and on the left
+    '''
+    if(desc['sib_seq']==0):
+        if(parent_breadth==0):
+            lcin_path = copy.deepcopy(desc['parent_path'])
+            lcin_path[-1] = lcin_path[-1] - 1
+            lcin_path.append(desc['sons_count'] - 1)
+            desc['lcin_path'] = lcin_path
+        else:
+            pass
+    else:
+        pass
+    return(desc)
+
+def update_desc_rcin_path(desc,parent_breadth):
+    '''
+        rightCousin
+        nextCousin
+        rightCin
+        nextCin
+        rcin
+        ncin
+        
+        parents are neighbors,and on the right
+    '''
+    if(desc['sib_seq']==(ch_len - 1)):
+        if(parent_breadth==(length -1)):
+            pass
+        else:
+            rcin_path = copy.deepcopy(desc['parent_path'])
+            rcin_path[-1] = rcin_path[-1] + 1
+            rcin_path.append(0)
+            desc['rcin_path'] = rcin_path
+    else:
+        pass
+    return(desc)
 
 #@@@@
 def description(l):
     '''
-        
+        from xdict.elist import *
+        from xdict.jprint import pobj
+        l = [1,[4],2,[3,[5,6]]]
+        desc = description(l)
+    
     '''
     ####list children list is self 
     def get_children(l,*args):
@@ -3124,9 +3187,6 @@ def description(l):
     length = unhandled_data.__len__()
     ####level > 1
     while(length > 0):
-        ####parent_level desc
-        pdesc_level = matrix[depth]
-        ####
         depth = depth + 1
         matrix.append([])
         desc_level = matrix[depth]
@@ -3141,49 +3201,39 @@ def description(l):
             #children = get_children(parent_data)
             children = get_children(pdata)
             ch_len = children.__len__()
+            #update children count
+            pdesc['sons_count'] = ch_len
             for j in range(0,ch_len):
+                #common_handler
                 breadth = breadth + j
                 child = children[j]
+                desc = copy.deepcopy(pdesc)
+                desc = reset_parent_desc_template(desc)
+                desc['depth'] = depth
+                desc['breadth'] = breadth
+                desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
+                desc['breadth_path'].append(breadth)
+                desc['sib_seq'] = j
+                desc['parent_path'] = copy.deepcopy(desc['path'])
+                desc['path'].append(j)
+                update_desc_lsib_path(desc)
+                update_desc_rsib_path(desc,ch_len)
+                update_desc_lcin_path(desc,i)
+                update_desc_rcin_path(desc,parent_breadth)
                 if(is_leaf(child)):
                     #leaf_handler(child,*leaf_handler_args)
-                    desc = copy.deepcopy(pdesc)
                     desc['leaf'] = True
-                    desc['depth'] = depth
-                    desc['sib_seq'] = j
-                    desc['path'].append(j)
-                    desc['breadth'] = breadth
-                    desc['breadth_path'].append(breadth)
-                    update_desc_lsib_path(desc)
-                    update_desc_rsib_path(desc,ch_len)
-                    
-                    ##
-                    if(j==(ch_len - 1)):
-                        if(i==(length -1)):
-                            pass
-                        else:
-                            rcin_path = copy.deepcopy(desc['parent_path'])
-                            rcin_path[-1] = rcin_path[-1] - 1
-                            
-                            desc['rcin_path'] = rcin_path
-                    else:
-                        pass
-                    
-                    
-                    if(j==0):
-                        if(i==0):
-                            lcin_path = 
-                            desc['lcin_path'] = lcin_path
-                        else:
-                            pass
-                    else:
-                        pass
+                    pdesc['leaf_son_paths'].append(copy.deepcopy(desc['path']))
                 else:
                     #nonleaf_handler(child,*nonleaf_handler_args)
-                    next_unhandled.append(child)
-        unhandled = next_unhandled
-        
-
-    return(root)
+                    desc['leaf'] = False
+                    pdesc['non_leaf_son_paths'].append(copy.deepcopy(desc['path']))
+                    next_unhandled_data.append(child)
+                    next_unhandled_desc.append(desc)
+                desc_level.append(desc)
+        unhandled_data = next_unhandled_data
+        unhandled_desc = next_unhandled_desc
+    return(matrix)
 
 
 #@@@@
@@ -3204,6 +3254,10 @@ def dig(is_leaf,*nodes,**kwargs):
         nonleaf_handler = kwargs['nonleaf_handler']
     else:
         nonleaf_handler = do_nothing
+    if('common_handler' in kwargs):
+        common_handler = kwargs['common_handler']
+    else:
+        common_handler = do_nothing
     if('get_children_args' in kwargs):
         get_children_args = kwargs['get_children_args']
     else:
@@ -3216,6 +3270,10 @@ def dig(is_leaf,*nodes,**kwargs):
         nonleaf_handler_args = kwargs['nonleaf_handler_args']
     else:
         nonleaf_handler_args = []
+    if('common_handler_args' in kwargs):
+        common_handler_args = kwargs['common_handler_args']
+    else:
+        common_handler_args = []
     root = copy.deepcopy(list(nodes))
     unhandled = root
     length = unhandled.__len__()
@@ -3234,7 +3292,7 @@ def dig(is_leaf,*nodes,**kwargs):
                     next_unhandled.append(child)
         unhandled = next_unhandled
     return(root)
-
+#@@@@
 
 
 # dict_get_all_sons_pathstrs
@@ -5426,6 +5484,85 @@ def help(func_name):
             >>>
         '''
         print(doc)
+    elif(func_name == "reset_parent_desc_template"):
+        doc = '''
+            >>> pobj(desc)
+            {
+             'flat_offset': None,
+             'leaf_descendant_paths':
+                                      [],
+             'breadth': 0,
+             'lsib_path': None,
+             'leaf': True,
+             'sons_count': 4,
+             'flat_len': None,
+             'lcin_path': None,
+             'parent_path':
+                            [
+                             0
+                            ],
+             'rsib_path':
+                          [
+                           1
+                          ],
+             'parent_breadth_path':
+                                    [
+                                     0
+                                    ],
+             'sib_seq': 0,
+             'non_leaf_son_paths':
+                                   [],
+             'rcin_path': None,
+             'leaf_son_paths':
+                               [],
+             'path':
+                     [
+                      0
+                     ],
+             'non_leaf_descendant_paths':
+                                          [],
+             'depth': 1,
+             'breadth_path':
+                             [
+                              0
+                             ]
+            }
+            >>> tem = reset_parent_desc_template(desc)
+            >>> pobj(tem)
+            {
+             'flat_offset': None,
+             'flat_len': None,
+             'leaf_descendant_paths':
+                                      [],
+             'breadth': None,
+             'lsib_path': None,
+             'leaf': None,
+             'sons_count': None,
+             'parent_path': None,
+             'lcin_path': None,
+             'rsib_path': None,
+             'parent_breadth_path': None,
+             'sib_seq': None,
+             'non_leaf_son_paths':
+                                   [],
+             'rcin_path': None,
+             'leaf_son_paths':
+                               [],
+             'path':
+                     [
+                      0
+                     ],
+             'non_leaf_descendant_paths':
+                                          [],
+             'depth': None,
+             'breadth_path':
+                             [
+                              0
+                             ]
+            }
+            >>>
+        '''
+        print(doc)
     elif(func_name == "init_unhandled"):
         doc = '''
             >>> from xdict.elist import *
@@ -5438,11 +5575,11 @@ def help(func_name):
             >>> unhandled_data[0]
             [4]
             >>> unhandled_desc[0]
-            {'leaf': False, 'breadth': 1, 'lsib_path': [0], 'depth': 1, 'parent_path': None, 'parent_breadth_path': None, 'leaf_son_paths': [], 'lcin_path': None, 'path': [1], 'non_leaf_descendant_paths': [], 'leaf_descendant_paths': [], 'flat_len': None, 'flat_offset': None, 'breadth_path': [1], 'rsib_path': [2], 'sib_seq': 1, 'rcin_path': None, 'non_leaf_son_paths': [], 'sons_count': None}
+            {'flat_offset': None, 'flat_len': None, 'leaf_descendant_paths': [], 'breadth': 1, 'lsib_path': [0], 'leaf': False, 'sons_count': None, 'parent_path': [], 'lcin_path': None, 'rsib_path': [2], 'parent_breadth_path': [], 'sib_seq': 1, 'non_leaf_son_paths': [], 'rcin_path': None, 'leaf_son_paths': [], 'path': [1], 'non_leaf_descendant_paths': [], 'depth': 1, 'breadth_path': [1]}
             >>> unhandled_data[1]
             [3, [5, 6]]
             >>> unhandled_desc[1]
-            {'leaf': False, 'breadth': 3, 'lsib_path': [2], 'depth': 1, 'parent_path': None, 'parent_breadth_path': None, 'leaf_son_paths': [], 'lcin_path': None, 'path': [3], 'non_leaf_descendant_paths': [], 'leaf_descendant_paths': [], 'flat_len': None, 'flat_offset': None, 'breadth_path': [3], 'rsib_path': None, 'sib_seq': 3, 'rcin_path': None, 'non_leaf_son_paths': [], 'sons_count': None}
+            {'flat_offset': None, 'flat_len': None, 'leaf_descendant_paths': [], 'breadth': 3, 'lsib_path': [2], 'leaf': False, 'sons_count': None, 'parent_path': [], 'lcin_path': None, 'rsib_path': None, 'parent_breadth_path': [], 'sib_seq': 3, 'non_leaf_son_paths': [], 'rcin_path': None, 'leaf_son_paths': [], 'path': [3], 'non_leaf_descendant_paths': [], 'depth': 1, 'breadth_path': [3]}
             >>>
         '''
         print(doc)
@@ -5470,16 +5607,28 @@ def help(func_name):
             have the same parent,and on the right
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "update_desc_lcin_path"):
         doc = '''
+            leftCousin
+            previousCousin
+            leftCin
+            prevCin
+            lcin
+            pcin
+            
+            parents are neighbors,and on the left
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "update_desc_rcin_path"):
         doc = '''
-        '''
-        print(doc)
-    elif(func_name == ""):
-        doc = '''
+            rightCousin
+            nextCousin
+            rightCin
+            nextCin
+            rcin
+            ncin
+            
+            parents are neighbors,and on the right
         '''
         print(doc)
     elif(func_name == ""):
