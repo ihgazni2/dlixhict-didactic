@@ -1,5 +1,5 @@
 import xdict.utils
-
+import sys
 
 if(xdict.utils.is_win()):
     from ctypes import *
@@ -144,7 +144,9 @@ if(xdict.utils.is_win()):
                 bg = ((bg -1)<<4) & 0xf0
                 sec = text[si:ei+1]
                 SetConsoleTextAttribute(hconsole, fg + bg)
-                print(sec,end='')
+                #dont use print("xxxx",end=""),important!
+                sys.stdout.write(sec)
+                sys.stdout.flush()
                 SetConsoleTextAttribute(hconsole, old_color)
             print("")
         else:
