@@ -132,18 +132,18 @@ if(xdict.utils.is_win()):
                 ele = color_sec[i]
                 si = color_sec[i][0]
                 ei = color_sec[i][1]
-                fg = color_sec[i][2]
+                tmpfg = color_sec[i][2]
                 length = ele.__len__()
                 if(length == 3):
-                    bg = bg
+                    tmpbg = bg
                 elif(length == 4):
-                    bg = color_sec[i][3]
+                    tmpbg = color_sec[i][3]
                 else:
-                    bg = color_sec[i][3]
-                fg = (fg -1) & 0x0f
-                bg = ((bg -1)<<4) & 0xf0
+                    tmpbg = color_sec[i][3]
+                tmpfg = (tmpfg -1) & 0x0f
+                tmpbg = ((tmpbg -1)<<4) & 0xf0
                 sec = text[si:ei+1]
-                SetConsoleTextAttribute(hconsole, fg + bg)
+                SetConsoleTextAttribute(hconsole, tmpfg + tmpbg)
                 #dont use print("xxxx",end=""),important!
                 sys.stdout.write(sec)
                 sys.stdout.flush()
