@@ -147,7 +147,7 @@ if(xdict.utils.is_win()):
                 #dont use print("xxxx",end=""),important!
                 sys.stdout.write(sec)
                 sys.stdout.flush()
-                SetConsoleTextAttribute(hconsole, old_color)
+            SetConsoleTextAttribute(hconsole, old_color)
             print("")
         else:
             fg = single_color
