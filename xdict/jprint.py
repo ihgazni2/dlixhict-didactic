@@ -13,7 +13,7 @@ KEY_COLOR = COLORS_MD['green']
 VALUE_COLOR = COLORS_MD['blue']
 LIST_ELE_COLOR =  COLORS_MD['yellow']
 OP_COLOR = COLORS_MD['white']
-DEFAULT_COLOR = COLORS_MD['black']
+DEFAULT_COLOR = COLORS_MD['white']
 
 
 
