@@ -1,5 +1,8 @@
+# class name initial is  uppercased 
 import copy
 from operator import itemgetter
+from types import MethodType
+
 
 def append(ol,ele,**kwargs):
     '''
@@ -312,6 +315,39 @@ def sorted_refer_to(l,referer,reverse=False,**kwargs):
         return(referer)
     else:
         return({"list":sorted_l,"referer":sorted_r})
+
+def batsorted(referer,*lists,**kwargs):
+    '''
+        from xdict.elist import *
+        referer = [4,2,3,1]
+        l1 = ['a','b','c','d']
+        l2 = [100,200,300,400]
+        l3 = ['A','B','A','B']
+        nl1,nl2,nl3 = batsorted(referer,l1,l2,l3)
+        nl1
+        nl2
+        nl3
+    '''
+    if('reverse' in kwargs):
+        reverse = kwargs['reverse']
+    else:
+        reverse = False
+    length = referer.__len__()
+    indexes = list(range(0,length))
+    rslt = sorted_refer_to(indexes,referer,reverse=reverse)
+    referer = rslt['referer']
+    indexes = rslt['list']
+    rslt = []
+    lists = copy.deepcopy(list(lists))
+    for i in range(0,lists.__len__()):
+        l = lists[i]
+        nl = []
+        for j in range(0,length):
+            loc = indexes[j]
+            nl.append(l[loc])
+        rslt.append(nl)
+    return(tuple(rslt))
+
 
 def insert_many(ol,eles,locs,**kwargs):
     '''
@@ -2852,6 +2888,19 @@ def getitem_via_pathlist(ol,pathlist):
         this = this.__getitem__(key)
     return(this)
 
+def getitem_via_pathlist2(pathlist,ol):
+    '''
+        from xdict.elist import *
+        y = ['a',['b',["bb"]],'c']
+        y[1][1]
+        getitem_via_pathlist2([1,1],y)
+    '''
+    this = ol
+    for i in range(0,pathlist.__len__()):
+        key = pathlist[i]
+        this = this.__getitem__(key)
+    return(this)
+
 def getitem_via_sibseqs(ol,*sibseqs):
     '''
         from xdict.elist import *
@@ -2941,6 +2990,8 @@ def is_list(obj):
 
 isArray = is_list
 
+#the below is for nested analysis
+
 def is_leaf(obj):
     '''
         the below is for nested-list
@@ -2960,12 +3011,301 @@ def is_leaf(obj):
     else:
         return(True)
 
+class LevelCache():
+    '''
+        current level unhandled_data stored in .data
+        current level unhandled_desc stored in .desc
+        next level unhandled_data stored in .ndata
+        next level unhandled_desc stored in .ndesc
+    '''
+    def help(self):
+        print(self.__doc__)
+    def __init__(self,**kwargs):
+        if('datas' in kwargs):
+            datas = kwargs['datas']
+        else:
+            datas = []
+        if('descs' in kwargs):
+            descs = kwargs['descs']
+        else:
+            descs = []
+        self.data = [datas]
+        self.desc = [descs]
+        self.ndata = []
+        self.ndesc = []
+    def update(self):
+        self.data = self.ndata
+        self.desc = self.ndesc
+        self.ndata = []
+        self.ndesc = []
+    def __repr__(self):
+        print("data: {0}".format(self.data))
+        print("desc: {0}".format(self.desc))
+        print("ndata: {0}".format(self.ndata))
+        print("ndesc: {0}".format(self.ndesc),end='')
+        return("")
+    def clear(self):
+        self.data = []
+        self.desc = []
+        self.ndata = []
+        self.ndesc = []
+
+class StateCache():
+    '''
+        parent level handled_desc stored in .pdesc_level
+        current level handled_desc stored in .desc_level
+        过早优化乃万恶之源，之所以有LevelCache 和 StateCache 两个Cache 是为了利用我之前的旧代码，弃之可惜，尾大不掉
+    '''
+    def help(self):
+        print(self.__doc__)
+    def __init__(self,root_matrix):
+        #there is only one level in root_matrix: level 0
+        #there is only one element in root_matrix level 0 :element 0 
+        self.matrix = root_matrix
+        self.depth = 0
+        self.pdesc_level = []
+        self.desc_level = self.matrix[0]
+    def update(self):
+        self.pdesc_level = self.desc_level
+        self.matrix.append([])
+        self.depth = self.depth + 1
+        self.desc_level = self.matrix[self.depth]
+    def __repr__(self):
+        print("depth: {0}".format(self.depth))
+        print("pdesc_level: {0}".format(self.pdesc_level))
+        print("desc_level: {0}".format(self.desc_level),end='')
+        return("")
+
+def pcache_bind_dynamic_method(pcache,**kwargs):
+    '''
+    '''
+    mn = kwargs['method_name']
+    func = kwargs['func']
+    method_names = ['get_children_handler','parent_handler','child_begin_handler','leaf_handler','non_leaf_handler','child_end_handler']
+    cond = (mn in method_names)
+    if(cond):
+        pcache.__setattr__(mn, MethodType(func,pcache))
+    else:
+        pass
+    return(pcache)
+
+def init_pcache_handler_inline(kwargs):
+    pcache = PointerCache()
+    for mn in kwargs:
+        cond = (mn in ['get_children_handler','parent_handler','child_begin_handler','leaf_handler','non_leaf_handler','child_end_handler'])
+        if(cond):
+            func = kwargs[mn]
+            pcache.__setattr__(mn, MethodType(func,pcache))
+        else:
+            pass
+    return(pcache)
+
+def pcache_reset_methods(pcache,**kwargs):
+    '''
+    '''
+    def get_children_handler(self,*args):
+        '''
+            list's children list is self
+        '''
+        return(self.pdata)
+    def parent_handler(self,lcache,i,*args):
+        '''
+            _update_pdesc_sons_info
+        '''
+        pdesc = lcache.desc[i]
+        pdesc['sons_count'] = self.sibs_len
+        pdesc['leaf_son_paths'] = []
+        pdesc['non_leaf_son_paths'] = []
+        return(pdesc)
+    def child_begin_handler(self,scache,*args):
+        '''
+            _creat_child_desc
+            update depth,parent_breadth_path,parent_path,sib_seq,path,lsib_path,rsib_path,lcin_path,rcin_path
+        '''
+        pdesc = self.pdesc
+        depth = scache.depth
+        sib_seq = self.sib_seq
+        sibs_len = self.sibs_len
+        pdesc_level = scache.pdesc_level
+        desc = copy.deepcopy(pdesc)
+        desc = reset_parent_desc_template(desc)
+        desc['depth'] = depth
+        desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
+        desc['sib_seq'] = sib_seq
+        desc['parent_path'] = copy.deepcopy(desc['path'])
+        desc['path'].append(sib_seq)
+        update_desc_lsib_path(desc)
+        update_desc_rsib_path(desc,sibs_len)
+        if(depth == 1):
+            pass
+        else:
+            update_desc_lcin_path(desc,pdesc_level)
+            update_desc_rcin_path(desc,sibs_len,pdesc_level)
+        return(desc)
+    def leaf_handler(self,*args):
+        '''#leaf child handler'''
+        desc = self.desc
+        pdesc = self.pdesc
+        desc['leaf'] = True
+        desc['sons_count'] = 0
+        pdesc['leaf_son_paths'].append(copy.deepcopy(desc['path']))
+    def non_leaf_handler(self,lcache):
+        '''#nonleaf child handler'''
+        desc = self.leaf
+        pdesc = self.pdesc
+        desc['leaf'] = False
+        pdesc['non_leaf_son_paths'].append(copy.deepcopy(desc['path']))
+        lcache.ndata.append(self.data)
+        lcache.ndesc.append(desc)
+    def child_end_handler(self,scache):
+        '''
+            _upgrade_breadth_info
+            update breadth, breadth_path, and add desc to desc_level
+        '''
+        desc = self.desc
+        desc_level = scache.desc_level
+        breadth = desc_level.__len__()
+        desc['breadth'] = breadth
+        desc['breadth_path'].append(breadth)
+        desc_level.append(desc)
+    funcs = [get_children_handler,parent_handler,child_begin_handler,leaf_handler,non_leaf_handler,child_end_handler]
+    method_names = ['get_children_handler','parent_handler','child_begin_handler','leaf_handler','non_leaf_handler','child_end_handler']
+    for i in range(0,funcs.__len__()):
+        mn = method_names[i]
+        func = funcs[i]
+        pcache.__setattr__(mn, MethodType(func,pcache))
+    return(pcache)
+
+class PointerCache():
+    '''
+    '''
+    def get_children_handler(self,*args):
+        '''
+            list's children list is self
+        '''
+        return(self.pdata)
+    def parent_handler(self,lcache,i,*args):
+        '''
+            _update_pdesc_sons_info
+        '''
+        pdesc = lcache.desc[i]
+        pdesc['sons_count'] = self.sibs_len
+        pdesc['leaf_son_paths'] = []
+        pdesc['non_leaf_son_paths'] = []
+        pdesc['leaf_descendant_paths'] = []
+        pdesc['non_leaf_descendant_paths'] = []
+        return(pdesc)
+    def child_begin_handler(self,scache,*args):
+        '''
+            _creat_child_desc
+            update depth,parent_breadth_path,parent_path,sib_seq,path,lsib_path,rsib_path,lcin_path,rcin_path
+        '''
+        pdesc = self.pdesc
+        depth = scache.depth
+        sib_seq = self.sib_seq
+        sibs_len = self.sibs_len
+        pdesc_level = scache.pdesc_level
+        desc = copy.deepcopy(pdesc)
+        desc = reset_parent_desc_template(desc)
+        desc['depth'] = depth
+        desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
+        desc['sib_seq'] = sib_seq
+        desc['parent_path'] = copy.deepcopy(desc['path'])
+        desc['path'].append(sib_seq)
+        update_desc_lsib_path(desc)
+        update_desc_rsib_path(desc,sibs_len)
+        if(depth == 1):
+            pass
+        else:
+            update_desc_lcin_path(desc,pdesc_level)
+            update_desc_rcin_path(desc,sibs_len,pdesc_level)
+        return(desc)
+    def leaf_handler(self,*args):
+        '''#leaf child handler'''
+        desc = self.desc
+        pdesc = self.pdesc
+        desc['leaf'] = True
+        desc['sons_count'] = 0
+        pdesc['leaf_son_paths'].append(copy.deepcopy(desc['path']))
+        pdesc['leaf_descendant_paths'].append(copy.deepcopy(desc['path']))
+    def non_leaf_handler(self,lcache):
+        '''#nonleaf child handler'''
+        desc = self.desc
+        pdesc = self.pdesc
+        desc['leaf'] = False
+        pdesc['non_leaf_son_paths'].append(copy.deepcopy(desc['path']))
+        pdesc['non_leaf_descendant_paths'].append(copy.deepcopy(desc['path']))
+        lcache.ndata.append(self.data)
+        lcache.ndesc.append(desc)
+    def child_end_handler(self,scache):
+        '''
+            _upgrade_breadth_info
+            update breadth, breadth_path, and add desc to desc_level
+        '''
+        desc = self.desc
+        desc_level = scache.desc_level
+        breadth = desc_level.__len__()
+        desc['breadth'] = breadth
+        desc['breadth_path'].append(breadth)
+        desc_level.append(desc)
+    def update_pdesc(self,lcache,i):
+        self.unhandled_seq = i
+        self.pdata = lcache.data[i]
+        self.children = self.get_children_handler(*self.get_children_handler_args)
+        self.sibs_len = self.children.__len__()
+        self.pdesc = self.parent_handler(lcache,i,*self.parent_handler_args)
+    def update_desc(self,lcache,scache,sib_seq):
+        self.sib_seq = sib_seq
+        self.data = self.children[self.sib_seq]
+        self.desc = self.child_begin_handler(scache)
+        if(is_leaf(self.data)):
+            self.leaf_handler()
+        else:
+            self.non_leaf_handler(lcache)
+        self.child_end_handler(scache)
+    def help(self):
+        print(self.__doc__)
+    def __init__(self,**kwargs):
+        if('get_children_handler_args' in kwargs):
+            self.get_children_handler_args = kwargs['get_children_handler_args']
+        else:
+            self.get_children_handler_args = []
+        if('parent_handler_args' in kwargs):
+            self.parent_handler_args = kwargs['parent_handler_args']
+        else:
+            self.parent_handler_args = []
+        if('child_begin_handler_args' in kwargs):
+            self.child_begin_handler_args = kwargs['child_begin_handler_args']
+        else:
+            self.child_begin_handler_args = []
+        if('leaf_handler_args' in kwargs):
+            self.leaf_handler_args = kwargs['leaf_handler_args']
+        else:
+            self.leaf_handler_args = []
+        if('non_leaf_handler_args' in kwargs):
+            self.non_leaf_handler_args = kwargs['non_leaf_handler_args']
+        else:
+            self.non_leaf_handler_args = []
+        if('child_end_handler_args' in kwargs):
+            self.child_end_handler_args = kwargs['child_end_handler_args']
+        else:
+            self.child_end_handler_args = []
+        self.unhandled_seq = None
+        self.children = None
+        self.sibs_len = None
+        self.pdesc = None
+        self.sib_seq = None
+        self.data = None
+        self.desc = None
+
+##the below is for each element desc handle
 def new_ele_description(**kwargs):
     '''
         from xdict.elist import *
         from xdict.jprint import pobj
         root_desc = new_ele_description(leaf=False,depth=0,breadth_path=[],path=[],parent_path=[],parent_breadth_path=[])
         pobj(root_desc)
+        #None means not handled
     '''
     desc = {
         'leaf':None,
@@ -2981,10 +3321,10 @@ def new_ele_description(**kwargs):
         'lcin_path':None,
         'rcin_path':None,
         'sons_count':None,
-        'leaf_son_paths':[],
-        'non_leaf_son_paths':[],
-        'leaf_descendant_paths':[],
-        'non_leaf_descendant_paths':[],
+        'leaf_son_paths':None,
+        'non_leaf_son_paths':None,
+        'leaf_descendant_paths':None,
+        'non_leaf_descendant_paths':None,
         'flat_offset':None,
         'flat_len':None
     }
@@ -3005,15 +3345,19 @@ def init_desc_matrix(l):
         from xdict.elist import *
         from xdict.jprint import pobj
         l = [1,[4],2,[3,[5,6]]]
-        matrix = init_desc_matrix(l)
-        pobj(matrix)
+        desc_matrix = init_desc_matrix(l)
+        pobj(desc_matrix)
     '''
     leaf = is_leaf(l)
     root_desc = new_ele_description(leaf=leaf,depth=0,breadth_path=[],path=[],parent_path=[],parent_breadth_path=[])
-    matrix = [
+    if(leaf):
+        root_desc['sons_count'] = 0
+    else:
+        pass
+    desc_matrix = [
         [root_desc]
     ]
-    return(matrix)
+    return(desc_matrix)
 
 def reset_parent_desc_template(desc):
     '''
@@ -3022,19 +3366,20 @@ def reset_parent_desc_template(desc):
         pobj(desc)
         tem = reset_parent_desc_template(desc)
         pobj(tem)
+        #only inherit path  and breadth_path
     '''
     tem = new_ele_description()
     tem['path'] = desc['path']
     tem['breadth_path'] = desc['breadth_path']
     return(tem)
 
-def init_unhandled(l,inited_matrix):
+def _init_unhandled(l,inited_matrix):
     '''
         from xdict.elist import *
         from xdict.jprint import pobj
         l = [1,[4],2,[3,[5,6]]]
-        matrix = init_desc_matrix(l)
-        unhandled = init_unhandled(l,matrix)
+        desc_matrix = init_desc_matrix(l)
+        unhandled = _init_unhandled(l,desc_matrix)
         unhandled_data = unhandled['data']
         unhandled_desc = unhandled['desc']
         unhandled_data[0]
@@ -3046,36 +3391,42 @@ def init_unhandled(l,inited_matrix):
     unhandled = {'data':[],'desc':[]}
     length = l.__len__()
     root_desc['sons_count'] = length
-    inited_matrix.append([])
-    level = inited_matrix[1]
-    for i in range(0,length):
-        child = l[i]
-        desc = copy.deepcopy(root_desc)
-        desc = reset_parent_desc_template(desc)
-        desc['depth'] = 1
-        desc['breadth'] = i
-        desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
-        desc['breadth_path'].append(i)
-        desc['sib_seq'] = i
-        desc['parent_path'] = copy.deepcopy(desc['path'])
-        desc['path'].append(i)
-        if(i==0):
-            pass
-        else:
-            desc['lsib_path'] = [i-1]
-        if(i == (length - 1)):
-            pass
-        else:
-            desc['rsib_path'] = [i+1]
-        if(is_leaf(child)):
-            desc['leaf'] = True
-            root_desc['leaf_son_paths'].append(desc['path'])
-        else:
-            desc['leaf'] = False
-            root_desc['non_leaf_son_paths'].append(desc['path'])
-            unhandled['data'].append(child)
-            unhandled['desc'].append(desc)
-        level.append(desc)
+    root_desc['leaf_son_paths'] = []
+    root_desc['non_leaf_son_paths'] = []    
+    if(length == 0):
+        pass
+    else:
+        inited_matrix.append([])
+        level = inited_matrix[1]
+        for i in range(0,length):
+            child = l[i]
+            desc = copy.deepcopy(root_desc)
+            desc = reset_parent_desc_template(desc)
+            desc['depth'] = 1
+            desc['breadth'] = i
+            desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
+            desc['breadth_path'].append(i)
+            desc['sib_seq'] = i
+            desc['parent_path'] = copy.deepcopy(desc['path'])
+            desc['path'].append(i)
+            if(i==0):
+                pass
+            else:
+                desc['lsib_path'] = [i-1]
+            if(i == (length - 1)):
+                pass
+            else:
+                desc['rsib_path'] = [i+1]
+            if(is_leaf(child)):
+                desc['leaf'] = True
+                desc['sons_count'] = 0
+                root_desc['leaf_son_paths'].append(copy.deepcopy(desc['path']))
+            else:
+                desc['leaf'] = False
+                root_desc['non_leaf_son_paths'].append(copy.deepcopy(desc['path']))
+                unhandled['data'].append(child)
+                unhandled['desc'].append(desc)
+            level.append(desc)
     return(unhandled)
 
 def update_desc_lsib_path(desc):
@@ -3111,11 +3462,12 @@ def update_desc_rsib_path(desc,sibs_len):
     if(desc['sib_seq']<(sibs_len-1)):
         rsib_path = copy.deepcopy(desc['path'])
         rsib_path[-1] = desc['sib_seq']+1
+        desc['rsib_path'] = rsib_path
     else:
         pass
     return(desc)
 
-def update_desc_lcin_path(desc,parent_breadth):
+def update_desc_lcin_path(desc,pdesc_level):
     '''
         leftCousin
         previousCousin
@@ -3126,19 +3478,24 @@ def update_desc_lcin_path(desc,parent_breadth):
         
         parents are neighbors,and on the left
     '''
+    parent_breadth = desc['parent_breadth_path'][-1]
     if(desc['sib_seq']==0):
         if(parent_breadth==0):
-            lcin_path = copy.deepcopy(desc['parent_path'])
-            lcin_path[-1] = lcin_path[-1] - 1
-            lcin_path.append(desc['sons_count'] - 1)
-            desc['lcin_path'] = lcin_path
-        else:
             pass
+        else:
+            parent_lsib_breadth = parent_breadth - 1
+            plsib_desc = pdesc_level[parent_lsib_breadth]
+            if(plsib_desc['leaf']):
+                pass
+            else:
+                lcin_path = copy.deepcopy(plsib_desc['path'])
+                lcin_path.append(plsib_desc['sons_count'] - 1)
+                desc['lcin_path'] = lcin_path
     else:
         pass
     return(desc)
 
-def update_desc_rcin_path(desc,parent_breadth):
+def update_desc_rcin_path(desc,sibs_len,pdesc_level):
     '''
         rightCousin
         nextCousin
@@ -3149,157 +3506,282 @@ def update_desc_rcin_path(desc,parent_breadth):
         
         parents are neighbors,and on the right
     '''
-    if(desc['sib_seq']==(ch_len - 1)):
-        if(parent_breadth==(length -1)):
+    psibs_len = pdesc_level.__len__()
+    parent_breadth = desc['parent_breadth_path'][-1]
+    if(desc['sib_seq']==(sibs_len - 1)):
+        if(parent_breadth==(psibs_len -1)):
             pass
         else:
-            rcin_path = copy.deepcopy(desc['parent_path'])
-            rcin_path[-1] = rcin_path[-1] + 1
-            rcin_path.append(0)
-            desc['rcin_path'] = rcin_path
+            parent_rsib_breadth = parent_breadth + 1
+            prsib_desc = pdesc_level[parent_rsib_breadth]
+            #because from left to right to handle each level
+            #sons_count will only be updated in the next-round 
+            if(prsib_desc['leaf']):
+                pass
+            else:
+                rcin_path = copy.deepcopy(prsib_desc['path'])
+                rcin_path.append(0)
+                desc['rcin_path'] = rcin_path
     else:
         pass
     return(desc)
 
-#@@@@
-def description(l):
+def scan(l,**kwargs):
     '''
         from xdict.elist import *
         from xdict.jprint import pobj
         l = [1,[4],2,[3,[5,6]]]
         desc = description(l)
-    
+        l = [1,2,[4],[3,[5,6]]]
+        desc = description(l)
     '''
-    ####list children list is self 
-    def get_children(l,*args):
-        return(l)
+    if('iter' in kwargs):
+        iter = True
+    else:
+        iter = False
     ####level ==  0
-    matrix = init_desc_matrix(l)
-    if(matrix[0][0]['leaf'] == True):
-        return(matrix)
+    desc_matrix = init_desc_matrix(l)
+    if(desc_matrix[0][0]['leaf'] == True):
+        return(desc_matrix)
     else:
         pass
-    ####level == 1
-    depth = 1
-    unhandled = init_unhandled(l,matrix)
-    unhandled_data = unhandled['data']
-    unhandled_desc = unhandled['desc']
-    length = unhandled_data.__len__()
-    ####level > 1
-    while(length > 0):
-        depth = depth + 1
-        matrix.append([])
-        desc_level = matrix[depth]
-        next_unhandled_data = []
-        next_unhandled_desc = []
-        ### init breadth for son level
-        breadth = 0
-        for i in range(0,length):
-            #get parent description  and data
-            pdata = unhandled_data[i]
-            pdesc = unhandled_desc[i]
-            #children = get_children(parent_data)
-            children = get_children(pdata)
-            ch_len = children.__len__()
-            #update children count
-            pdesc['sons_count'] = ch_len
-            for j in range(0,ch_len):
-                #common_handler
-                breadth = breadth + j
-                child = children[j]
-                desc = copy.deepcopy(pdesc)
-                desc = reset_parent_desc_template(desc)
-                desc['depth'] = depth
-                desc['breadth'] = breadth
-                desc['parent_breadth_path'] = copy.deepcopy(desc['breadth_path'])
-                desc['breadth_path'].append(breadth)
-                desc['sib_seq'] = j
-                desc['parent_path'] = copy.deepcopy(desc['path'])
-                desc['path'].append(j)
-                update_desc_lsib_path(desc)
-                update_desc_rsib_path(desc,ch_len)
-                update_desc_lcin_path(desc,i)
-                update_desc_rcin_path(desc,parent_breadth)
-                if(is_leaf(child)):
-                    #leaf_handler(child,*leaf_handler_args)
-                    desc['leaf'] = True
-                    pdesc['leaf_son_paths'].append(copy.deepcopy(desc['path']))
-                else:
-                    #nonleaf_handler(child,*nonleaf_handler_args)
-                    desc['leaf'] = False
-                    pdesc['non_leaf_son_paths'].append(copy.deepcopy(desc['path']))
-                    next_unhandled_data.append(child)
-                    next_unhandled_desc.append(desc)
-                desc_level.append(desc)
-        unhandled_data = next_unhandled_data
-        unhandled_desc = next_unhandled_desc
-    return(matrix)
+    ####cache
+    lcache=LevelCache(datas=l,descs=desc_matrix[0][0])
+    scache=StateCache(desc_matrix)
+    pcache = init_pcache_handler_inline(kwargs)
+    ####level > 0
+    while(lcache.data.__len__() > 0):
+        #add next desc_level 
+        scache.update()
+        for unhandled_seq in range(0,lcache.data.__len__()):
+            #handle parent
+            pcache.update_pdesc(lcache,unhandled_seq)
+            for sib_seq in range(0,pcache.sibs_len):
+                #handle child
+                pcache.update_desc(lcache,scache,sib_seq)
+        #update level lcache
+        lcache.update()
+    return(desc_matrix)
+
+class DescMatrix():
+    '''
+    '''
+    def __init__(self,matrix):
+        self.matrix = matrix
+    @classmethod
+    def loc(cls,desc):
+        return([desc['depth'],desc['breadth']])
+    @classmethod
+    def ploc(cls,desc):
+        if(desc['parent_breadth_path'] == []):
+            col = 0
+        else:
+            col = desc['parent_breadth_path'][-1]
+        if(desc['depth'] == 0):
+            row = 0
+        else:
+            row = desc['depth']-1
+        return([row,col])
+    def pdesc(self,desc):
+        pd = getitem_via_pathlist(self.matrix,self.ploc(desc))
+        return(pd)
+
+def fullfill_descendants_info(desc_matrix):
+    '''
+        flat_offset : from right edge
+    '''
+    def leaf_handler(desc,pdesc,offset):
+        desc['flat_offset'] = (offset,offset+1)
+        desc['non_leaf_son_paths'] = []
+        desc['leaf_son_paths'] = []
+        desc['non_leaf_descendant_paths'] = []
+        desc['leaf_descendant_paths'] = []
+        desc['flat_len'] = 1
+        if(pdesc['flat_len']):
+            pdesc['flat_len'] = pdesc['flat_len'] + 1
+        else:
+            pdesc['flat_len'] = 1
+    def non_leaf_handler(desc,pdesc,offset):
+        desc['flat_offset'] = (offset,offset+desc['flat_len'])
+        pdesc['non_leaf_descendant_paths'].extend(copy.deepcopy(desc['non_leaf_descendant_paths']))
+        pdesc['leaf_descendant_paths'].extend(copy.deepcopy(desc['leaf_descendant_paths']))
+        if(pdesc['flat_len']):
+            pdesc['flat_len'] = pdesc['flat_len'] + desc['flat_len']
+        else:
+            pdesc['flat_len'] = desc['flat_len']
+    dm = DescMatrix(desc_matrix)
+    depth = desc_matrix.__len__()
+    desc_level = desc_matrix[depth - 1]
+    length = desc_level.__len__()
+    #the last level
+    offset = 0
+    for j in range(length - 1,-1,-1):
+        desc = desc_level[j]
+        pdesc = dm.pdesc(desc)
+        leaf_handler(desc,pdesc,offset)
+        offset = offset + 1
+    for i in range(depth-2,0,-1):
+        offset = 0
+        desc_level = desc_matrix[i]
+        length = desc_level.__len__()
+        for j in range(length-1,-1,-1):
+            desc = desc_level[j]
+            pdesc = dm.pdesc(desc)
+            if(desc['leaf']):
+                leaf_handler(desc,pdesc,offset)
+                offset = offset + 1
+            else:
+                non_leaf_handler(desc,pdesc,offset)
+                offset = offset + desc['flat_len']
+    desc_matrix[0][0]['flat_offset'] = (0,desc_matrix[0][0]['flat_len'])
+    return(desc_matrix)
 
 
-#@@@@
-def dig(is_leaf,*nodes,**kwargs):
-    def me(l,*args):
-        return(l)
-    def do_nothing(child,*args):
-        pass
-    if('get_children' in kwargs):
-        get_children = kwargs['get_children']
-    else:
-        get_children = me
-    if('leaf_handler' in kwargs):
-        leaf_handler = kwargs['leaf_handler']
-    else:
-        leaf_handler = do_nothing
-    if('nonleaf_handler' in kwargs):
-        nonleaf_handler = kwargs['nonleaf_handler']
-    else:
-        nonleaf_handler = do_nothing
-    if('common_handler' in kwargs):
-        common_handler = kwargs['common_handler']
-    else:
-        common_handler = do_nothing
-    if('get_children_args' in kwargs):
-        get_children_args = kwargs['get_children_args']
-    else:
-        get_children_args = []
-    if('leaf_handler_args' in kwargs):
-        leaf_handler_args = kwargs['leaf_handler_args']
-    else:
-        leaf_handler_args = []
-    if('nonleaf_handler_args' in kwargs):
-        nonleaf_handler_args = kwargs['nonleaf_handler_args']
-    else:
-        nonleaf_handler_args = []
-    if('common_handler_args' in kwargs):
-        common_handler_args = kwargs['common_handler_args']
-    else:
-        common_handler_args = []
-    root = copy.deepcopy(list(nodes))
-    unhandled = root
-    length = unhandled.__len__()
-    while(length > 0):
-        next_unhandled = []
-        for i in range(0,length):
-            node = unhandled[i]
-            children = get_children(node,*get_children_args)
-            ch_len = children.__len__()
-            for j in range(0,ch_len):
-                child = children[j]
-                if(is_leaf(child)):
-                    leaf_handler(child,*leaf_handler_args)
-                else:
-                    nonleaf_handler(child,*nonleaf_handler_args)
-                    next_unhandled.append(child)
-        unhandled = next_unhandled
-    return(root)
-#@@@@
+def pathlist_to_getStr(path_list):
+    '''
+        >>> pathlist_to_getStr([1, '1', 2])
+            "[1]['1'][2]"
+        >>>
+    '''
+    t1 = path_list.__repr__()
+    t1 = t1.lstrip('[')
+    t1 = t1.rstrip(']')
+    t2 = t1.split(", ")
+    s = ''
+    for i in range(0,t2.__len__()):
+        s = ''.join((s,'[',t2[i],']'))
+    return(s)
 
+class ListTree():
+    '''
+        l = [1, [4], 2, [3, [5, 6]]]
+        ltree = ListTree(l)
+        pathlists = ltree.tree()
+        pathlists = ltree.tree(leaf_only=True)
+        pathlists = ltree.tree(leaf_only=True,from_lv=1,to_lv=2)
+        pathlists = ltree.tree(non_leaf_only=True)
+        
+        
+        ltree.depth()
+        
+        level = ltree.level(1)
+        level = ltree.level(1,leaf_only=True)
+        level = ltree.level(1,non_leaf_only=True)
+        level = ltree.level(2)
+        level = ltree.level(3)
+        
+        ltree.flatten()
+        
+        ltree.include_pathlist(3,1,0)
+        ltree.include_pathlist(3,1,2)
+        
+        ltree[1,0]
+        l[1][0]
+        
+    '''
+    def __init__(self,l):
+        self.list = l
+        self.desc = scan(l)
+        self.desc = fullfill_descendants_info(self.desc)
+        self.depth = self.desc.__len__()
+        self.flatWidth = self.desc[0][0]['flat_len']
+        self.show = None
+    def tree(self,**kwargs):
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+            prompt = 'leaf_only'
+        else:
+            leaf_only = False
+            prompt = ''
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+            prompt = 'non_leaf_only'
+        else:
+            non_leaf_only = False
+            prompt = ''
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = self.depth
+        lpls = copy.deepcopy(self.desc[0][0]['leaf_descendant_paths'])
+        nlpls = copy.deepcopy(self.desc[0][0]['non_leaf_descendant_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        nrslt = []
+        for i in range(0,rslt.__len__()):
+            pl = rslt[i]
+            length = pl.__len__()
+            cond1 = (length >= from_lv)
+            cond2 = (length <= to_lv)
+            if(cond1 & cond2):
+                nrslt.append(pl)
+            else:
+                pass
+        showl = array_map(nrslt,pathlist_to_getStr)
+        nrslt,showl = batsorted(nrslt,nrslt,showl)
+        forEach(showl,print)
+        self.show = ['tree -'+prompt+' :']
+        self.show.extend(showl)
+        return(nrslt)
+    def level(self,lvnum,**kwargs):
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+            prompt = 'leaf_only'
+        else:
+            leaf_only = False
+            prompt = ''
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+            prompt = 'non_leaf_only'
+        else:
+            non_leaf_only = False
+            prompt = ''
+        desc_level = self.desc[lvnum]
+        lpls = []
+        nlpls = []
+        for i in range(0,desc_level.__len__()):
+            desc = desc_level[i]
+            pathlist = copy.deepcopy(desc['path'])
+            if(desc['leaf']):
+                lpls.append(pathlist)
+            else:
+                nlpls.append(pathlist)
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        showl = array_map(rslt,pathlist_to_getStr)
+        rslt,showl = batsorted(rslt,rslt,showl)
+        forEach(showl,print)
+        self.show = ['level -' +prompt+' ' +str(lvnum)+' :']
+        self.show.extend(showl)
+    def flatten(self):
+        lpls = self.tree(leaf_only=True)
+        flat = array_map(lpls,getitem_via_pathlist2,self.list)
+        return(flat)
+    def include_pathlist(self,*sibseqs):
+        try:
+            getitem_via_sibseqs(self.list,*sibseqs)
+        except:
+            return(False)
+        else:
+            return(True)
+    def __getitem__(self,*sibseqs):
+        #this is a trick for __getitem__
+        sibseqs = sibseqs[0]
+        return(getitem_via_sibseqs(self.list,*sibseqs))
+    
 
-# dict_get_all_sons_pathstrs
-# dict_include_pathlist
-# dict_get_pathstr_hierachy_description
-
-# Array.prototype.flatten()
 
 
 def help(func_name):
@@ -3585,6 +4067,22 @@ def help(func_name):
             ['a', 'b', 'c']
             >>> referer
             [7, 8, 6]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "batsorted"):
+        doc = '''
+            >>> referer = [4,2,3,1]
+            >>> l1 = ['a','b','c','d']
+            >>> l2 = [100,200,300,400]
+            >>> l3 = ['A','B','A','B']
+            >>> nl1,nl2,nl3 = batsorted(referer,l1,l2,l3)
+            >>> nl1
+            ['d', 'b', 'c', 'a']
+            >>> nl2
+            [400, 200, 300, 100]
+            >>> nl3
+            ['B', 'B', 'A', 'A']
             >>>
         '''
         print(doc)
@@ -5314,6 +5812,16 @@ def help(func_name):
             ['bb']
         '''
         print(doc)
+    elif(func_name == "getitem_via_pathlist2"):
+        doc = '''
+            >>> from xdict.elist import *
+            >>> y = ['a',['b',["bb"]],'c']
+            >>> y[1][1]
+            ['bb']
+            >>> getitem_via_pathlist2([1,1],y)
+            ['bb']
+        '''
+        print(doc)
     elif(func_name == "getitem_via_sibseqs"):
         doc = '''
             >>> from xdict.elist import *
@@ -5374,6 +5882,13 @@ def help(func_name):
             ['a', ['b'], 'c']
         '''
         print(doc)
+    elif(func_name == "pathlist_to_getStr"):
+        doc = '''
+            >>> pathlist_to_getStr([1, '1', 2])
+                "[1]['1'][2]"
+            >>>
+        '''
+        print(doc)
     elif((func_name == "is_list")|(func_name == "isArray")):
         doc = '''
             >>> from xdict.elist import *
@@ -5400,37 +5915,34 @@ def help(func_name):
         doc = '''
             >>> from xdict.elist import *
             >>> from xdict.jprint import pobj
-            >>> root_desc = new_ele_description(leaf=False,depth=0,breadth=0,breadth_path=[],sib_seq=0,path=[])
+            >>> root_desc = new_ele_description(leaf=False,depth=0,breadth_path=[],path=[],parent_path=[],parent_breadth_path=[])
             >>> pobj(root_desc)
             {
-             'leaf': False,
-             'breadth': None,
-             'lsib_path': None,
-             'depth': 0,
-             'parent_path':
-                            [],
-             'leaf_descendant_paths':
-                                      [],
+             'rcin_path': None,
              'sons_count': None,
-             'parent_breadth_path':
-                                    [],
-             'flat_offset': None,
-             'path':
-                     [],
-             'non_leaf_descendant_paths':
-                                          [],
              'lcin_path': None,
-             'flat_len': None,
-             'leaf_son_paths':
-                               [],
+             'non_leaf_son_paths': None,
+             'leaf': False,
              'breadth_path':
                              [],
              'rsib_path': None,
+             'breadth': None,
+             'flat_offset': None,
+             'depth': 0,
+             'path':
+                     [],
+             'leaf_descendant_paths': None,
+             'parent_path':
+                            [],
              'sib_seq': None,
-             'non_leaf_son_paths':
-                                   [],
-             'rcin_path': None
+             'leaf_son_paths': None,
+             'lsib_path': None,
+             'non_leaf_descendant_paths': None,
+             'parent_breadth_path':
+                                    [],
+             'flat_len': None
             }
+            >>> #None means not handled
             >>>
         '''
         print(doc)
@@ -5448,36 +5960,34 @@ def help(func_name):
             >>> from xdict.elist import *
             >>> from xdict.jprint import pobj
             >>> l = [1,[4],2,[3,[5,6]]]
-            >>> matrix = init_desc_matrix(l)
-            >>> pobj(matrix)
+            >>> desc_matrix = init_desc_matrix(l)
+            >>> pobj(desc_matrix)
             [
              [
               {
-               'leaf': False,
-               'breadth': None,
-               'lsib_path': None,
-               'depth': 0,
-               'parent_path': None,
-               'leaf_descendant_paths':
-                                        [],
-               'sons_count': None,
-               'parent_breadth_path': None,
+               'sib_seq': None,
+               'non_leaf_descendant_paths': None,
                'flat_offset': None,
-               'path':
-                       [],
-               'non_leaf_descendant_paths':
-                                            [],
-               'lcin_path': None,
-               'flat_len': None,
-               'leaf_son_paths':
-                                 [],
                'breadth_path':
                                [],
+               'depth': 0,
+               'parent_path':
+                              [],
+               'parent_breadth_path':
+                                      [],
+               'sons_count': None,
+               'breadth': None,
+               'leaf_descendant_paths': None,
                'rsib_path': None,
-               'sib_seq': None,
-               'non_leaf_son_paths':
-                                     [],
-               'rcin_path': None
+               'rcin_path': None,
+               'flat_len': None,
+               'path':
+                       [],
+               'lcin_path': None,
+               'leaf': False,
+               'non_leaf_son_paths': None,
+               'lsib_path': None,
+               'leaf_son_paths': None
               }
              ]
             ]
@@ -5513,14 +6023,12 @@ def help(func_name):
              'non_leaf_son_paths':
                                    [],
              'rcin_path': None,
-             'leaf_son_paths':
-                               [],
+             'leaf_son_paths': None,
              'path':
                      [
                       0
                      ],
-             'non_leaf_descendant_paths':
-                                          [],
+             'non_leaf_descendant_paths': None,
              'depth': 1,
              'breadth_path':
                              [
@@ -5532,8 +6040,7 @@ def help(func_name):
             {
              'flat_offset': None,
              'flat_len': None,
-             'leaf_descendant_paths':
-                                      [],
+             'leaf_descendant_paths': None,
              'breadth': None,
              'lsib_path': None,
              'leaf': None,
@@ -5543,17 +6050,14 @@ def help(func_name):
              'rsib_path': None,
              'parent_breadth_path': None,
              'sib_seq': None,
-             'non_leaf_son_paths':
-                                   [],
+             'non_leaf_son_paths':None,
              'rcin_path': None,
-             'leaf_son_paths':
-                               [],
+             'leaf_son_paths': None,
              'path':
                      [
                       0
                      ],
-             'non_leaf_descendant_paths':
-                                          [],
+             'non_leaf_descendant_paths': None,
              'depth': None,
              'breadth_path':
                              [
@@ -5563,23 +6067,23 @@ def help(func_name):
             >>>
         '''
         print(doc)
-    elif(func_name == "init_unhandled"):
+    elif(func_name == "_init_unhandled"):
         doc = '''
             >>> from xdict.elist import *
             >>> from xdict.jprint import pobj
             >>> l = [1,[4],2,[3,[5,6]]]
-            >>> matrix = init_desc_matrix(l)
-            >>> unhandled = init_unhandled(l,matrix)
+            >>> desc_matrix = init_desc_matrix(l)
+            >>> unhandled = _init_unhandled(l,desc_matrix)
             >>> unhandled_data = unhandled['data']
             >>> unhandled_desc = unhandled['desc']
             >>> unhandled_data[0]
             [4]
             >>> unhandled_desc[0]
-            {'flat_offset': None, 'flat_len': None, 'leaf_descendant_paths': [], 'breadth': 1, 'lsib_path': [0], 'leaf': False, 'sons_count': None, 'parent_path': [], 'lcin_path': None, 'rsib_path': [2], 'parent_breadth_path': [], 'sib_seq': 1, 'non_leaf_son_paths': [], 'rcin_path': None, 'leaf_son_paths': [], 'path': [1], 'non_leaf_descendant_paths': [], 'depth': 1, 'breadth_path': [1]}
+            {'sib_seq': 1, 'non_leaf_descendant_paths': None, 'flat_offset': None, 'breadth_path': [1], 'depth': 1, 'parent_path': [], 'parent_breadth_path': [], 'sons_count': None, 'breadth': 1, 'leaf_descendant_paths': None, 'rsib_path': [2], 'rcin_path': None, 'flat_len': None, 'path': [1], 'lcin_path': None, 'leaf': False, 'non_leaf_son_paths': None, 'lsib_path': [0], 'leaf_son_paths': None}
             >>> unhandled_data[1]
             [3, [5, 6]]
             >>> unhandled_desc[1]
-            {'flat_offset': None, 'flat_len': None, 'leaf_descendant_paths': [], 'breadth': 3, 'lsib_path': [2], 'leaf': False, 'sons_count': None, 'parent_path': [], 'lcin_path': None, 'rsib_path': None, 'parent_breadth_path': [], 'sib_seq': 3, 'non_leaf_son_paths': [], 'rcin_path': None, 'leaf_son_paths': [], 'path': [3], 'non_leaf_descendant_paths': [], 'depth': 1, 'breadth_path': [3]}
+            {'sib_seq': 3, 'non_leaf_descendant_paths': None, 'flat_offset': None, 'breadth_path': [3], 'depth': 1, 'parent_path': [], 'parent_breadth_path': [], 'sons_count': None, 'breadth': 3, 'leaf_descendant_paths': None, 'rsib_path': None, 'rcin_path': None, 'flat_len': None, 'path': [3], 'lcin_path': None, 'leaf': False, 'non_leaf_son_paths': None, 'lsib_path': [2], 'leaf_son_paths': None}
             >>>
         '''
         print(doc)
@@ -5629,14 +6133,6 @@ def help(func_name):
             ncin
             
             parents are neighbors,and on the right
-        '''
-        print(doc)
-    elif(func_name == ""):
-        doc = '''
-        '''
-        print(doc)
-    elif(func_name == ""):
-        doc = '''
         '''
         print(doc)
     elif(func_name == ""):

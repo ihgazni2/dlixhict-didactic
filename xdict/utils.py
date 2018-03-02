@@ -5,6 +5,65 @@ import copy
 import os
 import sys
 
+#IDE code shaping
+def kwargs_tem(varname,vardefault,**kwargs):
+    if('indent' in kwargs):
+        indent = kwargs['indent']
+    else:
+        indent = chr(32)
+    if('indent_num' in kwargs):
+        indent_num = kwargs['indent_num']
+    else:
+        indent_num = 4
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    tem = '''
+        if('-' in kwargs):
+            - = kwargs['-']
+        else:
+            - = \x01
+    '''
+    tem = tem.replace('-',varname).replace('\x01',str(vardefault))
+    tem = col_handle(tem,indent=indent,indent_num=indent_num,line_sp=line_sp)
+    print(tem)
+    
+
+
+def col_handle(code,**kwargs):
+    '''
+    '''
+    if('indent' in kwargs):
+        indent = kwargs['indent']
+    else:
+        indent = chr(32)
+    if('indent_num' in kwargs):
+        indent_num = kwargs['indent_num']
+    else:
+        indent_num = 4
+    if('line_sp' in kwargs):
+        line_sp = kwargs['line_sp']
+    else:
+        line_sp = '\n'
+    lines = code.split(line_sp)
+    ncode = ''
+    length = lines.__len__()
+    if(indent_num>=0):
+        prepend = indent * indent_num
+        for i in range(0,length-1):
+            line = prepend + lines[i] + line_sp
+            ncode = ncode + line
+        ncode = ncode + prepend + lines[length-1]
+    else:
+        si = indent.__len__() * (-indent_num)
+        for i in range(0,length-1):
+            line = lines[i][si:] + line_sp
+            ncode = ncode + line
+        ncode = ncode + lines[length-1][si:]
+    return(ncode)
+
+
 #platform
 def is_linux():
     platform = os.sys.platform.lower()
