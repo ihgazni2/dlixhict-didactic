@@ -6,6 +6,16 @@ import os
 import sys
 
 #IDE code shaping
+def qw(s,comma=',',quote='"'):
+    l = s.split(comma)
+    rslt = ''
+    for i in range(0,l.__len__()):
+        ele = l[i]
+        nele = quote+ele+quote
+        rslt = rslt + nele + comma
+    rslt = str_rstrip(rslt,comma,1)
+    return(rslt)
+
 def kwargs_tem(varname,vardefault,**kwargs):
     if('indent' in kwargs):
         indent = kwargs['indent']

@@ -3,6 +3,37 @@ import copy
 from operator import itemgetter
 from types import MethodType
 
+def select_some(ol,seqs):
+    '''
+        from xdict.elist import *
+        ol = ['a','b','c','d']
+        select_some(ol,[1,2])
+    '''
+    rslt =[]
+    for i in range(0,ol.__len__()):
+        if(i in seqs):
+            ele = ol[i]
+            rslt.append(ele)
+        else:
+            pass
+    return(rslt)
+
+def select_seqs(ol,*seqs):
+    '''
+        from xdict.elist import *
+        ol = ['a','b','c','d']
+        select_seqs(ol,1,2)
+    '''
+    seqs = list(seqs)
+    rslt =[]
+    for i in range(0,ol.__len__()):
+        if(i in seqs):
+            ele = ol[i]
+            rslt.append(ele)
+        else:
+            pass
+    return(rslt)
+
 
 def append(ol,ele,**kwargs):
     '''
@@ -3590,6 +3621,7 @@ def fullfill_descendants_info(desc_matrix):
     '''
         flat_offset : from right edge
     '''
+    path_mapping = {}
     def leaf_handler(desc,pdesc,offset):
         desc['flat_offset'] = (offset,offset+1)
         desc['non_leaf_son_paths'] = []
@@ -3609,6 +3641,11 @@ def fullfill_descendants_info(desc_matrix):
             pdesc['flat_len'] = pdesc['flat_len'] + desc['flat_len']
         else:
             pdesc['flat_len'] = desc['flat_len']
+    def fill_path_mapping(desc):
+        pmk = tuple(desc['path'])
+        pmv = tuple(DescMatrix.loc(desc))
+        path_mapping[pmk] = pmv
+        path_mapping[pmv] = pmk
     dm = DescMatrix(desc_matrix)
     depth = desc_matrix.__len__()
     desc_level = desc_matrix[depth - 1]
@@ -3617,6 +3654,7 @@ def fullfill_descendants_info(desc_matrix):
     offset = 0
     for j in range(length - 1,-1,-1):
         desc = desc_level[j]
+        fill_path_mapping(desc)
         pdesc = dm.pdesc(desc)
         leaf_handler(desc,pdesc,offset)
         offset = offset + 1
@@ -3626,6 +3664,7 @@ def fullfill_descendants_info(desc_matrix):
         length = desc_level.__len__()
         for j in range(length-1,-1,-1):
             desc = desc_level[j]
+            fill_path_mapping(desc)
             pdesc = dm.pdesc(desc)
             if(desc['leaf']):
                 leaf_handler(desc,pdesc,offset)
@@ -3634,8 +3673,7 @@ def fullfill_descendants_info(desc_matrix):
                 non_leaf_handler(desc,pdesc,offset)
                 offset = offset + desc['flat_len']
     desc_matrix[0][0]['flat_offset'] = (0,desc_matrix[0][0]['flat_len'])
-    return(desc_matrix)
-
+    return(desc_matrix,path_mapping)
 
 def pathlist_to_getStr(path_list):
     '''
@@ -3672,19 +3710,64 @@ class ListTree():
         
         ltree.flatten()
         
-        ltree.include_pathlist(3,1,0)
-        ltree.include_pathlist(3,1,2)
+        ltree.include(3,1,0)
+        ltree.include(pathlist = [3,1,2])
         
         ltree[1,0]
         l[1][0]
         
+        ltree.loc(3,1)
+        ltree.path(2,2)
+        ltree.loc2path([3,1])
+        ltree.path2loc([2,2])
+        
+        ltree.dig()
+        
+        ltree.parent_path(3,1,0)
+        ltree.parent(3,1,0)
+        
+        ltree.son_paths(3)
+        ltree.sons(3)
+        ltree.son_paths(3,leaf_only=True)
+        ltree.son_paths(3,non_leaf_only=True)
+        ltree.sons(3,leaf_only=True)
+        ltree.sons(3,non_leaf_only=True)
+        
+        ltree.descendant_paths(3)
+        ltree.descendants(3)
+        ltree.descendant_paths(3,from_lv=3)
+        ltree.descendants(3,from_lv=3)
+        ltree.descendant_paths(3,from_lv=2,to_lv=2)
+        ltree.descendants(3,from_lv=2,to_lv=2)
+        ltree.descendant_paths(3,leaf_only=True)
+        ltree.descendants(3,leaf_only=True)
+        ltree.descendant_paths(3,non_leaf_only=True)
+        ltree.descendants(3,non_leaf_only=True)
+        
+        ltree.ancestor_paths(3,1,0)
+        ltree.ancestors(3,1,0)
     '''
     def __init__(self,l):
         self.list = l
         self.desc = scan(l)
-        self.desc = fullfill_descendants_info(self.desc)
+        self.desc,self.path_mapping= fullfill_descendants_info(self.desc)
         self.depth = self.desc.__len__()
+        self.maxLevelWidth = max(array_map(desc_matrix,len))
         self.flatWidth = self.desc[0][0]['flat_len']
+        self.total = self.desc[0][0]['leaf_descendant_paths'].__len__() + self.desc[0][0]['non_leaf_descendant_paths'].__len__()
+        self.trace = self.tree()
+        self.prevSibling = self.lsib
+        self.prevSibPath = self.lsib_path
+        self.nextSibling = self.rsib
+        self.nextSibPath = self.rsib_path
+        self.precedingSibPaths = self.preceding_sib_paths
+        self.precedingSibs = self.preceding_sibs
+        self.followingSibPaths = self.following_sib_paths
+        self.followingSibs = self.following_sibs
+        self.someSibPaths = self.some_sib_paths
+        self.someSibs = self.some_sibs
+        self.whichSibPath = self.which_sib_path
+        self.whichSib = self.which_sib
         self.show = None
     def tree(self,**kwargs):
         if('leaf_only' in kwargs):
@@ -3769,9 +3852,13 @@ class ListTree():
         lpls = self.tree(leaf_only=True)
         flat = array_map(lpls,getitem_via_pathlist2,self.list)
         return(flat)
-    def include_pathlist(self,*sibseqs):
+    def include(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
         try:
-            getitem_via_sibseqs(self.list,*sibseqs)
+            getitem_via_pathlist(self.list,pl)
         except:
             return(False)
         else:
@@ -3780,12 +3867,634 @@ class ListTree():
         #this is a trick for __getitem__
         sibseqs = sibseqs[0]
         return(getitem_via_sibseqs(self.list,*sibseqs))
-    
-
+    def loc(self,*sibseqs):
+        pl = list(sibseqs)
+        pk = tuple(pl)
+        loc = ltree.path_mapping[pk]
+        return(list(loc))
+    def path(self,locx,locy):
+        loc = (locx,locy)
+        pl = ltree.path_mapping[loc]
+        pl = list(pl)
+        return(pl)
+    def path2loc(self,pathlist):
+        pl = pathlist
+        pk = tuple(pl)
+        loc = ltree.path_mapping[pk]
+        return(list(loc))
+    def loc2path(self,loc):
+        loc = tuple(loc)
+        pl = ltree.path_mapping[loc]
+        pl = list(pl)
+        return(pl)
+    @classmethod
+    def showroute(cls,arr):
+        def arrow(ele):
+            return(str(ele)+' ->')
+        arr = array_map(arr,arrow)
+        forEach(arr,print)
+    def dig(self,howmanysteps=None):
+        if(howmanysteps):
+            pass
+        else:
+            howmanysteps = self.total
+        self.showroute(self.trace[:howmanysteps])
+        return(self.trace[:howmanysteps])
+    def parent(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        loc = self.path2loc(pl)
+        ppl = self.desc[loc[0]][loc[1]]['parent_path']
+        value = getitem_via_pathlist(self.list,ppl)
+        return(value)
+    def parent_path(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        return(ppl)
+    def son_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        lpls = copy.deepcopy(self.desc[locx][locy]['leaf_son_paths'])
+        nlpls = copy.deepcopy(self.desc[locx][locy]['non_leaf_son_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        return(rslt)
+    def sons(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        lpls = copy.deepcopy(self.desc[locx][locy]['leaf_son_paths'])
+        nlpls = copy.deepcopy(self.desc[locx][locy]['non_leaf_son_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        rslt = array_map(rslt,getitem_via_pathlist2,self.list)
+        return(rslt)
+    def descendant_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = self.depth
+        locx,locy = tuple(self.path2loc(pl))
+        lpls = copy.deepcopy(self.desc[locx][locy]['leaf_descendant_paths'])
+        nlpls = copy.deepcopy(self.desc[locx][locy]['non_leaf_descendant_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        nrslt = []
+        for i in range(0,rslt.__len__()):
+            pl = rslt[i]
+            length = pl.__len__()
+            cond1 = (length >= from_lv)
+            cond2 = (length <= to_lv)
+            if(cond1 & cond2):
+                nrslt.append(pl)
+            else:
+                pass
+        return(nrslt)
+    def descendants(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        lpls = copy.deepcopy(self.desc[locx][locy]['leaf_descendant_paths'])
+        nlpls = copy.deepcopy(self.desc[locx][locy]['non_leaf_descendant_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = self.depth
+        nrslt = []
+        for i in range(0,rslt.__len__()):
+            pl = rslt[i]
+            length = pl.__len__()
+            cond1 = (length >= from_lv)
+            cond2 = (length <= to_lv)
+            if(cond1 & cond2):
+                nrslt.append(pl)
+            else:
+                pass
+        nrslt = array_map(nrslt,getitem_via_pathlist2,self.list)
+        return(nrslt)
+    @classmethod
+    def ancestlize(cls,l,**kwargs):
+        length = l.__len__()
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = length - 2
+        nrslt = []
+        si = from_lv - 1
+        ei = to_lv + 1
+        for i in range(si,ei):
+            pl = l[:(i+1)]
+            nrslt.append(pl)
+        return(nrslt)
+    def ancestor_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        p = copy.deepcopy(self.desc[locx][locy]['path'])
+        anps = self.ancestlize(p,from_lv=from_lv,to_lv=to_lv)
+        return(anps)
+    def ancestors(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        p = copy.deepcopy(self.desc[locx][locy]['path'])
+        anps = self.ancestlize(p,from_lv=from_lv,to_lv=to_lv)
+        ans = array_map(anps,getitem_via_pathlist2,self.list)
+        return(ans)
+    def lsib_path(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        lsibp = copy.deepcopy(self.desc[locx][locy]['lsib_path'])
+        return(lsibp)
+    def lsib(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        lsibp = copy.deepcopy(self.desc[locx][locy]['lsib_path'])
+        lsibv = getitem_via_pathlist(self.list,lsibp) 
+        return(lsibv)
+    def rsib_path(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        rsibp = copy.deepcopy(self.desc[locx][locy]['rsib_path'])
+        return(rsibp)
+    def rsib(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        rsibp = copy.deepcopy(self.desc[locx][locy]['rsib_path'])
+        rsibv = getitem_via_pathlist(self.list,lsibp) 
+        return(rsibv)
+    def lcin_path(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        lcinp = copy.deepcopy(self.desc[locx][locy]['lcin_path'])
+        return(lcinp)
+    def lcin(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        lcinp = copy.deepcopy(self.desc[locx][locy]['lcin_path'])
+        lcinv = getitem_via_pathlist(self.list,lcinp) 
+        return(lcinv)
+    def rcin_path(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        rcinp = copy.deepcopy(self.desc[locx][locy]['rcin_path'])
+        return(rcinp)
+    def rcin(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = pl.__len__() - 2
+        locx,locy = tuple(self.path2loc(pl))
+        rcinp = copy.deepcopy(self.desc[locx][locy]['rcin_path'])
+        rcinv = getitem_via_pathlist(self.list,rcinp) 
+        return(lcinv)
+    def sib_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        sibps = self.son_paths(pathlist=ppl)
+        return(sibps)
+    def sibs(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        sibps = self.son_paths(pathlist=ppl)
+        sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
+        return(sibvs)
+    def preceding_sib_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl[:seq])
+        return(sibps)
+    def preceding_sibs(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl[:seq])
+        sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
+        return(sibvs)
+    def following_sib_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl[(seq+1):])
+        return(sibps)
+    def following_sibs(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl[(seq+1):])
+        sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
+        return(sibvs)
+    def some_sib_paths(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        some = kwargs['some']
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl)
+        sibqs = select_some(sibqs,some)
+        return(sibps)
+    def some_sibs(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        some = kwargs['some']
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl)
+        sibqs = select_some(sibqs,some)
+        sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
+        return(sibvs)
+    def which_sib_path(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        which = kwargs['which']
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl)
+        sibq = sibqs[which]
+        return(sibp)
+    def which_sib(self,*sibseqs,**kwargs):
+        if('pathlist' in kwargs):
+            pl = kwargs['pathlist']
+        else:
+            pl = list(sibseqs)
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+        else:
+            leaf_only = False
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+        else:
+            non_leaf_only = False
+        which = kwargs['which']
+        locx,locy = tuple(self.path2loc(pl))
+        ppl = self.desc[locx][locy]['parent_path']
+        seq = self.desc[locx][locy]['sib_seq']
+        sibps = self.son_paths(pathlist=ppl)
+        sibqs = select_some(sibqs,some)
+        sibq = sibqs[which]
+        sibv = getitem_via_pathlist(self.list,sibq)
+        return(sibv)
+    def search(self,value,**kwargs):
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+            prompt = 'leaf_only'
+        else:
+            leaf_only = False
+            prompt = ''
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+            prompt = 'non_leaf_only'
+        else:
+            non_leaf_only = False
+            prompt = ''
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = self.depth -1
+        lpls = copy.deepcopy(self.desc[0][0]['leaf_descendant_paths'])
+        nlpls = copy.deepcopy(self.desc[0][0]['non_leaf_descendant_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        nrslt = []
+        for i in range(0,rslt.__len__()):
+            pl = rslt[i]
+            length = pl.__len__()
+            cond1 = (length >= from_lv)
+            cond2 = (length <= to_lv)
+            v = getitem_via_pathlist(self.list,pl)
+            cond3 = (v == value)
+            if(cond1 & cond2 & cond3):
+                nrslt.append(pl)
+            else:
+                pass
+        showl = array_map(nrslt,pathlist_to_getStr)
+        nrslt,showl = batsorted(nrslt,nrslt,showl)
+        if(type(value)==type("")):
+            vstr = '"' + str(value) + '"'
+        else:
+            vstr = str(value)
+        self.show = ['search '+ vstr' -'+prompt+' :']
+        self.show.extend(showl)
+        forEach(showl,print)
+        return(nrslt)
 
 
 def help(func_name):
-    if(func_name == "extend"):
+    if(func_name == "select_some"):
+        doc = '''
+            from xdict.elist import *
+            >>> ol = ['a','b','c','d']
+            >>> select_some(ol,[1,2])
+            ['b', 'c']
+        '''
+        print(doc)
+    elif(func_name == "select_seqs"):
+        doc = '''
+            from xdict.elist import *
+            >>> ol = ['a','b','c','d']
+            >>> select_seqs(ol,[1,2])
+            ['b', 'c']
+        '''
+        print(doc)
+    elif(func_name == "extend"):
         doc = '''
             >>> from xdict.elist import *
             >>> ol = [1,2,3,4]
@@ -6171,11 +6880,4 @@ def help(func_name):
         doc = '''
         '''
         print(doc)
-    elif(func_name == ""):
-        doc = '''
-        '''
-        print(doc)
-    elif(func_name == ""):
-        doc = '''
-        '''
-        print(doc)
+
