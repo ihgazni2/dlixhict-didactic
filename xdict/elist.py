@@ -34,7 +34,6 @@ def select_seqs(ol,*seqs):
             pass
     return(rslt)
 
-
 def append(ol,ele,**kwargs):
     '''
         from xdict.elist import *
@@ -85,85 +84,6 @@ def append_some(ol,*eles,**kwargs):
         mode = "new"
     return(extend(ol,list(eles),mode=mode))
 
-def extend(ol,nl,**kwargs):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        nl = [5,6,7,8]
-        id(ol)
-        extend(ol,nl,mode="original")
-        ol
-        id(ol)
-        ####
-        ol = [1,2,3,4]
-        nl = [5,6,7,8]
-        id(ol)
-        new = extend(ol,nl)
-        new
-        id(new)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs["mode"]
-    else:
-        mode = "new"
-    if(mode == "new"):
-        new = copy.deepcopy(ol)
-        cpnl = copy.deepcopy(nl)
-        new.extend(cpnl)
-        return(new)
-    else:
-        ol.extend(nl)
-        return(ol)
-
-def deepcopy(ol):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        id(ol)
-        new = deepcopy(ol)
-        new
-        id(new)
-    '''
-    return(copy.deepcopy(ol))
-
-def prextend(ol,nl,**kwargs):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        nl = [5,6,7,8]
-        id(ol)
-        id(nl)
-        prextend(ol,nl,mode="original")
-        ol
-        id(ol)
-        ####
-        ol = [1,2,3,4]
-        nl = [5,6,7,8]
-        id(ol)
-        id(nl)
-        new = prextend(ol,nl)
-        new
-        id(new)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs["mode"]
-    else:
-        mode = "new"
-    if(mode == "new"):
-        new = copy.deepcopy(nl)
-        cpol = copy.deepcopy(ol)
-        new.extend(cpol)
-        return(new)
-    else:
-        length = ol.__len__()
-        nl_len = nl.__len__()
-        for i in range(0,nl_len):
-            ol.append(None)
-        for i in range(length-1,-1,-1):
-            ol[i+nl_len] = ol[i]
-        for i in range(0,nl_len):
-            ol[i] = nl[i]
-        return(ol)
 
 def prepend(ol,ele,**kwargs):
     '''
@@ -214,6 +134,8 @@ def prepend_some(ol,*eles,**kwargs):
         new
         id(new)
         #####unshift is the same as prepend_some
+        >>> unshift(ol,9,10,11,12)
+        [9, 10, 11, 12, 1, 2, 3, 4]
     '''
     if('mode' in kwargs):
         mode = kwargs["mode"]
@@ -222,6 +144,151 @@ def prepend_some(ol,*eles,**kwargs):
     return(prextend(ol,list(eles),mode=mode))
 
 unshift = prepend_some
+
+def extend(ol,nl,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        nl = [5,6,7,8]
+        id(ol)
+        extend(ol,nl,mode="original")
+        ol
+        id(ol)
+        ####
+        ol = [1,2,3,4]
+        nl = [5,6,7,8]
+        id(ol)
+        new = extend(ol,nl)
+        new
+        id(new)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs["mode"]
+    else:
+        mode = "new"
+    if(mode == "new"):
+        new = copy.deepcopy(ol)
+        cpnl = copy.deepcopy(nl)
+        new.extend(cpnl)
+        return(new)
+    else:
+        ol.extend(nl)
+        return(ol)
+
+def prextend(ol,nl,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        nl = [5,6,7,8]
+        id(ol)
+        id(nl)
+        prextend(ol,nl,mode="original")
+        ol
+        id(ol)
+        ####
+        ol = [1,2,3,4]
+        nl = [5,6,7,8]
+        id(ol)
+        id(nl)
+        new = prextend(ol,nl)
+        new
+        id(new)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs["mode"]
+    else:
+        mode = "new"
+    if(mode == "new"):
+        new = copy.deepcopy(nl)
+        cpol = copy.deepcopy(ol)
+        new.extend(cpol)
+        return(new)
+    else:
+        length = ol.__len__()
+        nl_len = nl.__len__()
+        for i in range(0,nl_len):
+            ol.append(None)
+        for i in range(length-1,-1,-1):
+            ol[i+nl_len] = ol[i]
+        for i in range(0,nl_len):
+            ol[i] = nl[i]
+        return(ol)
+
+def concat(*arrays):
+    '''
+        from xdict.elist import *
+        l1 = [1,2,3]
+        l2 = ["a","b","c"]
+        l3 = [100,200]
+        id(l1)
+        id(l2)
+        id(l3)
+        arrays = [l1,l2,l3]
+        new = concat(arrays)
+        new
+        id(new)
+    '''
+    new = []
+    length = arrays.__len__()
+    for i in range(0,length):
+        array = copy.deepcopy(arrays[i])
+        new.extend(array)
+    return(new)
+
+def car(ol):
+    '''
+        from xdict.elist import *
+        ol=[1,2,3,4]
+        car(ol)
+    '''
+    return(ol[0])
+
+def cdr(ol,**kwargs):
+    '''
+        from xdict.elist import *
+        ol=[1,2,3,4]
+        id(ol)
+        new = cdr(ol)
+        new
+        id(new)
+        ####
+        ol=[1,2,3,4]
+        id(ol)
+        rslt = cdr(ol,mode="original")
+        rslt
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "new"
+    if(mode == "new"):
+        cpol = copy.deepcopy(ol)
+        return(cpol[1:])
+    else:
+        ol.pop(0)
+        return(ol)
+
+def cons(head_ele,l,**kwargs):
+    '''
+        from xdict.elist import *
+        ol=[1,2,3,4]
+        id(ol)
+        new = cons(5,ol)
+        new
+        id(new)
+        ####
+        ol=[1,2,3,4]
+        id(ol)
+        rslt = cons(5,ol,mode="original")
+        rslt
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "new"
+    return(prepend(l,head_ele,mode=mode))
 
 def uniform_index(index,length):
     '''
@@ -314,72 +381,6 @@ def insert_some(ol,*eles,**kwargs):
             ol.append(new[i])
         return(ol)
 
-def sorted_refer_to(l,referer,reverse=False,**kwargs):
-    '''
-        from xdict.elist import *
-        l = ["a","b","c"]
-        referer = [7,8,6]
-        sorted_refer_to(l,referer)
-        {'list': ['c', 'a', 'b'], 'referer': [6, 7, 8]}
-        l
-        referer
-        >>>
-    '''
-    if("mode" in kwargs):
-        mode = kwargs["mode"]
-    else:
-        mode = "both"
-    tl =[]
-    length = l.__len__()
-    for i in range(0,length):
-        ele = (l[i],referer[i])
-        tl.append(ele)
-    tl = sorted(tl,key=itemgetter(1),reverse=reverse)
-    sorted_l =[]
-    sorted_r = []
-    for i in range(0,length):
-        sorted_l.append(tl[i][0])
-        sorted_r.append(tl[i][1])
-    if(mode == "only-list"):
-        return(sorted_l)
-    elif(mode == "only-referer"):
-        return(referer)
-    else:
-        return({"list":sorted_l,"referer":sorted_r})
-
-def batsorted(referer,*lists,**kwargs):
-    '''
-        from xdict.elist import *
-        referer = [4,2,3,1]
-        l1 = ['a','b','c','d']
-        l2 = [100,200,300,400]
-        l3 = ['A','B','A','B']
-        nl1,nl2,nl3 = batsorted(referer,l1,l2,l3)
-        nl1
-        nl2
-        nl3
-    '''
-    if('reverse' in kwargs):
-        reverse = kwargs['reverse']
-    else:
-        reverse = False
-    length = referer.__len__()
-    indexes = list(range(0,length))
-    rslt = sorted_refer_to(indexes,referer,reverse=reverse)
-    referer = rslt['referer']
-    indexes = rslt['list']
-    rslt = []
-    lists = copy.deepcopy(list(lists))
-    for i in range(0,lists.__len__()):
-        l = lists[i]
-        nl = []
-        for j in range(0,length):
-            loc = indexes[j]
-            nl.append(l[loc])
-        rslt.append(nl)
-    return(tuple(rslt))
-
-
 def insert_many(ol,eles,locs,**kwargs):
     '''
         from xdict.elist import *
@@ -440,12 +441,121 @@ def insert_many(ol,eles,locs,**kwargs):
         ol.extend(new)
         return(ol)
 
+def sort(ol,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,3,4,2]
+        id(ol)
+        new = sort(ol)
+        ol
+        new
+        id(ol)
+        id(new)
+        ####
+        ol = [1,3,4,2]
+        id(ol)
+        rslt = sort(ol,mode="original")
+        ol
+        rslt
+        id(ol)
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs["mode"]
+    else:
+        mode = "new"
+    if(mode == "new"):
+        new = copy.deepcopy(ol)
+        new.sort()
+        return(new) 
+    else:
+        ol.sort()
+        return(ol)
+
+def sorted_refer_to(l,referer,reverse=False,**kwargs):
+    '''
+        from xdict.elist import *
+        l = ["a","b","c"]
+        referer = [7,8,6]
+        sorted_refer_to(l,referer)
+        {'list': ['c', 'a', 'b'], 'referer': [6, 7, 8]}
+        l
+        referer
+        >>>
+    '''
+    if("mode" in kwargs):
+        mode = kwargs["mode"]
+    else:
+        mode = "both"
+    tl =[]
+    length = l.__len__()
+    for i in range(0,length):
+        ele = (l[i],referer[i])
+        tl.append(ele)
+    tl = sorted(tl,key=itemgetter(1),reverse=reverse)
+    sorted_l =[]
+    sorted_r = []
+    for i in range(0,length):
+        sorted_l.append(tl[i][0])
+        sorted_r.append(tl[i][1])
+    if(mode == "only-list"):
+        return(sorted_l)
+    elif(mode == "only-referer"):
+        return(referer)
+    else:
+        return({"list":sorted_l,"referer":sorted_r})
+
+def batsorted(referer,*lists,**kwargs):
+    '''
+        from xdict.elist import *
+        referer = [4,2,3,1]
+        l1 = ['a','b','c','d']
+        l2 = [100,200,300,400]
+        l3 = ['A','B','A','B']
+        nl1,nl2,nl3 = batsorted(referer,l1,l2,l3)
+        nl1
+        nl2
+        nl3
+        nl1,nl2,nl3 = batsorted(referer,l1,l2,l3,reverse=True)
+        nl1
+        nl2
+        nl3
+        ####the batsorted will not modify the original lists
+        l1
+        l2
+        l3
+    '''
+    if('reverse' in kwargs):
+        reverse = kwargs['reverse']
+    else:
+        reverse = False
+    length = referer.__len__()
+    indexes = list(range(0,length))
+    rslt = sorted_refer_to(indexes,referer,reverse=reverse)
+    referer = rslt['referer']
+    indexes = rslt['list']
+    rslt = []
+    lists = copy.deepcopy(list(lists))
+    for i in range(0,lists.__len__()):
+        l = lists[i]
+        nl = []
+        for j in range(0,length):
+            loc = indexes[j]
+            nl.append(l[loc])
+        rslt.append(nl)
+    return(tuple(rslt))
+
+
+#@@@@@@@@@@@@@@
+
 def index_first(ol,value):
     '''
         from xdict.elist import *
         ol = [1,'a',3,'a',4,'a',5]
         index_first(ol,'a')
         ####index_first, array_index, indexOf  are the same
+        array_index(ol,'a')
+        indexOf(ol,'a')
     '''
     return(ol.index('a'))
 
@@ -458,6 +568,8 @@ def index_firstnot(ol,value):
         ol = [1,'a',3,'a',4,'a',5]
         index_firstnot(ol,'a')
         ####index_firstnot, array_indexnot, indexOfnot  are the same
+        array_indexnot(ol,'a')
+        indexOfnot(ol,'a')
     '''
     length = ol.__len__()
     for i in range(0,length):
@@ -476,6 +588,7 @@ def index_last(ol,value):
         ol = [1,'a',3,'a',4,'a',5]
         index_last(ol,'a')
         ####lastIndexOf is the same as index_last
+        lastIndexOf(ol,'a')
     '''
     length = ol.__len__()
     for i in range(length-1,-1,-1):
@@ -493,6 +606,7 @@ def index_lastnot(ol,value):
         ol = [1,'a',3,'a',4,'a',5]
         index_lastnot(ol,'a')
         ####lastIndexOfnot is the same as index_lastnot
+        lastIndexOfnot(ol,'a')
     '''
     length = ol.__len__()
     for i in range(length-1,-1,-1):
@@ -503,7 +617,6 @@ def index_lastnot(ol,value):
     return(None)
 
 lastIndexOfnot = index_lastnot
-
 
 def index_which(ol,value,which):
     '''
@@ -901,7 +1014,11 @@ def some_continuous_indexes_slices(ol,value,*seqs):
             pass
         cursor = cursor + 1
     if(slice):
-        rslt.append(slice)
+        seq = seq + 1
+        if(seq in seqs):
+            rslt.append(slice)
+        else:
+            pass
     else:
         pass
     return(rslt)
@@ -939,7 +1056,11 @@ def some_continuous_indexesnot_slices(ol,value,*seqs):
             pass
         cursor = cursor + 1
     if(slice):
-        rslt.append(slice)
+        seq = seq + 1
+        if(seq in seqs):
+            rslt.append(slice)
+        else:
+            pass
     else:
         pass
     return(rslt)
@@ -976,7 +1097,11 @@ def seqs_continuous_indexes_slices(ol,value,seqs):
             pass
         cursor = cursor + 1
     if(slice):
-        rslt.append(slice)
+        seq = seq + 1
+        if(seq in seqs):
+            rslt.append(slice)
+        else:
+            pass
     else:
         pass
     return(rslt)
@@ -1013,7 +1138,11 @@ def seqs_continuous_indexesnot_slices(ol,value,seqs):
             pass
         cursor = cursor + 1
     if(slice):
-        rslt.append(slice)
+        seq = seq + 1
+        if(seq in seqs):
+            rslt.append(slice)
+        else:
+            pass
     else:
         pass
     return(rslt)
@@ -1082,6 +1211,7 @@ def all_continuous_indexesnot_slices(ol,value):
         pass
     return(rslt)
 
+#@@@@@@@@@@@@@@
 def pop(ol,index,**kwargs):
     '''
         from xdict.jprint import pobj
@@ -1898,36 +2028,7 @@ def reverse(ol,**kwargs):
     'reverse',
     'sort'
 
-def sort(ol,**kwargs):
-    '''
-        from xdict.elist import *
-        ol = [1,3,4,2]
-        id(ol)
-        new = sort(ol)
-        ol
-        new
-        id(ol)
-        id(new)
-        ####
-        ol = [1,3,4,2]
-        id(ol)
-        rslt = sort(ol,mode="original")
-        ol
-        rslt
-        id(ol)
-        id(rslt)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs["mode"]
-    else:
-        mode = "new"
-    if(mode == "new"):
-        new = copy.deepcopy(ol)
-        new.sort()
-        return(new) 
-    else:
-        ol.sort()
-        return(ol)
+
 
 def comprise(list1,list2,**kwargs):
     '''
@@ -1960,60 +2061,8 @@ def comprise(list1,list2,**kwargs):
                     pass
     return(False)
 
-def car(ol):
-    '''
-        from xdict.elist import *
-        ol=[1,2,3,4]
-        car(ol)
-    '''
-    return(ol[0])
 
-def cdr(ol,**kwargs):
-    '''
-        from xdict.elist import *
-        ol=[1,2,3,4]
-        id(ol)
-        new = cdr(ol)
-        new
-        id(new)
-        ####
-        ol=[1,2,3,4]
-        id(ol)
-        rslt = cdr(ol,mode="original")
-        rslt
-        id(rslt)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = "new"
-    if(mode == "new"):
-        cpol = copy.deepcopy(ol)
-        return(cpol[1:])
-    else:
-        ol.pop(0)
-        return(ol)
 
-def cons(head_ele,l,**kwargs):
-    '''
-        from xdict.elist import *
-        ol=[1,2,3,4]
-        id(ol)
-        new = cons(5,ol)
-        new
-        id(new)
-        ####
-        ol=[1,2,3,4]
-        id(ol)
-        rslt = cons(5,ol,mode="original")
-        rslt
-        id(rslt)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = "new"
-    return(prepend(l,head_ele,mode=mode))
 
 def array_from(obj,func,*args):
     '''
@@ -2046,26 +2095,6 @@ def array_of(*eles):
     '''
     return(list(eles))
 
-def concat(*arrays):
-    '''
-        from xdict.elist import *
-        l1 = [1,2,3]
-        l2 = ["a","b","c"]
-        l3 = [100,200]
-        id(l1)
-        id(l2)
-        id(l3)
-        arrays = [l1,l2,l3]
-        new = concat(arrays)
-        new
-        id(new)
-    '''
-    new = []
-    length = arrays.__len__()
-    for i in range(0,length):
-        array = copy.deepcopy(arrays[i])
-        new.extend(array)
-    return(new)
 
 def copy_within(ol,target, start=None, end=None):
     '''
@@ -3050,6 +3079,28 @@ def is_list(obj):
 
 isArray = is_list
 
+
+def deepcopy(ol):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        id(ol)
+        new = deepcopy(ol)
+        new
+        id(new)
+    '''
+    return(copy.deepcopy(ol))
+
+
+
+
+
+
+
+
+
+
+
 #the below is for nested analysis
 
 def is_leaf(obj):
@@ -3846,6 +3897,14 @@ def get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()")):
             j_str_lvs_dict[seq] =level
             seq = seq + 1
     return(j_str_lvs_dict)
+
+
+
+
+
+
+
+
 
 ####from xdict.utils
 def str_display_width(s):
