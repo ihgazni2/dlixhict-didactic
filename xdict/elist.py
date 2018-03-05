@@ -2782,7 +2782,7 @@ def array_dualmap(ol,value_map_func,**kwargs):
     nvl = []
     for i in range(0,length):
         ele = ol[i]
-        v = value_map_func(ele,nil[i],*vargs):
+        v = value_map_func(ele,nil[i],*vargs)
         nvl.append(v)
     return(nvl)
 
