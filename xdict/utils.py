@@ -6,6 +6,16 @@ import os
 import sys
 
 #IDE code shaping
+def creat_markdown_tree_links(arr,base=10,indent=2,path = 'elist/Images/ListTree'):
+    length = arr.__len__()
+    rslt =''
+    for i in range(0,length):
+        ele = arr[i]
+        s = chr(9500)+chr(9472) * indent +str(base+i)+'. [' + ele +']('+ path +'.' + ele + '.0.png)  <br>'
+        rslt = rslt + '\n' + s
+    return(rslt)
+
+
 def qw(s,comma=',',quote='"'):
     l = s.split(comma)
     rslt = ''

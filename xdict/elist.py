@@ -2730,6 +2730,35 @@ def array_map(ol,map_func,*args):
     rslt = list(map(lambda ele:map_func(ele,*args),ol))
     return(rslt)
 
+def array_dualmap(ol,value_map_func,**kwargs):
+    '''
+    '''
+    def get_self(obj):
+        return(obj)
+    if('iargs' in kwargs):
+        iargs = kwargs['iargs']
+    else:
+        iargs = []
+    if('vargs' in kwargs):
+        vargs = kwargs['vargs']
+    else:
+        vargs = []
+    if('index_map_func' in kwargs):
+        index_map_func = kwargs['index_map_func']
+    else:
+        index_map_func = get_self
+    length = ol.__len__()
+    il = list(range(0,length))
+    nil = list(map(lambda ele:index_map_func(ele,*iargs),il))
+    nvl = []
+    for i in range(0,length):
+        ele = ol[i]
+        v = value_map_func(ele,nil[i],*vargs):
+        nvl.append(v)
+    return(nvl)
+
+
+
 def join(ol,separator=","):
     '''
         from xdict.elist import *
@@ -3619,11 +3648,13 @@ class DescMatrix():
 
 def fullfill_descendants_info(desc_matrix):
     '''
-        flat_offset : from right edge
+       flat_offset
     '''
-    path_mapping = {}
-    def leaf_handler(desc,pdesc,offset):
-        desc['flat_offset'] = (offset,offset+1)
+    pathloc_mapping = {}
+    locpath_mapping = {}
+    #def leaf_handler(desc,pdesc,offset):
+    def leaf_handler(desc,pdesc):
+        #desc['flat_offset'] = (offset,offset+1)
         desc['non_leaf_son_paths'] = []
         desc['leaf_son_paths'] = []
         desc['non_leaf_descendant_paths'] = []
@@ -3633,8 +3664,9 @@ def fullfill_descendants_info(desc_matrix):
             pdesc['flat_len'] = pdesc['flat_len'] + 1
         else:
             pdesc['flat_len'] = 1
-    def non_leaf_handler(desc,pdesc,offset):
-        desc['flat_offset'] = (offset,offset+desc['flat_len'])
+    #def non_leaf_handler(desc,pdesc,offset):
+    def non_leaf_handler(desc,pdesc):
+        #desc['flat_offset'] = (offset,offset+desc['flat_len'])
         pdesc['non_leaf_descendant_paths'].extend(copy.deepcopy(desc['non_leaf_descendant_paths']))
         pdesc['leaf_descendant_paths'].extend(copy.deepcopy(desc['leaf_descendant_paths']))
         if(pdesc['flat_len']):
@@ -3644,22 +3676,23 @@ def fullfill_descendants_info(desc_matrix):
     def fill_path_mapping(desc):
         pmk = tuple(desc['path'])
         pmv = tuple(DescMatrix.loc(desc))
-        path_mapping[pmk] = pmv
-        path_mapping[pmv] = pmk
+        pathloc_mapping[pmk] = pmv
+        locpath_mapping[pmv] = pmk
     dm = DescMatrix(desc_matrix)
     depth = desc_matrix.__len__()
     desc_level = desc_matrix[depth - 1]
     length = desc_level.__len__()
     #the last level
-    offset = 0
+    #offset = 0
     for j in range(length - 1,-1,-1):
         desc = desc_level[j]
         fill_path_mapping(desc)
         pdesc = dm.pdesc(desc)
-        leaf_handler(desc,pdesc,offset)
-        offset = offset + 1
+        leaf_handler(desc,pdesc)
+        #leaf_handler(desc,pdesc,offset)
+        #offset = offset + 1
     for i in range(depth-2,0,-1):
-        offset = 0
+        #offset = 0
         desc_level = desc_matrix[i]
         length = desc_level.__len__()
         for j in range(length-1,-1,-1):
@@ -3667,13 +3700,29 @@ def fullfill_descendants_info(desc_matrix):
             fill_path_mapping(desc)
             pdesc = dm.pdesc(desc)
             if(desc['leaf']):
-                leaf_handler(desc,pdesc,offset)
-                offset = offset + 1
+                leaf_handler(desc,pdesc)
+                #leaf_handler(desc,pdesc,offset)
+                #offset = offset + 1
             else:
-                non_leaf_handler(desc,pdesc,offset)
-                offset = offset + desc['flat_len']
+                non_leaf_handler(desc,pdesc)
+                #non_leaf_handler(desc,pdesc,offset)
+                #offset = offset + desc['flat_len']
     desc_matrix[0][0]['flat_offset'] = (0,desc_matrix[0][0]['flat_len'])
-    return(desc_matrix,path_mapping)
+    for i in range(0,depth-1):
+        pdesc_level = desc_matrix[i]
+        length = pdesc_level.__len__()
+        for j in range(0,length):
+            pdesc = pdesc_level[j]
+            si = pdesc['flat_offset'][0]
+            for i in range(0,pdesc['sons_count']):
+                spl = append(pdesc['path'],i,mode='new')
+                pk = tuple(spl)
+                locx,locy = pathloc_mapping[pk]
+                son = desc_matrix[locx][locy]
+                ei = si + son['flat_len']
+                son['flat_offset'] = (si,ei)
+                si = ei
+    return(desc_matrix,pathloc_mapping,locpath_mapping)
 
 def pathlist_to_getStr(path_list):
     '''
@@ -3690,38 +3739,175 @@ def pathlist_to_getStr(path_list):
         s = ''.join((s,'[',t2[i],']'))
     return(s)
 
+
+####from xdict.jprint
+
+def get_block_op_pairs(pairs_str):
+    '''
+        # >>> get_block_op_pairs("{}[]")  
+        # {1: ('{', '}'), 2: ('[', ']')}
+        # >>> get_block_op_pairs("{}[]()")
+        # {1: ('{', '}'), 2: ('[', ']'), 3: ('(', ')')}
+        # >>> get_block_op_pairs("{}[]()<>")
+        # {1: ('{', '}'), 2: ('[', ']'), 3: ('(', ')'), 4: ('<', '>')}
+    '''
+    pairs_str_len = pairs_str.__len__()
+    pairs_len = pairs_str_len // 2
+    pairs_dict = {}
+    for i in range(1,pairs_len +1):
+        pairs_dict[i] = pairs_str[i*2-2],pairs_str[i*2-1]
+    return(pairs_dict)
+
+def is_lop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
+    '''
+    # is_lop('{',block_op_pairs_dict)
+    # is_lop('[',block_op_pairs_dict)
+    # is_lop('}',block_op_pairs_dict)
+    # is_lop(']',block_op_pairs_dict)
+    # is_lop('a',block_op_pairs_dict)
+    '''
+    for i in range(1,block_op_pairs_dict.__len__()+1):
+        if(ch == block_op_pairs_dict[i][0]):
+            return(True)
+        else:
+            pass
+    return(False)
+
+def is_rop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
+    '''
+        # is_rop('{',block_op_pairs_dict)
+        # is_rop('[',block_op_pairs_dict)
+        # is_rop('}',block_op_pairs_dict)
+        # is_rop(']',block_op_pairs_dict)
+        # is_rop('a',block_op_pairs_dict)
+    '''
+    for i in range(1,block_op_pairs_dict.__len__()+1):
+        if(ch == block_op_pairs_dict[i][1]):
+            return(True)
+        else:
+            pass
+    return(False)
+
+def get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()")):
+    ''' the first-char is level-1
+        when current is  non-op, next-char-level = curr-level
+        when current is  lop,  non-paired-rop-next-char-level = lop-level+1;
+        when current is  lop,  paired-rop-next-char-level = lop-level
+        when current is  rop,  next-char-level = rop-level - 1
+        # {"key_4_UF0aJJ6v": "value_1", "key_2_Hd0t": ["value_16", "value_8", "value_8", "value_15", "value_14", "value_19", {......
+        # 122222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333333333333333334......
+        # {\n"key_4_UF0aJJ6v": "value_1", \n"key_2_Hd0t": [\n"value_16", \n"value_8", \n"value_8", \n"value_15", \n"value_14", \n"value_19",...... 
+        # 1 222222222222222222222222222222 2222222222222222 3333333333333 333333333333 333333333333 3333333333333 3333333333333 3333333333333...... 
+        '''
+    curr_ch = j_str[curr_seq]
+    next_ch = j_str[curr_seq + 1]
+    cond = 0
+    for i in range(1,block_op_pairs_dict.__len__()+1):
+        if(curr_ch == block_op_pairs_dict[i][0]):
+            if(next_ch == block_op_pairs_dict[i][1]):
+                next_lv = curr_lv               
+            else:
+                next_lv = curr_lv + 1
+            cond = 1
+            break
+        elif(curr_ch == block_op_pairs_dict[i][1]):
+            if(is_rop(next_ch,block_op_pairs_dict)):
+                next_lv = curr_lv - 1
+            else:
+                next_lv = curr_lv
+            cond = 1
+            break
+        else:
+            pass
+    if(cond == 1):
+        pass
+    elif(is_rop(next_ch,block_op_pairs_dict)):
+        next_lv = curr_lv - 1
+    else:    
+        next_lv = curr_lv
+    curr_lv = next_lv
+    curr_seq = curr_seq + 1
+    return(curr_lv,curr_lv,curr_seq)
+
+def get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()")):
+    j_str_len = j_str.__len__()
+    j_str_lvs_dict = {}
+    if( j_str_len == 0):
+        j_str_lvs_dict = {}
+    elif(j_str_len == 1):
+        j_str_lvs_dict = {0:1}
+    else:
+        curr_lv = 1
+        j_str_lvs_dict = {0:1}
+        seq = 1
+        curr_seq = 0
+        while(curr_seq < j_str_len - 1):
+            level,curr_lv,curr_seq = get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict)
+            j_str_lvs_dict[seq] =level
+            seq = seq + 1
+    return(j_str_lvs_dict)
+
+####from xdict.utils
+def str_display_width(s):
+    '''
+        from xdict.utils import *
+        str_display_width('a')
+        str_display_width('去')
+    '''
+    s= str(s)
+    width = 0
+    len = s.__len__()
+    for i in range(0,len):
+        sublen = s[i].encode().__len__()
+        sublen = int(sublen/2 + 1/2)
+        width = width + sublen
+    return(width)
+
+####from xdict.ltdict
+def ltdict2list(ltdict):
+    l = []
+    length = ltdict.__len__()
+    for i in range(0,length):
+        l.append(ltdict[i])
+    return(l)
+
+####beautiful display
+def spacize(s,lvnum):
+    lvs = get_j_str_lvs_dict(s)
+    lvs = ltdict2list(lvs)
+    sl=list(s)
+    length = sl.__len__()
+    rslt =''
+    for i in range(0,length):
+        if(lvs[i]>=lvnum):
+            rslt = rslt + sl[i]
+        else:
+            rslt = rslt + chr(32)*str_display_width(sl[i])
+    return(rslt)
+
+def table(l,depth,**kwargs):
+    if('no_return' in kwargs):
+        no_return = kwargs['no_return']
+    else:
+        no_return = True
+    s = l.__str__()
+    rslt = ''
+    for i in range(1,depth+1):
+        rslt = rslt + spacize(s,i) + '\n'
+    rslt = rslt[:-1]
+    if(no_return):
+        print(rslt)
+    else:
+        return(rslt)
+
+####
+
+
+
+
 class ListTree():
     '''
-        l = [1, [4], 2, [3, [5, 6]]]
-        ltree = ListTree(l)
-        pathlists = ltree.tree()
-        pathlists = ltree.tree(leaf_only=True)
-        pathlists = ltree.tree(leaf_only=True,from_lv=1,to_lv=2)
-        pathlists = ltree.tree(non_leaf_only=True)
         
-        
-        ltree.depth()
-        
-        level = ltree.level(1)
-        level = ltree.level(1,leaf_only=True)
-        level = ltree.level(1,non_leaf_only=True)
-        level = ltree.level(2)
-        level = ltree.level(3)
-        
-        ltree.flatten()
-        
-        ltree.include(3,1,0)
-        ltree.include(pathlist = [3,1,2])
-        
-        ltree[1,0]
-        l[1][0]
-        
-        ltree.loc(3,1)
-        ltree.path(2,2)
-        ltree.loc2path([3,1])
-        ltree.path2loc([2,2])
-        
-        ltree.dig()
         
         ltree.parent_path(3,1,0)
         ltree.parent(3,1,0)
@@ -3750,12 +3936,12 @@ class ListTree():
     def __init__(self,l):
         self.list = l
         self.desc = scan(l)
-        self.desc,self.path_mapping= fullfill_descendants_info(self.desc)
+        self.desc,self.pathloc_mapping,self.locpath_mapping= fullfill_descendants_info(self.desc)
         self.depth = self.desc.__len__()
-        self.maxLevelWidth = max(array_map(desc_matrix,len))
+        self.maxLevelWidth = max(array_map(self.desc,len))
         self.flatWidth = self.desc[0][0]['flat_len']
         self.total = self.desc[0][0]['leaf_descendant_paths'].__len__() + self.desc[0][0]['non_leaf_descendant_paths'].__len__()
-        self.trace = self.tree()
+        self.trace = self.tree(show=False)
         self.prevSibling = self.lsib
         self.prevSibPath = self.lsib_path
         self.nextSibling = self.rsib
@@ -3768,7 +3954,12 @@ class ListTree():
         self.someSibs = self.some_sibs
         self.whichSibPath = self.which_sib_path
         self.whichSib = self.which_sib
-        self.show = None
+        self.showlog = None
+    def __repr__(self):
+        s = table(self.list,self.depth,no_return=0)
+        showl = s.split('\n')
+        self.showlog = showl
+        return(s)
     def tree(self,**kwargs):
         if('leaf_only' in kwargs):
             leaf_only = kwargs['leaf_only']
@@ -3790,6 +3981,10 @@ class ListTree():
             to_lv = kwargs['to_lv']
         else:
             to_lv = self.depth
+        if('show' in kwargs):
+            show = kwargs['show']
+        else:
+            show = True
         lpls = copy.deepcopy(self.desc[0][0]['leaf_descendant_paths'])
         nlpls = copy.deepcopy(self.desc[0][0]['non_leaf_descendant_paths'])
         if(leaf_only):
@@ -3810,9 +4005,12 @@ class ListTree():
                 pass
         showl = array_map(nrslt,pathlist_to_getStr)
         nrslt,showl = batsorted(nrslt,nrslt,showl)
-        forEach(showl,print)
-        self.show = ['tree -'+prompt+' :']
-        self.show.extend(showl)
+        if(show):
+            forEach(showl,print)
+            self.showlog = ['tree -'+prompt+' :']
+            self.showlog.extend(showl)
+        else:
+            pass
         return(nrslt)
     def level(self,lvnum,**kwargs):
         if('leaf_only' in kwargs):
@@ -3846,10 +4044,10 @@ class ListTree():
         showl = array_map(rslt,pathlist_to_getStr)
         rslt,showl = batsorted(rslt,rslt,showl)
         forEach(showl,print)
-        self.show = ['level -' +prompt+' ' +str(lvnum)+' :']
-        self.show.extend(showl)
+        self.showlog = ['level -' +prompt+' ' +str(lvnum)+' :']
+        self.showlog.extend(showl)
     def flatten(self):
-        lpls = self.tree(leaf_only=True)
+        lpls = self.tree(leaf_only=True,show=False)
         flat = array_map(lpls,getitem_via_pathlist2,self.list)
         return(flat)
     def include(self,*sibseqs,**kwargs):
@@ -3870,21 +4068,21 @@ class ListTree():
     def loc(self,*sibseqs):
         pl = list(sibseqs)
         pk = tuple(pl)
-        loc = ltree.path_mapping[pk]
+        loc = self.pathloc_mapping[pk]
         return(list(loc))
     def path(self,locx,locy):
         loc = (locx,locy)
-        pl = ltree.path_mapping[loc]
+        pl = self.locpath_mapping[loc]
         pl = list(pl)
         return(pl)
     def path2loc(self,pathlist):
         pl = pathlist
         pk = tuple(pl)
-        loc = ltree.path_mapping[pk]
+        loc = self.pathloc_mapping[pk]
         return(list(loc))
     def loc2path(self,loc):
         loc = tuple(loc)
-        pl = ltree.path_mapping[loc]
+        pl = self.locpath_mapping[loc]
         pl = list(pl)
         return(pl)
     @classmethod
@@ -3893,12 +4091,14 @@ class ListTree():
             return(str(ele)+' ->')
         arr = array_map(arr,arrow)
         forEach(arr,print)
+        return(arr)
     def dig(self,howmanysteps=None):
         if(howmanysteps):
             pass
         else:
             howmanysteps = self.total
-        self.showroute(self.trace[:howmanysteps])
+        self.showlog = ['dig -steps '+howmanysteps+' :']
+        self.showlog.extend(self.showroute(self.trace[:howmanysteps]))
         return(self.trace[:howmanysteps])
     def parent(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -3939,6 +4139,7 @@ class ListTree():
             rslt = nlpls
         else:
             rslt = lpls+nlpls
+        rslt,= batsorted(rslt,rslt)
         return(rslt)
     def sons(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -3962,6 +4163,7 @@ class ListTree():
             rslt = nlpls
         else:
             rslt = lpls+nlpls
+        rslt,= batsorted(rslt,rslt)
         rslt = array_map(rslt,getitem_via_pathlist2,self.list)
         return(rslt)
     def descendant_paths(self,*sibseqs,**kwargs):
@@ -4004,6 +4206,7 @@ class ListTree():
                 nrslt.append(pl)
             else:
                 pass
+        nrslt, = batsorted(nrslt,nrslt)
         return(nrslt)
     def descendants(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4045,6 +4248,7 @@ class ListTree():
                 nrslt.append(pl)
             else:
                 pass
+        nrslt, = batsorted(nrslt,nrslt)
         nrslt = array_map(nrslt,getitem_via_pathlist2,self.list)
         return(nrslt)
     @classmethod
@@ -4164,7 +4368,7 @@ class ListTree():
             to_lv = pl.__len__() - 2
         locx,locy = tuple(self.path2loc(pl))
         rsibp = copy.deepcopy(self.desc[locx][locy]['rsib_path'])
-        rsibv = getitem_via_pathlist(self.list,lsibp) 
+        rsibv = getitem_via_pathlist(self.list,rsibp) 
         return(rsibv)
     def lcin_path(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4231,7 +4435,7 @@ class ListTree():
         locx,locy = tuple(self.path2loc(pl))
         rcinp = copy.deepcopy(self.desc[locx][locy]['rcin_path'])
         rcinv = getitem_via_pathlist(self.list,rcinp) 
-        return(lcinv)
+        return(rcinv)
     def sib_paths(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
             pl = kwargs['pathlist']
@@ -4247,7 +4451,7 @@ class ListTree():
             non_leaf_only = False
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
-        sibps = self.son_paths(pathlist=ppl)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
         return(sibps)
     def sibs(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4264,7 +4468,7 @@ class ListTree():
             non_leaf_only = False
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
-        sibps = self.son_paths(pathlist=ppl)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
         sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
         return(sibvs)
     def preceding_sib_paths(self,*sibseqs,**kwargs):
@@ -4282,9 +4486,13 @@ class ListTree():
             non_leaf_only = False
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
-        seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl[:seq])
-        return(sibps)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        try:
+            seq = sibps.index(pl)
+        except:
+            return(sibps)
+        else:
+            return(sibps[:seq])
     def preceding_sibs(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
             pl = kwargs['pathlist']
@@ -4300,9 +4508,14 @@ class ListTree():
             non_leaf_only = False
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
-        seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl[:seq])
-        sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        try:
+            seq = sibps.index(pl)
+        except:
+            pre = sibps
+        else:
+            pre = sibps[:seq]
+        sibvs = array_map(pre,getitem_via_pathlist2,self.list)
         return(sibvs)
     def following_sib_paths(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4319,9 +4532,14 @@ class ListTree():
             non_leaf_only = False
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
-        seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl[(seq+1):])
-        return(sibps)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        try:
+            seq = sibps.index(pl)
+        except:
+            follow = sibps
+        else:
+            follow = sibps[(seq+1):]
+        return(follow)
     def following_sibs(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
             pl = kwargs['pathlist']
@@ -4337,9 +4555,14 @@ class ListTree():
             non_leaf_only = False
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
-        seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl[(seq+1):])
-        sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        try:
+            seq = sibps.index(pl)
+        except:
+            follow = sibps
+        else:
+            follow = sibps[(seq+1):]
+        sibvs = array_map(follow,getitem_via_pathlist2,self.list)
         return(sibvs)
     def some_sib_paths(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4358,8 +4581,8 @@ class ListTree():
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
         seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl)
-        sibqs = select_some(sibqs,some)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        sibps = select_some(sibps,some)
         return(sibps)
     def some_sibs(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4378,8 +4601,8 @@ class ListTree():
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
         seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl)
-        sibqs = select_some(sibqs,some)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        sibps = select_some(sibps,some)
         sibvs = array_map(sibps,getitem_via_pathlist2,self.list)
         return(sibvs)
     def which_sib_path(self,*sibseqs,**kwargs):
@@ -4399,8 +4622,8 @@ class ListTree():
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
         seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl)
-        sibq = sibqs[which]
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        sibp = sibps[which]
         return(sibp)
     def which_sib(self,*sibseqs,**kwargs):
         if('pathlist' in kwargs):
@@ -4419,10 +4642,9 @@ class ListTree():
         locx,locy = tuple(self.path2loc(pl))
         ppl = self.desc[locx][locy]['parent_path']
         seq = self.desc[locx][locy]['sib_seq']
-        sibps = self.son_paths(pathlist=ppl)
-        sibqs = select_some(sibqs,some)
-        sibq = sibqs[which]
-        sibv = getitem_via_pathlist(self.list,sibq)
+        sibps = self.son_paths(pathlist=ppl,leaf_only=leaf_only,non_leaf_only=non_leaf_only)
+        sibp = sibps[which]
+        sibv = getitem_via_pathlist(self.list,sibp)
         return(sibv)
     def search(self,value,**kwargs):
         if('leaf_only' in kwargs):
@@ -4471,8 +4693,8 @@ class ListTree():
             vstr = '"' + str(value) + '"'
         else:
             vstr = str(value)
-        self.show = ['search '+ vstr' -'+prompt+' :']
-        self.show.extend(showl)
+        self.showlog = ['search '+ vstr + ' -'+prompt+' :']
+        self.showlog.extend(showl)
         forEach(showl,print)
         return(nrslt)
 
@@ -6856,28 +7078,558 @@ def help(func_name):
         doc = '''
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "ListTree.__init__"):
         doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            [0]
+            [1]
+            [1][0]
+            [2]
+            [3]
+            [3][0]
+            [3][1]
+            [3][1][0]
+            [3][1][1]
+            >>>
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "ListTree.__repr__"):
         doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            [0]
+            [1]
+            [1][0]
+            [2]
+            [3]
+            [3][0]
+            [3][1]
+            [3][1][0]
+            [3][1][1]
+            >>> l
+            [1, [4], 2, [3, [5, 6]]]
+            >>> ltree
+            [1, [4], 2, [3, [5, 6]]]
+             1, [4], 2, [3, [5, 6]]
+                 4       3, [5, 6]
+                             5, 6
+            >>> pobj(ltree.showlog)
+            [
+             '[1, [4], 2, [3, [5, 6]]]',
+             ' 1, [4], 2, [3, [5, 6]] ',
+             '     4       3, [5, 6]  ',
+             '                 5, 6   '
+            ]
+            >>>
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "ListTree.tree"):
         doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            [0]
+            [1]
+            [1][0]
+            [2]
+            [3]
+            [3][0]
+            [3][1]
+            [3][1][0]
+            [3][1][1]
+            >>> pathlists = ltree.tree()
+            [0]
+            [1]
+            [1][0]
+            [2]
+            [3]
+            [3][0]
+            [3][1]
+            [3][1][0]
+            [3][1][1]
+            >>> pathlists
+            [[0], [1], [1, 0], [2], [3], [3, 0], [3, 1], [3, 1, 0], [3, 1, 1]]
+            >>> pathlists = ltree.tree(leaf_only=True)
+            [0]
+            [1][0]
+            [2]
+            [3][0]
+            [3][1][0]
+            [3][1][1]
+            >>> pathlists
+            [[0], [1, 0], [2], [3, 0], [3, 1, 0], [3, 1, 1]]
+            >>> pathlists = ltree.tree(leaf_only=True,from_lv=1,to_lv=2)
+            [0]
+            [1][0]
+            [2]
+            [3][0]
+            >>> pathlists
+            [[0], [1, 0], [2], [3, 0]]
+            >>> pathlists = ltree.tree(non_leaf_only=True)
+            [1]
+            [3]
+            [3][1]
+            >>> pathlists
+            [[1], [3], [3, 1]]
+            >>>
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "ListTree.flatten"):
         doc = '''
+            from xdict.elist import *
+            l = [1, [4], 2, [3, [5, 6]]]
+            ltree = ListTree(l)
+            flat = ltree.flatten()
+            flat
+            ltree.flatWidth
+            ltree.depth
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "ListTree.dig"):
         doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> depthfirst = ltree.dig()
+            [0] ->
+            [1] ->
+            [1, 0] ->
+            [2] ->
+            [3] ->
+            [3, 0] ->
+            [3, 1] ->
+            [3, 1, 0] ->
+            [3, 1, 1] ->
+            >>>
+            >>> depthfirst = ltree.dig(2)
+            [0] ->
+            [1] ->
+            >>> depthfirst = ltree.dig(5)
+            [0] ->
+            [1] ->
+            [1, 0] ->
+            [2] ->
+            [3] ->
+            >>>
         '''
         print(doc)
-    elif(func_name == ""):
+    elif(func_name == "ListTree.level"):
         doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> level = ltree.level(1)
+            [0]
+            [1]
+            [2]
+            [3]
+            >>> level = ltree.level(1,leaf_only=True)
+            [0]
+            [2]
+            >>> level = ltree.level(1,non_leaf_only=True)
+            [1]
+            [3]
+            >>> level = ltree.level(2)
+            [1][0]
+            [3][0]
+            [3][1]
+            >>> level = ltree.level(3)
+            [3][1][0]
+            [3][1][1]
+            >>>
         '''
         print(doc)
+    elif(func_name == "ListTree.include"):
+        doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> l[3][1][0]
+            5
+            >>> ltree.include(3,1,0)
+            True
+            >>> l[3][1][2]
+            Traceback (most recent call last):
+              File "<stdin>", line 1, in <module>
+            IndexError: list index out of range
+            >>> ltree.include(pathlist = [3,1,2])
+            False
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "ListTree.search"):
+        doc = '''
+            from xdict.elist import *
+            from xdict.TestLib.genrand import gen_random_recursive_only_list_data as randlist
+            l = randlist()
+            ltree = ListTree(l)
+            pathlists = ltree.search('v_4')
+            pathlists.__len__()
+            l[0]
+            l[4][2][1][0][0][3]
+            l[4][2][1][0][0][19][11]
+            l[11][3]
+        '''
+        print(doc)
+    elif((func_name == "ListTree.ancestor_paths")|(func_name == "ListTree.ancestors")):
+        doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6]]]
+             1, [4], 2, [3, [5, 6]]
+                 4       3, [5, 6]
+                             5, 6
+            >>> ltree.ancestor_paths(3,1,0)
+            [[3], [3, 1]]
+            >>> ltree.ancestors(3,1,0)
+            [[3, [5, 6]], [5, 6]]
+            >>> l[3]
+            [3, [5, 6]]
+            >>> l[3][1]
+            [5, 6]
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.parent_paths")|(func_name == "ListTree.parents")):
+        doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6]]]
+             1, [4], 2, [3, [5, 6]]
+                 4       3, [5, 6]
+                             5, 6
+            >>> ltree.parent_path(3,1,0)
+            [3, 1]
+            >>> ltree.parent(3,1,0)
+            [5, 6]
+            >>> l[3][1]
+            [5, 6]
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.descendant_paths")|(func_name == "ListTree.descendants")):
+        doc = '''
+            from xdict.elist import *
+            >>> l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6]]]
+             1, [4], 2, [3, [5, 6]]
+                 4       3, [5, 6]
+                             5, 6
+            >>> ltree.descendant_paths(3)
+            [[3, 0], [3, 1], [3, 1, 0], [3, 1, 1]]
+            >>> ltree.descendants(3)
+            [3, [5, 6], 5, 6]
+            >>> ltree.descendant_paths(3,leaf_only=True)
+            [[3, 0], [3, 1, 0], [3, 1, 1]]
+            >>> ltree.descendants(3,leaf_only=True)
+            [3, 5, 6]
+            >>> ltree.descendant_paths(3,non_leaf_only=True)
+            [[3, 1]]
+            >>> ltree.descendants(3,non_leaf_only=True)
+            [[5, 6]]
+            >>> l[3][1]
+            [5, 6]
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.son_paths")|(func_name == "ListTree.sons")):
+        doc = '''
+            from xdict.elist import *
 
+        '''
+        print(doc)
+    elif((func_name == "ListTree.PrevSibPath")|(func_name == "ListTree.PrevSibling")|(func_name == "ListTree.lsib_path")|(func_name == "ListTree.lsib")):
+        doc = '''
+            from xdict.elist import *
+            >>> #prevSib
+            ... l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6]]]
+             1, [4], 2, [3, [5, 6]]
+                 4       3, [5, 6]
+                             5, 6
+            >>> # ltree.lsib_path
+            ... ltree.prevSibPath(3,1,1)
+            [3, 1, 0]
+            >>> # ltree.lsib
+            ... ltree.prevSibling(3,1,1)
+            5
+            >>> ltree.prevSibPath(3,1,0) == None
+            True
+            >>> #l[3][1][0] has no left sibling
+            ...
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.NextSibPath")|(func_name == "ListTree.NextSibling")|(func_name == "ListTree.rsib_path")|(func_name == "ListTree.rsib")):
+        doc = '''
+            from xdict.elist import *
+            >>>
+            >>> #nextSib
+            ... l = [1, [4], 2, [3, [5, 6]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6]]]
+             1, [4], 2, [3, [5, 6]]
+                 4       3, [5, 6]
+                             5, 6
+            >>> # ltree.rsib_path
+            ... ltree.nextSibPath(3,1,0)
+            [3, 1, 1]
+            >>> # ltree.rsib
+            ... ltree.nextSibling(3,1,0)
+            6
+            >>> ltree.nextSibPath(3,1,1) == None
+            True
+            >>> #l[3][1][1] has no right sibling
+            ...
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "ListTree.sibs"):
+        doc = '''
+            >>>
+            >>> l = [1, [4], 2, [3, [5, 6],7,[8,9]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], 7, [8, 9]]]
+             1, [4], 2, [3, [5, 6], 7, [8, 9]]
+                 4       3, [5, 6], 7, [8, 9]
+                             5, 6       8, 9
+            >>> ltree.sib_paths(3,1)
+            [[3, 0], [3, 1], [3, 2], [3, 3]]
+            >>> ltree.sibs(3,1)
+            [3, [5, 6], 7, [8, 9]]
+            >>> ltree.sib_paths(3,1,leaf_only=True)
+            [[3, 0], [3, 2]]
+            >>> ltree.sibs(3,1,leaf_only=True)
+            [3, 7]
+            >>> ltree.sib_paths(3,1,non_leaf_only=True)
+            [[3, 1], [3, 3]]
+            >>> ltree.sibs(3,1,non_leaf_only=True)
+            [[5, 6], [8, 9]]
+            >>>
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.SomeSibPaths")|(func_name == "ListTree.SomeSibs")|(func_name == "ListTree.some_sib_paths")|(func_name == "ListTree.some_sibs")):
+        doc = '''
+            >>> #some_sibs
+            ... l = [1, [4], 2, [3, [5, 6],7,[8,9]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], 7, [8, 9]]]
+             1, [4], 2, [3, [5, 6], 7, [8, 9]]
+                 4       3, [5, 6], 7, [8, 9]
+                             5, 6       8, 9
+            >>> #ltree.some_sib_paths
+            ... ltree.someSibPaths(3,1,some=[0,3])
+            [[3, 0], [3, 3]]
+            >>> #ltree.some_sibs
+            ... ltree.someSibs(3,1,some=[0,3])
+            [3, [8, 9]]
+            >>>
+            >>> ltree.someSibPaths(3,1,some=[0,3],leaf_only=True)
+            [[3, 0]]
+            >>> ltree.someSibs(3,1,some=[0,3],leaf_only=True)
+            [3]
+            >>> ltree.someSibPaths(3,1,some=[0,3],non_leaf_only=True)
+            [[3, 1]]
+            >>> ltree.someSibs(3,1,some=[0,3],non_leaf_only=True)
+            [[5, 6]]
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.whichSibPath")|(func_name == "ListTree.whichSib")|(func_name == "ListTree.which_sib_path")|(func_name == "ListTree.which_sib")):
+        doc = '''
+            from xdict.elist import *
+            >>> #whichSib
+            ... l = [1, [4], 2, [3, [5, 6],7,[8,9]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], 7, [8, 9]]]
+             1, [4], 2, [3, [5, 6], 7, [8, 9]]
+                 4       3, [5, 6], 7, [8, 9]
+                             5, 6       8, 9
+            >>> #ltree.which_sib_path
+            ... ltree.whichSibPath(3,1,which=2)
+            [3, 2]
+            >>> #ltree.which_sib
+            ... ltree.whichSib(3,1,which=2)
+            7
+            >>>
+            >>> ltree.whichSibPath(3,1,which=1,leaf_only=True)
+            [3, 2]
+            >>> ltree.whichSib(3,1,which=1,leaf_only=True)
+            7
+            >>> ltree.whichSibPath(3,1,which=1,non_leaf_only=True)
+            [3, 3]
+            >>> ltree.whichSib(3,1,which=1,non_leaf_only=True)
+            [8, 9]
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.precedingSibPaths")|(func_name == "ListTree.precedingSibs")|(func_name == "ListTree.preceding_sib_paths")|(func_name == "ListTree.preceding_sibs")):
+        doc = '''
+            from xdict.elist import *
+            >>> #precedingSibs
+            ... l = [1, [4], 2, [3, [5, 6],7,[8,9]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], 7, [8, 9]]]
+             1, [4], 2, [3, [5, 6], 7, [8, 9]]
+                 4       3, [5, 6], 7, [8, 9]
+                             5, 6       8, 9
+            >>> #ltree.preceding_sib_paths
+            ... ltree.precedingSibPaths(3,1)
+            [[3, 0]]
+            >>> #ltree.preceding_sibs
+            ... ltree.precedingSibs(3,1)
+            [3]
+            >>>
+            >>> ltree.precedingSibPaths(3,1,leaf_only=True)
+            [[3, 0], [3, 2]]
+            >>> ltree.precedingSibs(3,1,leaf_only=True)
+            [3, 7]
+            >>> ltree.precedingSibPaths(3,1,non_leaf_only=True)
+            []
+            >>> ltree.precedingSibs(3,1,non_leaf_only=True)
+            []
+            >>>
+        '''
+        print(doc)
+    elif((func_name == "ListTree.followingSibPaths")|(func_name == "ListTree.followingSibs")|(func_name == "ListTree.following_sib_paths")|(func_name == "ListTree.following_sibs")):
+        doc = '''
+            from xdict.elist import *
+            >>> #followingSibs
+            ... l = [1, [4], 2, [3, [5, 6],7,[8,9]]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], 7, [8, 9]]]
+             1, [4], 2, [3, [5, 6], 7, [8, 9]]
+                 4       3, [5, 6], 7, [8, 9]
+                             5, 6       8, 9
+            >>> #ltree.following_sib_paths
+            ... ltree.followingSibPaths(3,1)
+            [[3, 2], [3, 3]]
+            >>> #ltree.following_sibs
+            ... ltree.followingSibs(3,1)
+            [7, [8, 9]]
+            >>>
+            >>> ltree.followingSibPaths(3,1,leaf_only=True)
+            [[3, 0], [3, 2]]
+            >>> ltree.followingSibs(3,1,leaf_only=True)
+            [3, 7]
+            >>> ltree.followingSibPaths(3,1,non_leaf_only=True)
+            [[3, 3]]
+            >>> ltree.followingSibs(3,1,non_leaf_only=True)
+            [[8, 9]]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "lcin"):
+        doc = '''
+            from xdict.elist import *
+            >>> # lcin
+            ... l = [1, [4], 2, [3, [5, 6],[8,9],7]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], [8, 9], 7]]
+             1, [4], 2, [3, [5, 6], [8, 9], 7]
+                 4       3, [5, 6], [8, 9], 7
+                             5, 6    8, 9
+            >>> ltree.lcin_path(3,2,0)
+            [3, 1, 1]
+            >>> l[3][1][1]
+            6
+            >>> ltree.lcin(3,2,0)
+            6
+            >>> l[3][2][0]
+            8
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "rcin"):
+        doc = '''
+            from xdict.elist import *
+            >>> #rcin
+            ... l = [1, [4], 2, [3, [5, 6],[8,9],7]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], [8, 9], 7]]
+             1, [4], 2, [3, [5, 6], [8, 9], 7]
+                 4       3, [5, 6], [8, 9], 7
+                             5, 6    8, 9
+            >>> ltree.rcin_path(3,1,1)
+            [3, 2, 0]
+            >>> l[3][2][0]
+            8
+            >>> ltree.rcin(3,1,1)
+            8
+            >>> l[3][1][1]
+            6
+            >>>
+        '''
+        print(doc)
+    elif(func_name == "sons"):
+        doc = '''
+            from xdict.elist import *
+            >>> #sons
+            ... l = [1, [4], 2, [3, [5, 6],[8,9],7]]
+            >>> ltree = ListTree(l)
+            >>> ltree
+            [1, [4], 2, [3, [5, 6], [8, 9], 7]]
+             1, [4], 2, [3, [5, 6], [8, 9], 7]
+                 4       3, [5, 6], [8, 9], 7
+                             5, 6    8, 9
+            >>> ltree.son_paths(3)
+            [[3, 0], [3, 1], [3, 2], [3, 3]]
+            >>> ltree.sons(3)
+            [3, [5, 6], [8, 9], 7]
+            >>> ltree.son_paths(3,leaf_only=True)
+            [[3, 0], [3, 3]]
+            >>> ltree.sons(3,leaf_only=True)
+            [3, 7]
+            >>> ltree.son_paths(3,non_leaf_only=True)
+            [[3, 1], [3, 2]]
+            >>> ltree.sons(3,non_leaf_only=True)
+            [[5, 6], [8, 9]]
+            >>>
+        '''
+        print(doc)
+    elif(func_name == ""):
+        doc = '''
+        '''
+        print(doc)
+    elif(func_name == ""):
+        doc = '''
+        '''
+        print(doc)
+    elif(func_name == ""):
+        doc = '''
+            from xdict.elist import *
+        '''
+        print(doc)
+    elif(func_name == ""):
+        doc = '''
+            from xdict.elist import *
+        '''
+        print(doc)
+    elif(func_name == ""):
+        doc = '''
+        '''
+        print(doc)
+    elif(func_name == ""):
+        doc = '''
+        '''
+        print(doc)
