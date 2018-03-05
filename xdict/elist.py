@@ -175,6 +175,28 @@ def extend(ol,nl,**kwargs):
         ol.extend(nl)
         return(ol)
 
+def push(ol,*eles,**kwargs):
+    '''
+        from xdict.elist import *
+        ol=[1,2,3,4]
+        id(ol)
+        new = push(ol,5,6,7)
+        new
+        id(new)
+        ####
+        ol=[1,2,3,4]
+        id(ol)
+        rslt = push(ol,5,6,7,mode="original")
+        rslt
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "new"
+    eles = list(eles)
+    return(extend(ol,eles,mode=mode))
+
 def prextend(ol,nl,**kwargs):
     '''
         from xdict.elist import *
@@ -544,9 +566,6 @@ def batsorted(referer,*lists,**kwargs):
             nl.append(l[loc])
         rslt.append(nl)
     return(tuple(rslt))
-
-
-#@@@@@@@@@@@@@@
 
 def index_first(ol,value):
     '''
@@ -1211,7 +1230,33 @@ def all_continuous_indexesnot_slices(ol,value):
         pass
     return(rslt)
 
-#@@@@@@@@@@@@@@
+def shift(ol,**kwargs):
+    '''
+        from xdict.jprint import pobj
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        id(ol)
+        rslt = shift(ol)
+        pobj(rslt)
+        ol
+        id(ol)
+        id(rslt['list'])
+        ####
+        ol = [1,2,3,4]
+        id(ol)
+        rslt = shift(ol,mode="original")
+        rslt
+        ol
+        id(ol)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "new"
+    length = ol.__len__()
+    rslt = pop(ol,0,mode=mode)
+    return(rslt)
+
 def pop(ol,index,**kwargs):
     '''
         from xdict.jprint import pobj
@@ -1251,7 +1296,6 @@ def pop_range(ol,start_index,end_index,**kwargs):
         ol = [1,2,3,4,5,6]
         id(ol)
         rslt = pop_range(ol,2,4)
-        pobj(rslt)
         ol
         id(ol)
         id(rslt['list'])
@@ -1302,7 +1346,6 @@ def pop_some(ol,*indexes,**kwargs):
         ol = [1,2,3,4,5,6]
         id(ol)
         rslt = pop_some(ol,0,2,5)
-        pobj(rslt)
         ol
         id(ol)
         id(rslt['list'])
@@ -1350,7 +1393,6 @@ def pop_indexes(ol,indexes,**kwargs):
         ol = [1,2,3,4,5,6]
         id(ol)
         rslt = pop_indexes(ol,{0,-3,5})
-        pobj(rslt)
         ol
         id(ol)
         id(rslt['list'])
@@ -1993,81 +2035,37 @@ def remove_manynot(ol,values,seqs,**kwargs):
         ol.extend(new)
         return(ol)
 
-def reverse(ol,**kwargs):
+def init(len,default_element=None):
     '''
         from xdict.elist import *
-        ol = [1,2,3,4]
-        id(ol)
-        new = reverse(ol)
-        ol
-        new
-        id(ol)
-        id(new)
-        ####
-        ol = [1,2,3,4]
-        id(ol)
-        rslt = reverse(ol,mode="original")
-        ol
-        rslt
-        id(ol)
-        id(rslt)
+        init(5)
+        init(5,"x")
     '''
-    if('mode' in kwargs):
-        mode = kwargs["mode"]
-    else:
-        mode = "new"
-    if(mode == "new"):
-        new = copy.deepcopy(ol)
-        new.reverse()
-        return(new) 
-    else:
-        ol.reverse()
-        return(ol)
+    rslt = []
+    for i in range(0,len):
+        rslt.append(default_element)
+    return(rslt)
 
-
-    'reverse',
-    'sort'
-
-
-
-def comprise(list1,list2,**kwargs):
+def intlize(l):
     '''
         from xdict.elist import *
-        comprise([1,2,3,4,5],[2,3,4],mode="loose")
-        comprise([1,2,3,4,5],[2,3,4])
-        comprise([1,2,3,4,5],[2,3,4],mode="strict")
-        comprise([1,2,3,4,5],[1,2,3,4],mode="strict")
+        l = ["1","3","4","5"]
+        intlize(l)
     '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = "loose"
-    len_1 = list1.__len__()
-    len_2 = list2.__len__()
-    if(len_2>len_1):
-        return(False)
-    else:
-        if(mode=="strict"):
-            if(list2 == list1[:len_2]):
-                return(True)
-            else:
-                return(False)
-        else:
-            end = len_1 - len_2
-            for i in range(0,end+1):
-                if(list2 == list1[i:(i+len_2)]):
-                    return(True)
-                else:
-                    pass
-    return(False)
+    return(list(map(lambda ele:int(ele),l)))
 
-
-
+def strlize(l):
+    '''
+        from xdict.elist import *
+        l = [1,3,4,5]
+        strlize(l)
+    '''
+    return(list(map(lambda ele:str(ele),l)))
 
 def array_from(obj,func,*args):
     '''
         from xdict.elist import *
-        array_from("abcd")
+        array_from("abcd",None)
         #####
         def map_func(ele,x,y):
             return(int(ele)+x+y)
@@ -2095,6 +2093,16 @@ def array_of(*eles):
     '''
     return(list(eles))
 
+def deepcopy(ol):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        id(ol)
+        new = deepcopy(ol)
+        new
+        id(new)
+    '''
+    return(copy.deepcopy(ol))
 
 def copy_within(ol,target, start=None, end=None):
     '''
@@ -2146,6 +2154,76 @@ def copy_within(ol,target, start=None, end=None):
     return(ol)
 
 copyWithin = copy_within
+
+#@@@@@@@@@@@@@@@@@@
+
+def reverse(ol,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        id(ol)
+        new = reverse(ol)
+        ol
+        new
+        id(ol)
+        id(new)
+        ####
+        ol = [1,2,3,4]
+        id(ol)
+        rslt = reverse(ol,mode="original")
+        ol
+        rslt
+        id(ol)
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs["mode"]
+    else:
+        mode = "new"
+    if(mode == "new"):
+        new = copy.deepcopy(ol)
+        new.reverse()
+        return(new) 
+    else:
+        ol.reverse()
+        return(ol)
+
+
+    'reverse',
+    'sort'
+
+def comprise(list1,list2,**kwargs):
+    '''
+        from xdict.elist import *
+        comprise([1,2,3,4,5],[2,3,4],mode="loose")
+        comprise([1,2,3,4,5],[2,3,4])
+        comprise([1,2,3,4,5],[2,3,4],mode="strict")
+        comprise([1,2,3,4,5],[1,2,3,4],mode="strict")
+        #not recursive ,only one level
+        #please refer to ListTree.search for recursive support
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "loose"
+    len_1 = list1.__len__()
+    len_2 = list2.__len__()
+    if(len_2>len_1):
+        return(False)
+    else:
+        if(mode=="strict"):
+            if(list2 == list1[:len_2]):
+                return(True)
+            else:
+                return(False)
+        else:
+            end = len_1 - len_2
+            for i in range(0,end+1):
+                if(list2 == list1[i:(i+len_2)]):
+                    return(True)
+                else:
+                    pass
+    return(False)
 
 def entries(ol):
     '''
@@ -2534,27 +2612,6 @@ def find_allnot(ol,test_func,*args):
             rslt.append({'index':i,'value':ol[i]})
     return(rslt)
 
-def push(l,*eles,**kwargs):
-    '''
-        from xdict.elist import *
-        ol=[1,2,3,4]
-        id(ol)
-        new = push(ol,5,6,7)
-        new
-        id(new)
-        ####
-        ol=[1,2,3,4]
-        id(ol)
-        rslt = push(ol,5,6,7,mode="original")
-        rslt
-        id(rslt)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = "new"
-    eles = list(eles)
-    return(extend(ol,eles,mode=mode))
 
 def includes(ol,value):
     '''
@@ -2679,32 +2736,6 @@ def slice(ol,start,end=None,**kwargs):
         ol.extend(new[start:end])
         return(ol)
 
-def shift(ol,**kwargs):
-    '''
-        from xdict.jprint import pobj
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        id(ol)
-        rslt = shift(ol)
-        pobj(rslt)
-        ol
-        id(ol)
-        id(rslt['list'])
-        ####
-        ol = [1,2,3,4]
-        id(ol)
-        rslt = shift(ol,mode="original")
-        rslt
-        ol
-        id(ol)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = "new"
-    length = ol.__len__()
-    rslt = pop(ol,0,mode=mode)
-    return(rslt)
 
 def reduce_left(ol,callback,initialValue):
     '''
@@ -2819,21 +2850,9 @@ def for_each(ol,test_func,*args):
 
 forEach = for_each
 
-def intlize(l):
-    '''
-        from xdict.elist import *
-        l = ["1","3","4","5"]
-        intlize(l)
-    '''
-    return(list(map(lambda ele:int(ele),l)))
 
-def strlize(l):
-    '''
-        from xdict.elist import *
-        l = [1,3,4,5]
-        strlize(l)
-    '''
-    return(list(map(lambda ele:str(ele),l)))
+
+
 
 def diff_indexes(l1,l2):
     '''
@@ -2887,16 +2906,6 @@ def same_values(l1,l2):
             rslt.append(l1[i])
     return(rslt)
 
-def init(len,default_element=None):
-    '''
-        from xdict.elist import *
-        init(5)
-        init(5,"x")
-    '''
-    rslt = []
-    for i in range(0,len):
-        rslt.append(default_element)
-    return(rslt)
 
 def uniqualize(l,**kwargs):
     '''
@@ -3079,17 +3088,6 @@ def is_list(obj):
 
 isArray = is_list
 
-
-def deepcopy(ol):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        id(ol)
-        new = deepcopy(ol)
-        new
-        id(new)
-    '''
-    return(copy.deepcopy(ol))
 
 
 
@@ -3897,12 +3895,6 @@ def get_j_str_lvs_dict(j_str,block_op_pairs_dict=get_block_op_pairs("{}[]()")):
             j_str_lvs_dict[seq] =level
             seq = seq + 1
     return(j_str_lvs_dict)
-
-
-
-
-
-
 
 
 
