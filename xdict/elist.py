@@ -2462,6 +2462,7 @@ def for_each(ol,test_func,*args):
         for_each(ol,show_func)
         
         ####forEach is the same as for_each
+        ####forEach have no return value
     '''
     rslt = (True,None)
     length = ol.__len__()
@@ -2470,29 +2471,6 @@ def for_each(ol,test_func,*args):
 
 forEach = for_each
 
-def some(ol,test_func,*args):
-    '''
-        from xdict.elist import *
-        def test_func(ele,x):
-            cond = (ele > x)
-            return(cond)
-        
-        ol = [1,2,3,4]
-        some(ol,test_func,3)
-        
-        ol = [1,2,1,3]
-        some(ol,test_func,3)
-        
-    '''
-    rslt = {'cond':False,'index':None}
-    length = ol.__len__()
-    for i in range(0,length):
-        cond = test_func(ol[i],*args)
-        if(cond):
-            return({'cond':True,'index':i})
-        else:
-            pass
-    return(rslt)
 
 def every(ol,test_func,*args):
     '''
@@ -2518,24 +2496,47 @@ def every(ol,test_func,*args):
             return((False,i))
     return(rslt)
 
+def some(ol,test_func,*args):
+    '''
+        from xdict.elist import *
+        def test_func(ele,x):
+            cond = (ele > x)
+            return(cond)
+        
+        ol = [1,2,3,4]
+        some(ol,test_func,3)
+        
+        ol = [1,2,1,3]
+        some(ol,test_func,3)
+    '''
+    rslt = {'cond':False,'index':None}
+    length = ol.__len__()
+    for i in range(0,length):
+        cond = test_func(ol[i],*args)
+        if(cond):
+            return({'cond':True,'index':i})
+        else:
+            pass
+    return(rslt)
+
 def fill(ol,value,start=None, end=None,**kwargs):
     '''
         from xdict.elist import *
-        ol = [1, 2, 3]
+        ol = [1, 2, 3,4,5]
         id(ol)
         rslt = fill(ol,4)
         rslt
         id(rslt)
         ####
-        ol = [1, 2, 3]
+        ol = [1, 2, 3,4,5]
         id(ol)
         rslt = fill(ol,4,1)
         rslt
         id(rslt)
         ####
-        ol = [1, 2, 3]
+        ol = [1, 2, 3,4,5]
         id(ol)
-        rslt = fill(ol,4,1,2,mode="original")
+        rslt = fill(ol,6,1,3,mode="original")
         rslt
         id(rslt)
     '''
@@ -2602,6 +2603,9 @@ def filter(ol,test_func,*args,**kwargs):
         ol.clear()
         ol.extend(new)
         return(ol)
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 def find_first(ol,test_func,*args):
     '''
@@ -2868,6 +2872,7 @@ def find_allnot(ol,test_func,*args):
     return(rslt)
 
 
+#@@@@@@@@@@@@@@@@
 def array_map(ol,map_func,*args):
     '''
         from xdict.elist import *
@@ -2880,31 +2885,118 @@ def array_map(ol,map_func,*args):
     rslt = list(map(lambda ele:map_func(ele,*args),ol))
     return(rslt)
 
+def array_map2(*referls,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        refl1 = ['+','+','+','+']
+        refl2 = [7,7,7,7]
+        refl3 = ['=','=','=','=']
+        def map_func(ele,ref_ele1,ref_ele2,ref_ele3,prefix,suffix):
+            s = prefix+': ' + str(ele) + str(ref_ele1) + str(ref_ele2) + str(ref_ele3) + suffix
+            return(s)
+        
+        ####
+        rslt = array_map2(ol,refl1,refl2,refl3,map_func=map_func,map_func_args=['Q','?'])
+        pobj(rslt)
+    '''
+    map_func = kwargs['map_func']
+    if('map_func_args' in kwargs):
+        map_func_args = kwargs['map_func_args']
+    else:
+        map_func_args = []
+    length = referls.__len__()
+    rslt = []
+    anum = list(referls)[0].__len__()
+    for j in range(0,anum):
+        args = []
+        for i in range(0,length):
+            refl = referls[i]
+            args.append(refl[j])
+        args.extend(map_func_args)
+        v = map_func(*args)
+        rslt.append(v)
+    return(rslt)
+
 def array_dualmap(ol,value_map_func,**kwargs):
     '''
+        from xdict.elist import *
+        ol = ['a','b','c','d']
+        def index_map_func(index,prefix,suffix):
+            s = prefix +str(index+97)+ suffix
+            return(s)
+        
+        def value_map_func(mapped_index,ele,prefix,suffix):
+            s = prefix+mapped_index+': ' + str(ele) + suffix
+            return(s)
+        
+        ####
+        rslt = array_dualmap2(ol,index_map_func=index_map_func,index_map_func_args=[': ',' is '],value_map_func=value_map_func,value_map_func_args=['ord',' yes?'])
+        pobj(rslt)
     '''
     def get_self(obj):
         return(obj)
-    if('iargs' in kwargs):
-        iargs = kwargs['iargs']
+    if('index_map_func_args' in kwargs):
+        index_map_func_args = kwargs['index_map_func_args']
     else:
-        iargs = []
-    if('vargs' in kwargs):
-        vargs = kwargs['vargs']
+        index_map_func_args = []
+    if('value_map_func_args' in kwargs):
+        value_map_func_args = kwargs['value_map_func_args']
     else:
-        vargs = []
+        value_map_func_args = []
     if('index_map_func' in kwargs):
         index_map_func = kwargs['index_map_func']
     else:
         index_map_func = get_self
     length = ol.__len__()
     il = list(range(0,length))
-    nil = list(map(lambda ele:index_map_func(ele,*iargs),il))
+    nil = list(map(lambda ele:index_map_func(ele,*index_map_func_args),il))
     nvl = []
     for i in range(0,length):
         ele = ol[i]
-        v = value_map_func(ele,nil[i],*vargs)
+        v = value_map_func(nil[i],ele,*value_map_func_args)
         nvl.append(v)
+    return(nvl)
+
+def array_dualmap2(*refls,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        refl1 = ['+','+','+','+']
+        refl2 = [7,7,7,7]
+        refl3 = ['=','=','=','=']
+        def index_map_func(index):
+            s ="<"+str(index)+">"
+            return(s)
+        
+        def value_map_func(mapped_index,ele,ref_ele1,ref_ele2,ref_ele3,prefix,suffix):
+            s = prefix+mapped_index+': ' + str(ele) + str(ref_ele1) + str(ref_ele2) + str(ref_ele3) + suffix
+            return(s)
+        
+        ####
+        rslt = array_dualmap2(ol,refl1,refl2,refl3,index_map_func=index_map_func,value_map_func=value_map_func,value_map_func_args=['Q','?'])
+        pobj(rslt)
+    '''
+    def get_self(obj,*args):
+        return(obj)
+    if('value_map_func_args' in kwargs):
+        value_map_func_args = kwargs['value_map_func_args']
+    else:
+        value_map_func_args = []
+    if('index_map_func' in kwargs):
+        index_map_func = kwargs['index_map_func']
+    else:
+        index_map_func = get_self
+    if('index_map_func_args' in kwargs):
+        index_map_func_args = kwargs['index_map_func_args']
+    else:
+        index_map_func_args = []
+    length = ol.__len__()
+    il = list(range(0,length))
+    nil = list(map(lambda ele:index_map_func(ele,*index_map_func_args),il))
+    refls = list(refls)
+    refls = prepend(refls,nil)
+    nvl = array_map2(*refls,map_func = value_map_func,map_func_args=value_map_func_args)
     return(nvl)
 
 def reduce_left(ol,callback,initialValue):
@@ -2948,7 +3040,7 @@ def reduce_right(ol,callback,initialValue):
 
 reduceRight = reduce_right
 
-
+#
 
 
 
@@ -4006,9 +4098,6 @@ def table(l,depth,**kwargs):
 
 ####
 
-
-
-
 class ListTree():
     '''
         
@@ -4801,7 +4890,66 @@ class ListTree():
         self.showlog.extend(showl)
         forEach(showl,print)
         return(nrslt)
-
+    def cond_search(self,**kwargs):
+        ###
+        cond_func = kwargs['cond_func']
+        if('cond_func_args' in kwargs):
+            cond_func_args = kwargs['cond_func_args']
+        else:
+            cond_func_args = []
+        ###
+        if('leaf_only' in kwargs):
+            leaf_only = kwargs['leaf_only']
+            prompt = 'leaf_only'
+        else:
+            leaf_only = False
+            prompt = ''
+        if('non_leaf_only' in kwargs):
+            non_leaf_only = kwargs['non_leaf_only']
+            prompt = 'non_leaf_only'
+        else:
+            non_leaf_only = False
+            prompt = ''
+        if('from_lv' in kwargs):
+            from_lv = kwargs['from_lv']
+        else:
+            from_lv = 1
+        if('to_lv' in kwargs):
+            to_lv = kwargs['to_lv']
+        else:
+            to_lv = self.depth -1
+        lpls = copy.deepcopy(self.desc[0][0]['leaf_descendant_paths'])
+        nlpls = copy.deepcopy(self.desc[0][0]['non_leaf_descendant_paths'])
+        if(leaf_only):
+            rslt = lpls
+        elif(non_leaf_only):
+            rslt = nlpls
+        else:
+            rslt = lpls+nlpls
+        nrslt = []
+        nvs = []
+        for i in range(0,rslt.__len__()):
+            pl = rslt[i]
+            length = pl.__len__()
+            cond1 = (length >= from_lv)
+            cond2 = (length <= to_lv)
+            v = getitem_via_pathlist(self.list,pl)
+            cond3 = cond_func(v,pl,*cond_func_args)
+            if(cond1 & cond2 & cond3):
+                nrslt.append(pl)
+                nvs.append(v)
+            else:
+                pass
+        
+        showl = array_map(nrslt,pathlist_to_getStr)
+        nrslt,showl = batsorted(nrslt,nrslt,showl)
+        func_name = cond_func.__name__
+        vstr = 'ele_value,ele_pathlist,' +str(cond_func_args)[1:-1]
+        vstr = func_name + '(' + vstr + ')'
+        self.showlog = ['search '+ vstr + ' -'+prompt+' :']
+        self.showlog.extend(showl)
+        forEach(showl,print)
+        return(nrslt)
 
 def help(func_name):
     if(func_name == "select_some"):
