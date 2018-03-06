@@ -6,7 +6,7 @@ import os
 import sys
 
 #IDE code shaping
-def creat_markdown_tree_links(arr,base=10):
+def creat_markdown_tree_links(arr,base=10,**kwargs):
     if('indent' in kwargs):
         indent = kwargs['indent']
     else:

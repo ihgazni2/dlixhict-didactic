@@ -2155,8 +2155,6 @@ def copy_within(ol,target, start=None, end=None):
 
 copyWithin = copy_within
 
-#@@@@@@@@@@@@@@@@@@
-
 def reverse(ol,**kwargs):
     '''
         from xdict.elist import *
@@ -2237,6 +2235,263 @@ def entries(ol):
     for i in range(0,length):
         entry = [i,ol[i]]
         rslt.append(entry)
+    return(rslt)
+
+def includes(ol,value):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        includes(ol,3)
+        includes(ol,5)
+    '''
+    return((value in ol))
+
+def toString(ol):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        toString(ol)
+    '''
+    return(ol.__str__())
+
+def toSource(ol):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        toSource(ol)
+    '''
+    return(ol.__repr__())
+
+def splice(ol,start,deleteCount,*eles,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = ["angel", "clown", "mandarin", "surgeon"]
+        id(ol)
+        new = splice(ol,2,0,"drum")
+        new
+        id(new)
+        ####
+        ol = ["angel", "clown", "mandarin", "surgeon"]
+        id(ol)
+        new = splice(ol,2,1,"drum",mode="original")
+        new
+        id(new)
+        ####
+        ol = [1,2,3,4,5,6]
+        id(ol)
+        new = splice(ol,2,2,77,777)
+        new
+        id(new)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "new"
+    length = ol.__len__()
+    new = copy.deepcopy(ol)
+    if(start >= length):
+        eles = list(eles)
+        new.extend(eles)
+    else:
+        start = uniform_index(start,length)
+        end = start + deleteCount
+        tmp = pop_range(new,start,end,mode="new")['list']
+        new = insert_some(tmp,*eles,index=start,mode="new")
+    if(mode == "new"):
+        return(new)
+    else:
+        ol.clear()
+        ol.extend(new)
+        return(ol)
+
+def slice(ol,start,end=None,**kwargs):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4,5]
+        id(ol)
+        new = slice(ol,2,4)
+        new
+        id(new)
+        ####
+        id(ol)
+        rslt = slice(ol,1,-2,mode="original")
+        rslt
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = "new"
+    length = ol.__len__()
+    new = copy.deepcopy(ol)
+    if(end == None):
+        end = length
+    else:
+        end = uniform_index(end,length)
+    start = uniform_index(start,length)
+    if(mode == "new"):
+        return(new[start:end])
+    else:
+        ol.clear()
+        ol.extend(new[start:end])
+        return(ol)
+
+def join(ol,separator=","):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        join(ol,separator="-")
+    '''
+    rslt =""
+    length = ol.__len__()
+    for i in range(0,length-1):
+        rslt = rslt + str(ol[i]) + separator
+    rslt = rslt + str(ol[length - 1])
+    return(rslt)
+
+def join2(ol,*sps):
+    '''
+        from xdict.elist import *
+        ol = [1,2,3,4]
+        join2(ol,"-","+","*")
+    '''
+    rslt =""
+    length = ol.__len__()
+    for i in range(0,length-1):
+        rslt = rslt + str(ol[i]) + sps[i]
+    rslt = rslt + str(ol[length - 1])
+    return(rslt)
+
+def htmljoin(ol,sp,**kwargs):
+    '''
+        ol = [1,2,3,4]
+        htmljoin(ol,"option",outer="select")
+        
+    '''
+    if('outer' in kwargs):
+        outer = kwargs['outer']
+    else:
+        outer = ""
+    if(outer):
+        head = "<" + outer + ">"
+        tail = "</" + outer + ">"
+    else:
+        head = ""
+        tail = ""
+    rslt = head
+    length = ol.__len__()
+    begin = "<" + sp + ">"
+    end = "</" + sp + ">"
+    for i in range(0,length):
+        rslt = rslt + begin + str(ol[i]) + end
+    rslt = rslt + tail
+    return(rslt)
+
+def uniqualize(l,**kwargs):
+    '''
+        from xdict.elist import *
+        l = [1, 2, 2]
+        new = uniqualize(l)
+        new
+        id(l)
+        id(new)
+        ####
+        l = [1, 2, 2]
+        rslt = uniqualize(l,mode="original")
+        rslt
+        id(l)
+        id(rslt)
+    '''
+    if('mode' in kwargs):
+        mode = kwargs['mode']
+    else:
+        mode = 'new'
+    pt = copy.deepcopy(l)
+    seqs_for_del =[]
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    tslen = vset.__len__()
+    freq = {}
+    for i in range(0,pt.__len__()):
+        v = pt[i]
+        if(v in freq):
+            freq[v] = freq[v] + 1
+            seqs_for_del.append(i)
+        else:
+            freq[v] = 0
+    npt = []
+    for i in range(0,pt.__len__()):
+        if(i in seqs_for_del):
+            pass
+        else:
+            npt.append(pt[i])
+    pt = npt
+    if(mode == 'new'):
+        return(npt)
+    else:
+        l.clear()
+        l.extend(npt)
+        return(l)
+
+def interleave(*arrays,**kwargs):
+    '''
+        arr1 = [1,2,3,4]
+        arr2 = ['a','b','c','d']
+        arr3 = ['@','#','%','*']
+        interleave(arr1,arr2,arr3)
+    '''
+    anum = arrays.__len__()
+    rslt = []
+    length = arrays[0].__len__()
+    for j in range(0,length):
+        for i in range(0,anum):
+            array = arrays[i]
+            rslt.append(array[j])
+    return(rslt)
+
+#@@@@@@@@@@@@@@@@@@
+
+def for_each(ol,test_func,*args):
+    '''
+        from xdict.elist import *
+        def show_func(ele):
+            print("<{0}>".format(ele))
+        
+        ol = [1,2,3,4]
+        for_each(ol,show_func)
+        
+        ####forEach is the same as for_each
+    '''
+    rslt = (True,None)
+    length = ol.__len__()
+    for i in range(0,length):
+        test_func(ol[i],*args)
+
+forEach = for_each
+
+def some(ol,test_func,*args):
+    '''
+        from xdict.elist import *
+        def test_func(ele,x):
+            cond = (ele > x)
+            return(cond)
+        
+        ol = [1,2,3,4]
+        some(ol,test_func,3)
+        
+        ol = [1,2,1,3]
+        some(ol,test_func,3)
+        
+    '''
+    rslt = {'cond':False,'index':None}
+    length = ol.__len__()
+    for i in range(0,length):
+        cond = test_func(ol[i],*args)
+        if(cond):
+            return({'cond':True,'index':i})
+        else:
+            pass
     return(rslt)
 
 def every(ol,test_func,*args):
@@ -2613,129 +2868,44 @@ def find_allnot(ol,test_func,*args):
     return(rslt)
 
 
-def includes(ol,value):
+def array_map(ol,map_func,*args):
     '''
         from xdict.elist import *
         ol = [1,2,3,4]
-        includes(ol,3)
-        includes(ol,5)
-    '''
-    return((value in ol))
-
-def toString(ol):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        toString(ol)
-    '''
-    return(ol.__str__())
-
-def toSource(ol):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        toSource(ol)
-    '''
-    return(ol.__repr__())
-
-def splice(ol,start,deleteCount,*eles,**kwargs):
-    '''
-        from xdict.elist import *
-        ol = ["angel", "clown", "mandarin", "surgeon"]
-        id(ol)
-        new = splice(ol,2,0,"drum")
-        new
-        id(new)
-        ####
-        ol = ["angel", "clown", "mandarin", "surgeon"]
-        id(ol)
-        new = splice(ol,2,1,"drum",mode="original")
-        new
-        id(new)
-        ####
-        ol = [1,2,3,4,5,6]
-        id(ol)
-        new = splice(ol,2,2,77,777)
-        new
-        id(new)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = "new"
-    length = ol.__len__()
-    new = copy.deepcopy(ol)
-    if(start >= length):
-        eles = list(eles)
-        new.extend(eles)
-    else:
-        start = uniform_index(start,length)
-        end = start + deleteCount
-        tmp = pop_range(new,start,end,mode="new")['list']
-        new = insert_some(tmp,*eles,index=start,mode="new")
-    if(mode == "new"):
-        return(new)
-    else:
-        ol.clear()
-        ol.extend(new)
-        return(ol)
-
-def some(ol,test_func,*args):
-    '''
-        from xdict.elist import *
-        def test_func(ele,x):
-            cond = (ele > x)
-            return(cond)
+        def map_func(ele,mul,plus):
+            return(ele*mul+plus)
         
-        ol = [1,2,3,4]
-        some(ol,test_func,3)
-        
-        ol = [1,2,1,3]
-        some(ol,test_func,3)
-        
+        array_map(ol,map_func,2,100)
     '''
-    rslt = {'cond':False,'index':None}
-    length = ol.__len__()
-    for i in range(0,length):
-        cond = test_func(ol[i],*args)
-        if(cond):
-            return({'cond':True,'index':i})
-        else:
-            pass
+    rslt = list(map(lambda ele:map_func(ele,*args),ol))
     return(rslt)
 
-def slice(ol,start,end=None,**kwargs):
+def array_dualmap(ol,value_map_func,**kwargs):
     '''
-        from xdict.elist import *
-        ol = [1,2,3,4,5]
-        id(ol)
-        new = slice(ol,2,4)
-        new
-        id(new)
-        ####
-        id(ol)
-        rslt = slice(ol,1,-2,mode="original")
-        rslt
-        id(rslt)
     '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
+    def get_self(obj):
+        return(obj)
+    if('iargs' in kwargs):
+        iargs = kwargs['iargs']
     else:
-        mode = "new"
+        iargs = []
+    if('vargs' in kwargs):
+        vargs = kwargs['vargs']
+    else:
+        vargs = []
+    if('index_map_func' in kwargs):
+        index_map_func = kwargs['index_map_func']
+    else:
+        index_map_func = get_self
     length = ol.__len__()
-    new = copy.deepcopy(ol)
-    if(end == None):
-        end = length
-    else:
-        end = uniform_index(end,length)
-    start = uniform_index(start,length)
-    if(mode == "new"):
-        return(new[start:end])
-    else:
-        ol.clear()
-        ol.extend(new[start:end])
-        return(ol)
-
+    il = list(range(0,length))
+    nil = list(map(lambda ele:index_map_func(ele,*iargs),il))
+    nvl = []
+    for i in range(0,length):
+        ele = ol[i]
+        v = value_map_func(ele,nil[i],*vargs)
+        nvl.append(v)
+    return(nvl)
 
 def reduce_left(ol,callback,initialValue):
     '''
@@ -2778,77 +2948,8 @@ def reduce_right(ol,callback,initialValue):
 
 reduceRight = reduce_right
 
-def array_map(ol,map_func,*args):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        def map_func(ele,mul,plus):
-            return(ele*mul+plus)
-        
-        array_map(ol,map_func,2,100)
-    '''
-    rslt = list(map(lambda ele:map_func(ele,*args),ol))
-    return(rslt)
-
-def array_dualmap(ol,value_map_func,**kwargs):
-    '''
-    '''
-    def get_self(obj):
-        return(obj)
-    if('iargs' in kwargs):
-        iargs = kwargs['iargs']
-    else:
-        iargs = []
-    if('vargs' in kwargs):
-        vargs = kwargs['vargs']
-    else:
-        vargs = []
-    if('index_map_func' in kwargs):
-        index_map_func = kwargs['index_map_func']
-    else:
-        index_map_func = get_self
-    length = ol.__len__()
-    il = list(range(0,length))
-    nil = list(map(lambda ele:index_map_func(ele,*iargs),il))
-    nvl = []
-    for i in range(0,length):
-        ele = ol[i]
-        v = value_map_func(ele,nil[i],*vargs)
-        nvl.append(v)
-    return(nvl)
 
 
-
-def join(ol,separator=","):
-    '''
-        from xdict.elist import *
-        ol = [1,2,3,4]
-        join(ol,separator="-")
-    '''
-    rslt =""
-    length = ol.__len__()
-    for i in range(0,length-1):
-        rslt = rslt + str(ol[i]) + separator
-    rslt = rslt + str(ol[length - 1])
-    return(rslt)
-
-def for_each(ol,test_func,*args):
-    '''
-        from xdict.elist import *
-        def show_func(ele):
-            print("<{0}>".format(ele))
-        
-        ol = [1,2,3,4]
-        for_each(ol,show_func)
-        
-        ####forEach is the same as for_each
-    '''
-    rslt = (True,None)
-    length = ol.__len__()
-    for i in range(0,length):
-        test_func(ol[i],*args)
-
-forEach = for_each
 
 
 
@@ -2905,54 +3006,6 @@ def same_values(l1,l2):
         if(l1[i]==l2[i]):
             rslt.append(l1[i])
     return(rslt)
-
-
-def uniqualize(l,**kwargs):
-    '''
-        from xdict.elist import *
-        l = [1, 2, 2]
-        new = uniqualize(l)
-        new
-        id(l)
-        id(new)
-        ####
-        l = [1, 2, 2]
-        rslt = uniqualize(l,mode="original")
-        rslt
-        id(l)
-        id(rslt)
-    '''
-    if('mode' in kwargs):
-        mode = kwargs['mode']
-    else:
-        mode = 'new'
-    pt = copy.deepcopy(l)
-    seqs_for_del =[]
-    vset = set({})
-    for v in pt:
-        vset.add(v)
-    tslen = vset.__len__()
-    freq = {}
-    for i in range(0,pt.__len__()):
-        v = pt[i]
-        if(v in freq):
-            freq[v] = freq[v] + 1
-            seqs_for_del.append(i)
-        else:
-            freq[v] = 0
-    npt = []
-    for i in range(0,pt.__len__()):
-        if(i in seqs_for_del):
-            pass
-        else:
-            npt.append(pt[i])
-    pt = npt
-    if(mode == 'new'):
-        return(npt)
-    else:
-        l.clear()
-        l.extend(new)
-        return(l)
 
 def value_indexes_mapping(l):
     '''
