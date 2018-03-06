@@ -4940,14 +4940,16 @@ class ListTree():
                 nvs.append(v)
             else:
                 pass
-        
+        def showlog_append(ele1,ele2,*args):
+            return(ele1 + ' : ' + str(ele2))
         showl = array_map(nrslt,pathlist_to_getStr)
+        showl2 = array_map2(showl,nvs,map_func=showlog_append)
         nrslt,showl = batsorted(nrslt,nrslt,showl)
         func_name = cond_func.__name__
         vstr = 'ele_value,ele_pathlist,' +str(cond_func_args)[1:-1]
         vstr = func_name + '(' + vstr + ')'
         self.showlog = ['search '+ vstr + ' -'+prompt+' :']
-        self.showlog.extend(showl)
+        self.showlog.extend(showl2)
         forEach(showl,print)
         return(nrslt)
 
