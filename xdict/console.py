@@ -330,3 +330,9 @@ else:
             bg = 0
         control = '\033[38;5;' +str(fg) +"m" + '\033[48;5;' +str(bg) +"m"
         return(control)
+
+
+if(xdict.utils.is_win()):
+    paint = print_str
+else:
+    paint = paint_str
