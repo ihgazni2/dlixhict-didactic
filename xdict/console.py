@@ -107,6 +107,7 @@ if(xdict.utils.is_win()):
             single_color = kwargs['single_color']
             if(xdict.utils.is_str(single_color)):
                 single_color = single_color.lower()
+                single_color = single_color.replace('bright','light')
                 if(single_color in COLORS_MD):
                     single_color = COLORS_MD[single_color]
                 else:
@@ -198,6 +199,7 @@ else:
             single_color = kwargs['single_color']
             if(xdict.utils.is_str(single_color)):
                 single_color = single_color.lower()
+                single_color = single_color.replace('light','bright')
                 if(single_color in COLORS_MD):
                     single_color = COLORS_MD[single_color]
                 else:
