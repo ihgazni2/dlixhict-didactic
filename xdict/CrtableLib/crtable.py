@@ -4364,7 +4364,7 @@ def display_table_via_rows(ROWs,**kwargs):
         boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
     print(boundary)
     #######
-    windows = utils.is_win():
+    windows = utils.is_win()
     ######
     for i in range(0,ROWs.__len__()):
         if(windows):
@@ -4446,7 +4446,7 @@ def display_table_via_cols(COLs,**kwargs):
         boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
     print(boundary)
     ####
-    windows = utils.is_win():
+    windows = utils.is_win()
     ####
     for i in range(0,ROWs.__len__()):
         if(windows):
