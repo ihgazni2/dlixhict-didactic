@@ -4376,13 +4376,14 @@ def display_table_via_rows(ROWs,**kwargs):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
                     color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
-                    cursor = cursor+length
+                    cursor = cursor+length+1
                 else:
                     print(display_COLs[j][i],end='')
             if(colored):
                 console.paint(s,color_sec=color_sec)
             else:
-                pass
+                print('\n',end='')
+                print(boundary)
         else:
             for j in range(0,COLs.__len__()):
                 if(colored):
@@ -4390,8 +4391,8 @@ def display_table_via_rows(ROWs,**kwargs):
                     console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
                 else:
                     print(display_COLs[j][i],end='')
-        print('\n',end='')
-        print(boundary)
+            print('\n',end='')
+            print(boundary)
 
 def display_table_via_cols(COLs,**kwargs):
     '''
@@ -4458,13 +4459,14 @@ def display_table_via_cols(COLs,**kwargs):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
                     color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
-                    cursor = cursor+length
+                    cursor = cursor+length+1
                 else:
                     print(display_COLs[j][i],end='')
             if(colored):
                 console.paint(s,color_sec=color_sec)
             else:
-                pass
+                print('\n',end='')
+                print(boundary)
         else:
             for j in range(0,COLs.__len__()):
                 if(colored):
@@ -4472,8 +4474,8 @@ def display_table_via_cols(COLs,**kwargs):
                     console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
                 else:
                     print(display_COLs[j][i],end='')
-        print('\n',end='')
-        print(boundary)
+            print('\n',end='')
+            print(boundary)
 
 def show_crtable(crtable):
     '''
