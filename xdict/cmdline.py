@@ -3724,19 +3724,19 @@ def show_html_text_via_cmd(cmd,**kwargs):
     if(get_all):
             rslt = {}
             howmany = rslt_seqs.__len__()
-            print("\n Found {0} matched:".format(howmany))
+            print("\n-Found {0} matched:".format(howmany))
             for i in range(0,howmany):
                 seq = rslt_seqs[i]
-                #print('cmd: {0}'.format(cmdlines_ltdict[seq]))
-                #print('result: {0}'.format(results[seq]))
-                #print('attrib: {0}'.format(attribs[seq]))
+                print("-----------------------------------------------------")
                 cmd = str(cmdlines_ltdict[seq])
                 console.paint_singleline(cmd,'yellow',prefix='cmd: ')
                 result = str(results[seq])
                 console.paint_singleline(result,'lightred',prefix='result: ')
                 attrib = str(attribs[seq])
                 console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
-                rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq]}
+                seq = str(seq)
+                console.paint_singleline(seq,'lightmagenta',prefix='seq: ')
+                rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq}
             return(rslt)
     else:
         if(rslt_seqs.__len__()==1):
