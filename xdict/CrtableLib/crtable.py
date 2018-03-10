@@ -4428,7 +4428,8 @@ def display_table_via_cols(COLs,**kwargs):
     for i in range(0,ROWs.__len__()):
         for j in range(0,COLs.__len__()):
             if(colored):
-                print(console.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
+                #print(console.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
+                console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
             else:
                 print(display_COLs[j][i],end='')
         print('\n',end='')
@@ -4624,10 +4625,14 @@ class crtable():
             crtb
         '''
         show_crtable(self.crtable)
-        print(console.paint_str("====keys====:",single_color='blue'))
-        print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue'))    
-        print(console.paint_str("====values==:",single_color='yellow'))
-        print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')) 
+        #print(console.paint_str("====keys====:",single_color='blue'))
+        console.paint("====keys====:",single_color='blue')
+        #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue'))    
+        console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
+        #print(console.paint_str("====values==:",single_color='yellow'))
+        console.paint("====values==:",single_color='yellow')
+        #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')) 
+        console.paint(("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
         return('')
     ## select
     def __getitem__(self,keys):
