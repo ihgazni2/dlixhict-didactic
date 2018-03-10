@@ -4394,14 +4394,14 @@ class cmdict():
                         #print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
                         s = '    cmdict[{0}]'.format(self.pathlists[each].__repr__())
                         paint_len = self.pathlists[each].__repr__().__len__()
-                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
                         console.paint(s,color_sec=color_sec)
                         print("or:")
                         #print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
                         s = utils.path_list_to_getitem_string(self.pathlists[each])
                         paint_len = s.__len__()
                         s = '    cmdict.dict{0}'.format(s)
-                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
                         console.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
@@ -4427,14 +4427,14 @@ class cmdict():
                         #print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
                         s = '    cmdict[{0}]'.format(self.pathlists[each].__repr__())
                         paint_len = self.pathlists[each].__repr__().__len__()
-                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
                         console.paint(s,color_sec=color_sec)
                         print("or:")
                         #print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
                         s = utils.path_list_to_getitem_string(self.pathlists[each])
                         paint_len = s.__len__()
                         s = '    cmdict.dict{0}'.format(s)
-                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
                         console.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
