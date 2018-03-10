@@ -4372,8 +4372,10 @@ def display_table_via_rows(ROWs,**kwargs):
             color_sec ={}
             cursor = 0
             for j in range(0,COLs.__len__()):
+                ####
+                print(display_COLs[j][i])
+                ####
                 if(colored):
-                    print(display_COLs[j][i])
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
                     color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
