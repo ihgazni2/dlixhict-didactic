@@ -13,3 +13,11 @@ cmdt['LoggedRuleIDs 2']
 
 
 
+from xdict.jprint import pobj
+from xdict.jprint import pdir
+
+import xdict.cmdline import Hentry
+
+htry = Hentry(html_text=html_text)
+html_entry = htry.query('ead met',style='nested')
+html_entry = htry.query('ead met')

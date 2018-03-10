@@ -4619,4 +4619,80 @@ class cmdict():
             self.cmdlines[i] = cmdline
         self.results = cfd['results']
         self.attribs = cfd['attribs']
+
+
+
+# need to add jquery-like api
+
+class Hentry():
+    '''
+        currently only support path query
+        jquery-like APIs still in progress
+        based on lxml
+    '''
+    def __init__(self,**kwargs):
+        if('html_file_path' in kwargs):
+            html_file_path = kwargs['html_file_path']
+            fd = open(html_file_path,'r')
+            html_text = fd.read()
+            fd.close()
+            root = etree.HTML(html_text)
+        elif('html_text' in kwargs):
+            html_text = kwargs['html_text']
+            root = etree.HTML(html_text)
+        else:
+            pass
+        if('n2s' in kwargs):
+            n2s = kwargs['n2s']
+        else:
+            n2s = 0
+        if('s2n' in kwargs):
+            s2n = kwargs['n2s']
+        else:
+            s2n = 0
+        if('line_sp' in kwargs):
+            self.line_sp = kwargs['line_sp']
+        else:
+            self.line_sp = '\n'
+        if('cmd_sp' in kwargs):
+            self.cmd_sp = kwargs['cmd_sp']
+        else:
+            self.cmd_sp = ' '
+        if('cmdlines_full_dict' in kwargs):
+            temp = kwargs['cmdlines_full_dict']
+        else:
+            temp = html_text_to_cmdlines_full_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=self.cmd_sp,line_sp=self.line_sp)
+        self.cmds = temp['cmds']
+        self.texts = temp['results']
+        self.attribs = temp['attribs']
+    def query(self,cmd,**kwargs):
+        if('style' in kwargs):
+            style = kwargs['style']
+        else:
+            style = 'flat'
+        rslt_seqs = show_prompt_from_cmdlines_ltdict(cmd,self.cmds,cmd_sp=self.cmd_sp,line_sp=self.line_sp)
+        rslt = {}
+        howmany = rslt_seqs.__len__()
+        print("\n-Found {0} matched:".format(howmany))
+        for i in range(0,howmany):
+            seq = rslt_seqs[i]
+            rslt[i] = {'cmd':self.cmds[seq],'result':self.texts[seq],'attrib':self.attribs[seq],'seq':seq}
+            print("-----------------------------------------------------")
+            if(style == 'flat'):
+                cmd = str(self.cmds[seq])
+                console.paint_singleline(cmd,'yellow',prefix='   [cmd]: ')
+                result = str(self.texts[seq])
+                console.paint_singleline(result,'lightred',prefix='[result]: ')
+                attrib = str(self.attribs[seq])
+                console.paint_singleline(attrib,'lightcyan',prefix='[attrib]: ')
+                console.paint_singleline(str(seq),'lightmagenta',prefix='   [seq]: ')
+            else:
+                jprint.pobj(rslt[i])
+        print("-----------------------------------------------------")
+        return(rslt)
+
+
+
+
+
      
