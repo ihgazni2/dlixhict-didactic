@@ -4398,6 +4398,14 @@ def display_table_via_rows(ROWs,**kwargs):
                     print(display_COLs[j][i],end='')
             print('\n',end='')
             print(boundary)
+    if('returned' in kwargs):
+        returned = kwargs['returned']
+    else:  
+        returned = False
+    if(returned):
+        return(display_COLs[j][i])
+    else:
+        return(None)
 
 def display_table_via_cols(COLs,**kwargs):
     '''
@@ -4483,6 +4491,15 @@ def display_table_via_cols(COLs,**kwargs):
                     print(display_COLs[j][i],end='')
             print('\n',end='')
             print(boundary)
+    if('returned' in kwargs):
+        returned = kwargs['returned']
+    else:
+        returned = False
+    if(returned):
+        return(display_COLs[j][i])
+    else:
+        return(None)
+
 
 def show_crtable(crtable):
     '''
