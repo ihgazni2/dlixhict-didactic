@@ -4632,7 +4632,7 @@ class crtable():
         #print(console.paint_str("====values==:",single_color='yellow'))
         console.paint("====values==:",single_color='yellow')
         #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')) 
-        console.paint(("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
+        console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
         return('')
     ## select
     def __getitem__(self,keys):
