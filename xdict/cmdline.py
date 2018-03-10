@@ -3723,7 +3723,9 @@ def show_html_text_via_cmd(cmd,**kwargs):
     rslt_seqs = show_prompt_from_cmdlines_ltdict(cmd,cmdlines_ltdict,cmd_sp=cmd_sp,line_sp=line_sp)
     if(get_all):
             rslt = {}
-            for i in range(0,rslt_seqs.__len__()):
+            howmany = rslt_seqs.__len__()
+            print("\n Found {0} matched:".format(howmany))
+            for i in range(0,howmany):
                 seq = rslt_seqs[i]
                 #print('cmd: {0}'.format(cmdlines_ltdict[seq]))
                 #print('result: {0}'.format(results[seq]))
@@ -3731,9 +3733,9 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 cmd = str(cmdlines_ltdict[seq])
                 console.paint_singleline(cmd,'yellow',prefix='cmd: ')
                 result = str(results[seq])
-                console.paint_singleline(result,'lightblue',prefix='result: ')
+                console.paint_singleline(result,'lightred',prefix='result: ')
                 attrib = str(attribs[seq])
-                console.paint_singleline(attrib,'lightgreen',prefix='attrib: ')
+                console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
                 rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq]}
             return(rslt)
     else:
@@ -3748,9 +3750,9 @@ def show_html_text_via_cmd(cmd,**kwargs):
             cmd = str(cmdlines_ltdict[seq])
             console.paint_singleline(cmd,'yellow',prefix='cmd: ')
             result = str(results[seq])
-            console.paint_singleline(result,'lightblue',prefix='result: ')
+            console.paint_singleline(result,'lightred',prefix='result: ')
             attrib = str(attribs[seq])
-            console.paint_singleline(attrib,'lightgreen',prefix='attrib: ')
+            console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
             #@@@@
             return({'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq})
         else:
