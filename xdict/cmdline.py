@@ -3722,11 +3722,11 @@ def show_html_text_via_cmd(cmd,**kwargs):
             #print('result: {0}'.format(result))
             #print('attrib: {0}'.format(attrib))
             cmd = str(cmdlines_ltdict[seq])
-            paint_len = cmd.__len__()
+            console.paint_singleline(cmd,'yellow',prefix='cmd: ')
             result = str(results[seq])
-            paint_len = result.__len__()
+            console.paint_singleline(result,'blue',prefix='result: ')
             attrib = str(attribs[seq])
-            paint_len = attrib.__len__()
+            console.paint_singleline(attrib,'green',prefix='attrib: ')
             #@@@@
             return({'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq})
         else:
