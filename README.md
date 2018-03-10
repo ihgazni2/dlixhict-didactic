@@ -15,12 +15,12 @@ __2. dict/list/tuple/set toolsets__
 	from xdict.jprint import pobj
 	from xdict.jprint import pdir
 	from xdict.cmdline import Hentry
-        # init a Hentry 
+	# init a Hentry 
 	htry = Hentry(html_text=html_text)
-        # search via cmd 'ead met'
+	# search via cmd 'ead met'
 	
 	#nested output
-        html_entry = htry.query('ead met',style='nested')
+	html_entry = htry.query('ead met',style='nested')
 	
 ![](Images/cmdline.Hentry.1.png)
 
