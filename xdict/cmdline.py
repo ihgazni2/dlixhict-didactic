@@ -3734,7 +3734,7 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 seq = rslt_seqs[i]
                 rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq}
                 print("-----------------------------------------------------")
-                if(style = 'flat'):
+                if(style == 'flat'):
                     cmd = str(cmdlines_ltdict[seq])
                     console.paint_singleline(cmd,'yellow',prefix='cmd: ')
                     result = str(results[seq])
