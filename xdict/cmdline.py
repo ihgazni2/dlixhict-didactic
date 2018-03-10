@@ -1191,7 +1191,7 @@ def hdict_to_cmdlines_full_dict(hdict,**kwargs):
     if('reorder' in kwargs):
         reorder = kwargs['reorder']
     else:
-        reorder = 1
+        reorder = 0
     if('path_list_cmd' in kwargs):
         path_list_cmd = kwargs['path_list_cmd']
     else:
@@ -3566,7 +3566,11 @@ def html_text_to_cmdlines_full_dict(**kwargs):
         path_list_cmd = kwargs['path_list_cmd']
     else:
         path_list_cmd = 0
-    rslt = hdict_to_cmdlines_full_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp,path_list_cmd=path_list_cmd)
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    rslt = hdict_to_cmdlines_full_dict(hdict,sdict=sdict,prdict=prdict,s2n=s2n,n2s=n2s,disable_type=disable_type,cmd_sp=cmd_sp,path_list_cmd=path_list_cmd,reorder=reorder)
     if('save' in kwargs):
        if(kwargs['save']==1):
         cmds = ''
@@ -3718,10 +3722,14 @@ def show_html_text_via_cmd(cmd,**kwargs):
         style = kwargs['style']
     else:
         style = 'flat'
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
     if('cmdlines_full_dict' in kwargs):
         temp = kwargs['cmdlines_full_dict']
     else:
-        temp = html_text_to_cmdlines_full_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=cmd_sp,line_sp=line_sp)
+        temp = html_text_to_cmdlines_full_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=cmd_sp,line_sp=line_sp,reorder=reorder)
     cmdlines_ltdict = temp['cmds']
     results = temp['results']
     attribs = temp['attribs']
@@ -3975,9 +3983,13 @@ def obj_to_cmdlines_full_dict(obj,**kwargs):
         path_list_cmd = kwargs['path_list_cmd']
     else:
         path_list_cmd = 0
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
     temp = hdict_object.obj_to_hdict(obj)
     hdict = temp['hdict']
-    cmdlines_dict = hdict_to_cmdlines_full_dict(hdict,path_list_cmd=path_list_cmd)
+    cmdlines_dict = hdict_to_cmdlines_full_dict(hdict,path_list_cmd=path_list_cmd,reorder=reorder)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']
@@ -4033,7 +4045,8 @@ def show_obj_via_cmd(cmd,obj,**kwargs):
         path_list_cmd = kwargs['path_list_cmd']
     else:
         path_list_cmd = 0
-    cmdlines_dict = obj_to_cmdlines_full_dict(obj,path_list_cmd=path_list_cmd)
+    #@
+    cmdlines_dict = obj_to_cmdlines_full_dict(obj,path_list_cmd=path_list_cmd,reorder=0)
     cmdlines = cmdlines_dict['cmds']
     results = cmdlines_dict['results']
     attribs = cmdlines_dict['attribs']    
@@ -4100,7 +4113,11 @@ def show_hdict_via_cmd(cmd,hdict,**kwargs):
         path_list_cmd = kwargs['path_list_cmd']
     else:
         path_list_cmd = 0
-    cmdlines_full_dict = hdict_to_cmdlines_full_dict(hdict,path_list_cmd=path_list_cmd)
+    if('reorder' in kwargs):
+        reorder = kwargs['reorder']
+    else:
+        reorder = 0
+    cmdlines_full_dict = hdict_to_cmdlines_full_dict(hdict,path_list_cmd=path_list_cmd,reorder=reorder)
     cmdlines = cmdlines_full_dict['cmds']
     results = cmdlines_full_dict['results']
     attribs = cmdlines_full_dict['attribs']    
@@ -4360,7 +4377,11 @@ class cmdict():
             s2n = kwargs['s2n']
         else:
             s2n = 1
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        if('reorder' in kwargs):
+            reorder = kwargs['reorder']
+        else:
+            reorder = 0
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=reorder)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4494,7 +4515,8 @@ class cmdict():
             utils.dict_setitem_via_path_list(self.dict,cmdpl,value)
         else:
             utils.dict_setitem_via_path_list(self.dict,cmd,value)
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        #keep order
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=0)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4514,7 +4536,8 @@ class cmdict():
             utils.dict_delitem_via_path_list(self.dict,cmdpl)
         else:
             utils.dict_delitem_via_path_list(self.dict,cmd)
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        #reorder = 0 
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=0)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4563,7 +4586,7 @@ class cmdict():
         '''
         rslt = self.__getitem__(cmd)
         self.__delitem__(cmd)
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=0)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4580,7 +4603,7 @@ class cmdict():
             cmdt.popitem()
         '''
         rslt = self.dict.popitem()
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=0)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4596,7 +4619,7 @@ class cmdict():
             cmdt['Displays 5']
         '''
         self.__setitem__(cmd,None)
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=0)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4611,7 +4634,7 @@ class cmdict():
             cmdt['UseHRBelt']
         '''
         self.dict.update(value)
-        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1)
+        cfd = obj_to_cmdlines_full_dict(self.dict,path_list_cmd=1,reorder=0)
         self.pathlists = cfd['cmds']
         self.cmdlines = {}
         for i in range(0,self.pathlists.__len__()):
@@ -4658,10 +4681,14 @@ class Hentry():
             self.cmd_sp = kwargs['cmd_sp']
         else:
             self.cmd_sp = ' '
+        if('reorder' in kwargs):
+            reorder = kwargs['reorder']
+        else:
+            reorder = 0
         if('cmdlines_full_dict' in kwargs):
             temp = kwargs['cmdlines_full_dict']
         else:
-            temp = html_text_to_cmdlines_full_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=self.cmd_sp,line_sp=self.line_sp)
+            temp = html_text_to_cmdlines_full_dict(root=root,s2n=s2n,n2s=n2s,disable_type=1,cmd_sp=self.cmd_sp,line_sp=self.line_sp,reorder=reorder)
         self.cmds = temp['cmds']
         self.texts = temp['results']
         self.attribs = temp['attribs']

@@ -125,6 +125,7 @@ xcmd.show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict)
 from xdict.jprint import pobj
 from xdict.jprint import pdir
 import xdict.cmdline as xcmd
+from xdict.cmdline import Hentry
 
 html_text = '''
 <head>
