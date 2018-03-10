@@ -4375,13 +4375,13 @@ def display_table_via_rows(ROWs,**kwargs):
                 if(colored):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
-                    color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
-                    cursor = cursor+length+1
+                    color_sec[j+1] = (cursor,cursor+length - 1,colormatrix[i][j])
+                    cursor = cursor+length
                 else:
                     print(display_COLs[j][i],end='')
             if(colored):
                 s = s +'\n'+boundary
-                color_sec[COLs.__len__()+1] = (cursor,cursor+1+boundary.__len__(),"white")
+                color_sec[COLs.__len__()] = (cursor,cursor+boundary.__len__(),"white")
                 console.paint(s,color_sec=color_sec)
             else:
                 print('\n',end='')
@@ -4471,13 +4471,13 @@ def display_table_via_cols(COLs,**kwargs):
                 if(colored):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
-                    color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
-                    cursor = cursor+length+1
+                    color_sec[j+1] = (cursor,cursor+length - 1,colormatrix[i][j])
+                    cursor = cursor+length
                 else:
                     print(display_COLs[j][i],end='')
             if(colored):
                 s = s +'\n'+boundary
-                color_sec[COLs.__len__()+1] = (cursor,cursor+1+boundary.__len__(),"white")
+                color_sec[COLs.__len__()] = (cursor,cursor+boundary.__len__(),"white")
                 console.paint(s,color_sec=color_sec)
             else:
                 print('\n',end='')
