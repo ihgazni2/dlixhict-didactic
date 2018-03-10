@@ -4372,9 +4372,6 @@ def display_table_via_rows(ROWs,**kwargs):
             color_sec ={}
             cursor = 0
             for j in range(0,COLs.__len__()):
-                ####
-                print(display_COLs[j][i])
-                ####
                 if(colored):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
@@ -4391,6 +4388,9 @@ def display_table_via_rows(ROWs,**kwargs):
                 print(boundary)
         else:
             for j in range(0,COLs.__len__()):
+                ####
+                print(display_COLs[j][i])
+                ####
                 if(colored):
                     #print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
                     console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
