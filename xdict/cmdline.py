@@ -9,6 +9,7 @@ from lxml import etree
 from operator import itemgetter
 from xdict import console
 
+
 # cmd_str 和 cmdpl 不一定能一一对应
 # 例如: ['1']['a'][1], [1]['a'][1] ,['1']['a']['1'] ,[1]['a']['1']  都对应到'1 a 1'
 # 要增加path_list ['1','a',1].....的结构来实现一一对应 cmdlines_strict_full_dict
@@ -3712,7 +3713,11 @@ def show_html_text_via_cmd(cmd,**kwargs):
     if('get_all' in kwargs):
         get_all = kwargs['get_all']
     else:
-        get_all = 0
+        get_all = 1
+    if('style' in kwargs):
+        style = kwargs['style']
+    else:
+        style = 'flat'
     if('cmdlines_full_dict' in kwargs):
         temp = kwargs['cmdlines_full_dict']
     else:
@@ -3727,15 +3732,19 @@ def show_html_text_via_cmd(cmd,**kwargs):
             print("\n-Found {0} matched:".format(howmany))
             for i in range(0,howmany):
                 seq = rslt_seqs[i]
-                print("-----------------------------------------------------")
-                cmd = str(cmdlines_ltdict[seq])
-                console.paint_singleline(cmd,'yellow',prefix='cmd: ')
-                result = str(results[seq])
-                console.paint_singleline(result,'lightred',prefix='result: ')
-                attrib = str(attribs[seq])
-                console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
-                console.paint_singleline(str(seq),'lightmagenta',prefix='seq: ')
                 rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq}
+                print("-----------------------------------------------------")
+                if(style = 'flat'):
+                    cmd = str(cmdlines_ltdict[seq])
+                    console.paint_singleline(cmd,'yellow',prefix='cmd: ')
+                    result = str(results[seq])
+                    console.paint_singleline(result,'lightred',prefix='result: ')
+                    attrib = str(attribs[seq])
+                    console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
+                    console.paint_singleline(str(seq),'lightmagenta',prefix='seq: ')
+                else:
+                    jprint.pobj(rslt[i])
+            print("-----------------------------------------------------")
             return(rslt)
     else:
         if(rslt_seqs.__len__()==1):
