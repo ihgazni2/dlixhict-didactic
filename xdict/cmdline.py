@@ -7,6 +7,7 @@ from xdict import hdict_xml
 from xdict import jprint
 from lxml import etree
 from operator import itemgetter
+from xdict import console
 
 # cmd_str 和 cmdpl 不一定能一一对应
 # 例如: ['1']['a'][1], [1]['a'][1] ,['1']['a']['1'] ,[1]['a']['1']  都对应到'1 a 1'
