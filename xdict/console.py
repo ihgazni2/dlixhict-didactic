@@ -2,7 +2,55 @@ import xdict.utils
 import sys
 import copy
 
+
+def oldStylize(color_sec):
+    '''
+        for compatible with old code
+        old_style_color_sec = {1: (0, 11, 'white'), 2: (12, 19, 'blue'), 3: (20, 21, 'white')}
+        new_style_color_sec = [(0, 12, 'white'), (12, 20, 'blue'), (20, 22, 'white')]
+        oldStylize(new_style_color_sec)
+    '''
+    if(xdict.utils.is_dict(color_sec)):
+        return(copy.deepcopy(color_sec))
+    else:
+        pass
+    new = {}
+    for i in range(0,color_sec.__len__()):
+        sec = color_sec[i]
+        new[i+1] = copy.deepcopy(list(sec))
+        new[i+1][1] = sec[1] - 1
+        new[i+1] = tuple(new[i+1])
+    return(new)
+
+
+
+def newStylize(color_sec):
+    '''
+        for compatible with old code
+        old_style_color_sec = {1: (0, 11, 'white'), 2: (12, 19, 'blue'), 3: (20, 21, 'white')}
+        new_style_color_sec = [(0, 12, 'white'), (12, 20, 'blue'), (20, 22, 'white')]
+        newStylize(old_style_color_sec)
+    '''
+    if(xdict.utils.is_list(color_sec)):
+        return(copy.deepcopy(color_sec))
+    else:
+        pass
+    new = []
+    for i in range(0,color_sec.__len__()):
+        sec = color_sec[i+1]
+        sec = copy.deepcopy(list(sec))
+        sec[1] = sec[1] + 1
+        sec = tuple(sec)
+        new.append(sec)
+    return(new)
+
+
+
+
 def standlize_color_sec(color_sec,COLORS_MD):
+    #now we can accept either new_style_color_sec or old_style_color_sec
+    #the internal function use old_style_color_sec
+    color_sec = oldStylize(color_sec)
     new = {}
     for seq in color_sec:
         sec = color_sec[seq]
@@ -364,3 +412,73 @@ else:
         else:
             end = '\n'
         print(paint_str(s,**kwargs),end=end)
+
+
+
+
+def paint_singleline(line,color,**kwargs):
+    '''
+        prefix = '<div>'
+        line = "the colored content"
+        suffix = '</div>'
+        paint_singleline(line,'blue',prefix=prefix,suffix=suffix)
+        paint_singleline(line,'blue',prefix=prefix,suffix=suffix,prefix_color='green',suffix_color='green')
+    '''
+    if('prefix' in kwargs):
+        prefix = kwargs['prefix']
+    else:
+        prefix = ''
+    if('prefix_color' in kwargs):
+        prefix_color = kwargs['prefix_color']
+    else:
+        prefix_color = 'white'
+    if('suffix' in kwargs):
+        suffix = kwargs['suffix']
+    else:
+        suffix = ''
+    if('suffix_color' in kwargs):
+        suffix_color = kwargs['suffix_color']
+    else:
+        suffix_color = 'white'
+    plen = prefix.__len__()
+    paint_len = line.__len__()
+    slen = suffix.__len__()
+    color_sec = {1:(0,plen-1,prefix_color),2:(plen,plen+paint_len-1,color),3:(plen+paint_len,plen+paint_len+slen-1,suffix_color)}
+    s = prefix+line+suffix
+    paint(s,color_sec=color_sec)
+
+
+
+
+def paint_multilines(lines,colors,line_sp='\n'):
+    '''
+        lines = [
+            'the first green line',
+            'the second yellow line',
+            'the third blue line'
+        ]
+        
+        colors = ['green','yellow','blue']
+        paint_multilines(lines,colors)
+    '''
+    s = ''
+    length = lines.__len__()
+    clen = colors.__len__()
+    if(clen < length):
+        colors = copy.deepcopy(colors)
+        colors.extend(['white'] * (length-clen))
+    else:
+        pass
+    color_sec = {}
+    cursor = 0
+    for i in range(0,length):
+        line = lines[i] + line_sp
+        llen = line.__len__()
+        color = colors[i]
+        color_sec[i+1] = (cursor,cursor+llen-1,color)
+        cursor = cursor + llen
+        s = s + line
+    s = xdict.utils.str_rstrip(s,line_sp,1)
+    paint(s,color_sec=color_sec)
+
+

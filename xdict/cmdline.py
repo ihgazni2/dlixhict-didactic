@@ -3715,19 +3715,27 @@ def show_html_text_via_cmd(cmd,**kwargs):
     else:
         if(rslt_seqs.__len__()==1):
             seq = rslt_seqs[0]
-            cmd = jprint.paint_str(str(cmdlines_ltdict[seq]),single_color='yellow')
-            result = jprint.paint_str(str(results[seq]),single_color='blue')
-            attrib = jprint.paint_str(str(attribs[seq]),single_color='green')
-            print('cmd: {0}'.format(cmd))
-            print('result: {0}'.format(result))
-            print('attrib: {0}'.format(attrib))
+            #cmd = jprint.paint_str(str(cmdlines_ltdict[seq]),single_color='yellow')
+            #result = jprint.paint_str(str(results[seq]),single_color='blue')
+            #attrib = jprint.paint_str(str(attribs[seq]),single_color='green')
+            #print('cmd: {0}'.format(cmd))
+            #print('result: {0}'.format(result))
+            #print('attrib: {0}'.format(attrib))
+            cmd = str(cmdlines_ltdict[seq])
+            paint_len = cmd.__len__()
+            result = str(results[seq])
+            paint_len = result.__len__()
+            attrib = str(attribs[seq])
+            paint_len = attrib.__len__()
+            #@@@@
             return({'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq})
         else:
             rslt = ''
             for i in range(0,rslt_seqs.__len__()):
                 seq = rslt_seqs[i]
                 rslt = ''.join((rslt,cmdlines_ltdict[seq],line_sp))
-            print(jprint.paint_str(rslt,single_color='yellow'))
+            #print(jprint.paint_str(rslt,single_color='yellow'))
+            console.paint(rslt,single_color='yellow')
             return({'rslt':rslt, 'seqs':rslt_seqs})    
 
 def obj_to_cmdlines_full_dict(obj,**kwargs):
@@ -4383,9 +4391,18 @@ class cmdict():
                     if(self.debug >=1):
                         print("------the exact path to getitem as below----------------------")
                         print("using:")
-                        print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
+                        #print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
+                        s = '    cmdict[{0}]'.format(self.pathlists[each].__repr__())
+                        paint_len = self.pathlists[each].__repr__().__len__()
+                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        console.paint(s,color_sec=color_sec)
                         print("or:")
-                        print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
+                        #print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
+                        s = utils.path_list_to_getitem_string(self.pathlists[each])
+                        paint_len = s.__len__()
+                        s = '    cmdict.dict{0}'.format(s)
+                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        console.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
                     rslt.append(t)
@@ -4407,9 +4424,18 @@ class cmdict():
                     if(self.debug>=1):
                         print("------the exact path to getitem as below----------------------")
                         print("using:")
-                        print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
+                        #print('    cmdict[{0}]'.format(jprint.paint_str(self.pathlists[each].__repr__(),single_color='blue')))
+                        s = '    cmdict[{0}]'.format(self.pathlists[each].__repr__())
+                        paint_len = self.pathlists[each].__repr__().__len__()
+                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        console.paint(s,color_sec=color_sec)
                         print("or:")
-                        print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
+                        #print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
+                        s = utils.path_list_to_getitem_string(self.pathlists[each])
+                        paint_len = s.__len__()
+                        s = '    cmdict.dict{0}'.format(s)
+                        color_sec = {1:(0,11,'white'),2:(12,11+paint_len,'blue'),3:(12+paint_len,13+paint_len,'white')}
+                        console.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
                     rslt.append(t)
