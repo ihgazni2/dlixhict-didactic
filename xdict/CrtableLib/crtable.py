@@ -4403,7 +4403,7 @@ def display_table_via_rows(ROWs,**kwargs):
     else:  
         returned = False
     if(returned):
-        return(display_COLs[j][i])
+        return(display_COLs)
     else:
         return(None)
 
@@ -4496,7 +4496,7 @@ def display_table_via_cols(COLs,**kwargs):
     else:
         returned = False
     if(returned):
-        return(display_COLs[j][i])
+        return(display_COLs)
     else:
         return(None)
 
