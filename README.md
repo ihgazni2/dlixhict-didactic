@@ -6,30 +6,30 @@ __2. dict/list/tuple/set toolsets__
 >__pip3 install xdict__
 
 # INTRODUCE:
--------------------------------------------------
+-------------------------------------------------  
 
-	#a html_text as below
+		#a html_text as below
 
 ![](Images/cmdline.Hentry.0.png) 
 
-	from xdict.jprint import pobj
-	from xdict.jprint import pdir
-	from xdict.cmdline import Hentry
-	# init a Hentry 
-	htry = Hentry(html_text=html_text)
-	# search via cmd 'ead met'
+		from xdict.jprint import pobj
+		from xdict.jprint import pdir
+		from xdict.cmdline import Hentry
+		# init a Hentry 
+		htry = Hentry(html_text=html_text)
+		# search via cmd 'ead met'
 	
-	#nested output
-	html_entry = htry.query('ead met',style='nested')
+		#nested output
+		html_entry = htry.query('ead met',style='nested')
 	
 ![](Images/cmdline.Hentry.1.png)
 
-	#flat output
-	html_entry = htry.query('ead met')
+		#flat output
+		html_entry = htry.query('ead met')
 	
 ![](Images/cmdline.Hentry.2.png)
 
-	#result in the output means 'text' of htmlElement
+		#result in the output means 'text' of htmlElement
 
 ![](Images/cmdline.Hentry.3.png)
 	
