@@ -3736,12 +3736,12 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 print("-----------------------------------------------------")
                 if(style == 'flat'):
                     cmd = str(cmdlines_ltdict[seq])
-                    console.paint_singleline(cmd,'yellow',prefix='cmd: ')
+                    console.paint_singleline(cmd,'yellow',prefix='   [cmd]: ')
                     result = str(results[seq])
-                    console.paint_singleline(result,'lightred',prefix='result: ')
+                    console.paint_singleline(result,'lightred',prefix='[result]: ')
                     attrib = str(attribs[seq])
-                    console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
-                    console.paint_singleline(str(seq),'lightmagenta',prefix='seq: ')
+                    console.paint_singleline(attrib,'lightcyan',prefix='[attrib]: ')
+                    console.paint_singleline(str(seq),'lightmagenta',prefix='   [seq]: ')
                 else:
                     jprint.pobj(rslt[i])
             print("-----------------------------------------------------")
