@@ -338,4 +338,8 @@ if(xdict.utils.is_win()):
     paint = print_str
 else:
     def paint(s,**kwargs):
-        print(paint_str(s,**kwargs),end=kwargs['end'])
+        if('end' in kwargs):
+            end = kwargs['end']
+        else:
+            end = '\n'
+        print(paint_str(s,**kwargs),end=end)
