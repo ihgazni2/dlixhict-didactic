@@ -4401,7 +4401,7 @@ class cmdict():
                         s = utils.path_list_to_getitem_string(self.pathlists[each])
                         paint_len = s.__len__()
                         s = '    cmdict.dict{0}'.format(s)
-                        color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
+                        color_sec = {1:(0,14,'white'),2:(15,14+paint_len,'blue'),3:(15+paint_len,16+paint_len,'white')}
                         console.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
@@ -4434,7 +4434,7 @@ class cmdict():
                         s = utils.path_list_to_getitem_string(self.pathlists[each])
                         paint_len = s.__len__()
                         s = '    cmdict.dict{0}'.format(s)
-                        color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
+                        color_sec = {1:(0,14,'white'),2:(15,14+paint_len,'blue'),3:(15+paint_len,16+paint_len,'white')}
                         console.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
