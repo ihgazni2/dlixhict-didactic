@@ -935,19 +935,37 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
             rsi = get_interval_si_from_char_position_desc(si,cpdesc)
             rei = get_interval_ei_from_char_position_desc(ei,cpdesc)
             cmd_len = cmd_nocaps.__len__()
+            #
+            #s1 = line[:rsi]
+            #s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
+            #s3 = jprint.paint_str(line[si:(si+cmd_len)],single_color=single_color_cmd)
+            #s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
+            #s5 = line[(rei+1):]
+            #
             s1 = line[:rsi]
-            s2 = jprint.paint_str(line[rsi:si],single_color=single_color_rsi)
-            s3 = jprint.paint_str(line[si:(si+cmd_len)],single_color=single_color_cmd)
-            s4 = jprint.paint_str(line[(si+cmd_len):(rei+1)],single_color=single_color_rsi)
+            s2 = line[rsi:si]
+            s3 = line[si:(si+cmd_len)]
+            s4 = line[(si+cmd_len):(rei+1)]
             s5 = line[(rei+1):]
+            
             line = ''.join((s1,s2,s3,s4,s5))
+            length = line.__len__()
+
+            color_sec = {}
+            color_sec[1] = (0,rsi-1,"white")
+            color_sec[2] = (rsi,si-1,single_color_rsi)
+            color_sec[3] = (si,si+cmd_len-1,single_color_cmd)
+            color_sec[4] = (si+cmd_len,rei,single_color_rsi)
+            color_sec[5] = (rei+1,length-1,"white")
+            
+            console.paint(line,color_sec=color_sec)
             #-----------paint---------------           
-            rslt = ''.join((rslt,line,line_sp))
+            #rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
         else:
             pass
-    rslt = utils.str_rstrip(rslt,line_sp,1)
-    print(rslt)
+    #rslt = utils.str_rstrip(rslt,line_sp,1)
+    #print(rslt)
     return(orig_seqs)
 
 ####
