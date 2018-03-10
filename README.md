@@ -12,6 +12,28 @@ __2. dict/list/tuple/set toolsets__
 
 ![](Images/cmdline.Hentry.0.png) 
 
+	from xdict.jprint import pobj
+	from xdict.jprint import pdir
+	from xdict.cmdline import Hentry
+        # init a Hentry 
+	htry = Hentry(html_text=html_text)
+        # search via cmd 'ead met'
+	
+	#nested output
+        html_entry = htry.query('ead met',style='nested')
+	
+![](Images/cmdline.Hentry.1.png)
+
+	#flat output
+	html_entry = htry.query('ead met')
+	
+![](Images/cmdline.Hentry.2.png)
+
+	#result in the output means 'text' of htmlElement
+
+![](Images/cmdline.Hentry.3.png)
+	
+
 
 ------------------------------------------------
 for detailed usage and functions please refer to:
