@@ -4381,7 +4381,7 @@ def display_table_via_rows(ROWs,**kwargs):
                     print(display_COLs[j][i],end='')
             if(colored):
                 s = s +'\n'+boundary
-                color_sec[COLs.__len__()] = (cursor,cursor+boundary.__len__(),"white")
+                color_sec[COLs.__len__()+1] = (cursor,cursor+boundary.__len__(),"white")
                 console.paint(s,color_sec=color_sec)
             else:
                 print('\n',end='')
@@ -4477,7 +4477,7 @@ def display_table_via_cols(COLs,**kwargs):
                     print(display_COLs[j][i],end='')
             if(colored):
                 s = s +'\n'+boundary
-                color_sec[COLs.__len__()] = (cursor,cursor+boundary.__len__(),"white")
+                color_sec[COLs.__len__()+1] = (cursor,cursor+boundary.__len__(),"white")
                 console.paint(s,color_sec=color_sec)
             else:
                 print('\n',end='')
