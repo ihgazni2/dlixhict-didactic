@@ -4389,7 +4389,7 @@ def display_table_via_rows(ROWs,**kwargs):
         else:
             for j in range(0,COLs.__len__()):
                 ####
-                print(display_COLs[j][i])
+                #print(display_COLs[j][i])
                 ####
                 if(colored):
                     #print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
