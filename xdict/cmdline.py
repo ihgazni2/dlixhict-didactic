@@ -3734,8 +3734,7 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 console.paint_singleline(result,'lightred',prefix='result: ')
                 attrib = str(attribs[seq])
                 console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
-                seq = str(seq)
-                console.paint_singleline(seq,'lightmagenta',prefix='seq: ')
+                console.paint_singleline(str(seq),'lightmagenta',prefix='seq: ')
                 rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq}
             return(rslt)
     else:
