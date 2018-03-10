@@ -3725,9 +3725,15 @@ def show_html_text_via_cmd(cmd,**kwargs):
             rslt = {}
             for i in range(0,rslt_seqs.__len__()):
                 seq = rslt_seqs[i]
-                print('cmd: {0}'.format(cmdlines_ltdict[seq]))
-                print('result: {0}'.format(results[seq]))
-                print('attrib: {0}'.format(attribs[seq]))
+                #print('cmd: {0}'.format(cmdlines_ltdict[seq]))
+                #print('result: {0}'.format(results[seq]))
+                #print('attrib: {0}'.format(attribs[seq]))
+                cmd = str(cmdlines_ltdict[seq])
+                console.paint_singleline(cmd,'yellow',prefix='cmd: ')
+                result = str(results[seq])
+                console.paint_singleline(result,'lightblue',prefix='result: ')
+                attrib = str(attribs[seq])
+                console.paint_singleline(attrib,'lightgreen',prefix='attrib: ')
                 rslt[i] = {'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq]}
             return(rslt)
     else:
@@ -3742,9 +3748,9 @@ def show_html_text_via_cmd(cmd,**kwargs):
             cmd = str(cmdlines_ltdict[seq])
             console.paint_singleline(cmd,'yellow',prefix='cmd: ')
             result = str(results[seq])
-            console.paint_singleline(result,'blue',prefix='result: ')
+            console.paint_singleline(result,'lightblue',prefix='result: ')
             attrib = str(attribs[seq])
-            console.paint_singleline(attrib,'green',prefix='attrib: ')
+            console.paint_singleline(attrib,'lightgreen',prefix='attrib: ')
             #@@@@
             return({'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq})
         else:
@@ -3753,7 +3759,7 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 seq = rslt_seqs[i]
                 rslt = ''.join((rslt,cmdlines_ltdict[seq],line_sp))
             #print(jprint.paint_str(rslt,single_color='yellow'))
-            console.paint(rslt,single_color='yellow')
+            #console.paint(rslt,single_color='yellow')
             return({'rslt':rslt, 'seqs':rslt_seqs})    
 
 def obj_to_cmdlines_full_dict(obj,**kwargs):
