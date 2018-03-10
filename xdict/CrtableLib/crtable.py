@@ -4372,14 +4372,14 @@ def display_table_via_rows(ROWs,**kwargs):
             color_sec ={}
             cursor = 0
             for j in range(0,COLs.__len__()):
-                if(color):
+                if(colored):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
                     color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
                     cursor = cursor+length
                 else:
                     print(display_COLs[j][i],end='')
-            if(color):
+            if(colored):
                 console.paint(s,color_sec=color_sec)
             else:
                 pass
@@ -4454,14 +4454,14 @@ def display_table_via_cols(COLs,**kwargs):
             color_sec ={}
             cursor = 0
             for j in range(0,COLs.__len__()):
-                if(color):
+                if(colored):
                     s = s + display_COLs[j][i]
                     length = display_COLs[j][i].__len__()
                     color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
                     cursor = cursor+length
                 else:
                     print(display_COLs[j][i],end='')
-            if(color):
+            if(colored):
                 console.paint(s,color_sec=color_sec)
             else:
                 pass
