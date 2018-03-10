@@ -4363,13 +4363,33 @@ def display_table_via_rows(ROWs,**kwargs):
     for i in range (0,widths.__len__()):
         boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
     print(boundary)
+    #######
+    windows = utils.is_win():
+    ######
     for i in range(0,ROWs.__len__()):
-        for j in range(0,COLs.__len__()):
-            if(colored):
-                #print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
-                console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+        if(windows):
+            s = ''
+            color_sec ={}
+            cursor = 0
+            for j in range(0,COLs.__len__()):
+                if(color):
+                    s = s + display_COLs[j][i]
+                    length = display_COLs[j][i].__len__()
+                    color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
+                    cursor = cursor+length
+                else:
+                    print(display_COLs[j][i],end='')
+            if(color):
+                console.paint(s,color_sec=color_sec)
             else:
-                print(display_COLs[j][i],end='')
+                pass
+        else:
+            for j in range(0,COLs.__len__()):
+                if(colored):
+                    #print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
+                    console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+                else:
+                    print(display_COLs[j][i],end='')
         print('\n',end='')
         print(boundary)
 
@@ -4425,13 +4445,33 @@ def display_table_via_cols(COLs,**kwargs):
     for i in range (0,widths.__len__()):
         boundary = '{0}{1}+'.format(boundary,'+'*widths[i])
     print(boundary)
+    ####
+    windows = utils.is_win():
+    ####
     for i in range(0,ROWs.__len__()):
-        for j in range(0,COLs.__len__()):
-            if(colored):
-                #print(console.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
-                console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+        if(windows):
+            s = ''
+            color_sec ={}
+            cursor = 0
+            for j in range(0,COLs.__len__()):
+                if(color):
+                    s = s + display_COLs[j][i]
+                    length = display_COLs[j][i].__len__()
+                    color_sec[j+1] = (cursor,cursor+length,colormatrix[i][j])
+                    cursor = cursor+length
+                else:
+                    print(display_COLs[j][i],end='')
+            if(color):
+                console.paint(s,color_sec=color_sec)
             else:
-                print(display_COLs[j][i],end='')
+                pass
+        else:
+            for j in range(0,COLs.__len__()):
+                if(colored):
+                    #print(console.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
+                    console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+                else:
+                    print(display_COLs[j][i],end='')
         print('\n',end='')
         print(boundary)
 
