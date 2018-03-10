@@ -7,7 +7,7 @@ def standlize_color_sec(color_sec,COLORS_MD):
     for seq in color_sec:
         sec = color_sec[seq]
         color = sec[2]
-        if(utils.is_str(color)):
+        if(xdict.utils.is_str(color)):
             color = color.lower()
             if(xdict.utils.is_win()):
                 color = color.replace('bright','light')
