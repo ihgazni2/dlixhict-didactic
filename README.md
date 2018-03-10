@@ -6,7 +6,14 @@ __2. dict/list/tuple/set toolsets__
 >__pip3 install xdict__
 
 # INTRODUCE:
+-------------------------------------------------
 
+	#a html_text as below
+
+![](Images/cmdline.Hentry.0.png) 
+
+
+------------------------------------------------
 for detailed usage and functions please refer to:
 -------------------------------------------------
 
