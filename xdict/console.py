@@ -1,5 +1,24 @@
 import xdict.utils
 import sys
+import copy
+
+def standlize_color_sec(color_sec,COLORS_MD):
+    new = {}
+    for seq in color_sec:
+        sec = color_sec[seq]
+        color = sec[2]
+        if(utils.is_str(color)):
+            color = color.lower()
+            if(xdict.utils.is_win()):
+                color = color.replace('bright','light')
+            else:
+                color = color.replace('light','bright')
+            color = COLORS_MD[color]
+        new[seq] = copy.deepcopy(list(sec))
+        new[seq][2] = color
+        new[seq] = tuple(new[seq])
+    return(new)
+
 
 if(xdict.utils.is_win()):
     from ctypes import *
@@ -128,6 +147,7 @@ if(xdict.utils.is_win()):
         else:
             color_sec = None
         if(color_sec):
+            color_sec = standlize_color_sec(color_sec,COLORS_MD)
             color_sec_len = color_sec.__len__()
             for i in range(1,color_sec_len + 1):
                 ele = color_sec[i]
@@ -220,6 +240,7 @@ else:
         else:
             color_sec = None
         if(color_sec):
+            color_sec = standlize_color_sec(color_sec,COLORS_MD)
             color_sec_len = color_sec.__len__()
             for i in range(1,color_sec_len + 1):
                 ele = color_sec[i]
