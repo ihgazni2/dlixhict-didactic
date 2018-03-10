@@ -4366,7 +4366,8 @@ def display_table_via_rows(ROWs,**kwargs):
     for i in range(0,ROWs.__len__()):
         for j in range(0,COLs.__len__()):
             if(colored):
-                print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
+                #print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
+                console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
             else:
                 print(display_COLs[j][i],end='')
         print('\n',end='')
