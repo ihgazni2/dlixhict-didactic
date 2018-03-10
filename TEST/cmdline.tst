@@ -34,3 +34,99 @@ cmdt['LoggedRuleIDs 2']
 cmdt[['Displays',6,'Views','0','Row']]
 cmdt[['Displays', 6, 'Views', 0, 'Row']]
 cmdt.dict['Displays'][6]['Views'][0]['Row']
+
+
+
+
+
+
+###########################
+
+
+
+import xdict.cmdline as xcmd
+
+html_text = '''
+    <html>
+          <head>
+                <meta>
+                </meta>
+          </head>
+          <body>
+                  <header>
+                     <a>
+                     </a>
+                      <ul>
+                          <li>
+                               <div>
+                                    <div>
+                                       <i>
+                                       </i>
+                                       <i>
+                                       </i>
+                                    </div>
+                               </div>
+                               <div>
+                                    <div>
+                                         <div>
+                                         </div>
+                                    </div>
+                                    <div>
+                                    </div>
+                               </div>
+                          </li>
+                      </ul>
+                  </header>
+                  <script>
+                  </script>
+          </body>
+    </html>
+'''
+
+
+tmp = xcmd.show_html_text_via_cmd('html body',html_text=html_text)
+
+tmp = xcmd.show_html_text_via_cmd('html body header',html_text=html_text)
+
+
+
+cmdlines_ltdict  = {
+    0: 'client',
+    1: 'client defaultActivityID',
+    2: 'client formattingOptions',
+    3: 'client formattingOptions decimalSeparator',
+    4: 'client formattingOptions language',
+    5: 'client formattingOptions startOfWeek',
+    6: 'client formattingOptions unitSystem',
+    7: 'client gender',
+    8: 'client geoIPLocation',
+    9: 'client geoIPLocation lat'
+}
+
+
+
+
+cmd_str = "client formatting"
+xcmd.show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict)
+
+
+cmd_str = "formattingOptions"
+xcmd.show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
