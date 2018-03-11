@@ -21,3 +21,46 @@ import xdict.cmdline import Hentry
 htry = Hentry(html_text=html_text)
 html_entry = htry.query('ead met',style='nested')
 html_entry = htry.query('ead met')
+
+
+html_text = '''
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookbook &mdash; ocrmypdf 5.6.0.post23+g84d120e documentation</title>
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/sphinx_rtd_theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ocrmypdf 5.6.0.post23+g84d120e documentation" href="index.html"/>
+    <link rel="next" title="Advanced features" href="advanced.html"/>
+    <link rel="prev" title="Installing additional language packs" href="languages.html"/> 
+    <script src="_static/js/modernizr.min.js"></script>
+    <link rel="canonical" href="http://ocrmypdf.readthedocs.io/en/latest/cookbook.html" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    <script type="text/javascript" src="_static/readthedocs-data.js"></script>
+    <script type="text/javascript">
+    </script>
+    <script type="text/javascript" src="_static/readthedocs-dynamic-include.js">
+    </script>
+</head>
+'''
+
+        
+from xdict.jprint import pobj
+from xdict.jprint import pdir
+from xdict.cmdline import Hentry
+
+htry = Hentry(html_text=html_text)
+html_entry = htry.query('ead met',style='nested')
+html_entry = htry.query('ead met')
+
+
+
+
+from lxml import etree
+from xdict import hdict_xml
+root = etree.HTML(html_text)
+temp = hdict_xml.html_to_hdict(root=root)
+hdict = temp['hdict']
+rslt = xcmd.hdict_to_cmdlines_full_dict(hdict,reorder=0)
+
