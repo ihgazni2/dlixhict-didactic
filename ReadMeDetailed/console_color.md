@@ -14,7 +14,7 @@ __1. paint(s,**kwargs)__
     new_style_color_sec = [(0, 2, 'green'), (2, 5, 'yellow'), (5, 6, 'blue'),(6,8,'yellow'),(8,10,'red')]
     paint(s,color_sec = new_style_color_sec)
     
-![](Images/console.paint.0.png)
+![](../Images/console.paint.0.png)
 
     # new_style_color_sec is a list_stlye_dict(ltdict), index start from 1
     # { 1:tuple,2:tuple,3:tuple .......}
@@ -26,7 +26,7 @@ __1. paint(s,**kwargs)__
     old_style_color_sec = {1: (0, 1, 'green'), 2: (2, 4, 'yellow'), 3: (5, 5, 'blue'), 4: (6, 7, 'yellow'), 5: (8, 9, 'red')}
     paint(s,color_sec = old_style_color_sec)
 
-![](Images/console.paint.1.png) 
+![](../Images/console.paint.1.png) 
 
 
 
@@ -39,7 +39,7 @@ __2. paint_singleline(line,color,**kwargs)__
     paint_singleline(line,'blue',prefix=prefix,suffix=suffix)
     paint_singleline(line,'blue',prefix=prefix,suffix=suffix,prefix_color='green',suffix_color='green')
 
-![](Images/console.paint_singleline.0.png) 
+![](../Images/console.paint_singleline.0.png) 
 
 
 
@@ -55,7 +55,7 @@ __3. paint_multilines(lines,colors,line_sp='\n')__
     colors = ['green','yellow','blue']
     paint_multilines(lines,colors)
 
-![](Images/console.paint_multilines.0.png) 
+![](../Images/console.paint_multilines.0.png) 
 
 
 __4. oldStylize(color_sec)__
@@ -65,7 +65,7 @@ __4. oldStylize(color_sec)__
     old_style_color_sec = oldStylize(new_style_color_sec)
     pobj(old_style_color_sec,fixed_indent=True)
 
-![](Images/console.oldStylize.0.png) 
+![](../Images/console.oldStylize.0.png) 
 
 
 
@@ -76,16 +76,16 @@ __5. newStylize(color_sec)__
     new_style_color_sec = newStylize(old_style_color_sec)
     pobj(new_style_color_sec,fixed_indent=True)
 
-![](Images/console.newStylize.0.png) 
+![](../Images/console.newStylize.0.png) 
 
 __6. COLORS_MD__
 ----------------
 
     pobj(xdict.console.COLORS_MD)
 
-![](Images/console.COLORS_MD.linux.0.png) 
+![](../Images/console.COLORS_MD.linux.0.png) 
 
-![](Images/console.COLORS_MD.windows.0.png) 
+![](../Images/console.COLORS_MD.windows.0.png) 
 
 
 __7. standlize_color_sec(color_sec,COLORS_MD)__
@@ -95,9 +95,9 @@ __7. standlize_color_sec(color_sec,COLORS_MD)__
     internal_color_sec = standlize_color_sec(new_style_color_sec,COLORS_MD)
     pobj(internal_color_sec,fixed_indent=True)
 
-![](Images/console.standlize_color_sec.linux.0.png) 
+![](../Images/console.standlize_color_sec.linux.0.png) 
 
-![](Images/console.standlize_color_sec.windows.0.png) 
+![](../Images/console.standlize_color_sec.windows.0.png) 
 
 
 
