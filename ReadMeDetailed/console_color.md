@@ -85,7 +85,7 @@ __6. COLORS_MD__
 
 ![](../Images/console.COLORS_MD.linux.0.png) 
 
-![](../Images/console.COLORS_MD.windows.0.png) 
+![](../Images/console.COLORS_MD.window.0.png) 
 
 
 __7. standlize_color_sec(color_sec,COLORS_MD)__
