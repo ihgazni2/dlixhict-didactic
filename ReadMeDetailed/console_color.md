@@ -83,8 +83,10 @@ __6. COLORS_MD__
 
     pobj(xdict.console.COLORS_MD)
 
+    #linux COLORS_MD
 ![](../Images/console.COLORS_MD.linux.0.png) 
 
+    #windows COLORS_MD
 ![](../Images/console.COLORS_MD.window.0.png) 
 
 
