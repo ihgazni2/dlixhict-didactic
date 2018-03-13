@@ -49,16 +49,16 @@ def detect_time_format(date_value,**kwargs):
     rfc1123 = "^" + rfc1123 + "$"
     regex_rfc1123 = re.compile(rfc1123)
     rfc1123_hypen = ''.join(("(",wkday,")",", ","[0-9]{2}-","(",month,")","-[0-9]{4} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
-    regex_rfc1123_hypen = "^" + regex_rfc1123_hypen + "$"
+    regex_rfc1123_hypen = "^" + rfc1123_hypen + "$"
     regex_rfc1123_hypen = re.compile(rfc1123_hypen)
     rfc850 = ''.join(("(",weekday,")",", ","[0-9]{2}-","(",month,")","-[0-9]{2} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
-    regex_rfc850 = "^" + regex_rfc850 + "$"
+    regex_rfc850 = "^" + rfc850 + "$"
     regex_rfc850 = re.compile(rfc850)
     rfc850_a = ''.join(("(",wkday,")",", ","[0-9]{2}-","(",month,")","-[0-9]{2} ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","GMT"))
-    regex_rfc850_a = "^" + regex_rfc850_a + "$"
+    regex_rfc850_a = "^" + rfc850_a + "$"
     regex_rfc850_a = re.compile(rfc850_a)
     asctime = ''.join(("(",wkday,")"," ","(",month,")","(( [0-9]{2})|(  [0-9]{1}))"," ","[0-9]{2}:[0-9]{2}:[0-9]{2} ","[0-9]{4}"))
-    regex_asctime = "^" + regex_asctime + "$"
+    regex_asctime = "^" + asctime + "$"
     regex_asctime = re.compile(asctime)
     if(mode == 'strict'):
         if(_real_dollar(regex_rfc1123,date_value)):
