@@ -4822,11 +4822,11 @@ class Hentry():
         self.cmds = temp['cmds']
         self.texts = temp['results']
         self.attribs = temp['attribs']
-    def qmask(self,cmd,*args,**kwargs):
+    def qmask(self,*args,**kwargs):
         '''
            
         '''
-        cmdslt_prompt(self.cmds,cmd,*args,**kwargs)
+        cmdslt_prompt(self.cmds,*args,**kwargs)
     def query(self,cmd,**kwargs):
         if('style' in kwargs):
             style = kwargs['style']
