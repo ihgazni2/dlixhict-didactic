@@ -54,6 +54,8 @@ htry = Hentry(html_text=html_text)
 html_entry = htry.query('ead met',style='nested')
 html_entry = htry.query('ead met')
 
+htry.qmask('head')
+
 
 
 

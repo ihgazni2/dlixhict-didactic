@@ -10,6 +10,28 @@ from operator import itemgetter
 from xdict import console
 
 
+#cmdele      command-element
+#cmdsp       command-separator
+#cmdpsp      command-path-separator
+
+
+#cmdl        command-list
+#cmdstr      command-string
+#cmdp        command-path
+#cmd         cmdl | cmdstr | cmdp
+#cmdexll     command-extracted-list-list
+#cmdexsl     command-extracted-string-list
+#cmdexpl     command-extracted-path-list
+#cmdex       cmdexll | cmdexsl | cmdexpl
+
+#cmdsbs      commands-block-string
+#cmdslt      commands-ltdict
+#cmdsdlt     commands-deep-ltdict
+#cmdsfd      commands-fullDict
+#cmds        cmdsbs | cmdslt | cmdsdlt | cmdsfd
+
+
+
 # cmd_str 和 cmdpl 不一定能一一对应
 # 例如: ['1']['a'][1], [1]['a'][1] ,['1']['a']['1'] ,[1]['a']['1']  都对应到'1 a 1'
 # 要增加path_list ['1','a',1].....的结构来实现一一对应 cmdlines_strict_full_dict
@@ -73,6 +95,114 @@ def cmd_str_to_cmd_pl(cmd_str,cmd_sp = ' ',**kwargs):
                 v = int(v)
         cmdpl.append(v)
     return(cmdpl)
+
+
+####
+def cmdstr2pl(cmdstr,cmdsp=' '):
+    '''
+        cmdstr = 'html body form div input'
+        cmdstr2pl(cmdstr)
+    '''
+    cmdstr = format_cmd_str(cmdstr,cmdsp)
+    cmdpl = cmdstr.split(cmdsp)
+    return(cmdpl)
+
+
+def cmdpl2str(cmdpl,cmdsp=' '):
+    '''
+        cmdpl = ['html', 'body', 'form', 'div', 'input']
+        cmdpl2str(cmdpl)
+    '''
+    cmdstr = ''
+    length = cmdpl.__len__()
+    for i in range(0,length):
+        word = cmdpl[i]
+        cmdstr = cmdstr + word + cmdsp
+    cmdstr = utils.str_rstrip(cmdstr,cmdsp,1)
+    return(cmdstr)        
+        
+
+def path_split(arr):
+    '''
+        arr = ['html', 'body', 'form', 'div', 'input']
+        path_split(arr)
+    '''
+    rslt = []
+    length = arr.__len__()
+    for i in range(0,length):
+        path = arr[:(i+1)]
+        rslt.append(path)
+    return(rslt)
+
+
+def cmdstr_path_split(cmdstr,cmdsp=' '):
+    '''
+        cmdstr = 'html body form div input'
+        rslt = cmdstr_path_split(cmdstr)
+        pobj(rslt)
+    '''
+    cmdpl = cmdstr2pl(cmdstr,cmdsp)
+    pspl = path_split(cmdpl)
+    length = pspl.__len__()
+    rslt = []
+    for i in range(0,length):
+        cmd = cmdpl2str(pspl[i],cmdsp)
+        rslt.append(cmd)
+    return(rslt)
+
+
+def promptableize(cmds_ltdict,cmdsp=' '):
+    table = {}
+    length = cmds_ltdict.__len__()
+    for i in range(0,length):
+        cmdstr = cmds_ltdict[i]
+        eles = cmdstr_path_split(cmdstr,cmdsp)
+        for j in range(0,eles.__len__()):
+            ele = eles[j]
+            if(j in table):
+                cond = (ele in table[j])
+                if(cond):
+                    pass
+                else:
+                    table[j].append(ele)
+            else:
+                table[j] = [ele]
+    return(table)
+
+
+def cmdslt_prompt(cmdslt,*args,**kwargs):
+    if('cmdsp' in kwargs):
+        cmdsp = kwargs['cmdsp']
+    else:
+        cmdsp=' '
+    if('cmdstr' in kwargs):
+        cmdstr = kwargs['cmdstr']
+    else:
+        cmdstr = cmdpl2str(list(args),cmdsp)
+    table = promptableize(cmdslt,cmdsp)
+    length = table.__len__()
+    cmdl = cmdstr2pl(cmdstr,cmdsp)
+    depth = cmdl.__len__()
+    if(depth<length):
+        level = table[depth]
+        llen = level.__len__()
+        prompt = []
+        for j in range(0,llen):
+            cmdstr2 = level[j]
+            cond = cmd_in_cmd(cmdstr,cmdstr2)
+            if(cond):
+                cmdl2 = cmdstr2pl(cmdstr2,cmdsp)
+                lastcmd = cmdl2[-1]
+                prompt.append(cmdstr2)
+                print(lastcmd + '    <'+cmdstr2+'>')
+            else:
+                pass
+        return(prompt)
+    else:
+        return([])
+
+
+####
 
 
 def path_to_cmd_str(path_list_or_path_string,**kwargs):
@@ -4692,6 +4822,11 @@ class Hentry():
         self.cmds = temp['cmds']
         self.texts = temp['results']
         self.attribs = temp['attribs']
+    def qmask(self,cmd,*args,**kwargs):
+        '''
+           
+        '''
+        cmdslt_prompt(self.cmds,cmd,*args,**kwargs)
     def query(self,cmd,**kwargs):
         if('style' in kwargs):
             style = kwargs['style']
