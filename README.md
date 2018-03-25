@@ -32,6 +32,13 @@ __2. dict/list/tuple/set toolsets__
 		#result in the output means 'text' of htmlElement
 
 ![](Images/cmdline.Hentry.3.png)
+
+		htry.qmask(cmdstr='html')
+		htry.qmask(cmdstr='html head')
+		htry.qmask('html')
+		htry.qmask('html','head')
+		
+![](Images/cmdline.Hentry.qmask.0.png)
 	
 
 
