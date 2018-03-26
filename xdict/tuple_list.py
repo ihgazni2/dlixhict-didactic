@@ -1266,4 +1266,50 @@ def tuple_list_to_dict_list(tl):
         dl.append(ele)
     return(dl)
 
+#
+
+
+def set_tupleList_which(tl,key,value,which=0):
+    '''
+    '''
+    length = tl.__len__()
+    cursor = 0
+    for i in range(0,length):
+        t = tl[i]
+        k = t[0]
+        v = t[1]
+        if(k == key):
+            cond = (cursor == which)
+            if(cond):
+                nt = (key,value)
+                tl[i] = nt
+                break
+            else:
+                pass
+            cursor = cursor + 1
+        else:
+            pass
+    return(tl)
+
+
+def get_tupleList_which(tl,key,which=0):
+    '''
+    '''
+    length = tl.__len__()
+    cursor = 0
+    for i in range(0,length):
+        t = tl[i]
+        k = t[0]
+        v = t[1]
+        if(k == key):
+            cond = (cursor == which)
+            if(cond):
+                return(v)
+            else:
+                pass
+            cursor = cursor + 1
+        else:
+            pass
+    raise KeyError(key)
+
  
