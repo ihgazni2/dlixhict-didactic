@@ -4,6 +4,7 @@ import struct
 import copy
 import os
 import sys
+import collections
 
 #IDE code shaping
 def creat_markdown_tree_links(arr,base=10,**kwargs):
@@ -1797,6 +1798,17 @@ def text_cond(text,condmatch,*args):
             return(False)
     else:
         return(condmatch(text,*args))
+
+def show_orderedDict(od):
+    rslt = '{\n'
+    for key in od:
+        rslt = rslt + '    ' 
+        rslt = rslt + key.__repr__()
+        rslt = rslt + ' : '
+        rslt = rslt + od[key].__repr__() + '\n'
+    rslt = rslt + '}'
+    print(rslt)
+    return(rslt)
 
 def dict_mirror(d):
     nd = {}
