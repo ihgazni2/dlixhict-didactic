@@ -4866,7 +4866,7 @@ class Hentry():
             via = 'value'
         ####
         def cond_match(x,arr,mode):
-            rlst = False
+            rslt = False
             for each in arr:
                 if(mode == 'loose'):
                     cond = (str.lower(x) in each)
