@@ -8,7 +8,7 @@ from xdict import jprint
 from lxml import etree
 from operator import itemgetter
 from xdict import console
-
+import elist.elist as elel
 
 #cmdele      command-element
 #cmdsp       command-separator
@@ -4852,8 +4852,91 @@ class Hentry():
                 jprint.pobj(rslt[i])
         print("-----------------------------------------------------")
         return(rslt)
-
-
+    ###
+    def query_attribs(self,x,**kwargs):
+        '''
+        '''
+        if('mode' in kwargs):
+            mode = kwargs['mode']
+        else:
+            mode = 'loose'
+        if('via' in kwargs):
+            via = kwargs['via']
+        else:
+            via = 'value'
+        ####
+        def cond_match(x,arr,mode):
+            rlst = False
+            for each in arr:
+                if(mode == 'loose'):
+                    cond = (str.lower(x) in each)
+                elif(mode == 'middle'):
+                    cond = (str.lower(x) == each)
+                else:
+                    cond = (x == each)
+                if(cond):
+                    rslt = True
+                    break
+                else:
+                    pass
+           return(rslt)
+        ####
+        selected_seqs = []
+        length = self.attribs.__len__()        
+        for i in range(0,length):
+            attrib = self.attribs[i]
+            keys = list(attrib.keys())
+            values = list(attrib.values())
+            if(via == 'value'):
+                values = elel.array_map(values,str.lower)
+                cond = cond_match(x,values,mode)
+                if(cond):
+                    selected_seqs.append(i)
+                else:
+                    pass
+            elif(via == 'key'):
+                keys = elel.array_map(keys,str.lower)
+                cond = cond_match(x,keys,mode)
+                if(cond):
+                    selected_seqs.append(i)
+                else:
+                    pass
+            else:
+                values = elel.array_map(values,str.lower)
+                keys = elel.array_map(keys,str.lower)
+                cond1 = cond_match(x,keys,mode)
+                cond2 = cond_match(x,values,mode)
+                cond = (cond1 | cond2)
+                if(cond):
+                    selected_seqs.append(i)
+                else:
+                    pass
+    ###############################
+        rslt_seqs = selected_seqs
+        howmany = rslt_seqs.__len__()
+        print("\n-Found {0} matched:".format(howmany))
+        for i in range(0,howmany):
+            seq = rslt_seqs[i]
+            rslt[i] = {'cmd':self.cmds[seq],'result':self.texts[seq],'attrib':self.attribs[seq],'seq':seq}
+            print("-----------------------------------------------------")
+            if(style == 'flat'):
+                cmd = str(self.cmds[seq])
+                console.paint_singleline(cmd,'yellow',prefix='   [cmd]: ')
+                result = str(self.texts[seq])
+                console.paint_singleline(result,'lightred',prefix='[result]: ')
+                attrib = str(self.attribs[seq])
+                console.paint_singleline(attrib,'lightcyan',prefix='[attrib]: ')
+                console.paint_singleline(str(seq),'lightmagenta',prefix='   [seq]: ')
+            else:
+                jprint.pobj(rslt[i])
+        print("-----------------------------------------------------")
+        return(rslt)
+    ###
+    def query_texts(self,**kwargs):
+        '''
+        '''
+        pass
+    
 
 
 
