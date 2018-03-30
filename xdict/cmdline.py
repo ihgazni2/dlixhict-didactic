@@ -4879,7 +4879,7 @@ class Hentry():
                     break
                 else:
                     pass
-           return(rslt)
+            return(rslt)
         ####
         selected_seqs = []
         length = self.attribs.__len__()        
