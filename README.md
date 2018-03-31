@@ -60,7 +60,7 @@ for detailed usage and functions please refer to:
 ├── TestReadMe  
 >>>>├── [genrand](ReadMeDetailed/genrand.md)  
 
->├── [elist](ReadMeDetailed/elist.md)   
+>├── [elist](https://github.com/ihgazni2/elist)   
 ├── [dict_list](ReadMeDetailed/dict_list.md)  
 ├── [tuple_list](ReadMeDetailed/tuple_list.md)  
 ├── [fsm](ReadMeDetailed/fsm.md)  
