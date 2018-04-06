@@ -60,12 +60,12 @@ for detailed usage and functions please refer to:
 ├── TestReadMe  
 >>>>├── [genrand](ReadMeDetailed/genrand.md)  
 
->├── [elist](https://github.com/ihgazni2/elist)
-├── [estring](https://github.com/ihgazni2/estring)
-├── [dict_list](ReadMeDetailed/dict_list.md)  
-├── [tlist](https://github.com/ihgazni2/tlist)  
-├── [fsm](ReadMeDetailed/fsm.md)  
-└── [utils](ReadMeDetailed/utils.md)  
+>├── [elist](https://github.com/ihgazni2/elist) <br>
+├── [estring](https://github.com/ihgazni2/estring) <br>
+├── [dict_list](ReadMeDetailed/dict_list.md)  <br>
+├── [tlist](https://github.com/ihgazni2/tlist)  <br>
+├── [fsm](ReadMeDetailed/fsm.md)  <br>
+└── [utils](ReadMeDetailed/utils.md)  <br>
 
 -------------------------------------------------------
 
