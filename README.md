@@ -62,7 +62,7 @@ for detailed usage and functions please refer to:
 
 >├── [elist](https://github.com/ihgazni2/elist)   
 ├── [dict_list](ReadMeDetailed/dict_list.md)  
-├── [tuple_list](ReadMeDetailed/tuple_list.md)  
+├── [tlist](https://github.com/ihgazni2/tlist)  
 ├── [fsm](ReadMeDetailed/fsm.md)  
 └── [utils](ReadMeDetailed/utils.md)  
 
