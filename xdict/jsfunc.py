@@ -72,7 +72,7 @@ def clock_seconds_with_accuracy(accuracy):
     now = now[0:accuracy]
     return(int(now))
 
-
+#number-to-string
 def toString(n,radix,**kwargs):
     if(type(n) == type("")):
         return(n)
@@ -95,7 +95,7 @@ def toString(n,radix,**kwargs):
     rslt = rslt[::-1]
     return(rslt)
 
-
+num2String = toString
 
 def uint2str(ui,**kwargs):
     if('LE' in kwargs):
@@ -137,7 +137,7 @@ def str2uint(s,**kwargs):
         rslt = rslt + ord(s[i])*(256**(s.__len__()-i-1))
     return(rslt)
 
-
+#refer to estring
 def fromCharCode(*args,**kwargs):
     if('style' in kwargs):
         style = kwargs['style']
@@ -154,6 +154,11 @@ def fromCharCode(*args,**kwargs):
 
 
 #num
+#refer to MDN Number Object methods
+#toFixed()
+#toExponential()
+#toPrecesion()
+
 def scinumstr2numstr(sci):
     '''
         >>> scinumstr2numstr("123.43(e1)")
