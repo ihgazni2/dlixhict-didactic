@@ -75,6 +75,7 @@ if(xdict.utils.is_win()):
     COLORS_MD = {
      'darkgray': 9,
      'lightblue': 10,
+     'brightblue':10,
      'magenta': 6,
      'default': 0,
      'lightmagenta': 14,
@@ -348,6 +349,7 @@ else:
         'green': 32,
         94: 'brightblue',
         'brightblue': 94,
+        'lightblue':94,
         'yellow': 33
     }
     
