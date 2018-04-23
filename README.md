@@ -63,7 +63,6 @@ for detailed usage and functions please refer to:
 >├── [elist](https://github.com/ihgazni2/elist) <br>
 ├── [estring](https://github.com/ihgazni2/estring) <br>
 ├── [edict](https://github.com/ihgazni2/edict) <br>
-├── [dict_list](ReadMeDetailed/dict_list.md)  <br>
 ├── [tlist](https://github.com/ihgazni2/tlist)  <br>
 ├── [fsm](ReadMeDetailed/fsm.md)  <br>
 └── [utils](ReadMeDetailed/utils.md)  <br>
