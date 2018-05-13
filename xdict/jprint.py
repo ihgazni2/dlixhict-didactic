@@ -1,3 +1,7 @@
+#windows 下 key值有空格时候颜色有bug
+#{'others': 0, 'scanner of transparent type': 1, 'scanner of reflex type': 2, 'DSC': 3}
+
+
 import time
 import re
 from xdict import utils
