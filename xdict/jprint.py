@@ -10,7 +10,7 @@ from xdict.console import COLORS_MD
 from xdict.console import print_str
 
 KEY_COLOR = COLORS_MD['lightgreen']
-VALUE_COLOR = COLORS_MD['lightblue']
+VALUE_COLOR = COLORS_MD['lightcyan']
 LIST_ELE_COLOR =  COLORS_MD['yellow']
 OP_COLOR = COLORS_MD['white']
 DEFAULT_COLOR = COLORS_MD['white']
