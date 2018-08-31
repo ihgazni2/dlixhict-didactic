@@ -1573,8 +1573,11 @@ def append_row(row,crtable):
     '''
     row = format_attribs_to_indexkeyonly(row,crtable['animd'],index_dominant=1)
     seqs = list(crtable['table'].keys())
-    next = max(seqs) + 1
-    crtable['table'][next] = expand_part_attribs(row,crtable['animd'],index_dominant=1)
+    if(seqs.__len__() == 0):
+        nxt = 0
+    else:
+        nxt = max(seqs) + 1
+    crtable['table'][nxt] = expand_part_attribs(row,crtable['animd'],index_dominant=1)
     return(crtable)
 
 def append_col(col,crtable):
