@@ -1576,7 +1576,7 @@ def append_row(row,crtable):
         #kvlist2d
         d = {}
         for i in range(0,cnl.__len__()):
-            k = kl[i]
+            k = cnl[i]
             v = row[i]
             d[k] = v
         row = d
