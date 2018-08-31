@@ -1571,6 +1571,17 @@ def append_row(row,crtable):
         >>> 
         >>> 
     '''
+    if(isinstance(row,list)):
+        cnl = ltdict.ltdict_to_list(get_indexonly_refdict(crtable['animd']))
+        #kvlist2d
+        d = {}
+        for i in range(0,cnl.__len__()):
+            k = kl[i]
+            v = row[i]
+            d[k] = v
+        row = d
+    else:
+        pass
     row = format_attribs_to_indexkeyonly(row,crtable['animd'],index_dominant=1)
     seqs = list(crtable['table'].keys())
     if(seqs.__len__() == 0):
@@ -1579,6 +1590,21 @@ def append_row(row,crtable):
         nxt = max(seqs) + 1
     crtable['table'][nxt] = expand_part_attribs(row,crtable['animd'],index_dominant=1)
     return(crtable)
+
+#####
+
+def append_row_with_array(crtb,arr):
+    cnl = crtb.colnameslist
+    d = eded.kvlist2d(cnl,arr)
+    crtb.append_row(d)
+    return(crtb)
+
+
+#####
+
+
+
+
 
 def append_col(col,crtable):
     '''
