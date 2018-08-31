@@ -4607,6 +4607,10 @@ class crtable():
         self.colnameslist = []
         self.keynameslist = []
         self.valuenameslist = []
+        if('debug' in kwargs):
+            self.debug = kwargs['debug']
+        else:
+            self.debug = False
         if('crtable' in kwargs):
             ncrtb = kwargs['crtable']
             self.crtable = ncrtb
@@ -4691,14 +4695,13 @@ class crtable():
             crtb
         '''
         show_crtable(self.crtable)
-        #print(console.paint_str("====keys====:",single_color='blue'))
-        console.paint("====keys====:",single_color='blue')
-        #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue'))    
-        console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
-        #print(console.paint_str("====values==:",single_color='yellow'))
-        console.paint("====values==:",single_color='yellow')
-        #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')) 
-        console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
+        if(self.debug):
+            console.paint("====keys====:",single_color='blue')
+            console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
+            console.paint("====values==:",single_color='yellow')
+            console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
+        else:
+            pass
         return('')
     ## select
     def __getitem__(self,keys):
