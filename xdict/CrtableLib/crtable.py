@@ -1571,11 +1571,40 @@ def append_row(row,crtable):
         >>> 
         >>> 
     '''
+    if(isinstance(row,list)):
+        cnl = ltdict.ltdict_to_list(get_indexonly_refdict(crtable['animd']))
+        #kvlist2d
+        d = {}
+        for i in range(0,cnl.__len__()):
+            k = cnl[i]
+            v = row[i]
+            d[k] = v
+        row = d
+    else:
+        pass
     row = format_attribs_to_indexkeyonly(row,crtable['animd'],index_dominant=1)
     seqs = list(crtable['table'].keys())
-    next = max(seqs) + 1
-    crtable['table'][next] = expand_part_attribs(row,crtable['animd'],index_dominant=1)
+    if(seqs.__len__() == 0):
+        nxt = 0
+    else:
+        nxt = max(seqs) + 1
+    crtable['table'][nxt] = expand_part_attribs(row,crtable['animd'],index_dominant=1)
     return(crtable)
+
+#####
+
+def append_row_with_array(crtb,arr):
+    cnl = crtb.colnameslist
+    d = eded.kvlist2d(cnl,arr)
+    crtb.append_row(d)
+    return(crtb)
+
+
+#####
+
+
+
+
 
 def append_col(col,crtable):
     '''
@@ -4607,6 +4636,10 @@ class crtable():
         self.colnameslist = []
         self.keynameslist = []
         self.valuenameslist = []
+        if('debug' in kwargs):
+            self.debug = kwargs['debug']
+        else:
+            self.debug = False
         if('crtable' in kwargs):
             ncrtb = kwargs['crtable']
             self.crtable = ncrtb
@@ -4691,14 +4724,13 @@ class crtable():
             crtb
         '''
         show_crtable(self.crtable)
-        #print(console.paint_str("====keys====:",single_color='blue'))
-        console.paint("====keys====:",single_color='blue')
-        #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue'))    
-        console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
-        #print(console.paint_str("====values==:",single_color='yellow'))
-        console.paint("====values==:",single_color='yellow')
-        #print(console.paint_str("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')) 
-        console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
+        if(self.debug):
+            console.paint("====keys====:",single_color='blue')
+            console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
+            console.paint("====values==:",single_color='yellow')
+            console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
+        else:
+            pass
         return('')
     ## select
     def __getitem__(self,keys):
