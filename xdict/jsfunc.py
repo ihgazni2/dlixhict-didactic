@@ -2,6 +2,14 @@ import time
 import xdict.utils
 import re
 
+
+def math_abs(n):
+    if(n<0):
+        return(-n)
+    else:
+        return(n)
+
+
 def unshift(l,*args):
     length = l.__len__()
     args_len = args.__len__()
