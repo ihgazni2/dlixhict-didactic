@@ -2,6 +2,17 @@ import time
 import xdict.utils
 import re
 
+def js32bitize(num):
+    hb = num & 0x80000000
+    hb = hb >> 31
+    if(hb == 1):
+        num = 2**32 - num
+        num = -num
+    else:
+        pass
+    return(num)
+
+
 
 def math_abs(n):
     if(n<0):
