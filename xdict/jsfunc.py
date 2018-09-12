@@ -2,16 +2,61 @@ import time
 import xdict.utils
 import re
 
-def js32bitize(num):
-    hb = num & 0x80000000
-    hb = hb >> 31
-    if(hb == 1):
-        num = 2**32 - num
+def bitnum(num):
+    if(num < 0):
         num = -num
     else:
         pass
-    return(num)
+    n = bin(num).__len__()-2
+    return(n)
 
+def mask(num):
+    if(num>=0):
+        b = bin(num)[2:]
+    else:
+        b = bin(num)[3:]
+    m = b.replace('0','1')
+    m = '0b'+m
+    n = int(m,2)
+    return(n)
+
+def complement(num,model=32):
+    if(num >= 0):
+        return(num)
+    else:
+        m = bitnum(num)
+        if(m > model):
+            m = m
+        else:
+            m = model
+        com = 2 ** m +num
+    return(com)
+
+def decomplement(com,model=32,sign=-1):
+    if(sign == -1):
+        com = 2 ** model - com
+        return(-com)
+    else:
+        return(com)
+
+def xor(num1,num2):
+    #补码com1,com2 都当做正整数处理
+    com1 = complement(num1)
+    com2 = complement(num2)
+    #只保留32位
+    com1 = '0x' + hex(com1)[2:][-8:]
+    com2 = '0x' + hex(com2)[2:][-8:]
+    com1 = int(com1,16)
+    com2 = int(com2,16)
+    #
+    com = com1 ^ com2
+    #
+    s = com >>31
+    if(s == 1):
+        com = complement(-com)
+        return(-com)
+    else:
+        return(com)
 
 
 def math_abs(n):
