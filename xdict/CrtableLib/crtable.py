@@ -5,6 +5,38 @@ from xdict import console
 import re
 import copy
 
+#######################################
+
+def nimd2arr(nimd):
+    ltd = get_indexonly_refdict(nimd)
+    arr = ltdict.ltdict_to_list(ltd)
+    return(arr)
+
+def get_cnl_from_crtable(crtable):
+    animd = crtable['animd']
+    return(nimd2arr(animd))
+
+def get_knl_from_crtable(crtable):
+    knimd = crtable['knimd']
+    return(nimd2arr(knimd))
+
+def get_vnl_from_crtable(crtable):
+    vnimd = crtable['vnimd']
+    return(nimd2arr(vnimd))
+
+def creat_from_crtable(crtable):
+    cnl = get_cnl_from_crtable(crtable)
+    knl = get_knl_from_crtable(crtable)
+    table = crtable['table']
+    crtb = crtable(colnameslist = cnl,table=table,keynameslist = knl)
+    return(crtb)
+
+
+
+######################################
+
+
+
 
 def is_name_index_mirror_dict(name_index_mirror_dict):
     '''
