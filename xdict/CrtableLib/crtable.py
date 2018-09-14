@@ -24,9 +24,9 @@ def get_vnl_from_crtable(crtable):
     vnimd = crtable['vnimd']
     return(nimd2arr(vnimd))
 
-def creat_from_crtable(crtable):
-    cnl = get_cnl_from_crtable(crtable)
-    knl = get_knl_from_crtable(crtable)
+def creat_from_crtable(crtbl):
+    cnl = get_cnl_from_crtable(crtbl)
+    knl = get_knl_from_crtable(crtbl)
     table = crtable['table']
     crtb = crtable(colnameslist = cnl,table=table,keynameslist = knl)
     return(crtb)
