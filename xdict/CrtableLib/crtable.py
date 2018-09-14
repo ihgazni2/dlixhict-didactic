@@ -27,7 +27,7 @@ def get_vnl_from_crtable(crtable):
 def creat_from_crtable(crtbl):
     cnl = get_cnl_from_crtable(crtbl)
     knl = get_knl_from_crtable(crtbl)
-    table = crtable['table']
+    table = crtbl['table']
     crtb = crtable(colnameslist = cnl,table=table,keynameslist = knl)
     return(crtb)
 
