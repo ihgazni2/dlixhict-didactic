@@ -1,1 +1,1 @@
-/usr/local/lib/python3.6/dist-packages/xdict-0.94.56-py3.6.egg
+/usr/local/lib/python3.6/dist-packages/xdict-0.94.57-py3.6.egg
