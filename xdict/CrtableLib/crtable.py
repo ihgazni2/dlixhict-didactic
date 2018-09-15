@@ -2203,6 +2203,10 @@ modify_rows_via_values = modify_rows_via_keys
 def modify_col_via_colnum(colnum,crtable,modified_to):
     '''
     '''
+    if(isinstance(modified_to,list)):
+        modified_to = ltdict.list_to_ltdict(modified_to)
+    else:
+        pass
     for rownum in modified_to:
         if(rownum in crtable['table']):
             crtable['table'][rownum][colnum] = modified_to[rownum]
@@ -2242,6 +2246,10 @@ def modify_col_via_colname(colname,crtable,modified_to):
         >>> 
         
     '''
+    if(isinstance(modified_to,list)):
+        modified_to = ltdict.list_to_ltdict(modified_to)
+    else:
+        pass
     colnum = crtable['animd'][colname]
     return(modify_col_via_colnum(colnum,crtable,modified_to))
 
