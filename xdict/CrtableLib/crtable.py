@@ -7209,4 +7209,22 @@ class crtable():
         '''
         return(get_all_candidate_key_combo(self.crtable))
 
-    
+###########################
+def creat_xytbl(rn,cnl,rnl,table):
+    crtb = xcr.crtable(colnameslist = cnl,table=table)
+    knl = [rn]
+    col = knl + rnl
+    crtb.prepend_col(col)
+    table = crtb.crtable['table']
+    ncrtb = xcr.crtable(colnameslist = cnl,table=table,keynameslist = knl)
+    return(ncrtb)
+
+def xy2value(crtb,rowname,colname):
+    cnl = crtb.colnameslist
+    rnl = crtb.col(cnl[0])
+    rownum = rnl.index(rowname)+1
+    col = crtb.col(colname)
+    return(col[rownum])
+
+
+###########################
