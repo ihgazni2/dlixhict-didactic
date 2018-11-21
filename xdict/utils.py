@@ -93,6 +93,16 @@ def col_handle(code,**kwargs):
     return(ncode)
 
 
+##JS code
+
+def js_gen_empty_func_code(func,params):
+    line1 = "    function "+func +"(" + params +") {"
+    line2 = "       "+"return()"
+    line3 = "    },"
+    return(line1+'\n'+line2+'\n'+line3)
+
+
+#################################################################################################################
 #platform
 def is_linux():
     platform = os.sys.platform.lower()

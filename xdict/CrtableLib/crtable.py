@@ -7224,7 +7224,9 @@ def xy2value(crtb,rowname,colname):
     rnl = crtb.col(cnl[0])
     rownum = rnl.index(rowname)+1
     col = crtb.col(colname)
-    return(col[rownum])
+    return(col[rownum-1])
 
+####增加把某一个元素染色的功能#####
+####利用colormatrix参数############
 
 ###########################
