@@ -4416,9 +4416,6 @@ def display_table_via_rows(ROWs,**kwargs):
         colormatrix = kwargs['colormatrix']
     else:
         pass
-    #debug
-    print(ROWs)
-    #debug
     COLs = rows_to_cols(ROWs)
     display_COLs = {}
     widths = {}
@@ -4618,9 +4615,6 @@ def show_crtable(crtable):
         vcd =  get_indexonly_refdict(crtable['vnimd'])
         for i in vcd :
             colcolorsdict[i] = 'yellow'
-    #debug
-    print(display_tb)
-    #debug
     if(colored):
         display_table_via_rows(display_tb,colcolorsdict=colcolorsdict)
     else:
@@ -5052,6 +5046,10 @@ class crtable():
         ++++++++++++
         >>> 
         '''
+        #debug
+        print(colslist)
+        print(self.crtable)
+        #debug
         if(utils.is_int(colslist[0])):
             ncrtb = get_newcrtable_via_colnumslist(colslist,self.crtable)
         else:
@@ -5095,9 +5093,6 @@ class crtable():
         '''
         colslist = [colname]
         subcols = self.choose_cols(colslist)
-        #debug
-        print(subcols)
-        #debug
         if(show):
             show_crtable(subcols)
         col = []
