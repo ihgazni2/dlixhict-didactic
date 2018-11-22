@@ -3522,6 +3522,10 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
     crtb['knimd'] = creat_mirror_dict(nkrefd)
     crtb['vnimd'] = creat_mirror_dict(nvrefd)
     crtb['table'] = {}
+    #debug
+    print(crtable)
+    print(colnumslist)
+    #debug
     for rownum in crtable['table']:
         row = crtable['table'][rownum]
         nr = {}
@@ -3530,6 +3534,10 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
                 nr[index] = row[index]
             else:
                 pass
+        #debug
+        print(nr)
+        print(row)
+        #debug
         crtb['table'][rownum] = nr
     if(naturalize):
         return(naturalize_crtable(crtb))
@@ -5046,10 +5054,6 @@ class crtable():
         ++++++++++++
         >>> 
         '''
-        #debug
-        print(colslist)
-        print(self.crtable)
-        #debug
         if(utils.is_int(colslist[0])):
             ncrtb = get_newcrtable_via_colnumslist(colslist,self.crtable)
         else:
