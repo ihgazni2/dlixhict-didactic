@@ -1382,14 +1382,35 @@ def sort_dictList(dictList,**kwargs):
     return(ndl)
 
 
+#import edict.edict as eded
+#import elist.elist as elel
+
+def creat_dflt_dlist_ele(*keys):
+    kl = list(keys)
+    if(isinstance(kl[0],list)):
+        kl = kl[0]
+    else:
+        kl = kl
+    vl =  elel.array_map(kl,lambda ele:None)
+    d = eded.kvlist2d(kl,vl)
+    return(d)
+
+#pobj(creat_dict_list(5,'time','width','length'))
+#from xdict.jprint import pobj
+#from xdict.jprint import pdir
+
+def creat_dict_list(*keys):
+    kl = list(keys)
+    size = kl[0]
+    kl = kl[1:]
+    d = creat_dflt_dlist_ele(kl)
+    return(elel.init(size,d))
+     
 
 
-
-
-
-
-
-
+#def col(dl,key)
+#def cols(dl,*keys)
+#def sub_table(dl,*keys)
 
 
 
