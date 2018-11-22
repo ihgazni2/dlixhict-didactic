@@ -4687,7 +4687,7 @@ class crtable():
         else:
             self.debug = False
         if('crtable' in kwargs):
-            ncrtb = kwargs['crtable']
+            ncrtb = copy.deepcopy(kwargs['crtable'])
             self.crtable = ncrtb
             self.keynameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['knimd']))
             self.valuenameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['vnimd']))
@@ -4717,6 +4717,8 @@ class crtable():
                         table[kseq] = ltdict.list_to_ltdict(eachrow)
                     else:
                         pass
+            ####
+            #
             ####
                 self.crtable['table'] = nametable_to_indextable(table,self.crtable['animd'])
             else:
