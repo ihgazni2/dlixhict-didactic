@@ -4601,7 +4601,9 @@ def show_crtable(crtable):
         +++++++++++++++++++++++++++++++++++++++
         >>> 
     '''
+    #
     crtable = naturalize_crtable(crtable)
+    #
     display_tb = {}
     display_tb[0] = get_indexonly_refdict(crtable['animd'])
     if('table' in crtable):
@@ -7238,3 +7240,13 @@ def xy2value(crtb,rowname,colname):
 ####利用colormatrix参数############
 
 ###########################
+
+def load_crtable_from_json(js):
+    js = naturalize_crtable(js)
+    return(js)
+
+    
+    
+
+
+##########################
