@@ -3532,7 +3532,7 @@ def get_newcrtable_via_colnumslist(colnumslist,crtable,**kwargs):
             cond2 = (int(index) in colnumslist)
             cond = (cond1 | cond2)
             ####
-            if(index in colnumslist):
+            if(cond):
                 nr[index] = row[index]
             else:
                 pass
