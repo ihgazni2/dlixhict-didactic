@@ -7246,6 +7246,27 @@ def load_crtable_from_json(js):
     return(js)
 
     
+def tb2dlist(tb,cnl):
+    dl = []
+    if(isinstance(tb,list)):
+        for i in range(0,tb.__len__()):
+            row = tb[i]
+            d = {}
+            for j in range(0,row.__len__()):
+                k = cnl[j]
+                v = row[j]
+                d[k] = v
+                dl.append(d)
+    else:
+        for k in tb:
+            row = tb[k]
+            d = {}
+            for j in range(0,row.__len__()):
+                k = cnl[j]
+                v = row[j]
+                d[k] = v
+                dl.append(d)
+    return(dl)
     
 
 
