@@ -4768,7 +4768,7 @@ class crtable():
                 #####
             else:
                 self.crtable['knimd'] = {}
-                self.crtable['vnimd'] = {}
+                self.crtable['vnimd'] = self.crtable['animd'] 
     def __repr__(self):
         '''
             crtb
