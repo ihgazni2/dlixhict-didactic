@@ -3957,3 +3957,20 @@ def four_bytes_order_reverse(L):
 def tuple_to_dict_ele(t):
     return({t[0]:t[1]})
 
+##############
+
+
+
+
+#math
+
+import itertools
+
+def permutation(eles,repeat):
+    arr =[]
+    for i in itertools.product(eles,repeat= repeat):
+        arr.append(elel.join(list(i),""))
+    return(arr)
+
+
+
