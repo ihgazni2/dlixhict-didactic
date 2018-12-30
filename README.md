@@ -47,7 +47,7 @@ for detailed usage and functions please refer to:
 -------------------------------------------------
 
 ----------------------------------------------------------
->├── [console_color](ReadMeDetailed/console_color.md) *movedto https://github.com/ihgazni2/string-painter*
+>├── [console_color](ReadMeDetailed/console_color.md)*movedto https://github.com/ihgazni2/string-painter*<br>
 ├── CrtableReadMe  
 >>>>├── [crtable](ReadMeDetailed/CrtableReadMe/crtable.md)  
 
