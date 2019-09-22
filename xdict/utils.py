@@ -3972,5 +3972,15 @@ def permutation(eles,repeat):
         arr.append(elel.join(list(i),""))
     return(arr)
 
-
+####coding tools
+def combinate(l,repeat=2):
+    #l = ['colorId', 'hexString', 'hsl', 'name', 'rgb']
+    import elist.elist as elel
+    rslt = itertools.product(l,repeat=repeat)
+    rslt = list(rslt)
+    rslt = elel.mapv(rslt,list,[])
+    rslt = elel.mapv(rslt,sorted,[])
+    rslt = elel.mapv(rslt,lambda ele:ele[0]+'2'+ele[1],[])
+    r2 = elel.uniqualize(rslt)
+    return(r2)
 

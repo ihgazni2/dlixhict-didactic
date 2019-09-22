@@ -354,3 +354,20 @@ def gen_cowrol_table(total_rows,total_cols):
     return(matrix)
 
 
+################
+################
+
+import efuntool.efuntool as eftl
+import random
+import elist.elist as elel
+
+def get_rand_name(**kwargs):
+    dflt_init_chars = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    dflt_other_chars = "_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    lngth = eftl.dflt_kwargs("len",4,**kwargs)
+    init_chs = eftl.dflt_kwargs("init",dflt_init_chars,**kwargs)
+    other_chs = eftl.dflt_kwargs("other",dflt_other_chars,**kwargs)
+    init_ch =  random.choice(init_chs)
+    others = random.choices(other_chs,k=lngth-1)
+    other  = elel.join(others,"")
+    return(init_ch +other)
