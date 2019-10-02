@@ -96,42 +96,42 @@ def obj_to_hdict(obj,**kwargs):
         for i in range(0,unhandled.__len__()):
             parent = unhandled[i]
             parent_path = unhandled[i]['path']
-            parent_path_path = copy.deepcopy(parent_path)
+            parent_path_path = copy.copy(parent_path)
             parent_path_path.append('path')
             add_dict_tree_entry(hdict,parent_path_path,parent_path,s2n=s2n,n2s=n2s)
-            parent_orig_obj_path_path = copy.deepcopy(parent_path)
+            parent_orig_obj_path_path = copy.copy(parent_path)
             parent_orig_obj_path_path.append('orig_obj_path')
             add_dict_tree_entry(hdict,parent_orig_obj_path_path,parent['orig_obj_path'],s2n=s2n,n2s=n2s)
-            parent_tag_path = copy.deepcopy(parent_path)
+            parent_tag_path = copy.copy(parent_path)
             parent_tag_path.append('tag')
             add_dict_tree_entry(hdict,parent_tag_path,parent['tag'],s2n=s2n,n2s=n2s)
-            parent_attrib_path = copy.deepcopy(parent_path)
+            parent_attrib_path = copy.copy(parent_path)
             parent_attrib_path.append('attrib')
             parent_attrib = {}
             parent_attrib['type'] = utils.get_obj_type_name(parent['node'])
             add_dict_tree_entry(hdict,parent_attrib_path,parent_attrib,s2n=s2n,n2s=n2s)
-            parent_depth_path = copy.deepcopy(parent_path)
+            parent_depth_path = copy.copy(parent_path)
             parent_depth_path.append('depth')
             add_dict_tree_entry(hdict,parent_depth_path,unhandled[i]['depth'],s2n=s2n,n2s=n2s)
-            parent_text_path = copy.deepcopy(parent_path)
+            parent_text_path = copy.copy(parent_path)
             parent_text_path.append('text')
             if(utils.is_recursive_type(unhandled[i]['node']) | utils.is_set(unhandled[i]['node'])):
                 text_temp = None
             else:
                 text_temp = unhandled[i]['node']
             add_dict_tree_entry(hdict,parent_text_path,text_temp,s2n=s2n,n2s=n2s)
-            parent_siblings_seq_path = copy.deepcopy(parent_path)
+            parent_siblings_seq_path = copy.copy(parent_path)
             parent_siblings_seq_path.append('siblings_seq')
             add_dict_tree_entry(hdict,parent_siblings_seq_path,unhandled[i]['siblings_seq'],s2n=s2n,n2s=n2s)
-            parent_breadth_path = copy.deepcopy(parent_path)
+            parent_breadth_path = copy.copy(parent_path)
             parent_breadth_path.append('breadth')
             add_dict_tree_entry(hdict,parent_breadth_path,unhandled[i]['breadth'],s2n=s2n,n2s=n2s)
             #
-            parent_bps_path = copy.deepcopy(parent_path)
+            parent_bps_path = copy.copy(parent_path)
             parent_bps_path.append('breadth_path')
             add_dict_tree_entry(hdict,parent_bps_path,unhandled[i]['breadth_path'],s2n=s2n,n2s=n2s)
             #
-            parent_children_path = copy.deepcopy(parent_path)
+            parent_children_path = copy.copy(parent_path)
             parent_children_path.append('children')
             utils.dict_setdefault_via_path_list(hdict,parent_children_path)
             children = parent['node']
@@ -165,13 +165,13 @@ def obj_to_hdict(obj,**kwargs):
                     child = children[j]
                     breadth = next_unhandled.__len__()
                     siblings_seq = j
-                    parent_path = copy.deepcopy(unhandled[i]['path'])
+                    parent_path = copy.copy(unhandled[i]['path'])
                     parent_path.append('children')
                     parent_path.append(siblings_seq)
                     path = parent_path
-                    parent_orig_obj_path = copy.deepcopy(parent['orig_obj_path'])
+                    parent_orig_obj_path = copy.copy(parent['orig_obj_path'])
                     parent_orig_obj_path.append(siblings_seq)
-                    parent_bps_path = copy.deepcopy(parent['breadth_path'])
+                    parent_bps_path = copy.copy(parent['breadth_path'])
                     parent_bps_path.append(breadth)
                     next_unhandled.append({'node':child,'path':path,'tag':siblings_seq,'siblings_seq':siblings_seq,'breadth':breadth,'depth':(depth+1),'orig_obj_path':parent_orig_obj_path,'breadth_path':parent_bps_path})
             elif(utils.is_set(children)):
@@ -180,14 +180,14 @@ def obj_to_hdict(obj,**kwargs):
                     child = ele
                     breadth = next_unhandled.__len__()
                     siblings_seq = temp_seq
-                    parent_path = copy.deepcopy(unhandled[i]['path'])
+                    parent_path = copy.copy(unhandled[i]['path'])
                     parent_path.append('children')
                     parent_path.append(siblings_seq)
                     path = parent_path
-                    parent_orig_obj_path = copy.deepcopy(parent['orig_obj_path'])
+                    parent_orig_obj_path = copy.copy(parent['orig_obj_path'])
                     parent_orig_obj_path_loose = parent_orig_obj_path
                     parent_orig_obj_path.append(siblings_seq)
-                    parent_bps_path = copy.deepcopy(parent['breadth_path'])
+                    parent_bps_path = copy.copy(parent['breadth_path'])
                     parent_bps_path.append(breadth)
                     next_unhandled.append({'node':child,'path':path,'tag':siblings_seq,'siblings_seq':siblings_seq,'breadth':breadth,'depth':(depth+1),'orig_obj_path':parent_orig_obj_path,'breadth_path':parent_bps_path,'orig_obj_path_loose':parent_orig_obj_path_loose})
                     temp_seq = temp_seq + 1
@@ -197,13 +197,13 @@ def obj_to_hdict(obj,**kwargs):
                     child = children[key]
                     breadth = next_unhandled.__len__()
                     siblings_seq = seq
-                    parent_path = copy.deepcopy(unhandled[i]['path'])
+                    parent_path = copy.copy(unhandled[i]['path'])
                     parent_path.append('children')
                     parent_path.append(siblings_seq)
                     path = parent_path
-                    parent_orig_obj_path = copy.deepcopy(parent['orig_obj_path'])
+                    parent_orig_obj_path = copy.copy(parent['orig_obj_path'])
                     parent_orig_obj_path.append(key)
-                    parent_bps_path = copy.deepcopy(parent['breadth_path'])
+                    parent_bps_path = copy.copy(parent['breadth_path'])
                     parent_bps_path.append(breadth)
                     next_unhandled.append({'node':child,'path':path,'tag':key,'siblings_seq':siblings_seq,'breadth':breadth,'depth':(depth+1),'orig_obj_path':parent_orig_obj_path,'breadth_path':parent_bps_path})
                     seq = seq + 1
@@ -333,9 +333,9 @@ def obseleted_hdict_fullfill_sdict(sdict,hdict,prdict):
         r = sdict[i]
         for j in range(r.__len__()-1,-1,-1):
             d = r[j]
-            d['hdict_parent_path'] = copy.deepcopy(d['hdict_path'])
+            d['hdict_parent_path'] = copy.copy(d['hdict_path'])
             d['hdict_parent_path'].pop(-1)
-            d['orig_parent_path'] = copy.deepcopy(d['orig_obj_path'])
+            d['orig_parent_path'] = copy.copy(d['orig_obj_path'])
             d['orig_parent_path'].pop(-1)
             d['hdict_lsib_path'] = hdict_lsib_path(hdict,sdict,prdict,d['hdict_path'])
             d['orig_lsib_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_lsib_path'])
@@ -458,9 +458,9 @@ def hdict_fullfill_sdict(sdict,hdict,prdict):
         r = sdict[i]
         for j in range(r.__len__()-1,-1,-1):
             d = r[j]
-            d['hdict_parent_path'] = copy.deepcopy(d['hdict_path'])
+            d['hdict_parent_path'] = copy.copy(d['hdict_path'])
             d['hdict_parent_path'].pop(-1)
-            d['orig_parent_path'] = copy.deepcopy(d['orig_obj_path'])
+            d['orig_parent_path'] = copy.copy(d['orig_obj_path'])
             d['orig_parent_path'].pop(-1)
             d['hdict_lsib_path'] = hdict_lsib_path(hdict,sdict,prdict,d['hdict_path'])
             d['orig_lsib_path'] = hdict_path_to_orig_obj_path(prdict,d['hdict_lsib_path'])
@@ -607,7 +607,7 @@ def hdict_path_to_breadth_path(hdict,path_list_or_path_string,**kwargs):
         sp = '/'
     path_list = get_path_list(path_list_or_path_string,sp)
     temp = utils.dict_getitem_via_path_list(hdict,path_list,s2n=1)
-    breadth_path = copy.deepcopy(temp['breadth_path'])
+    breadth_path = copy.copy(temp['breadth_path'])
     return(breadth_path)
 
 def breadth_path_to_hdict_path(prdict,path_list_or_path_string,**kwargs):
@@ -656,7 +656,7 @@ def get_siblings_number_from_breadth_path(sdict,path_list_or_path_string,**kwarg
     else:
         sp = '/'
     breadth_path = get_path_list(path_list_or_path_string,sp)
-    parent_breadth_path = copy.deepcopy(breadth_path)
+    parent_breadth_path = copy.copy(breadth_path)
     parent_breadth_path.pop(-1)
     if(parent_breadth_path.__len__()==0):
         siblings_number = 0
@@ -681,7 +681,7 @@ def hdict_parent_path(hdict,pl,**kwargs):
     else:
         sp = '/'
     pl = get_path_list(pl,sp)
-    pl = copy.deepcopy(p1)
+    pl = copy.copy(p1)
     p1 = p1[:-2]
     return(pl)
 
@@ -770,7 +770,7 @@ def orig_parent_path(hdict,pl,**kwargs):
     else:
         sp = '/'
     pl = get_path_list(pl,sp)
-    pl = copy.deepcopy(p1)
+    pl = copy.copy(p1)
     p1 = p1[:-1]
     return(pl)
 
@@ -844,8 +844,8 @@ def hdict_relationship(pl1,pl2,hdict,sdict,prdict,**kwargs):
     dist = len1 - nearest_ancestor.__len__() + len2 - nearest_ancestor.__len__()
     nearest_ancestor = breadth_path_to_hdict_path(prdict,nearest_ancestor,sp=sp)
     l = nearest_ancestor.__len__()
-    ancestor_to_x = copy.deepcopy(pl1)[i:]
-    ancestor_to_y = copy.deepcopy(pl2)[i:]
+    ancestor_to_x = copy.copy(pl1)[i:]
+    ancestor_to_y = copy.copy(pl2)[i:]
     rel = {}
     rel['dist'] = dist
     rel['nearest_ancestor'] = nearest_ancestor
@@ -994,8 +994,8 @@ def orig_relationship(ol1,ol2,hdict,sdict,prdict,**kwargs):
             nearest_ancestor.append(ol1[j])
     dist = len1 - nearest_ancestor.__len__() + len2 - nearest_ancestor.__len__()
     l = nearest_ancestor.__len__()
-    ancestor_to_x = copy.deepcopy(ol1)[i:]
-    ancestor_to_y = copy.deepcopy(ol2)[i:]
+    ancestor_to_x = copy.copy(ol1)[i:]
+    ancestor_to_y = copy.copy(ol2)[i:]
     rel = {}
     rel['dist'] = dist
     rel['nearest_ancestor'] = nearest_ancestor
@@ -1238,7 +1238,7 @@ def hdict_to_obj(hdict,sdict,prdict,**kwargs):
     else:
         deepcopy = 1
     if(deepcopy):
-        newh = copy.deepcopy(hdict)
+        newh = copy.copy(hdict)
     else:
         newh = hdict
     obj = {}
@@ -1366,7 +1366,7 @@ def creat_xml_tag_line_label(sdict,**kwargs):
         r = sdict[i]
         for j in range(r.__len__()-1,-1,-1):
             d = r[j]
-            pbp = copy.deepcopy(d['breadth_path'])
+            pbp = copy.copy(d['breadth_path'])
             pbp.pop(-1)
             h,v = breadth_path_to_sdict_location(pbp)
             if((h==-1)|(v==-1)):
@@ -1379,10 +1379,10 @@ def creat_xml_tag_line_label(sdict,**kwargs):
             d = r[j]
             if((j==0)&(i==0)):
                 cursor = 0
-            ssp = copy.deepcopy(d['siblings_seq_path'])
+            ssp = copy.copy(d['siblings_seq_path'])
             sibn = ssp.pop(-1)
             if(sibn == 0):
-                pbp = copy.deepcopy(d['breadth_path'])
+                pbp = copy.copy(d['breadth_path'])
                 pbp.pop(-1)
                 h,v = breadth_path_to_sdict_location(pbp)
                 if((h==-1)&(v==-1)):
@@ -1400,7 +1400,7 @@ def creat_xml_tag_line_label(sdict,**kwargs):
         r = sdict[i]
         for j in range(0,r.__len__()):
             d = r[j]
-            pol = copy.deepcopy(d['orig_obj_path'])
+            pol = copy.copy(d['orig_obj_path'])
             tag = pol.pop(-1)
             prepend = xml_indent_prepend(pol)
             if(noattrib):
@@ -1414,7 +1414,7 @@ def creat_xml_tag_line_label(sdict,**kwargs):
             d['end_html_line'] = html_lines[d['end_tagn']]
             #
             if(d['leaf']):
-                ol = copy.deepcopy(d['orig_obj_path'])
+                ol = copy.copy(d['orig_obj_path'])
                 prepend = xml_indent_prepend(ol)
                 #
                 if(None == d['text']):
