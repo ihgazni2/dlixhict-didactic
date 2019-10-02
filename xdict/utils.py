@@ -207,11 +207,6 @@ def is_function(obj):
         return(True)
     else:
         return(False)
-def is_type(obj):
-    if(type(obj)==type(int)):
-        return(True)
-    else:
-        return(False)
 def is_customer_defined_type(obj):
     if(is_recursive_type(obj)|is_str(obj)|is_bool(obj)|is_none(onj)|is_number(obj)|is_function(obj)|is_type(obj)|is_module(obj)):
         return(False)
