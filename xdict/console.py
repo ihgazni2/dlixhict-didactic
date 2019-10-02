@@ -11,13 +11,15 @@ def oldStylize(color_sec):
         oldStylize(new_style_color_sec)
     '''
     if(xdict.utils.is_dict(color_sec)):
-        return(copy.deepcopy(color_sec))
+        #return(copy.deepcopy(color_sec))
+        return(copy.copy(color_sec))
     else:
         pass
     new = {}
     for i in range(0,color_sec.__len__()):
         sec = color_sec[i]
-        new[i+1] = copy.deepcopy(list(sec))
+        #new[i+1] = copy.deepcopy(list(sec))
+        new[i+1] = copy.copy(list(sec))
         new[i+1][1] = sec[1] - 1
         new[i+1] = tuple(new[i+1])
     return(new)
@@ -32,7 +34,8 @@ def newStylize(color_sec):
         newStylize(old_style_color_sec)
     '''
     if(xdict.utils.is_list(color_sec)):
-        return(copy.deepcopy(color_sec))
+        #return(copy.deepcopy(color_sec))
+        return(copy.copy(color_sec))
     else:
         pass
     new = []
@@ -62,7 +65,8 @@ def standlize_color_sec(color_sec,COLORS_MD):
             else:
                 color = color.replace('light','bright')
             color = COLORS_MD[color]
-        new[seq] = copy.deepcopy(list(sec))
+        #new[seq] = copy.deepcopy(list(sec))
+        new[seq] = copy.copy(list(sec))
         new[seq][2] = color
         new[seq] = tuple(new[seq])
     return(new)
@@ -469,7 +473,8 @@ def paint_multilines(lines,colors,line_sp='\n'):
     length = lines.__len__()
     clen = colors.__len__()
     if(clen < length):
-        colors = copy.deepcopy(colors)
+        #colors = copy.deepcopy(colors)
+        colors = copy.copy(colors)
         colors.extend(['white'] * (length-clen))
     else:
         pass
