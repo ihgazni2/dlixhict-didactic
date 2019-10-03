@@ -42,6 +42,7 @@ colormatrix = {
 COLs = xcr.rows_to_cols(ROWs)
 
 
+xcr.display_table_via_rows(ROWs,colormatrix=colormatrix,returned=True)
 
 #s =''
 #color_sec ={}

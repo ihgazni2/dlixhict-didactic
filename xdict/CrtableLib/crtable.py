@@ -4468,7 +4468,7 @@ def display_table_via_rows(ROWs,**kwargs):
                 ####
                 if(colored):
                     #print(spaint.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
-                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],lend='')
                 else:
                     print(display_COLs[j][i],end='')
             print('\n',end='')
@@ -4561,7 +4561,7 @@ def display_table_via_cols(COLs,**kwargs):
             for j in range(0,COLs.__len__()):
                 if(colored):
                     #print(spaint.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
-                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],lend='')
                 else:
                     print(display_COLs[j][i],end='')
             print('\n',end='')
@@ -4574,6 +4574,24 @@ def display_table_via_cols(COLs,**kwargs):
         return(display_COLs)
     else:
         return(None)
+
+
+def ltlyr2colorstr(lyr,color_layer):
+    s = ""
+    for i in range(len(lyr)):
+        word = spaint.paint(lyr[i],single_color=color_layer[i],lend='',rtrn=True)
+        s = s + word
+    return(s)
+
+def ltmat2colorstr(tbl,colormat):
+    s = ""
+    for i in range(len(tbl)):
+        lyr = tbl[i]
+        color_layer = colormat[i]
+        line = ltlyr2colorstr(lyr,color_layer)
+        s = s + line
+    return(s)
+        
 
 
 def show_crtable(crtable,**kwargs):
@@ -4627,7 +4645,14 @@ def show_crtable(crtable,**kwargs):
         rslt = display_table_via_rows(display_tb,colcolorsdict=colcolorsdict,**kwargs)
     else:
         rslt = display_table_via_rows(display_tb,**kwargs)
+    if(rslt == None):
+        pass
+    else:
+        rslt = ltmat2colorstr(tbl,colormat)
     return(rslt)
+
+
+
 
 
 
@@ -4774,7 +4799,7 @@ class crtable():
         '''
             crtb
         '''
-        show_crtable(self.crtable)
+        show_crtable(self.crtable,returned=True)
         if(self.debug):
             spaint.paint("====keys====:",single_color='blue')
             spaint.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
@@ -4782,7 +4807,10 @@ class crtable():
             spaint.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
         else:
             pass
-        return('')
+        #if(spaint.is_win()):
+            return('')
+        #else:
+        #    return(rslt)
     ## select
     def __getitem__(self,keys):
         '''
