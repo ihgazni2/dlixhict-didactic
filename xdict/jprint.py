@@ -9,12 +9,11 @@ import html
 import copy
 from xdict import fsm
 import os
-from spaint.spaint import paint_str,print_str
+from spaint.spaint import paint
 from spaint.spaint import ANSI8_COLORS_MD as COLORS_MD
 from spaint.spaint import is_win
 
-#paint_str = print_str if(is_win()) else paint_str
-print_str = print_str if(is_win()) else paint_str
+
 
 
 
@@ -1433,7 +1432,7 @@ def get_dynamic_indent_j_str(j_str,**kwargs):
         line = lines[i]
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
-            painted_string = paint_str(line,color_sec=color_sec)
+            painted_string = paint(line,color_sec=color_sec)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
@@ -1575,7 +1574,7 @@ def print_j_str(j_str,**kwargs):
         line = lines[i]
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
-            painted_string = paint_str(line,color_sec=color_sec)
+            painted_string = paint(line,color_sec=color_sec)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
@@ -1593,7 +1592,7 @@ def print_j_str(j_str,**kwargs):
         ####
         if(display):
             #print(painted_lines[i])
-            print_str(painted_lines[i],color_sec=color_sec)
+            paint(painted_lines[i],color_sec=color_sec)
         else:
             pass
     return(painted_lines)
