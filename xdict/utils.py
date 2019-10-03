@@ -172,11 +172,15 @@ def is_none(obj):
         return(True)
     else:
         return(False)
+
+EMPTY_REGEX = re.compile("")
+
 def is_regex(obj):
-    if(type(obj)==type(re.compile(""))):
+    if(type(obj)==type(EMPTY_REGEX)):
         return(True)
     else:
         return(False)
+
 def is_recursive_type(obj):
     #is_set(obj)
     #you cant add list/dict into set
