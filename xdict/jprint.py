@@ -9,6 +9,7 @@ import html
 import copy
 from xdict import fsm
 import os
+import elist.elist as elel
 from spaint.spaint import paint
 from spaint.spaint import is_win
 
