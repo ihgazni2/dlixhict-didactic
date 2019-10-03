@@ -5,6 +5,8 @@ import spaint.spaint as spaint
 import re
 import copy
 
+
+
 #######################################
 
 def nimd2arr(nimd):
@@ -4654,6 +4656,27 @@ def show_crtable(crtable,**kwargs):
     return(rslt)
 
 
+def lm2ltdm(m):
+    for i in range(len(m)):
+        m[i] = ltdict.list2ltdict(m[i])
+    m = ltdict.list2ltdict(m)
+    return(m)
+
+
+def shmat(m,*args,**kwargs):
+    m = lm2ltdm(m)
+    lyr_lngth = len(m[0])
+    dflt_colors = [("green" if(i%2 ==0) else "yellow") for i in range(lyr_lngth)]
+    colors = args[0] if(len(args)>0) else dflt_colors
+    colors = ltdict.list2ltdict(colors)
+    rslt = display_table_via_rows(m,colcolorsdict=colors,**kwargs)
+    if(rslt == None):
+        pass
+    else:
+        rslt = rows_to_cols(rslt)
+        cm = [colors] * len(rslt)
+        rslt = ltmat2colorstr(rslt,cm)
+    return(rslt)
 
 
 
