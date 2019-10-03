@@ -17,8 +17,9 @@ def import_colors_md():
         from spaint.spaint import WIN8_COLORS_MD as COLORS_MD
     else:
         from spaint.spaint import ANSI256_COLORS_MD as COLORS_MD
+    return(COLORS_MD)
 
-import_colors_md();
+COLORS_MD = import_colors_md();
 
 
 KEY_COLOR = COLORS_MD['lightgreen']
