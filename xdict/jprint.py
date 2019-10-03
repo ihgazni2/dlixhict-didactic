@@ -114,39 +114,15 @@ def get_jdict_token_set(**kwargs):
         from xdict.jprint import get_jdict_token_set
         get_jdict_token_set(quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
     '''
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
-    else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
+    block_op_pairs_dict = eftl.dflt_kwargs("block_op_pairs_dict",get_block_op_pairs('{}[]()'),**kwargs)
+    quotes_pairs_dict = eftl.dflt_kwargs("quotes_pairs_dict",get_quotes_pairs('""\'\''),**kwargs)
+    lquotes,rquotes,quotes = get_lrquotes(quotes_pairs_dict)
+    path_sps = eftl.dflt_kwargs("path_sps",['/'])
+    #######
     d = {}
     s = set({})
     def add_bi_table(s,d,x):
@@ -174,6 +150,20 @@ def get_jdict_token_set(**kwargs):
         d[recover_token_r] = block_op_pairs_dict[i][1]
     return({'token_set':s,'replace_ref_dict':d})
 
+###################
+
+def get_lrquotes(quotes_pairs_dict):
+    lquotes = []
+    rquotes = []
+    quotes = []
+    for i in range(1,quotes_pairs_dict.__len__()+1):
+        lquotes.append(quotes_pairs_dict[i][0])
+        rquotes.append(quotes_pairs_dict[i][1])
+        quotes.append(quotes_pairs_dict[i][0])
+        quotes.append(quotes_pairs_dict[i][1])
+    return((lquotes,rquotes,quotes))
+
+
 #######################
 def convert_token_in_quote(j_str,**kwargs):
     '''
@@ -192,32 +182,9 @@ def convert_token_in_quote(j_str,**kwargs):
         convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
         '<a&#32;b>:"cd"'
     '''
-    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
-    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
-    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
-    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
-    else:
-        block_op_pairs_dict=get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=get_quotes_pairs('""\'\'')
-    lquotes = []
-    rquotes = []
-    quotes = []
-    for i in range(1,quotes_pairs_dict.__len__()+1):
-        lquotes.append(quotes_pairs_dict[i][0])
-        rquotes.append(quotes_pairs_dict[i][1])
-        quotes.append(quotes_pairs_dict[i][0])
-        quotes.append(quotes_pairs_dict[i][1])
-    ###############
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
-
+    quotes_pairs_dict = eftl.dflt_kwargs("quotes_pairs_dict",get_quotes_pairs('""\'\''),**kwargs)
+    lquotes,rquotes,quotes = get_lrquotes(quotes_pairs_dict)
+    ####
     temp = get_jdict_token_set(
         block_op_pairs_dict=block_op_pairs_dict,
         quotes_pairs_dict=quotes_pairs_dict,
@@ -229,6 +196,7 @@ def convert_token_in_quote(j_str,**kwargs):
     )
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
+    ####
     # ----------------------------------------------------------------- #
     ####
     def do_replace(ch):
