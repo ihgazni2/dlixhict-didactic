@@ -1,6 +1,12 @@
 import re
-import copy
+#import copy
 from xdict import utils
+
+def fcopy(arr):
+    return(arr[:])
+
+
+
 
 operators = {'.','^','$','*','+','?','{','}','[',']','(',')','|','-','<','>','!',':'}
 slash = '\\'
@@ -19,8 +25,8 @@ def creat_regexes_array(chars_arr):
         [re.compile('["]'), re.compile("[']"), re.compile('[<]'), re.compile('[>]')]
         >>> 
     '''
-    #chars_arr = copy.copy(chars_arr)
-    chars_arr = copy.copy(chars_arr)
+    #chars_arr = fcopy(chars_arr)
+    chars_arr = fcopy(chars_arr)
     regex_chars_arr = []
     for i in range(0,chars_arr.__len__()):
         if(chars_arr[i] in operators):
@@ -42,7 +48,7 @@ def creat_regexes_not_array(chars_arr):
         [re.compile('[^"]'), re.compile("[^']"), re.compile('[^<]'), re.compile('[^>]')]
         >>>
     '''
-    chars_arr = copy.copy(chars_arr)
+    chars_arr = fcopy(chars_arr)
     regex_chars_arr = []
     for i in range(0,chars_arr.__len__()):
         if(chars_arr[i] in operators):
@@ -63,7 +69,7 @@ def creat_regex_from_arr(chars_arr):
         re.compile('["\'<>]')
         >>> 
     '''
-    chars_arr = copy.copy(chars_arr)
+    chars_arr = fcopy(chars_arr)
     regex_str = '['
     for i in range(0,chars_arr.__len__()):
         if(chars_arr[i] in operators):
@@ -84,7 +90,7 @@ def creat_regex_not_from_arr(chars_arr):
         re.compile('[^"\'<>]')
         >>> 
     '''
-    chars_arr = copy.copy(chars_arr)
+    chars_arr = fcopy(chars_arr)
     regex_str = '[^'
     for i in range(0,chars_arr.__len__()):
         if(chars_arr[i] in operators):
