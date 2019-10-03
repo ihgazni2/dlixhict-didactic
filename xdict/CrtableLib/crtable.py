@@ -4468,7 +4468,7 @@ def display_table_via_rows(ROWs,**kwargs):
                 ####
                 if(colored):
                     #print(spaint.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
-                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],lend='')
+                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],lend='',bg=0)
                 else:
                     print(display_COLs[j][i],end='')
             print('\n',end='')
@@ -4561,7 +4561,7 @@ def display_table_via_cols(COLs,**kwargs):
             for j in range(0,COLs.__len__()):
                 if(colored):
                     #print(spaint.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
-                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],lend='')
+                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],lend='',bg=0)
                 else:
                     print(display_COLs[j][i],end='')
             print('\n',end='')
@@ -4579,7 +4579,7 @@ def display_table_via_cols(COLs,**kwargs):
 def ltlyr2colorstr(lyr,color_layer):
     s = ""
     for i in range(len(lyr)):
-        word = spaint.paint(lyr[i],single_color=color_layer[i],lend='',rtrn=True)
+        word = spaint.paint(str(lyr[i]),single_color=color_layer[i],lend='',rtrn=True)
         s = s + word
     return(s)
 
@@ -4588,9 +4588,9 @@ def ltmat2colorstr(tbl,colormat):
     for i in range(len(tbl)):
         lyr = tbl[i]
         color_layer = colormat[i]
-        line = ltlyr2colorstr(lyr,color_layer)
-        s = s + line
-    return(s)
+        line = ltlyr2colorstr(lyr,color_layer) 
+        s = s + line + "\n"
+    return(s.strip("\n"))
         
 
 
@@ -4648,7 +4648,9 @@ def show_crtable(crtable,**kwargs):
     if(rslt == None):
         pass
     else:
-        rslt = ltmat2colorstr(display_tb,colcolorsdict)
+        rslt = rows_to_cols(rslt)
+        cm = [colcolorsdict] * len(rslt)
+        rslt = ltmat2colorstr(rslt,cm)
     return(rslt)
 
 
