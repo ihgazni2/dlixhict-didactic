@@ -11,9 +11,10 @@ from xdict import fsm
 import os
 from spaint.spaint import paint_str,print_str
 from spaint.spaint import ANSI8_COLORS_MD as COLORS_MD
+from spaint.spaint import is_win
 
-paint_str = print_str if(spaint.is_win()) else paint_str
-print_str = print_str if(spaint.is_win()) else paint_str
+paint_str = print_str if(is_win()) else paint_str
+print_str = print_str if(is_win()) else paint_str
 
 
 KEY_COLOR = COLORS_MD['lightgreen']
