@@ -1,10 +1,10 @@
 import re
-import copy
+#import copy
 from xdict import utils
 
-#def fcopy(arr):
-#    return(arr[:])
-fcopy = copy.copy
+def fcopy(arr):
+    return(arr[:])
+#fcopy = copy.copy
 
 
 

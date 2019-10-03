@@ -12,6 +12,10 @@ import os
 from spaint.spaint import paint_str,print_str
 from spaint.spaint import ANSI8_COLORS_MD as COLORS_MD
 
+paint_str = print_str if(spaint.is_win()) else paint_str
+print_str = print_str if(spaint.is_win()) else paint_str
+
+
 KEY_COLOR = COLORS_MD['lightgreen']
 VALUE_COLOR = COLORS_MD['lightcyan']
 LIST_ELE_COLOR =  COLORS_MD['yellow']
