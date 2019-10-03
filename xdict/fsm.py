@@ -1,6 +1,7 @@
 import re
-#import copy
 from xdict import utils
+import efuntool.efuntool as eftl
+
 
 def fcopy(arr):
     return(arr[:])
@@ -108,14 +109,7 @@ def creat_regex_not_from_arr(chars_arr):
 
 class FSM():
     def __init__(self,**kwargs):
-        if('fsm_dict' in kwargs):
-            self.fsm_dict = kwargs['fsm_dict']
-        else:
-            self.fsm_dict = {}
-        if('enable_debug' in kwargs):
-            self.enable_debug = kwargs['enable_debug']
-        else:
-            self.enable_debug = False
+        eftl.self_kwargs(self,['checker_all_regex','fsm_dict','enable_debug'],[True,{},False],**kwargs)
     def help(self):
         print("curr_state is the FSM CURRENT STATE")
         print("input_symbol is the INPUT")
@@ -221,7 +215,7 @@ class FSM():
         for key in self.fsm_dict:
             if(key[0] == curr_state):
                 #print(key[1])
-                if(utils.is_regex(key[1])):
+                if(self.checker_all_regex or utils.is_regex(key[1])):
                     cond = key[1].search(input_symbol)
                 else:
                     cond = key[1](input_symbol)

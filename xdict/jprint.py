@@ -12,6 +12,8 @@ import os
 import elist.elist as elel
 from spaint.spaint import paint
 from spaint.spaint import is_win
+import efuntool.efuntool as eftl
+
 
 IS_WIN = is_win()
 
@@ -190,22 +192,10 @@ def convert_token_in_quote(j_str,**kwargs):
         convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
         '<a&#32;b>:"cd"'
     '''
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
     if('block_op_pairs_dict' in kwargs):
         block_op_pairs_dict = kwargs['block_op_pairs_dict']
     else:
@@ -227,7 +217,16 @@ def convert_token_in_quote(j_str,**kwargs):
         path_sps = kwargs['path_sps']
     else:
         path_sps = ['/']
-    temp = get_jdict_token_set(block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+
+    temp = get_jdict_token_set(
+        block_op_pairs_dict=block_op_pairs_dict,
+        quotes_pairs_dict=quotes_pairs_dict,
+        spaces=spaces,
+        colons=colons,
+        commas=commas,
+        line_sps=line_sps,
+        path_sps=path_sps
+    )
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
     # ----------------------------------------------------------------- #
@@ -386,7 +385,8 @@ def convert_token_in_quote(j_str,**kwargs):
             action(curr_state,trigger_checker,input_symbol)
         else:
             ch = input_symbol
-        rslt = ''.join((rslt,ch))
+        #rslt = ''.join((rslt,ch))
+        rslt = rslt +ch
         curr_state = next_state
     return(rslt)
 
