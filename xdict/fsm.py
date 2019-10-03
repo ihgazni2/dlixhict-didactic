@@ -1,5 +1,5 @@
 import re
-#import copy
+import copy
 from xdict import utils
 
 #def fcopy(arr):
