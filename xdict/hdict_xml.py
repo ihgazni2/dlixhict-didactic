@@ -1,7 +1,6 @@
 import copy
 from lxml import etree
 from xdict import utils
-from xdict import ltdict
 from xdict import hdict_object
 
 def get_lxml_etree_root_type():

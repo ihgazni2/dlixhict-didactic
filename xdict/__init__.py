@@ -1,3 +1,3 @@
 
-__all__ = ['utils','ltdict','jprint','hdict_object','cmdline','hdict_xml','tuple_list','console_color','TestLib','CrtableLib','HdictLib','jsfunc','dict_list','edig']
+__all__ = ['utils','jprint','hdict_object','cmdline','hdict_xml','console_color','TestLib','CrtableLib','HdictLib','jsfunc','dict_list']
 

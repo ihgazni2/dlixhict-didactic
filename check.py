@@ -45,7 +45,6 @@ def check(fname,dname="./xdict"):
     #fl.append('cat ./xdict/hdict_xml.py' )
     #fl.append('cat ./xdict/__init__.py ')
     #fl.append('cat ./xdict/jprint.py ' )
-    #fl.append('cat ./xdict/ltdict.py  ' )
     #fl.append('cat ./xdict/TestLib/genrand.py ')
     #fl.append('cat ./xdict/TestLib/__init__.py ' )
     #fl.append('cat ./xdict/tuple_list.py')

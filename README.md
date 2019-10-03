@@ -55,7 +55,6 @@ for detailed usage and functions please refer to:
 ├── [hdict_object](ReadMeDetailed/hdict_object.md)   
 ├── [hdict_xml](ReadMeDetailed/hdict_xml.md)  
 ├── [jprint](ReadMeDetailed/jprint.md)  
-├── [ltdict](ReadMeDetailed/ltdict.md)  
 ├── [structure](ReadMeDetailed/structure.md)  
 ├── TestReadMe  
 >>>>├── [genrand](ReadMeDetailed/genrand.md)  
@@ -64,8 +63,11 @@ for detailed usage and functions please refer to:
 ├── [estring](https://github.com/ihgazni2/estring) <br>
 ├── [edict](https://github.com/ihgazni2/edict) <br>
 ├── [tlist](https://github.com/ihgazni2/tlist)  <br>
+├── [dlist](https://github.com/ihgazni2/dlist)  <br>
+├── [ltdict](https://github.com/ihgazni2/ltdict)
 ├── [fsm](ReadMeDetailed/fsm.md)  <br>
 └── [utils](ReadMeDetailed/utils.md)  <br>
+└── [timeutil](https://github.com/ihgazni2/kukibanshee/blob/master/kukibanshee/nozdormu.py)  <br>
 
 -------------------------------------------------------
 

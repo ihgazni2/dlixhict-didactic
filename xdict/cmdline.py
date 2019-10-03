@@ -1,7 +1,7 @@
 import re
 import copy
 from xdict import utils
-from xdict import ltdict
+import ltdict.ltdict as  ltdict
 from xdict import hdict_object
 from xdict import hdict_xml
 from xdict import jprint
@@ -614,7 +614,7 @@ def cmdlines_str_to_ltdict(cmdlines_str,**kwargs):
         line = format_cmd_str(line)
         lines[i] = line
     if(lt):
-        lines = ltdict.list_to_ltdict(lines)
+        lines = ltdict.list2ltdict(lines)
     else:
         pass
     return(lines)
@@ -703,7 +703,7 @@ def cmdlines_ltdict_to_deep(cmdlines_ltdict,**kwargs):
         line = lines[i]
         line = format_cmd_str(line)
         line_lt = line.split(cmd_sp)
-        line_lt = ltdict.list_to_ltdict(line_lt)
+        line_lt = ltdict.list2ltdict(line_lt)
         lines[i] = line_lt
     return(lines)
 
@@ -743,7 +743,7 @@ def cmdlines_deep_to_ltdict(deep,**kwargs):
     for i in range(0,lines.__len__()):
         line = lines[i]
         if(ltdict.is_ltdict(line)):
-            line = ltdict.ltdict_to_list(line)
+            line = ltdict.to_list(line)
         else:
             pass
         line = path_to_cmd_str(line,cmd_sp=cmd_sp)
@@ -794,11 +794,11 @@ def cmdlines_str_to_deep(cmdlines_str,**kwargs):
         line = format_cmd_str(line)
         line_lt = line.split(cmd_sp)
         if(lt):
-            lines[i] = ltdict.list_to_ltdict(line_lt)
+            lines[i] = ltdict.list2ltdict(line_lt)
         else:
             lines[i] = line_lt
     if(lt):
-        lines = ltdict.list_to_ltdict(lines)
+        lines = ltdict.list2ltdict(lines)
     else:
         pass
     return(lines)
@@ -1547,7 +1547,7 @@ def get_tags_info_from_cmdlines_ltdict(cmdlines_ltdict):
     lefted_seqs = sorted(lefted_seqs)
     for i in range(0,lefted_len):
         etagns[lefted_seqs[i]] = last_line + lefted_len -i
-    stagns = ltdict.list_to_ltdict(stagns)
+    stagns = ltdict.list2ltdict(stagns)
     return({'stagns':stagns,'etagns':etagns})
 
 def get_cmdlines_ltdict_open_close_structute(cmdlines_ltdict,stagns,etagns):
@@ -2061,8 +2061,8 @@ def get_html_lines_from_cmdlines_ltdict_and_tags_info(cmds,stagns,etagns,results
     else:
         cmd_sp = ' '
     #
-    max_stagns = max(ltdict.ltdict_to_list(stagns))
-    max_etagns = max(ltdict.ltdict_to_list(etagns))
+    max_stagns = max(ltdict.to_list(stagns))
+    max_etagns = max(ltdict.to_list(etagns))
     max_seq = max(max_stagns,max_etagns)
     cond = max_seq -  (stagns.__len__() + etagns.__len__() - 1)
     if(cond == 0):
@@ -2339,7 +2339,7 @@ def cmdlines_full_dict_to_html_text(cmdlines_full_dict,**kwargs):
     else:
         if(reorder):
             cmds = cmdlines_full_dict['cmds']
-            ltdict.ltdict_sort(cmds)
+            ltdict.sort(cmds)
         else:
             cmds = cmdlines_full_dict['cmds']
         results = cmdlines_full_dict['results']
@@ -2495,7 +2495,7 @@ def get_cmdlines_ltdict_leaf_stats(cmdlines_ltdict,**kwargs):
     else:
         reorder = 0
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     leaf_dict = {}
@@ -2569,7 +2569,7 @@ def get_cmdlines_ltdict_parent_stats(cmdlines_ltdict,**kwargs):
     else:
         reorder = 0
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     parent_dict = {}
@@ -2638,7 +2638,7 @@ def get_cmdlines_ltdict_son_stats(cmdlines_ltdict,**kwargs):
     else:
         cmd_sp = ' '
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
@@ -2716,15 +2716,15 @@ def get_cmdlines_ltdict_hierarchy_stats(cmdlines_ltdict,**kwargs):
     else:
         cmd_sp = ' '
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
     sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
-    root = ltdict.list_to_ltdict(list(ltd.keys()))
+    root = ltdict.list2ltdict(list(ltd.keys()))
     for k in pltd:
         del root[k]
-    root = ltdict.ltdict_to_list(root)
+    root = ltdict.to_list(root)
     next_unhandled_layer = [root]
     nlen = next_unhandled_layer.__len__()
     while(nlen >0):
@@ -2785,15 +2785,15 @@ def get_cmdlines_ltdict_breadth_stats(cmdlines_ltdict,**kwargs):
     else:
         cmd_sp = ' '
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
     sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
-    root = ltdict.list_to_ltdict(list(ltd.keys()))
+    root = ltdict.list2ltdict(list(ltd.keys()))
     for k in pltd:
         del root[k]
-    root = ltdict.ltdict_to_list(root)
+    root = ltdict.to_list(root)
     next_unhandled_layer = [root]
     nlen = next_unhandled_layer.__len__()
     depth = 0
@@ -2869,7 +2869,7 @@ def get_cmdlines_ltdict_ancestors_stats(cmdlines_ltdict,**kwargs):
     else:
         cmd_sp = ' '
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     altd = {}
@@ -2939,7 +2939,7 @@ def get_cmdlines_ltdict_descedants_stats(cmdlines_ltdict,**kwargs):
     else:
         cmd_sp = ' '
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
@@ -3000,14 +3000,14 @@ def get_cmdlines_ltdict_roots_stats(cmdlines_ltdict,**kwargs):
     else:
         only_dup = 0
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     pltd = get_cmdlines_ltdict_parent_stats(ltd,cmd_sp = cmd_sp)
-    root = ltdict.list_to_ltdict(list(ltd.keys()))
+    root = ltdict.list2ltdict(list(ltd.keys()))
     for k in pltd:
         del root[k]
-    root = ltdict.ltdict_to_list(root)
+    root = ltdict.to_list(root)
     return(root)
 
 def get_cmdlines_ltdict_siblings_stats(cmdlines_ltdict,**kwargs):
@@ -3095,7 +3095,7 @@ def get_cmdlines_ltdict_siblings_stats(cmdlines_ltdict,**kwargs):
     else:
         only_dup = 0
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     sltd = get_cmdlines_ltdict_son_stats(ltd,cmd_sp = cmd_sp)
@@ -3193,7 +3193,7 @@ def get_cmdlines_ltdict_depths_stats(cmdlines_ltdict,**kwargs):
     else:
         only_dup = 0
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     depths_desc = {}
@@ -3264,7 +3264,7 @@ def undup_cmdlines_ltdict(cmdlines_ltdict,**kwargs):
     else:
         cmd_sp = ' '
     if(reorder):
-        ltd = ltdict.ltdict_sort(cmdlines_ltdict)
+        ltd = ltdict.sort(cmdlines_ltdict)
     else:
         ltd = cmdlines_ltdict
     vkltd = get_cmdlines_ltdict_duplines_stats(ltd)
@@ -4337,10 +4337,10 @@ def del_cmdlines_strict_full_dict(cfd,path_list,**kwargs):
                 ncfd['results'][nseq] = cfd['results'][seq]
                 ncfd['attribs'][nseq] = cfd['attribs'][seq]
                 nseq = nseq + 1
-    ncfd['pathlists'] = ltdict.ltdict_naturalize_intkeydict(ncfd['pathlists'])
-    ncfd['cmds'] = ltdict.ltdict_naturalize_intkeydict(ncfd['cmds'])
-    ncfd['results'] = ltdict.ltdict_naturalize_intkeydict(ncfd['results'])
-    ncfd['attribs'] = ltdict.ltdict_naturalize_intkeydict(ncfd['attribs'])
+    ncfd['pathlists'] = ltdict.naturalize_intkeydict(ncfd['pathlists'])
+    ncfd['cmds'] = ltdict.naturalize_intkeydict(ncfd['cmds'])
+    ncfd['results'] = ltdict.naturalize_intkeydict(ncfd['results'])
+    ncfd['attribs'] = ltdict.naturalize_intkeydict(ncfd['attribs'])
     cfd['pathlists'] = ncfd['pathlists']
     cfd['cmds'] = ncfd['cmds']
     cfd['results'] = ncfd['results'] 
@@ -4409,10 +4409,10 @@ def set_cmdlines_strict_full_dict(cfd,path_list,value,attrib,**kwargs):
                     else:
                         pass
             if(self_seq == -1):
-                ltdict.ltdict_insert(cfd['pathlists'],inserted_seq,path_list)
-                ltdict.ltdict_insert(cfd['results'],inserted_seq,value)
-                ltdict.ltdict_insert(cfd['attribs'],inserted_seq,attrib)
-                ltdict.ltdict_insert(cfd['cmds'],inserted_seq,path_to_cmd_str(path_list,cmd_sp=cmd_sp))
+                ltdict.insert(cfd['pathlists'],inserted_seq,path_list)
+                ltdict.insert(cfd['results'],inserted_seq,value)
+                ltdict.insert(cfd['attribs'],inserted_seq,attrib)
+                ltdict.insert(cfd['cmds'],inserted_seq,path_to_cmd_str(path_list,cmd_sp=cmd_sp))
                 return(cfd)
             else:
                 cfd['pathlists'][self_seq] = path_list

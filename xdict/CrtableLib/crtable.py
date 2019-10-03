@@ -1,4 +1,4 @@
-from xdict import ltdict
+import ltdict.ltdict as ltdict
 from xdict import utils
 from xdict import jprint
 from xdict import console
@@ -9,7 +9,7 @@ import copy
 
 def nimd2arr(nimd):
     ltd = get_indexonly_refdict(nimd)
-    arr = ltdict.ltdict_to_list(ltd)
+    arr = ltdict.ltdict2list(ltd)
     return(arr)
 
 def get_cnl_from_crtable(crtable):
@@ -335,7 +335,7 @@ def get_mirror_dict_via_indexeslist(indexes_list,attribs_name_index_mirror_dict)
     for k in attribs_name_index_mirror_dict: 
         v = attribs_name_index_mirror_dict[k]
         if(ltdict.is_ltdict(indexes_list)):
-            cond = ltdict.ltdict_include(indexes_list,k)
+            cond = ltdict.include(indexes_list,k)
         else:
             cond = (k in indexes_list)
         if(cond):
@@ -378,7 +378,7 @@ def get_mirror_dict_via_nameslist(names_list,attribs_name_index_mirror_dict):
     for k in attribs_name_index_mirror_dict:
         v = attribs_name_index_mirror_dict[k]
         if(ltdict.is_ltdict(names_list)):
-            cond = ltdict.ltdict_include(names_list,k)
+            cond = ltdict.include(names_list,k)
         else:
             cond = (k in names_list)
         if(cond):
@@ -421,7 +421,7 @@ def get_the_other_mirror_dict_via_indexeslist(indexes_list,attribs_name_index_mi
     for k in attribs_name_index_mirror_dict: 
         v = attribs_name_index_mirror_dict[k]
         if(ltdict.is_ltdict(indexes_list)):
-            cond = ltdict.ltdict_include(indexes_list,k)
+            cond = ltdict.include(indexes_list,k)
         else:
             cond = (k in indexes_list)
         cond = not(cond)
@@ -465,7 +465,7 @@ def get_the_other_mirror_dict_via_nameslist(names_list,attribs_name_index_mirror
     for k in attribs_name_index_mirror_dict:
         v = attribs_name_index_mirror_dict[k]
         if(ltdict.is_ltdict(names_list)):
-            cond = ltdict.ltdict_include(names_list,k)
+            cond = ltdict.include(names_list,k)
         else:
             cond = (k in names_list)
         cond = not(cond)
@@ -1604,7 +1604,7 @@ def append_row(row,crtable):
         >>> 
     '''
     if(isinstance(row,list)):
-        cnl = ltdict.ltdict_to_list(get_indexonly_refdict(crtable['animd']))
+        cnl = ltdict.to_list(get_indexonly_refdict(crtable['animd']))
         #kvlist2d
         d = {}
         for i in range(0,cnl.__len__()):
@@ -1758,7 +1758,7 @@ def prepend_row(row,crtable):
     '''
     nrow = format_attribs_to_indexkeyonly(row,crtable['animd'],index_dominant=1)
     nrow = expand_part_attribs(nrow,crtable['animd'],index_dominant=1)
-    crtable['table'] = ltdict.ltdict_prepend(crtable['table'],nrow)
+    crtable['table'] = ltdict.prepend(crtable['table'],nrow)
     return(crtable)
 
 def prepend_col(col,crtable):
@@ -1804,7 +1804,7 @@ def prepend_col(col,crtable):
     crtable['animd'][col_name] = 0
     for rownum in crtable['table']:
         row = crtable['table'][rownum]
-        crtable['table'][rownum] = ltdict.ltdict_prepend(row,col_list[rownum])
+        crtable['table'][rownum] = ltdict.prepend(row,col_list[rownum])
     return(crtable)
 
 def prepend_rows(rows,crtable):
@@ -1837,13 +1837,13 @@ def prepend_rows(rows,crtable):
         KeyError: 6
         >>> 
     '''
-    rows = ltdict.list_to_ltdict(rows)
+    rows = ltdict.list2ltdict(rows)
     for k in rows:
         row = rows[k]
         row = nameattribs_to_indexattribs(row,crtable['animd'])
         row = expand_part_attribs(row,crtable['animd'])
         rows[k] = row 
-    crtable['table'] = ltdict.ltdict_prepend_extend(crtable['table'],rows,deepcopy_1=1,deepcopy_2=1)
+    crtable['table'] = ltdict.prextend(crtable['table'],rows,deepcopy_1=1,deepcopy_2=1)
     return(crtable)
 
 def prepend_cols(cols,crtable):
@@ -1922,7 +1922,7 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
     if(reorder):
         crtable = naturalize_crtable(crtable)
         crtable['animd'] = get_indexonly_refdict(crtable['animd'])
-        ltdict.ltdict_pop(crtable['animd'],colnum)
+        ltdict.pop(crtable['animd'],colnum)
         try:
             del crtable['knimd'][colnum]
         except:
@@ -1998,7 +1998,7 @@ def del_col_via_colnum(colnum,crtable,**kwargs):
     for seq in crtable['table']:
         if(reorder):
             
-            ltdict.ltdict_pop(crtable['table'][seq],colnum)
+            ltdict.pop(crtable['table'][seq],colnum)
         else:
             del crtable['table'][seq][colnum]
     return(crtable)
@@ -2071,7 +2071,7 @@ def del_rows_via_attribs(attribs,crtable,**kwargs):
     if(reorder):
         crtable = naturalize_crtable(crtable)
         seqslist = get_seqslist_via_keys(keys,crtable)
-        ltdict.ltdict_pop_seqs(crtable['table'],set(seqslist))
+        ltdict.pop_seqs(crtable['table'],set(seqslist))
     else:
         del crtable['table'][seq]
     return(crtable)
@@ -2103,7 +2103,7 @@ def del_rows_via_keys(keys,crtable,**kwargs):
     if(reorder):
         crtable = naturalize_crtable(crtable)
         seqslist = get_seqslist_via_keys(keys,crtable)
-        ltdict.ltdict_pop_seqs(crtable['table'],set(seqslist))
+        ltdict.pop_seqs(crtable['table'],set(seqslist))
     else:
         del crtable['table'][seq]
     return(crtable)
@@ -2204,7 +2204,7 @@ def modify_col_via_colnum(colnum,crtable,modified_to):
     '''
     '''
     if(isinstance(modified_to,list)):
-        modified_to = ltdict.list_to_ltdict(modified_to)
+        modified_to = ltdict.list2ltdict(modified_to)
     else:
         pass
     for rownum in modified_to:
@@ -2247,7 +2247,7 @@ def modify_col_via_colname(colname,crtable,modified_to):
         
     '''
     if(isinstance(modified_to,list)):
-        modified_to = ltdict.list_to_ltdict(modified_to)
+        modified_to = ltdict.list2ltdict(modified_to)
     else:
         pass
     colnum = crtable['animd'][colname]
@@ -2277,7 +2277,7 @@ def insert_col(colnum,col,crtable,**kwargs):
     col_name = list(col.keys())[0]
     col_list = col[col_name] 
     refd = get_indexonly_refdict(crtable['animd'])
-    nrefd = ltdict.ltdict_insert(refd,colnum,col_name)
+    nrefd = ltdict.insert(refd,colnum,col_name)
     crtable['animd'] = creat_mirror_dict(nrefd)
     #
     krefd = get_indexonly_refdict(crtable['knimd'])
@@ -2310,7 +2310,7 @@ def insert_col(colnum,col,crtable,**kwargs):
     #
     for rownum in crtable['table']:
         row = crtable['table'][rownum]
-        crtable['table'][rownum] = ltdict.ltdict_insert(crtable['table'][rownum],colnum,col_list[rownum])
+        crtable['table'][rownum] = ltdict.insert(crtable['table'][rownum],colnum,col_list[rownum])
     return(crtable)
 
 def insert_cols(colnumlist,cols,crtable,**kwargs):
@@ -2389,7 +2389,7 @@ def insert_row(rownum,row,crtable):
     '''
     crtable = naturalize_crtable(crtable)
     row = nameattribs_to_indexattribs(row,(crtable['animd']))
-    crtable['table'] = ltdict.ltdict_insert(crtable['table'],rownum,row)
+    crtable['table'] = ltdict.insert(crtable['table'],rownum,row)
     return(crtable)
 
 def insert_rows(rownumlist,rows,crtable,**kwargs):
@@ -2753,7 +2753,7 @@ def project_table(colnumslist,table,**kwargs):
                 else:
                     pop_seqs.add(colnum)
                     pt[seq]= row
-            ltdict.ltdict_pop_seqs(row,pop_seqs)
+            ltdict.pop_seqs(row,pop_seqs)
             pt[seq]= row
     else:
         for seq in table:
@@ -2768,18 +2768,18 @@ def project_table(colnumslist,table,**kwargs):
     if(unique):
         vset = set({})
         for k in pt:
-            vset.add(ltdict.ltdict_to_tuple(pt[k]))
+            vset.add(ltdict.to_tuple(pt[k]))
         tslen = vset.__len__()
         freq = {}
         for k in pt:
-            v = ltdict.ltdict_to_tuple(pt[k])
+            v = ltdict.to_tuple(pt[k])
             if(v in freq):
                 freq[v] = freq[v] + 1
                 seqs_for_del.append(k)
             else:
                 freq[v] = 0
         if(reorder):
-            ltdict.ltdict_pop_seqs(pt,set(seqs_for_del))
+            ltdict.pop_seqs(pt,set(seqs_for_del))
         else:
             npt = {}
             for k in pt:
@@ -2904,7 +2904,7 @@ def col_in_crtable(col,crtable,**kwargs):
         name = list(col.keys())[0]
         colist = get_column_via_attribname(name,crtable)
         if(utils.is_list(col[name])):
-            cl = ltdict.list_to_ltdict(col[name])
+            cl = ltdict.list2ltdict(col[name])
         else:
             cl = col[name]
         cond = (cl == colist)
@@ -2916,7 +2916,7 @@ def col_in_crtable(col,crtable,**kwargs):
         name = list(col.keys())[0]
         refd = get_nameonly_refdict(crtable['animd'])
         if(utils.is_list(col[name])):
-            cl = ltdict.list_to_ltdict(col[name])
+            cl = ltdict.list2ltdict(col[name])
         else:
             cl = col[name]
         for colname in refd:
@@ -2983,10 +2983,10 @@ def partlycol_in_crtable(col,crtable,**kwargs):
             return(False)
         colist = get_column_via_attribname(name,crtable)
         if(utils.is_list(col[name])):
-            cl = ltdict.list_to_ltdict(col[name])
+            cl = ltdict.list2ltdict(col[name])
         else:
             cl = col[name]
-        cond = ltdict.ltdict_comprise(colist,cl,strict=0)
+        cond = ltdict.comprise(colist,cl,strict=0)
         if(cond):
             return(True)
         else:
@@ -2995,12 +2995,12 @@ def partlycol_in_crtable(col,crtable,**kwargs):
         name = list(col.keys())[0]
         refd = get_nameonly_refdict(crtable['animd'])
         if(utils.is_list(col[name])):
-            cl = ltdict.list_to_ltdict(col[name])
+            cl = ltdict.list2ltdict(col[name])
         else:
             cl = col[name]
         for colname in refd:
             colist = get_column_via_attribname(colname,crtable)
-            cond = ltdict.ltdict_comprise(colist,cl,strict=0)
+            cond = ltdict.comprise(colist,cl,strict=0)
             if(cond):
                 return(True)
             else:
@@ -3038,18 +3038,18 @@ def unique_crtable(crtable,**kwargs):
     seqs_for_del =[]
     vset = set({})
     for k in pt:
-        vset.add(ltdict.ltdict_to_tuple(pt[k]))
+        vset.add(ltdict.to_tuple(pt[k]))
     tslen = vset.__len__()
     freq = {}
     for k in pt:
-        v = ltdict.ltdict_to_tuple(pt[k])
+        v = ltdict.to_tuple(pt[k])
         if(v in freq):
             freq[v] = freq[v] + 1
             seqs_for_del.append(k)
         else:
             freq[v] = 0
     if(reorder):
-        ltdict.ltdict_pop_seqs(pt,set(seqs_for_del))
+        ltdict.pop_seqs(pt,set(seqs_for_del))
     else:
         npt = {}
         for k in pt:
@@ -3234,10 +3234,10 @@ def naturalize_table(table):
         {0: 100000, 1: 'blue', 2: '2018-dec-01', 3: 'english'}
         >>> 
     '''
-    ntb = ltdict.ltdict_naturalize_intkeydict(table)
+    ntb = ltdict.naturalize_intkeydict(table)
     for seq in ntb:
         row = ntb[seq]
-        ntb[seq] = ltdict.ltdict_naturalize_intkeydict(row)
+        ntb[seq] = ltdict.naturalize_intkeydict(row)
     return(ntb)
 
 def naturalize_crtable(crtable):
@@ -3747,7 +3747,7 @@ def thetajoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,the
             subrow_2 = subtb_2[rownum2]
             cond = theta_function(subrow_1,subrow_2)
             if(cond):
-                crtable['table'][seq] = ltdict.ltdict_concat(tb_1[rownum1],tb_2[rownum2])
+                crtable['table'][seq] = ltdict.concat(tb_1[rownum1],tb_2[rownum2])
                 seq = seq + 1
             else:
                 pass
@@ -3803,8 +3803,8 @@ def equijoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kw
         >>> 
     '''
     def theta_function(subrow_1,subrow_2):
-        subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
-        subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
+        subrow_l1 = ltdict.naturalize_intkeydict(subrow_1)
+        subrow_l2 = ltdict.naturalize_intkeydict(subrow_2)
         if(subrow_l1 == subrow_l2):
             return(True)
         else:
@@ -3852,7 +3852,7 @@ def naturaljoin_mirror_dict(md):
         m = regex.search(v)
         nrefd[seq] = m.group(1)
     nrefd = utils.dict_unique_value(nrefd)
-    nrefd = ltdict.ltdict_naturalize_intkeydict(nrefd)
+    nrefd = ltdict.naturalize_intkeydict(nrefd)
     return(creat_mirror_dict(nrefd))
 
 def naturaljoin_two_crtables(colnameslist_1,crtable_1,colnameslist_2,crtable_2,**kwargs):
@@ -4019,7 +4019,7 @@ def divide_two_crtables(crtable_1,crtable_2,colnameslist=[],**kwargs):
     projection_set = set({})
     for rownum in projection_2['table']:
         row = projection_2['table'][rownum]
-        t = ltdict.ltdict_to_tuple(row)
+        t = ltdict.to_tuple(row)
         projection_set.add(t)
     divtb = {}
     lmk = list(mapping.keys())[0]
@@ -4691,9 +4691,9 @@ class crtable():
         if('crtable' in kwargs):
             ncrtb = copy.deepcopy(kwargs['crtable'])
             self.crtable = ncrtb
-            self.keynameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['knimd']))
-            self.valuenameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['vnimd']))
-            self.colnameslist = ltdict.ltdict_to_list(get_indexonly_refdict(ncrtb['animd']))
+            self.keynameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['knimd']))
+            self.valuenameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['vnimd']))
+            self.colnameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['animd']))
         else:
             if('colnameslist' in kwargs):
                 ####
@@ -4701,7 +4701,7 @@ class crtable():
                 for k in range(0,colnameslist.__len__()):
                     colnameslist[k] = str(colnameslist[k]) 
                 ####
-                refdict = ltdict.list_to_ltdict(colnameslist)
+                refdict = ltdict.list2ltdict(colnameslist)
                 self.crtable['animd'] = creat_mirror_dict(refdict)
                 self.colnameslist = colnameslist
             else:
@@ -4710,13 +4710,13 @@ class crtable():
             ####
                 table = copy.deepcopy(kwargs['table'])
                 if(utils.is_list(table)):
-                    table = ltdict.list_to_ltdict(table)
+                    table = ltdict.list2ltdict(table)
                 else:
                     pass
                 for kseq in table:
                     eachrow = copy.deepcopy(table[kseq])
                     if(utils.is_list(eachrow)):
-                        table[kseq] = ltdict.list_to_ltdict(eachrow)
+                        table[kseq] = ltdict.list2ltdict(eachrow)
                     else:
                         pass
             ####
@@ -6169,7 +6169,7 @@ class crtable():
             pass
         else:
             seq = seqslist[0]
-            ltdict.ltdict_pop(self.crtable['table'],seq)
+            ltdict.pop(self.crtable['table'],seq)
     def delete_last_row(self,keys):
         '''
             crtb
@@ -6213,7 +6213,7 @@ class crtable():
             pass
         else:
             seq = seqslist[-1]
-            ltdict.ltdict_pop(self.crtable['table'],seq)
+            ltdict.pop(self.crtable['table'],seq)
     def delete_specific_row(self,keys,whichrow):
         '''
             crtb
@@ -6260,7 +6260,7 @@ class crtable():
             pass
         else:
             seq = seqslist[whichrow]
-            ltdict.ltdict_pop(self.crtable['table'],seq)
+            ltdict.pop(self.crtable['table'],seq)
     def delete_all_rows(self,keys):
         '''
             crtb
@@ -6456,8 +6456,8 @@ class crtable():
             return([])
         else:
             colnameslist = get_indexonly_refdict(self.crtable['knimd'])
-            colnameslist = ltdict.ltdict_naturalize_intkeydict(colnameslist)
-            colnameslist = ltdict.ltdict_to_list(colnameslist)
+            colnameslist = ltdict.naturalize_intkeydict(colnameslist)
+            colnameslist = ltdict.to_list(colnameslist)
             keys_list = []
             colnumslist = get_indexes_list_via_names_list(colnameslist,self.crtable['animd'])
             rownumslist = sorted(list(self.crtable['table'].keys()))
@@ -6501,8 +6501,8 @@ class crtable():
             return([])
         else:
             colnameslist = get_indexonly_refdict(self.crtable['vnimd'])
-            colnameslist = ltdict.ltdict_naturalize_intkeydict(colnameslist)
-            colnameslist = ltdict.ltdict_to_list(colnameslist)
+            colnameslist = ltdict.naturalize_intkeydict(colnameslist)
+            colnameslist = ltdict.to_list(colnameslist)
             values_list = []
             colnumslist = get_indexes_list_via_names_list(colnameslist,self.crtable['animd'])
             rownumslist = sorted(list(self.crtable['table'].keys()))
@@ -7035,8 +7035,8 @@ class crtable():
             crtb1 = xcr.crtable(colnameslist = colnameslist1,table=table_1,keynameslist = keynameslist1)
             crtb2 = xcr.crtable(colnameslist = colnameslist2,table=table_2,keynameslist = keynameslist2)
             def theta_function(subrow_1,subrow_2):
-                subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
-                subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
+                subrow_l1 = ltdict.naturalize_intkeydict(subrow_1)
+                subrow_l2 = ltdict.naturalize_intkeydict(subrow_2)
                 if(subrow_l1 == subrow_l2):
                     return(True)
                 else:
@@ -7060,8 +7060,8 @@ class crtable():
         '''
         crtb1 = copy.deepcopy(self)
         def theta_function(subrow_1,subrow_2):
-            subrow_l1 = ltdict.ltdict_naturalize_intkeydict(subrow_1)
-            subrow_l2 = ltdict.ltdict_naturalize_intkeydict(subrow_2)
+            subrow_l1 = ltdict.naturalize_intkeydict(subrow_1)
+            subrow_l2 = ltdict.naturalize_intkeydict(subrow_2)
             if(subrow_l1 == subrow_l2):
                 return(True)
             else:

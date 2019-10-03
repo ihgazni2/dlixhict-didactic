@@ -11,7 +11,7 @@ import copy
 import json
 import cgi
 from xdict import utils
-from xdict import ltdict
+import ltdict.ltdict as ltdict
 
 def obj_to_hdict(obj,**kwargs):
     def add_dict_tree_entry(hdict,path,value,n2s=0,s2n=0):
@@ -566,7 +566,7 @@ def get_sdict_and_prdict_from_hdict(hdict,**kwargs):
 
 def get_path_list(path_list_or_path_string,sp):
     if(ltdict.is_ltdict(path_list_or_path_string)):
-        path_list = ltdict.ltdict_to_list(path_list_or_path_string)
+        path_list = ltdict.ltdict2list(path_list_or_path_string)
     elif(utils.is_list(path_list_or_path_string)):
         path_list = path_list_or_path_string
     else:
