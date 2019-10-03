@@ -2,8 +2,9 @@ import re
 #import copy
 from xdict import utils
 
-def fcopy(arr):
-    return(arr[:])
+#def fcopy(arr):
+#    return(arr[:])
+fcopy = copy.copy
 
 
 
