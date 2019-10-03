@@ -12,8 +12,10 @@ import os
 from spaint.spaint import paint
 from spaint.spaint import is_win
 
+IS_WIN = is_win()
+
 def import_colors_md():
-    if(is_win()):
+    if(IS_WIN):
         from spaint.spaint import WIN8_COLORS_MD as COLORS_MD
     else:
         from spaint.spaint import ANSI8_COLORS_MD as COLORS_MD
@@ -1387,9 +1389,16 @@ def print_j_str(j_str,**kwargs):
         # else:
         painted_lines[i] = painted_string
         ####
+        #if(display):
+        #    print(painted_lines[i])
+        #else:
+        #    pass
+    if(IS_WIN):
+        pass
+    else:
         if(display):
-            print(painted_lines[i])
-            #paint(painted_lines[i],color_sec=color_sec)
+            s = elel.join(painted_lines,"\n")
+            print(s)
         else:
             pass
     return(painted_lines)
