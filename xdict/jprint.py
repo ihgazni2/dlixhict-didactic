@@ -13,8 +13,8 @@ import elist.elist as elel
 from spaint.spaint import paint
 from spaint.spaint import is_win
 import efuntool.efuntool as eftl
-from xdict import prepare_quotes_token_machine
-from xdict import tokenize_quotes
+from xdict.prepare_quotes_token_machine  import prepare_quotes_token_machine
+from xdict.tokenize_quotes import tokenize_quotes
 
 
 IS_WIN = is_win()

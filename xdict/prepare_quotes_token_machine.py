@@ -1,3 +1,5 @@
+from efuntool.efuntool import eftl
+
 def prepare_quotes_token_machine(j_str,**kwargs):
     '''
         >>> from xdict.jprint import convert_token_in_quote
