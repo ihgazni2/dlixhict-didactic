@@ -44,6 +44,16 @@ COLs = xcr.rows_to_cols(ROWs)
 
 xcr.display_table_via_rows(ROWs,colormatrix=colormatrix,returned=True)
 
+
+m = [
+    [1,2,3,4,5],
+    [2,2,2,2,2],
+    [55,6,7,7,8]
+]
+
+import xdict.CrtableLib.crtable as xcr
+xcr.shmat(m)
+
 #s =''
 #color_sec ={}
 #cursor = 0
