@@ -1,4 +1,4 @@
-from efuntool.efuntool import eftl
+import efuntool.efuntool as eftl
 
 def prepare_quotes_token_machine(j_str,**kwargs):
     '''
