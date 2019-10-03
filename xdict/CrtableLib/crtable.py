@@ -4648,7 +4648,7 @@ def show_crtable(crtable,**kwargs):
     if(rslt == None):
         pass
     else:
-        rslt = ltmat2colorstr(tbl,colormat)
+        rslt = ltmat2colorstr(display_tb,colcolorsdict)
     return(rslt)
 
 
