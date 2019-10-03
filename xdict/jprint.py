@@ -16,7 +16,7 @@ def import_colors_md():
     if(is_win()):
         from spaint.spaint import WIN8_COLORS_MD as COLORS_MD
     else:
-        from spaint.spaint import ANSI256_COLORS_MD as COLORS_MD
+        from spaint.spaint import ANSI8_COLORS_MD as COLORS_MD
     return(COLORS_MD)
 
 COLORS_MD = import_colors_md();
@@ -1371,7 +1371,7 @@ def print_j_str(j_str,**kwargs):
         line = lines[i]
         if(with_color):
             color_sec = get_line_color_sec(line,paths[i],block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp)
-            painted_string = paint(line,color_sec=color_sec,rtrn=True)
+            painted_string = paint(line,color_sec=color_sec,rtrn=True,mode=8)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
             painted_string = html.unescape(painted_string)
             #-------fix issues--- when pobj({'resp_body_bytes': b'&#39;c'})
