@@ -182,9 +182,15 @@ def convert_token_in_quote(j_str,**kwargs):
         convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
         '<a&#32;b>:"cd"'
     '''
+    ####
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
     block_op_pairs_dict = eftl.dflt_kwargs("block_op_pairs_dict",get_block_op_pairs('{}[]()'),**kwargs)
     quotes_pairs_dict = eftl.dflt_kwargs("quotes_pairs_dict",get_quotes_pairs('""\'\''),**kwargs)
     lquotes,rquotes,quotes = get_lrquotes(quotes_pairs_dict)
+    path_sps = eftl.dflt_kwargs("path_sps",['/'])
     ####
     temp = get_jdict_token_set(**kwargs)
     token_set = temp['token_set']
@@ -642,7 +648,15 @@ def line_to_path_init(line,block_op_pairs_dict = get_block_op_pairs("{}[]()"),sp
     curr_path = ''.join((sp,curr_base_name))
     return(curr_path)
 
-def line_to_path(line,curr_lv,prev_lv,prev_path,block_op_pairs_dict= get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':']):
+def line_to_path(
+        line,curr_lv,
+        prev_lv,
+        prev_path,
+        block_op_pairs_dict= get_block_op_pairs("{}[]()"),
+        sp='/',
+        commas=[','],
+        colons=[':']
+    ):
     def no_space_tail(tail):
         tail_no_space = tail.rstrip(' ')
         for i in range(0,commas.__len__()):
@@ -804,7 +818,16 @@ def get_print_lines_and_paths(j_str,**kwargs):
         indent = kwargs['indent']
     else:
         indent =4
-    j_str = convert_token_in_quote(j_str,block_op_pairs_dict=block_op_pairs_dict,quotes_pairs_dict=quotes_pairs_dict,spaces=spaces,colons=colons,commas=commas,line_sps=line_sps,path_sps=path_sps)
+    j_str = convert_token_in_quote(
+        j_str,
+        block_op_pairs_dict=block_op_pairs_dict,
+        quotes_pairs_dict=quotes_pairs_dict,
+        spaces=spaces,
+        colons=colons,
+        commas=commas,
+        line_sps=line_sps,
+        path_sps=path_sps
+    )
     j_str = format_j_str(j_str,block_op_pairs_dict)
     j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
     orig_lines = j_str.split('\n')
