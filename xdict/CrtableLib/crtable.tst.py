@@ -8,7 +8,7 @@ table[0] = ['姜维', 98, '姜维', 3215, 3217]
 table[1] = ['姜维', 100, '姜维', 2476, 2478]
 table[2] = ['姜维', 101, '姜维', 1699, 1701]
 crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
-print(crtb)
+print(crtb.__str__())
 
 
 #+++++++++++++++++++++++++++++++++++++++

@@ -4576,7 +4576,7 @@ def display_table_via_cols(COLs,**kwargs):
         return(None)
 
 
-def show_crtable(crtable):
+def show_crtable(crtable,**kwargs):
     '''
         crtable = {}
         crtable['animd'] = creat_mirror_dict({0: 'size', 1: 'color', 2: 'language', 3: 'expire'})
@@ -4624,9 +4624,10 @@ def show_crtable(crtable):
         for i in vcd :
             colcolorsdict[i] = 'yellow'
     if(colored):
-        display_table_via_rows(display_tb,colcolorsdict=colcolorsdict)
+        rslt = display_table_via_rows(display_tb,colcolorsdict=colcolorsdict,**kwargs)
     else:
-        display_table_via_rows(display_tb)
+        rslt = display_table_via_rows(display_tb,**kwargs)
+    return(rslt)
 
 
 
