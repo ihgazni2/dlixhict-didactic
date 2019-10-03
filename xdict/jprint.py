@@ -9,16 +9,14 @@ import html
 import copy
 from xdict import fsm
 import os
-from xdict.console import paint_str
-from xdict.console import COLORS_MD
-from xdict.console import print_str
+from spaint.spaint import paint_str,print_str
+from spaint.spaint import ANSI8_COLORS_MD as COLORS_MD
 
 KEY_COLOR = COLORS_MD['lightgreen']
 VALUE_COLOR = COLORS_MD['lightcyan']
 LIST_ELE_COLOR =  COLORS_MD['yellow']
 OP_COLOR = COLORS_MD['white']
 DEFAULT_COLOR = COLORS_MD['white']
-
 
 
 

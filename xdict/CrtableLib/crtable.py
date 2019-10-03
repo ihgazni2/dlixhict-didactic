@@ -1,7 +1,7 @@
 import ltdict.ltdict as ltdict
 from xdict import utils
 from xdict import jprint
-from xdict import console
+import spaint.spaint as spaint
 import re
 import copy
 
@@ -4457,7 +4457,7 @@ def display_table_via_rows(ROWs,**kwargs):
             if(colored):
                 s = s +'\n'+boundary
                 color_sec[COLs.__len__()+1] = (cursor,cursor+boundary.__len__(),"white")
-                console.paint(s,color_sec=color_sec)
+                spaint.paint(s,color_sec=color_sec)
             else:
                 print('\n',end='')
                 print(boundary)
@@ -4467,8 +4467,8 @@ def display_table_via_rows(ROWs,**kwargs):
                 #print(display_COLs[j][i])
                 ####
                 if(colored):
-                    #print(console.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
-                    console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+                    #print(spaint.paint_str(display_COLs[j][i],single_color=colormatrix[i][j]),end='')
+                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
                 else:
                     print(display_COLs[j][i],end='')
             print('\n',end='')
@@ -4553,15 +4553,15 @@ def display_table_via_cols(COLs,**kwargs):
             if(colored):
                 s = s +'\n'+boundary
                 color_sec[COLs.__len__()+1] = (cursor,cursor+boundary.__len__(),"white")
-                console.paint(s,color_sec=color_sec)
+                spaint.paint(s,color_sec=color_sec)
             else:
                 print('\n',end='')
                 print(boundary)
         else:
             for j in range(0,COLs.__len__()):
                 if(colored):
-                    #print(console.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
-                    console.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
+                    #print(spaint.paint_str(display_COLs[j][i],single_color=colcolorsdict[i][j]),end='')
+                    spaint.paint(display_COLs[j][i],single_color=colormatrix[i][j],end='')
                 else:
                     print(display_COLs[j][i],end='')
             print('\n',end='')
@@ -4775,10 +4775,10 @@ class crtable():
         '''
         show_crtable(self.crtable)
         if(self.debug):
-            console.paint("====keys====:",single_color='blue')
-            console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
-            console.paint("====values==:",single_color='yellow')
-            console.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
+            spaint.paint("====keys====:",single_color='blue')
+            spaint.paint("    :{0}".format(get_nameonly_refdict(self.crtable['knimd'])),single_color='blue')
+            spaint.paint("====values==:",single_color='yellow')
+            spaint.paint("    :{0}".format(get_nameonly_refdict(self.crtable['vnimd'])),single_color='yellow')
         else:
             pass
         return('')

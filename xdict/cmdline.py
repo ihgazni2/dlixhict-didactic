@@ -7,7 +7,7 @@ from xdict import hdict_xml
 from xdict import jprint
 from lxml import etree
 from operator import itemgetter
-from xdict import console
+import spaint.spaint as spaint
 import elist.elist as elel
 
 #cmdele      command-element
@@ -1089,7 +1089,7 @@ def show_prompt_from_cmdlines_ltdict(cmd_str,cmdlines_ltdict,**kwargs):
             color_sec[4] = (si+cmd_len,rei,single_color_rsi)
             color_sec[5] = (rei+1,length-1,"white")
             
-            console.paint(line,color_sec=color_sec)
+            spaint.paint(line,color_sec=color_sec)
             #-----------paint---------------           
             #rslt = ''.join((rslt,line,line_sp))
             orig_seqs.append(i)
@@ -3874,12 +3874,12 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 print("-----------------------------------------------------")
                 if(style == 'flat'):
                     cmd = str(cmdlines_ltdict[seq])
-                    console.paint_singleline(cmd,'yellow',prefix='   [cmd]: ')
+                    spaint.slpaint(cmd,'yellow',prefix='   [cmd]: ')
                     result = str(results[seq])
-                    console.paint_singleline(result,'lightred',prefix='[result]: ')
+                    spaint.slpaint(result,'lightred',prefix='[result]: ')
                     attrib = str(attribs[seq])
-                    console.paint_singleline(attrib,'lightcyan',prefix='[attrib]: ')
-                    console.paint_singleline(str(seq),'lightmagenta',prefix='   [seq]: ')
+                    spaint.slpaint(attrib,'lightcyan',prefix='[attrib]: ')
+                    spaint.slpaint(str(seq),'lightmagenta',prefix='   [seq]: ')
                 else:
                     jprint.pobj(rslt[i])
             print("-----------------------------------------------------")
@@ -3894,11 +3894,11 @@ def show_html_text_via_cmd(cmd,**kwargs):
             #print('result: {0}'.format(result))
             #print('attrib: {0}'.format(attrib))
             cmd = str(cmdlines_ltdict[seq])
-            console.paint_singleline(cmd,'yellow',prefix='cmd: ')
+            spaint.slpaint(cmd,'yellow',prefix='cmd: ')
             result = str(results[seq])
-            console.paint_singleline(result,'lightred',prefix='result: ')
+            spaint.slpaint(result,'lightred',prefix='result: ')
             attrib = str(attribs[seq])
-            console.paint_singleline(attrib,'lightcyan',prefix='attrib: ')
+            spaint.slpaint(attrib,'lightcyan',prefix='attrib: ')
             #@@@@
             return({'cmd':cmdlines_ltdict[seq],'result':results[seq],'attrib':attribs[seq],'seq':seq})
         else:
@@ -3907,7 +3907,7 @@ def show_html_text_via_cmd(cmd,**kwargs):
                 seq = rslt_seqs[i]
                 rslt = ''.join((rslt,cmdlines_ltdict[seq],line_sp))
             #print(jprint.paint_str(rslt,single_color='yellow'))
-            #console.paint(rslt,single_color='yellow')
+            #spaint.paint(rslt,single_color='yellow')
             return({'rslt':rslt, 'seqs':rslt_seqs})    
 
 def obj_to_cmdlines_full_dict(obj,**kwargs):
@@ -4580,14 +4580,14 @@ class cmdict():
                         s = '    cmdict[{0}]'.format(self.pathlists[each].__repr__())
                         paint_len = self.pathlists[each].__repr__().__len__()
                         color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
-                        console.paint(s,color_sec=color_sec)
+                        spaint.paint(s,color_sec=color_sec)
                         print("or:")
                         #print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
                         s = utils.path_list_to_getitem_string(self.pathlists[each])
                         paint_len = s.__len__()
                         s = '    cmdict.dict{0}'.format(s)
                         color_sec = {1:(0,14,'white'),2:(15,14+paint_len,'blue'),3:(15+paint_len,16+paint_len,'white')}
-                        console.paint(s,color_sec=color_sec)
+                        spaint.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
                     rslt.append(t)
@@ -4613,14 +4613,14 @@ class cmdict():
                         s = '    cmdict[{0}]'.format(self.pathlists[each].__repr__())
                         paint_len = self.pathlists[each].__repr__().__len__()
                         color_sec = {1:(0,10,'white'),2:(11,10+paint_len,'blue'),3:(11+paint_len,12+paint_len,'white')}
-                        console.paint(s,color_sec=color_sec)
+                        spaint.paint(s,color_sec=color_sec)
                         print("or:")
                         #print('    cmdict.dict{0}'.format(jprint.paint_str(utils.path_list_to_getitem_string(self.pathlists[each]),single_color='blue')))
                         s = utils.path_list_to_getitem_string(self.pathlists[each])
                         paint_len = s.__len__()
                         s = '    cmdict.dict{0}'.format(s)
                         color_sec = {1:(0,14,'white'),2:(15,14+paint_len,'blue'),3:(15+paint_len,16+paint_len,'white')}
-                        console.paint(s,color_sec=color_sec)
+                        spaint.paint(s,color_sec=color_sec)
                         print("to get value")
                         print("--------------------------------------------------------------")
                     rslt.append(t)
@@ -4846,12 +4846,12 @@ class Hentry():
             print("-----------------------------------------------------")
             if(style == 'flat'):
                 cmd = str(self.cmds[seq])
-                console.paint_singleline(cmd,'yellow',prefix='   [cmd]: ')
+                spaint.slpaint(cmd,'yellow',prefix='   [cmd]: ')
                 result = str(self.texts[seq])
-                console.paint_singleline(result,'lightred',prefix='[result]: ')
+                spaint.slpaint(result,'lightred',prefix='[result]: ')
                 attrib = str(self.attribs[seq])
-                console.paint_singleline(attrib,'lightcyan',prefix='[attrib]: ')
-                console.paint_singleline(str(seq),'lightmagenta',prefix='   [seq]: ')
+                spaint.slpaint(attrib,'lightcyan',prefix='[attrib]: ')
+                spaint.slpaint(str(seq),'lightmagenta',prefix='   [seq]: ')
             else:
                 jprint.pobj(rslt[i])
         print("-----------------------------------------------------")
@@ -4925,12 +4925,12 @@ class Hentry():
             print("-----------------------------------------------------")
             if(style == 'flat'):
                 cmd = str(self.cmds[seq])
-                console.paint_singleline(cmd,'yellow',prefix='   [cmd]: ')
+                spaint.slpaint(cmd,'yellow',prefix='   [cmd]: ')
                 result = str(self.texts[seq])
-                console.paint_singleline(result,'lightred',prefix='[result]: ')
+                spaint.slpaint(result,'lightred',prefix='[result]: ')
                 attrib = str(self.attribs[seq])
-                console.paint_singleline(attrib,'lightcyan',prefix='[attrib]: ')
-                console.paint_singleline(str(seq),'lightmagenta',prefix='   [seq]: ')
+                spaint.slpaint(attrib,'lightcyan',prefix='[attrib]: ')
+                spaint.slpaint(str(seq),'lightmagenta',prefix='   [seq]: ')
             else:
                 jprint.pobj(rslt[i])
         print("-----------------------------------------------------")

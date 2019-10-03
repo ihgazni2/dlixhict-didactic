@@ -8,20 +8,19 @@ table[0] = ['姜维', 98, '姜维', 3215, 3217]
 table[1] = ['姜维', 100, '姜维', 2476, 2478]
 table[2] = ['姜维', 101, '姜维', 1699, 1701]
 crtb = xcr.crtable(colnameslist = colnameslist,table=table,keynameslist = keynameslist)
-crtb
+print(crtb)
 
 
-+++++++++++++++++++++++++++++++++++++++
-|name|chapter|sentence|startloc|endloc|
-+++++++++++++++++++++++++++++++++++++++
-|姜维|     98|    姜维|    3215|  3217|
-+++++++++++++++++++++++++++++++++++++++
-|姜维|    100|    姜维|    2476|  2478|
-+++++++++++++++++++++++++++++++++++++++
-|姜维|    101|    姜维|    1699|  1701|
-+++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++
+#|name|chapter|sentence|startloc|endloc|
+#+++++++++++++++++++++++++++++++++++++++
+#|姜维|     98|    姜维|    3215|  3217|
+#+++++++++++++++++++++++++++++++++++++++
+#|姜维|    100|    姜维|    2476|  2478|
+#+++++++++++++++++++++++++++++++++++++++
+#|姜维|    101|    姜维|    1699|  1701|
+#+++++++++++++++++++++++++++++++++++++++
 
-from xdict import console
 
 import xdict.CrtableLib.crtable as xcr
 
@@ -44,16 +43,16 @@ COLs = xcr.rows_to_cols(ROWs)
 
 
 
-s =''
-color_sec ={}
-cursor = 0
-for j in range(0,COLs.__len__()):
-    s = s + display_COLs[j][i]
-    length = display_COLs[j][i].__len__()
-    color_sec[j+1] = (cursor,cursor+length-1,colormatrix[i][j])
-    cursor = cursor+length
+#s =''
+#color_sec ={}
+#cursor = 0
+#for j in range(0,COLs.__len__()):
+#    s = s + display_COLs[j][i]
+#    length = display_COLs[j][i].__len__()
+#    color_sec[j+1] = (cursor,cursor+length-1,colormatrix[i][j])
+#    cursor = cursor+length
 
-boundary = '+' * len(s)
-s = s +'\n'+boundary
-color_sec[COLs.__len__()+1] = (cursor,cursor+boundary.__len__(),"white")
-console.paint(s,color_sec=color_sec)
+#boundary = '+' * len(s)
+#s = s +'\n'+boundary
+#color_sec[COLs.__len__()+1] = (cursor,cursor+boundary.__len__(),"white")
+#console.paint(s,color_sec=color_sec)
