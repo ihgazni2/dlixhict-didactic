@@ -182,18 +182,11 @@ def convert_token_in_quote(j_str,**kwargs):
         convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
         '<a&#32;b>:"cd"'
     '''
+    block_op_pairs_dict = eftl.dflt_kwargs("block_op_pairs_dict",get_block_op_pairs('{}[]()'),**kwargs)
     quotes_pairs_dict = eftl.dflt_kwargs("quotes_pairs_dict",get_quotes_pairs('""\'\''),**kwargs)
     lquotes,rquotes,quotes = get_lrquotes(quotes_pairs_dict)
     ####
-    temp = get_jdict_token_set(
-        block_op_pairs_dict=block_op_pairs_dict,
-        quotes_pairs_dict=quotes_pairs_dict,
-        spaces=spaces,
-        colons=colons,
-        commas=commas,
-        line_sps=line_sps,
-        path_sps=path_sps
-    )
+    temp = get_jdict_token_set(**kwargs)
     token_set = temp['token_set']
     replace_ref_dict = temp['replace_ref_dict']
     ####
