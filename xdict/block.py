@@ -104,7 +104,7 @@ def which_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
 
 
 
-def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
+def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
     '''
         # is_Strict_Pair('{','}',block_op_pairs_dict)
         # is_Strict_Pair('[',']',block_op_pairs_dict)
@@ -113,8 +113,8 @@ def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[
         # is_Strict_Pair('{',']',block_op_pairs_dict)
         # is_Strict_Pair('a','a',block_op_pairs_dict)
     '''
-    x1,y1 = block.which_op(ch1,block_op_pairs_dict)
-    x2,y2 = block.which_op(ch2,block_op_pairs_dict)
+    x1,y1 = which_op(ch1,block_op_pairs_dict)
+    x2,y2 = which_op(ch2,block_op_pairs_dict)
     if((x1 == -1) | (x2 == -1)):
         return(False)
     elif((x1 == x2) & (y1 == 0)& (y2 == 1)):
@@ -126,7 +126,7 @@ def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[
 def is_non_ordered_op(ch,
         block_op_pairs_dict=get_block_op_pairs('{}[]()'),
         block_non_ordered_op_pairs_dict=get_block_op_pairs('{}')):
-    if(block.is_op(ch,block_op_pairs_dict)):
+    if(is_op(ch,block_op_pairs_dict)):
         for i in range(1,block_non_ordered_op_pairs_dict.__len__()+1):
             if(ch == block_non_ordered_op_pairs_dict[i][0]):
                 return(-1)
