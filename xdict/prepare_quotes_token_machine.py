@@ -1,6 +1,7 @@
 from xdict.quote import get_quotes_pairs,get_lrquotes
 from xdict.block import get_block_op_pairs
 from xdict import escape
+from xdict import fsm
 import xdict.quote as quote
 import xdict.block as block
 
