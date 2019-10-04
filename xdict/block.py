@@ -16,7 +16,7 @@ def get_block_op_pairs(pairs_str):
     return(pairs_dict)
 
 
-def is_lop(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
+def is_lop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
     '''
     # is_lop('{',block_op_pairs_dict)
     # is_lop('[',block_op_pairs_dict)
@@ -32,7 +32,7 @@ def is_lop(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
     return(False)
 
 
-def is_rop(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
+def is_rop(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
     '''
         # is_rop('{',block_op_pairs_dict)
         # is_rop('[',block_op_pairs_dict)
@@ -48,7 +48,7 @@ def is_rop(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
     return(False)
 
 
-def is_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
+def is_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
     '''
         # is_op('{',block_op_pairs_dict)
         # is_op('[',block_op_pairs_dict)
@@ -66,14 +66,14 @@ def is_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
     return(0)
 
 
-def is_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
+def is_op_pair(ch1,ch2,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
     '''
-        # block.is_op_pair('{','}',block_op_pairs_dict)
-        # block.is_op_pair('[',']',block_op_pairs_dict)
-        # block.is_op_pair('}','{',block_op_pairs_dict)
-        # block.is_op_pair(']','[',block_op_pairs_dict)
-        # block.is_op_pair('{',']',block_op_pairs_dict)
-        # block.is_op_pair('a','a',block_op_pairs_dict)
+        # is_op_pair('{','}',block_op_pairs_dict)
+        # is_op_pair('[',']',block_op_pairs_dict)
+        # is_op_pair('}','{',block_op_pairs_dict)
+        # is_op_pair(']','[',block_op_pairs_dict)
+        # is_op_pair('{',']',block_op_pairs_dict)
+        # is_op_pair('a','a',block_op_pairs_dict)
     '''
     x1,y1 = which_op(ch1,block_op_pairs_dict)
     x2,y2 = which_op(ch2,block_op_pairs_dict)
@@ -85,7 +85,7 @@ def is_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
         return(False)
 
 
-def which_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
+def which_op(ch,block_op_pairs_dict=get_block_op_pairs('{}[]()')):
     '''
         # which_op('{',block_op_pairs_dict)
         # which_op('[',block_op_pairs_dict)
