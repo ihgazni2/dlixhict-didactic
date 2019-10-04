@@ -2,7 +2,7 @@
 
 
 
-def get_block_op_pairs(pairs_str):
+def get_quotes_pairs(pairs_str):
     '''
         # operators ,such as {} [] ()  ......could be user-defined
         # >>> get_block_op_pairs("{}[]")
