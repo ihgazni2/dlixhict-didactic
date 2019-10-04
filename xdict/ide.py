@@ -17,6 +17,8 @@ def creat_api_names(pre,verb,suf):
     params = creat_apifix(pre)
     rtrns = creat_apifix(suf)
     tl = list(itertools.product(params,rtrns))
+    tl = elel.mapv(rtrns,lambda ele:("",ele)) if(len(params)==0) else tl
+    tl = elel.mapv(params,lambda ele:(ele,"")) if(len(rtrns)==0) else tl
     names = elel.mapv(tl,lambda ele:ele[0]+verb+ele[1])
     return(names)
 
