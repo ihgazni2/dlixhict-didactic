@@ -15,6 +15,8 @@ from spaint.spaint import is_win
 import efuntool.efuntool as eftl
 from xdict.prepare_quotes_token_machine  import prepare_quotes_token_machine
 from xdict.tokenize_quotes import tokenize_quotes
+from xdict import escape
+
 
 
 IS_WIN = is_win()
@@ -37,7 +39,6 @@ DEFAULT_COLOR = COLORS_MD['white']
 
 
 
-
 # lv_dict
 ## {"key_4_UF0aJJ6v": "value_1", "key_2_Hd0t": ["value_16", "value_8", "value_8", "value_15", "value_14", "value_19", {"key_7_tl": [[], "value_2", "value_4", "value_4"], "key_13_TVj_lP": "value_6", "key_8_9vPp6PT": "value_9", "key_10_Uy": ["value_1"]
 ## 1222222222222222222222222222222222222222222223333333333333333333333333333333333333333333333333333333333333333333333344444444444445555555555555555555555555555555555544444444444444444444444444444444444444444444444444444444444444444444444445555555554
@@ -51,44 +52,7 @@ DEFAULT_COLOR = COLORS_MD['white']
 
 # tools
 #-----------------------------------------------
-def html_number_escape_char(ch):
-    '''
-        >>> es = html_number_escape_char('a')
-        >>> es
-        '&#97;'
-        >>> html.unescape(es)
-        'a'
-        >>> es = html_number_escape_char('用')
-        >>> es
-        '&#29992;'
-        >>> html.unescape(es)
-        '用'
-        >>> 
-    '''
-    num = utils.char_str_to_unicode_num(ch)
-    escaped = ''.join(('&#',str(num),';'))
-    return(escaped)
 
-def html_number_escape_str(s):
-    '''
-        >>> 
-        >>> ess = html_number_escape_str('加强武器')
-        >>> ess
-        '&#21152;&#24378;&#27494;&#22120;'
-        >>> html.unescape(ess)
-        '加强武器'
-        >>> ess = html_number_escape_str('xyzw')
-        >>> ess
-        '&#120;&#121;&#122;&#119;'
-        >>> html.unescape(ess)
-        'xyzw'
-        >>> 
-    '''
-    escaped = ''
-    for i in range(0,s.__len__()):
-        esch = html_number_escape_char(s[i])
-        escaped = ''.join((escaped,esch))
-    return(escaped)
 
 #operators ,such as {} [] ()  ......could be user-defined
 def get_block_op_pairs(pairs_str):
@@ -130,7 +94,7 @@ def get_jdict_token_set(**kwargs):
     def add_bi_table(s,d,x):
         for each in x:
             k = each
-            v = html_number_escape_str(k)
+            v = escape.html_number_escape_str(k)
             d[k] = v
             d[v] = k
             s.add(k)
@@ -144,8 +108,8 @@ def get_jdict_token_set(**kwargs):
     for i in range(1,block_op_pairs_dict.__len__()+1):
         s.add(block_op_pairs_dict[i][0])
         s.add(block_op_pairs_dict[i][1])
-        recover_token_l = html_number_escape_str(block_op_pairs_dict[i][0])
-        recover_token_r = html_number_escape_str(block_op_pairs_dict[i][1])
+        recover_token_l = escape.html_number_escape_str(block_op_pairs_dict[i][0])
+        recover_token_r = escape.html_number_escape_str(block_op_pairs_dict[i][1])
         d[block_op_pairs_dict[i][0]] = recover_token_l 
         d[block_op_pairs_dict[i][1]] = recover_token_r
         d[recover_token_l] = block_op_pairs_dict[i][0]
