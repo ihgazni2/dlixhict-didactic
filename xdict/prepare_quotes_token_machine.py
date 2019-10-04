@@ -4,7 +4,7 @@ from xdict import escape
 from xdict import fsm
 import xdict.quote as quote
 import xdict.block as block
-
+import re
 import efuntool.efuntool as eftl
 
 
