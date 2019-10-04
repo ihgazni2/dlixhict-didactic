@@ -1,4 +1,6 @@
 import re
+from elist.elist import fcp as fcopy
+
 operators = {'.','^','$','*','+','?','{','}','[',']','(',')','|','-','<','>','!',':'}
 slash = '\\'
 
