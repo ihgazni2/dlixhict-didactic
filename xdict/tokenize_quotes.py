@@ -1,3 +1,4 @@
+
 def tokenize_quotes(machine):
     curr_state = "INIT"
     rslt = ''
