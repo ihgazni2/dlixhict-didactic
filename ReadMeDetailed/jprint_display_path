@@ -1,0 +1,44 @@
+{
+ "xyz": 
+       {
+        "m":
+            [
+             "a",//0
+             "b",//1
+             "c"//2
+            ]
+       }
+}
+
+/{/"xyz":/{/"m":/[/"a"/ 
+
+kl           = ["xyz",    "m",   "0",]
+ptype_op     = [  "{",    "{",   "[",]
+ptype        = ["dict","dict","list",]
+disp_kl      = ["xyz:",  "m:",   "[",]
+
+interleave:ptype_op,kl
+ptype_op0+kl0 + ptype_op1+kl1 + .....
+这样计算dynamic_indent 
+
+{
+    "xyz": {      //key 为xyz  本身类型为 dict
+        "m": [    /key 为m  本身类型为 list
+            "a",//0   key为0   本身类型为 leaf
+            "b",//1
+            "c"//2
+            [       //key为3   本身类型为 list
+                "aa",
+                "bb"
+            ]
+        ],
+    }
+}
+
+对于fixed 只看 kl 的长度 决定缩进几次
+对不同的类型做不同处理
+dict  begin:  key+ ":" + self_type-left_blk
+dict  end:    self_type-right_blk+ "," (if sibseq == last)
+
+list  begin:  self_type-left_blk
+list  end:    self_type-right_blk
