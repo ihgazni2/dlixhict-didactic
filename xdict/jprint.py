@@ -13,9 +13,9 @@ import elist.elist as elel
 from spaint.spaint import paint
 from spaint.spaint import is_win
 import efuntool.efuntool as eftl
-from xdict.prepare_quotes_token_machine  import prepare_quotes_token_machine
-from xdict.tokenize_quotes import tokenize_quotes
+from xdict.tokenize_quotes import convert_token_in_quote
 import  xdict.quote as quote
+import xdict.fmt_jstr as fmt_jstr
 from xdict import escape
 from xdict import block
 
@@ -46,204 +46,8 @@ DEFAULT_COLOR = COLORS_MD['white']
 ## 1222222222222222222222222222222222222222222223333333333333333333333333333333333333333333333333333333333333333333333344444444444445555555555555555555555555555555555544444444444444444444444444444444444444444444444444444444444444444444444445555555554
 # attr_dict op,key,dict_value,list_value,tuple_value,set_value
 
-#1. use html.escape  to  escape all quote-operators appeared in single-quote or double-quote
-#2. use html.escape  to  escape all paired-operators appeared in single-quote or double-quote : such as  "{,},[,],(,)" 
-#3. use html.escape  to  escape all other operators appeared in single-quote or double-quote : such as : ':',','
-#4. use html_escape  to  escape seperators-operators appeared in single-quote or double-quote: such as '\n'
 
 
-
-#######################
-def convert_token_in_quote(j_str,**kwargs):
-    '''
-        >>> from xdict.jprint import convert_token_in_quote
-        >>> from xdict.jprint import help
-        >>> 
-        >>> convert_token_in_quote('"a b":"cd"')
-        '"a&#32;b":"cd"'
-        >>> import html
-        >>> html.unescape('"a&#32;b":"cd"')
-        '"a b":"cd"'
-        >>> convert_token_in_quote('"a b":cd')
-        '"a&#32;b":cd'
-        >>> 
-        >>> #help(convert_token_in_quote)
-        convert_token_in_quote('<a b>:"cd"',quotes_pairs_dict={1: ('"', '"'), 2: ("<", ">")})
-        '<a&#32;b>:"cd"'
-    '''
-    machine = prepare_quotes_token_machine(j_str,**kwargs)
-    rslt = tokenize_quotes(machine)
-    return(rslt)
-
-
-
-
-def format_j_str(j_str,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),**kwargs):
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
-    if('quotes' in kwargs):
-        quotes = kwargs['quotes']
-    else:
-        quotes = ['"',"'"]
-    def get_rm_regexp(l):
-        regex_remove_str = '['
-        for i in range(0,l.__len__()):
-            regex_remove_str = ''.join((regex_remove_str,l[i]))
-        regex_remove_str = ''.join((regex_remove_str,']+'))
-        regex_remove = re.compile(regex_remove_str)
-        return(regex_remove)
-    def get_insert_space_regexp(l):
-        regex_insert_space_str = '['
-        for i in range(0,l.__len__()):
-            regex_insert_space_str = ''.join((regex_insert_space_str,l[i]))
-        regex_insert_space_str = ''.join((regex_insert_space_str,']'))
-        regex_insert_space = re.compile(regex_insert_space_str)
-        return(regex_insert_space)
-    # ----------------------------------------------------------------------------------
-    # __str__  will make some difference :  eval will replace \\xXX wil \xXX
-    # >>> js1 = "{'\x01': '\x02'}"
-    # >>> js2 = "{'\\x01': '\\x02'}"
-    # >>> 
-    # >>> j1 = eval(js1)
-    # >>> j1
-    # {'\x01': '\x02'}
-    # >>> j2 = eval(js2)
-    # >>> j2
-    # {'\x01': '\x02'}
-    # >>> j1 == j2
-    # True
-    # >>> js1 == js2
-    # False
-    # >>> js3 = j1.__str__()
-    # >>> js1 == js3
-    # False
-    # >>> js2 == js3
-    # True
-    # >>> js3
-    # "{'\\x01': '\\x02'}"
-    # >>>
-    # format step 1: remove functinal-spaces(spaces not in quote) and functional-line_sp
-    regex_remove_spaces = get_rm_regexp(spaces)
-    j_str = regex_remove_spaces.sub("",j_str)
-    regex_remove_line_sps = get_rm_regexp(line_sps)
-    j_str = regex_remove_line_sps.sub("",j_str)
-    # format step 2: replace functional-colons with "<colon> ",replace functional-sps with "<sp> \n"
-    colon_and_sps = copy.deepcopy(colons)
-    colon_and_sps.extend(commas)
-    insert_space_regexp = get_insert_space_regexp(colon_and_sps)
-    j_str = re.sub(insert_space_regexp,r'\g<0> ',j_str)
-    # format step 3: seperate each elements in one line
-    j_str = j_str.replace(", ",", \n")
-    # format step 4: seerate recursive element in one new line 
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        j_str = j_str.replace(block_op_pairs_dict[i][0],''.join(("\n",block_op_pairs_dict[i][0],"\n")))
-        j_str = j_str.replace(block_op_pairs_dict[i][1],''.join(("\n",block_op_pairs_dict[i][1],"\n")))
-    j_str = j_str.replace("\n\n","\n")
-    # format step 5: move empty to one line 
-    # such as {} [] ()
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        j_str = j_str.replace(''.join((block_op_pairs_dict[i][0],'\n',block_op_pairs_dict[i][1])),''.join((block_op_pairs_dict[i][0],block_op_pairs_dict[i][1])))
-    # format step 6: 
-    j_str = j_str.replace("\n,",",")
-    j_str = j_str.strip("\n")
-    j_str = j_str.replace("\n\n","\n")
-    return(j_str)
-
-def is_lop(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
-    '''
-    # is_lop('{',block_op_pairs_dict)
-    # is_lop('[',block_op_pairs_dict)
-    # is_lop('}',block_op_pairs_dict)
-    # is_lop(']',block_op_pairs_dict)
-    # is_lop('a',block_op_pairs_dict)
-    '''
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        if(ch == block_op_pairs_dict[i][0]):
-            return(True)
-        else:
-            pass
-    return(False)
-
-def is_rop(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
-    '''
-        # is_rop('{',block_op_pairs_dict)
-        # is_rop('[',block_op_pairs_dict)
-        # is_rop('}',block_op_pairs_dict)
-        # is_rop(']',block_op_pairs_dict)
-        # is_rop('a',block_op_pairs_dict)
-    '''
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        if(ch == block_op_pairs_dict[i][1]):
-            return(True)
-        else:
-            pass
-    return(False)
-
-def is_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
-    '''
-        # is_op('{',block_op_pairs_dict)
-        # is_op('[',block_op_pairs_dict)
-        # is_op('}',block_op_pairs_dict)
-        # is_op(']',block_op_pairs_dict)
-        # is_op('a',block_op_pairs_dict)
-    '''
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        if(ch == block_op_pairs_dict[i][0]):
-            return(-1)
-        elif(ch == block_op_pairs_dict[i][1]):
-            return(1)
-        else:
-            pass
-    return(0)
-
-def which_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
-    '''
-        # which_op('{',block_op_pairs_dict)
-        # which_op('[',block_op_pairs_dict)
-        # which_op('}',block_op_pairs_dict)
-        # which_op(']',block_op_pairs_dict)
-        # which_op('a',block_op_pairs_dict)
-    '''
-    for i in range(1,block_op_pairs_dict.__len__()+1):
-        if(ch == block_op_pairs_dict[i][0]):
-            return((i,0))
-        elif(ch == block_op_pairs_dict[i][1]):
-            return((i,1))
-        else:
-            pass
-    return((-1,-1))
-
-def is_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
-    '''
-        # is_op_pair('{','}',block_op_pairs_dict)
-        # is_op_pair('[',']',block_op_pairs_dict)
-        # is_op_pair('}','{',block_op_pairs_dict)
-        # is_op_pair(']','[',block_op_pairs_dict)
-        # is_op_pair('{',']',block_op_pairs_dict)
-        # is_op_pair('a','a',block_op_pairs_dict)
-    '''
-    x1,y1 = which_op(ch1,block_op_pairs_dict)
-    x2,y2 = which_op(ch2,block_op_pairs_dict)
-    if((x1 == -1) | (x2 == -1)):
-        return(False)
-    elif((x1 == x2) & (not(y1 == y2))):
-        return(True)
-    else:
-        return(False)
 
 def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
     '''
@@ -254,8 +58,8 @@ def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[
         # is_Strict_Pair('{',']',block_op_pairs_dict)
         # is_Strict_Pair('a','a',block_op_pairs_dict)
     '''
-    x1,y1 = which_op(ch1,block_op_pairs_dict)
-    x2,y2 = which_op(ch2,block_op_pairs_dict)
+    x1,y1 = block.which_op(ch1,block_op_pairs_dict)
+    x2,y2 = block.which_op(ch2,block_op_pairs_dict)
     if((x1 == -1) | (x2 == -1)):
         return(False)
     elif((x1 == x2) & (y1 == 0)& (y2 == 1)):
@@ -276,7 +80,7 @@ def is_colon(ch,colons=[':']):
         return(False)
 
 def is_non_ordered_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),block_non_ordered_op_pairs_dict=block.get_block_op_pairs('{}')):
-    if(is_op(ch,block_op_pairs_dict)):
+    if(block.is_op(ch,block_op_pairs_dict)):
         for i in range(1,block_non_ordered_op_pairs_dict.__len__()+1):
             if(ch == block_non_ordered_op_pairs_dict[i][0]):
                 return(-1)
@@ -310,7 +114,7 @@ def get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=bloc
             cond = 1
             break
         elif(curr_ch == block_op_pairs_dict[i][1]):
-            if(is_rop(next_ch,block_op_pairs_dict)):
+            if(block.is_rop(next_ch,block_op_pairs_dict)):
                 next_lv = curr_lv - 1
             else:
                 next_lv = curr_lv
@@ -320,7 +124,7 @@ def get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=bloc
             pass
     if(cond == 1):
         pass
-    elif(is_rop(next_ch,block_op_pairs_dict)):
+    elif(block.is_rop(next_ch,block_op_pairs_dict)):
         next_lv = curr_lv - 1
     else:    
         next_lv = curr_lv
@@ -358,11 +162,11 @@ def line_to_path_init(line,block_op_pairs_dict = block.get_block_op_pairs("{}[](
     end = line.rstrip(' ')[-1]
     if(is_colon(end,colons)):
         curr_base_name = ''.join((line,sp))
-    elif(is_lop(end,block_op_pairs_dict)):
+    elif(block.is_lop(end,block_op_pairs_dict)):
         curr_base_name = ''.join((line,sp))
     elif(is_comma(end,commas)):
         curr_base_name = line
-    elif(is_rop(end,block_op_pairs_dict)):
+    elif(block.is_rop(end,block_op_pairs_dict)):
         curr_base_name = line
     else:
         curr_base_name = line
@@ -466,7 +270,7 @@ def line_to_path(
         # secarino_1:
         if(is_colon(prev_last)):
             curr_path = ''.join((prev_path,curr_base_name))
-        elif(is_rop(prev_rop,block_op_pairs_dict)):
+        elif(block.is_rop(prev_rop,block_op_pairs_dict)):
             tail = utils.path_string_get_tail(prev_path,delimiter=sp)
             tail_no_space = no_space_tail(tail)
             tail_len = tail_no_space.__len__()
@@ -549,7 +353,7 @@ def get_print_lines_and_paths(j_str,**kwargs):
         line_sps=line_sps,
         path_sps=path_sps
     )
-    j_str = format_j_str(j_str,block_op_pairs_dict)
+    j_str = fmt_jstr.format_j_str(j_str,block_op_pairs_dict)
     j_lv_str = get_j_str_lvs_dict(j_str,block_op_pairs_dict)
     orig_lines = j_str.split('\n')
     line_start_indexes = get_line_start_index_in_j_str(orig_lines)
@@ -935,7 +739,7 @@ def get_line_color_sec(line,path,**kwargs):
     #######
     if(curr_state == "INIT"):
         cursor = cursor + 1
-        if(is_op(input_symbol)):
+        if(block.is_op(input_symbol)):
             pass
         else:
             si,ei,color_sec,color_sec_seq,colon_meeted,byte_meeted = do_open_var(cursor,si,ei,color_sec,color_sec_seq,colon_meeted,prev_symbol,byte_meeted)
