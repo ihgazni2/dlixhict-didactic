@@ -1,16 +1,16 @@
-import sys
+#import sys
 from xdict.ide import *
-#from efuntool.efuntool import dflt_sysargv
+from efuntool.efuntool import dflt_sysargv
 
-def dflt_sysargv(dflt,which):
-    try:
-        rslt = sys.argv[which]
-        print(which,rslt)
-    except:
-        rslt = dflt
-    else:
-        pass
-    return(rslt)
+#def dflt_sysargv(dflt,which):
+#    try:
+#        rslt = sys.argv[which]
+#        print(which,rslt)
+#    except:
+#        rslt = dflt
+#    else:
+#        pass
+#    return(rslt)
 
 
 def main():
