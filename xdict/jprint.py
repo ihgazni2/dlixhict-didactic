@@ -47,26 +47,6 @@ DEFAULT_COLOR = COLORS_MD['white']
 # attr_dict op,key,dict_value,list_value,tuple_value,set_value
 
 
-
-
-def is_ordered_op_pair(ch1,ch2,block_op_pairs_dict=block.get_block_op_pairs('{}[]()')):
-    '''
-        # is_Strict_Pair('{','}',block_op_pairs_dict)
-        # is_Strict_Pair('[',']',block_op_pairs_dict)
-        # is_Strict_Pair('}','{',block_op_pairs_dict)
-        # is_Strict_Pair(']','[',block_op_pairs_dict)
-        # is_Strict_Pair('{',']',block_op_pairs_dict)
-        # is_Strict_Pair('a','a',block_op_pairs_dict)
-    '''
-    x1,y1 = block.which_op(ch1,block_op_pairs_dict)
-    x2,y2 = block.which_op(ch2,block_op_pairs_dict)
-    if((x1 == -1) | (x2 == -1)):
-        return(False)
-    elif((x1 == x2) & (y1 == 0)& (y2 == 1)):
-        return(True)
-    else:
-        return(False)
-
 def is_comma(ch,commas=[',']):
     if(ch in commas):
         return(True)
@@ -79,18 +59,7 @@ def is_colon(ch,colons=[':']):
     else:
         return(False)
 
-def is_non_ordered_op(ch,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),block_non_ordered_op_pairs_dict=block.get_block_op_pairs('{}')):
-    if(block.is_op(ch,block_op_pairs_dict)):
-        for i in range(1,block_non_ordered_op_pairs_dict.__len__()+1):
-            if(ch == block_non_ordered_op_pairs_dict[i][0]):
-                return(-1)
-            elif(ch == block_non_ordered_op_pairs_dict[i][1]):
-                return(1)
-            else:
-                return(0)
-    else:
-        return(0)
-        
+
 def get_next_char_level_in_j_str(curr_lv,curr_seq,j_str,block_op_pairs_dict=block.get_block_op_pairs("{}[]()")):
     ''' the first-char is level-1
         when current is  non-op, next-char-level = curr-level
@@ -529,7 +498,7 @@ def get_line_color_sec(line,path,**kwargs):
         if(colon_meeted):
             curr_color = value_color
         else:
-            if(is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
+            if(block.is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
                 curr_color = key_color
             elif(is_colon(head_last)):
                 curr_color = value_color
@@ -565,7 +534,7 @@ def get_line_color_sec(line,path,**kwargs):
         if(colon_meeted):
             curr_color = value_color
         else:
-            if(is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
+            if(block.is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
                 curr_color = key_color
             elif(is_colon(head_last)):
                 curr_color = value_color
@@ -591,7 +560,7 @@ def get_line_color_sec(line,path,**kwargs):
             pass
         si = cursor 
         ei = cursor
-        if(is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
+        if(block.is_non_ordered_op(head_last,block_op_pairs_dict,block_non_ordered_op_pairs_dict)):
             curr_color = value_color
         elif(is_colon(head_last)):
             curr_color = value_color
