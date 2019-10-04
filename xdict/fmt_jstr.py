@@ -1,3 +1,9 @@
+import re
+from xdict import block
+
+
+
+
 def format_j_str(j_str,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),**kwargs):
     if('spaces' in kwargs):
         spaces = kwargs['spaces']
@@ -76,7 +82,10 @@ def format_j_str(j_str,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),**
     # format step 5: move empty to one line 
     # such as {} [] ()
     for i in range(1,block_op_pairs_dict.__len__()+1):
-        j_str = j_str.replace(''.join((block_op_pairs_dict[i][0],'\n',block_op_pairs_dict[i][1])),''.join((block_op_pairs_dict[i][0],block_op_pairs_dict[i][1])))
+        j_str = j_str.replace(
+            ''.join((block_op_pairs_dict[i][0],'\n',block_op_pairs_dict[i][1])),
+            ''.join((block_op_pairs_dict[i][0],block_op_pairs_dict[i][1]))
+        )
     # format step 6: 
     j_str = j_str.replace("\n,",",")
     j_str = j_str.strip("\n")
