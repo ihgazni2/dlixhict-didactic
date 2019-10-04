@@ -1,7 +1,7 @@
 import re
 from xdict import utils
 import efuntool.efuntool as eftl
-from xdict.regextoll import *
+from xdict.regextool import *
 
 def fcopy(arr):
     return(arr[:])
