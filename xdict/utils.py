@@ -3952,10 +3952,6 @@ def four_bytes_order_reverse(L):
 
 
 #tuple
-
-def tuple_to_dict_ele(t):
-    return({t[0]:t[1]})
-
 ##############
 
 
