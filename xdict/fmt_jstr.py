@@ -1,7 +1,7 @@
 import re
 from xdict import block
-
-
+import copy
+from xdict.regextool import *
 
 
 def format_j_str(j_str,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),**kwargs):
@@ -25,20 +25,6 @@ def format_j_str(j_str,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),**
         quotes = kwargs['quotes']
     else:
         quotes = ['"',"'"]
-    def get_rm_regexp(l):
-        regex_remove_str = '['
-        for i in range(0,l.__len__()):
-            regex_remove_str = ''.join((regex_remove_str,l[i]))
-        regex_remove_str = ''.join((regex_remove_str,']+'))
-        regex_remove = re.compile(regex_remove_str)
-        return(regex_remove)
-    def get_insert_space_regexp(l):
-        regex_insert_space_str = '['
-        for i in range(0,l.__len__()):
-            regex_insert_space_str = ''.join((regex_insert_space_str,l[i]))
-        regex_insert_space_str = ''.join((regex_insert_space_str,']'))
-        regex_insert_space = re.compile(regex_insert_space_str)
-        return(regex_insert_space)
     # ----------------------------------------------------------------------------------
     # __str__  will make some difference :  eval will replace \\xXX wil \xXX
     # >>> js1 = "{'\x01': '\x02'}"
@@ -68,7 +54,7 @@ def format_j_str(j_str,block_op_pairs_dict=block.get_block_op_pairs('{}[]()'),**
     regex_remove_line_sps = get_rm_regexp(line_sps)
     j_str = regex_remove_line_sps.sub("",j_str)
     # format step 2: replace functional-colons with "<colon> ",replace functional-sps with "<sp> \n"
-    colon_and_sps = copy.deepcopy(colons)
+    colon_and_sps = copy.copy(colons)
     colon_and_sps.extend(commas)
     insert_space_regexp = get_insert_space_regexp(colon_and_sps)
     j_str = re.sub(insert_space_regexp,r'\g<0> ',j_str)
