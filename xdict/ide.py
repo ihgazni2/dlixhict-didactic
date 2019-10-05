@@ -3,6 +3,7 @@ import efuntool.efuntool as eftl
 import elist.elist as elel
 import itertools
 import estring.estring as eses
+from xdict.jprint import parr
 
 
 def creat_apifix(s):
@@ -42,12 +43,16 @@ def creat_apis_from_verb(pre,verb,suf):
     apis = creat_apis_via_names(names)
     return(apis)
 
-
-def creat_apis_from_strblk(s):
+def str2arr(s):
     s = s.strip("\n").strip(" ").strip("\n").strip(" ")
     s = s.replace("\n\n","\n")
     s = s.replace("\n\n","\n")
-    api_names = s.split("\n")
+    arr = s.split("\n")
+    return(arr)
+
+
+def creat_apis_from_strblk(s):
+    api_names = str2arr(s)
     return(creat_apis_via_names(api_names))
 
 
@@ -81,4 +86,16 @@ def indent(code,*args,**kwargs):
     return(ncode)
 
 
+####
 
+def creat_onewrap(name,wrapper):
+    l0 = "@engine."+wrapper
+    l1 = "def " + name + "(d):"
+    l2 = "    return(" + "engine."+ name +"(d)" + ")"
+    return(l0+"\n"+l1+"\n"+l2+"\n")
+
+def creat_wraps(s,wrapper):
+    arr = str2arr(s)
+    cds = elel.mapv(arr,creat_onewrap,[wrapper])
+    parr(cds)
+    return(cds)
