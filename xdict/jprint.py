@@ -13,6 +13,7 @@ import elist.elist as elel
 from spaint.spaint import paint
 from spaint.spaint import is_win
 import efuntool.efuntool as eftl
+import efuntool.eobjtool as eotl
 from xdict.tokenize_quotes import convert_token_in_quote
 import  xdict.quote as quote
 import xdict.fmt_jstr as fmt_jstr
@@ -970,6 +971,12 @@ def parr(arr):
 
 
 
+def pattr(orb):
+    attrs = eotl.get_all_visible_attrs(orb)
+    for attr in attrs:
+        print(attr,":",orb.__getattribute__(attr))
+
+
 
 def pdir(obj,*args,**kwargs):
     '''
@@ -1127,4 +1134,5 @@ def pdir(obj,*args,**kwargs):
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,fixed_indent=fixed_indent,indent=indent)
     else:
         pobj(obj,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,fixed_indent=fixed_indent,indent=indent,display=1)
+
 
