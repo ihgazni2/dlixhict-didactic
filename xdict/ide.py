@@ -119,4 +119,16 @@ def profile(code):
     print(info)
     return(info)
 
+########
+
+#@fn@            function-name
+
+def fntem_rplc(fn,tem):
+    '''
+        replace  @fn@
+    '''
+    s = tem.replace("@fn@",fn)
+    return(s)
+
+
 
