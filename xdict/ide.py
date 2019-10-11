@@ -99,3 +99,24 @@ def creat_wraps(s,wrapper):
     cds = elel.mapv(arr,creat_onewrap,[wrapper])
     parr(cds)
     return(cds)
+
+
+##cProfile###
+
+def profile(code):
+    '''
+        dummy = profile('print("sss")')
+    '''
+    import cProfile
+    import pstats
+    from io import StringIO
+    cProfile.run(code,"info")
+    s = StringIO()
+    sortby = 'cumulative'
+    ps = pstats.Stats("info", stream=s).sort_stats(sortby)
+    ps.print_stats()
+    info = s.getvalue()
+    print(info)
+    return(info)
+
+
