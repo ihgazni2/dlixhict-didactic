@@ -131,4 +131,12 @@ def fntem_rplc(fn,tem):
     return(s)
 
 
+def rtrntem_rplc(rtrn,tem):
+    '''
+        replace  @rtrn@
+    '''
+    s = tem.replace("@rtrn@",rtrn)
+    return(s)
+
+#####
 
