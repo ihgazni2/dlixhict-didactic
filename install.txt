@@ -1,4 +1,4 @@
-/usr/local/lib/python3.6/dist-packages/xdict-1.0.7-py3.6.egg
+/usr/local/lib/python3.6/dist-packages/xdict-1.0.8-py3.6.egg
 /usr/local/bin/ide_apis_from_strblk
 /usr/local/bin/ide_apis_from_verb
 /usr/local/bin/ide_indent
