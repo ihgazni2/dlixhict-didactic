@@ -4,8 +4,7 @@ from xdict import jprint
 import spaint.spaint as spaint
 import re
 import copy
-
-
+from efdir import fs
 
 #######################################
 
@@ -7325,3 +7324,15 @@ def tb2dlist(tb,cnl):
 
 
 ##########################
+
+
+
+def load_crtb_from_file(fn):
+    j = fs.rjson(fn)
+    crtbl = load_crtable_from_json(j)
+    crtb=crtable(crtable=crtbl)
+    return(crtb)
+
+
+def save_crtb_to_file(fn,crtb):
+    fs.wjson(fn,crtb.crtable)
