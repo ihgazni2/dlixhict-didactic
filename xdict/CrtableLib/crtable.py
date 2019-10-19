@@ -4743,6 +4743,7 @@ class crtable():
             self.crtable = ncrtb
             self.keynameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['knimd']))
             self.valuenameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['vnimd']))
+            self.valuenameslist = ltdict.naturalize_intkeydict(self.valuenameslist)
             self.colnameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['animd']))
         else:
             if('colnameslist' in kwargs):
