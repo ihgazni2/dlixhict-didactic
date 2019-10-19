@@ -4742,8 +4742,9 @@ class crtable():
             ncrtb = copy.deepcopy(kwargs['crtable'])
             self.crtable = ncrtb
             self.keynameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['knimd']))
-            self.valuenameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['vnimd']))
-            self.valuenameslist = ltdict.naturalize_intkeydict(self.valuenameslist)
+            vrefd = get_indexonly_refdict(ncrtb['vnimd'])
+            vrefd = ltdict.naturalize_intkeydict(vrefd)
+            self.valuenameslist = ltdict.to_list(vrefd)
             self.colnameslist = ltdict.to_list(get_indexonly_refdict(ncrtb['animd']))
         else:
             if('colnameslist' in kwargs):
