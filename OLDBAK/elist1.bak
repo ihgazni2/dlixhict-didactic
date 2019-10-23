@@ -213,3 +213,31 @@ class elist(list):
             elist1.max_word_displaywidth()
         '''
         return(list_get_max_word_displaywidth(self))
+
+
+###############
+
+#list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
+        # list_get_pathstr_hierachy_description(l,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # desc = list_get_pathstr_hierachy_description(l)
+        # pobj(desc)
+#list_get_partent_pathstr_hierachy_description_from_description_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict
+        # list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # desc = list_get_pathstr_hierachy_description(l)
+        # pobj(desc)
+        # ppdesc = list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
+        # pobj(ppdesc)
+#list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
+        # list_get_tree_pathstr_hierachy_description(l,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # desc = list_get_tree_pathstr_hierachy_description(l)
+        # pobj(desc)
+

@@ -2674,29 +2674,6 @@ def list_non_recursive_find_keys_via_value(l,v):
     return(rslt)
 
 
-list_get_pathstr_hierachy_description = dict_get_pathstr_hierachy_description
-        # list_get_pathstr_hierachy_description(l,**kwargs)
-        # from xdict.utils import *
-        # from xdict.jprint import pobj
-        # l = ['a',['b',['x','b']],'b']
-        # desc = list_get_pathstr_hierachy_description(l)
-        # pobj(desc)
-list_get_partent_pathstr_hierachy_description_from_description_dict = dict_get_partent_pathstr_hierachy_description_from_description_dict
-        # list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
-        # from xdict.utils import *
-        # from xdict.jprint import pobj
-        # l = ['a',['b',['x','b']],'b']
-        # desc = list_get_pathstr_hierachy_description(l)
-        # pobj(desc)
-        # ppdesc = list_get_partent_pathstr_hierachy_description_from_description_dict(desc)
-        # pobj(ppdesc)
-list_get_tree_pathstr_hierachy_description = dict_get_tree_pathstr_hierachy_description
-        # list_get_tree_pathstr_hierachy_description(l,**kwargs)
-        # from xdict.utils import *
-        # from xdict.jprint import pobj
-        # l = ['a',['b',['x','b']],'b']
-        # desc = list_get_tree_pathstr_hierachy_description(l)
-        # pobj(desc)
 
 def list_get_value_indexes_description(l):
     '''
@@ -2716,7 +2693,7 @@ def list_get_value_indexes_description(l):
         desc[l[i]].append(i)
     return(desc)
 
-list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
+#list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
         # list_print_tree_pathstr_with_dynamic_indent(l,**kwargs)
         # from xdict.utils import *
         # from xdict.jprint import pobj
