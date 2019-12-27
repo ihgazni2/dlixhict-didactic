@@ -2673,8 +2673,6 @@ def list_non_recursive_find_keys_via_value(l,v):
             rslt.append(i)
     return(rslt)
 
-
-
 def list_get_value_indexes_description(l):
     '''
         from xdict.utils import *
@@ -2692,43 +2690,6 @@ def list_get_value_indexes_description(l):
     for i in range(0,l.__len__()):
         desc[l[i]].append(i)
     return(desc)
-
-#list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
-        # list_print_tree_pathstr_with_dynamic_indent(l,**kwargs)
-        # from xdict.utils import *
-        # from xdict.jprint import pobj
-        # l = ['a',['b',['x','b']],'b']
-        # s = list_print_tree_pathstr_with_dynamic_indent(l)
-        # print(s)
-
-def list_uniqualize(l):
-    '''
-        l = [1, 2, 2]
-        list_uniqualize(l)
-        l
-    '''
-    pt = copy.deepcopy(l)
-    seqs_for_del =[]
-    vset = set({})
-    for v in pt:
-        vset.add(v)
-    tslen = vset.__len__()
-    freq = {}
-    for i in range(0,pt.__len__()):
-        v = pt[i]
-        if(v in freq):
-            freq[v] = freq[v] + 1
-            seqs_for_del.append(i)
-        else:
-            freq[v] = 0
-    npt = []
-    for i in range(0,pt.__len__()):
-        if(i in seqs_for_del):
-            pass
-        else:
-            npt.append(pt[i])
-    pt = npt
-    return(npt)
 
 def list_comprise(list1,list2,**kwargs):
     '''
@@ -3001,126 +2962,6 @@ def num_to_hex_str(num,**kwargs):
     else:
         length = 8
     return('{0:0>{1}}'.format(hex(num)[2:],length))
-
-####the below is for javascript 
-
-def javascript_unsigned_right_shift(num,shift_num,**kwargs):
-    if(num >=0):
-        return(num>>shift_num)
-    else:
-        if("length" in kwargs):
-            length = kwargs['length']
-        else:
-            length = 32
-        b = num_to_bin_str(2**length + num,length=length)
-        return(int(b,2)>> shift_num)
-
-def javascript_logical_or(x,y):
-    if(x):
-        return(x)
-    else:
-        return(y)
-
-def javascript_logical_and(x,y):
-    if(x):
-        return(y)
-    else:
-        return(x)
-
-
-
-def str_tail_to_head(s, tail_len,**kwargs):
-    '''
-        >>> str_tail_to_head("abcdefghi",0)
-        'abcdefghi'
-        >>> str_tail_to_head("abcdefghi",1)
-        'iabcdefgh'
-        >>> str_tail_to_head("abcdefghi",2)
-        'hiabcdefg'
-        >>> str_tail_to_head("abcdefghi",3)
-        'ghiabcdef'
-        >>> str_tail_to_head("abcdefghi",4)
-        'fghiabcde'
-        >>> str_tail_to_head("abcdefghi",5)
-        'efghiabcd'
-        >>> str_tail_to_head("abcdefghi",6)
-        'defghiabc'
-        >>> str_tail_to_head("abcdefghi",7)
-        'cdefghiab'
-        >>> str_tail_to_head("abcdefghi",8)
-        'bcdefghia'
-        >>> str_tail_to_head("abcdefghi",9)
-        'abcdefghi'
-        >>> str_tail_to_head("abcdefghi",10)
-        'iabcdefgh'
-        >>> str_tail_to_head("abcdefghi",10,repeat=0)
-        '\x00abcdefgh'
-        >>> str_tail_to_head("abcdefghi",11,repeat=0)
-        '\x00\x00abcdefg'
-        >>> str_tail_to_head("abcdefghi",12,repeat=0)
-        '\x00\x00\x00abcdef'
-        >>> 
-    '''
-    if("repeat" in kwargs):
-        repeat = kwargs['repeat']
-    else:
-        repeat = 1
-    if("padding" in kwargs):
-        padding = kwargs['padding']
-    else:
-        padding = '\x00'
-    I = ""
-    if(repeat):
-        for J in range(0,s.__len__()):
-            seq = (J + s.__len__() - tail_len) % s.__len__()
-            I = I + s[seq]
-    else:
-        for J in range(0,s.__len__()):
-            seq = (J + s.__len__() - tail_len) 
-            if(seq < 0):
-                I = I + padding
-            else:
-                seq = seq % s.__len__()
-                I = I + s[seq]
-    return(I)
-
-
-
-def str_head_to_tail(s, head_len,**kwargs):
-    if("repeat" in kwargs):
-        repeat = kwargs['repeat']
-    else:
-        repeat = 1
-    if("padding" in kwargs):
-        padding = kwargs['padding']
-    else:
-        padding = '\x00'
-    rslt =str_tail_to_head(s, s.__len__() - head_len,repeat=repeat,padding=padding)
-    if(repeat):
-        pass
-    else:
-        if(s.__len__() < head_len):
-            r = head_len % s.__len__()
-            rslt = rslt[:s.__len__()-r] + padding * r
-        else:
-            pass
-    return(rslt)
-
-
-
-##bytes
-def four_bytes_order_reverse(L):
-    ''' 255       0x00ff
-        65280     0xff00
-        byte4-byte3-byte2-byte1
-        byte1-byte2-byte3-byte4
-    '''
-    L = (L & 255) << 24 | (L & 65280) << 8 | L >> 8 & 65280 | L >> 24 & 255
-    return(L)
-
-
-
-#tuple
 ##############
 
 

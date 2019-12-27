@@ -14,7 +14,7 @@ def html_number_escape_char(ch):
         '用'
         >>>
     '''
-    num = int(eses.str2us("a",style="js")[2:],16)
+    num = int(eses.str2us(ch,style="js")[2:],16)
     escaped = '&#' + str(num) +';'
     return(escaped)
 

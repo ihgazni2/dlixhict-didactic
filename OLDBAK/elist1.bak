@@ -241,3 +241,40 @@ class elist(list):
         # desc = list_get_tree_pathstr_hierachy_description(l)
         # pobj(desc)
 
+
+
+
+#####
+#####
+
+#list_print_tree_pathstr_with_dynamic_indent = dict_print_tree_pathstr_with_dynamic_indent
+        # list_print_tree_pathstr_with_dynamic_indent(l,**kwargs)
+        # from xdict.utils import *
+        # from xdict.jprint import pobj
+        # l = ['a',['b',['x','b']],'b']
+        # s = list_print_tree_pathstr_with_dynamic_indent(l)
+        # print(s)
+
+def list_uniqualize(l):
+    pt = copy.deepcopy(l)
+    seqs_for_del =[]
+    vset = set({})
+    for v in pt:
+        vset.add(v)
+    tslen = vset.__len__()
+    freq = {}
+    for i in range(0,pt.__len__()):
+        v = pt[i]
+        if(v in freq):
+            freq[v] = freq[v] + 1
+            seqs_for_del.append(i)
+        else:
+            freq[v] = 0
+    npt = []
+    for i in range(0,pt.__len__()):
+        if(i in seqs_for_del):
+            pass
+        else:
+            npt.append(pt[i])
+    pt = npt
+    return(npt)

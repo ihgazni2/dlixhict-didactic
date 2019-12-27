@@ -1,6 +1,7 @@
 import time
 import xdict.utils
 import re
+from xdict.utils import num_to_bin_str
 
 def bitnum(num):
     if(num < 0):
@@ -76,18 +77,6 @@ def unshift(l,*args):
     for i in range(0,args_len):
         l[i] = args[i]
     return(l)
-
-
-def unsigned_right_shift(num,shift_num,**kwargs):
-    if(num >=0):
-        return(num>>shift_num)
-    else:
-        if("length" in kwargs):
-            length = kwargs['length']
-        else:
-            length = 32
-        b = num_to_bin_str(2**length + num,length=length)
-        return(int(b,2)>> shift_num)
 
 def logical_or(x,y):
     if(x):
@@ -354,3 +343,13 @@ def parseInt(nstr,radix=10,**kwargs):
         return(int(rs,radix)) 
 
 
+def unsigned_right_shift(num,shift_num,**kwargs):
+    if(num >=0):
+        return(num>>shift_num)
+    else:
+        if("length" in kwargs):
+            length = kwargs['length']
+        else:
+            length = 32
+        b = num_to_bin_str(2**length + num,length=length)
+        return(int(b,2)>> shift_num)
