@@ -4594,7 +4594,7 @@ class cmdict():
                 if(self.debug >=2):
                     raise KeyError('should be',rslt)
                 else:
-                    pass
+                    return((prompt,rslt))
             else:
                 return(rslt)
         else:
@@ -4627,7 +4627,7 @@ class cmdict():
                 if(self.debug>=2):
                     raise KeyError('should be',rslt)
                 else:
-                    pass
+                    return((prompt,rslt))
             else:
                 return(rslt)
     def __setitem__(self,cmd,value):
