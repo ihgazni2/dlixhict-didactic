@@ -8,6 +8,14 @@ __2. dict/list/tuple/set toolsets__
 # INTRODUCE:
 -------------------------------------------------  
 
+
+        @#pobj tst.json
+        {
+         '1': 2
+        }
+        @#
+
+
 		#a html_text as below
 
 ![](Images/cmdline.Hentry.0.png) 

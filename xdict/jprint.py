@@ -32,8 +32,6 @@ def import_colors_md():
     return(COLORS_MD)
 
 COLORS_MD = import_colors_md();
-
-
 KEY_COLOR = COLORS_MD['lightgreen']
 VALUE_COLOR = COLORS_MD['lightcyan']
 LIST_ELE_COLOR =  COLORS_MD['yellow']
@@ -70,7 +68,13 @@ def get_line_start_index_in_j_str(orig_lines):
         line_start_indexes[i] = nxt
     return(line_start_indexes)
 
-def line_to_path_init(line,block_op_pairs_dict = block.get_block_op_pairs("{}[]()"),sp='/',commas=[','],colons=[':']):
+def line_to_path_init(
+        line,
+        block_op_pairs_dict = block.get_block_op_pairs("{}[]()"),
+        sp='/',
+        commas=[','],
+        colons=[':']
+    ):
     end = line.rstrip(' ')[-1]
     if(is_colon(end,colons)):
         curr_base_name = ''.join((line,sp))
@@ -134,51 +138,6 @@ def line_to_path(
             else:
                 prev_rop = prev_rop[-1]
                 break
-        # {
-        #  'Error': None, #curr_lv > prev_lv : prev_path = /{/   curr_path = /{/'Error': None, 
-        #  'Value':       #curr_lv == prev_lv ,secarino_6 : prev_path = /{/'Error': None,    curr_path = /{/'Value':/
-        #           {     #curr_lv == prev_lv ,secarino_1 : prev_path =  /{/'Value': /  curr_path =  /{/'Value':/{/ 
-        #            'MyRulesHtml': '<div></div>', #curr_lv > prev_lv :prev_path =  /{/'Value': /{/  curr_path =   /{/'Value': /{/'MyRulesHtml': '<div></div>', 
-        #            '__type': 'RuleDesignerRuleResult', #curr_lv == prev_lv,secarino_6 :prev_path = /{/'Value': /{/'MyRulesHtml': '<div></div>', curr_path = /{/'Value': /{/'__type': 'RuleDesignerRuleResult',
-        #################################################
-        #'SimulationValues': 
-        #                    {
-        #                     'Name': 'SWIMMING_POOL_LENGTH', 
-        #                     'Value': '100'
-        #                    },  
-        #'Pair': # curr_lv == prev_lv ,secarino_2  :  prev_path = .../'SimulationValues': /},    curr_path = .../'Pair': 
-        #        (
-        #         'swimming', 
-        #         'cadence'
-        #        )
-        #################################################
-        # 'UserVariables': 
-        #                  [
-        #                   {
-        #                    'Name': 'OWNVAR1', 
-        #                    'Value': '0'
-        #                   },
-        #                   {# curr_lv == prev_lv ,secarino_3  :  prev_path = .../[/},,    curr_path = .../{/ 
-        #                    'Name': 'OWNVAR2', 
-        #                    'Value': '200'
-        #                   }
-        #                  ]
-        ######################################################
-        # 'UserVariables': 
-        #                  [
-        #                   {},
-        #                   {# curr_lv == prev_lv ,secarino_4  :  prev_path = .../[/{},,    curr_path = .../{/ 
-        #                    'Name': 'OWNVAR2', 
-        #                    'Value': '200'
-        #                   }
-        #                  ] # curr_lv < prev_lv,secarino_7  :   prev_path = .../[/},,    curr_path = .../
-        ######################################################
-        #'xx': 
-        #     {
-        #      'head': 
-        #              {}
-        #     }# curr_lv < prev_lv,secarino_8  :   prev_path = /xx: /{/head: /{},    curr_path = /xx: /}
-        ########################################################################
         # secarino_1:
         if(is_colon(prev_last)):
             curr_path = ''.join((prev_path,curr_base_name))
@@ -212,49 +171,16 @@ def line_to_path(
 
 def get_print_lines_and_paths(j_str,**kwargs):
     ####
-    if('sp' in kwargs):
-        sp = kwargs['sp']
-    else:
-        sp = '/'
-    ####
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
-    ##########
-    if('block_op_pairs_dict' in kwargs):
-        block_op_pairs_dict = kwargs['block_op_pairs_dict']
-    else:
-        block_op_pairs_dict=block.get_block_op_pairs('{}[]()')
-    if('quotes_pairs_dict' in kwargs):
-        quotes_pairs_dict = kwargs['quotes_pairs_dict']
-    else:
-        quotes_pairs_dict=quote.get_quotes_pairs('""\'\'')
-    ############
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
-    if('fixed_indent' in kwargs):
-        fixed_indent = kwargs['fixed_indent']
-    else:
-        fixed_indent =0
-    if('indent' in kwargs):
-        indent = kwargs['indent']
-    else:
-        indent =4
+    sp = eftl.dflt_kwargs("sp",'/',**kwargs)
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
+    block_op_pairs_dict = eftl.dflt_kwargs('block_op_pairs_dict',block.get_block_op_pairs('{}[]()'),**kwargs)
+    quotes_pairs_dict = eftl.dflt_kwargs('quotes_pairs_dict',quote.get_quotes_pairs('""\'\''))
+    path_sps =  eftl.dflt_kwargs('path_sps',['/'],**kwargs)
+    fixed_indent = eftl.dflt_kwargs('fixed_indent',0,**kwargs)
+    indent = eftl.dflt_kwargs('indent',4,**kwargs)
     #step0  quote
     j_str = convert_token_in_quote(
         j_str,
@@ -305,30 +231,17 @@ def get_print_lines_and_paths(j_str,**kwargs):
 
 
 def get_line_color_sec(line,path,**kwargs):
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
-    if('sp' in kwargs):
-        sp = kwargs['sp']
-    else:
-        sp = '/'
+    sp = eftl.dflt_kwargs("sp",'/',**kwargs)
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
+    block_op_pairs_dict = eftl.dflt_kwargs('block_op_pairs_dict',block.get_block_op_pairs('{}[]()'),**kwargs)
+    quotes_pairs_dict = eftl.dflt_kwargs('quotes_pairs_dict',quote.get_quotes_pairs('""\'\''))
+    path_sps =  eftl.dflt_kwargs('path_sps',['/'],**kwargs)
+    fixed_indent = eftl.dflt_kwargs('fixed_indent',0,**kwargs)
+    indent = eftl.dflt_kwargs('indent',4,**kwargs)
+    ####
     if('block_op_pairs' in kwargs):
         block_op_pairs = kwargs['block_op_pairs']
         if(utils.is_dict(block_op_pairs)):
@@ -832,6 +745,30 @@ def print_j_str(j_str,**kwargs):
 beautify=print_j_str
 
 
+def get_dflt_quotes_pairs_dict(**kwargs):
+    if('quotes_pairs' in kwargs):
+        quotes_pairs = kwargs['quotes_pairs']
+        if(utils.is_dict(quotes_pairs)):
+            quotes_pairs_dict = quotes_pairs
+        else:
+            quotes_pairs_dict = quote.get_quotes_pairs(quotes_pairs)
+    else:
+        quotes_pairs_dict = quote.get_quotes_pairs('""\'\'')
+    return(quotes_pairs_dict)
+
+def get_dflt_block_op_pairs_dict(**kwargs):
+    if('block_op_pairs' in kwargs):
+        block_op_pairs = kwargs['block_op_pairs']
+        if(utils.is_dict(block_op_pairs)):
+            block_op_pairs_dict = block_op_pairs
+        else:
+            block_op_pairs_dict = block.get_block_op_pairs(block_op_pairs)
+    else:
+        block_op_pairs_dict = block.get_block_op_pairs('{}[]()')
+    return(block_op_pairs_dict)
+
+
+
 def pobj(obj,*args,**kwargs):
     '''
         pobj(eles,quotes_pairs="''\"\"<>")
@@ -849,68 +786,18 @@ def pobj(obj,*args,**kwargs):
         end = 2 ** 32
     else:
         pass
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
-    ##########
-    ############
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('fixed_indent' in kwargs):
-        fixed_indent = kwargs['fixed_indent']
-    else:
-        fixed_indent =0
-    if('indent_bumber' in kwargs):
-        indent = kwargs['indent']
-    else:
-        indent =4
-    if('sp' in kwargs):
-        sp = kwargs['sp']
-    else:
-        sp = '/'
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = quote.get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = quote.get_quotes_pairs('""\'\'')
-    if('block_op_pairs' in kwargs):
-        block_op_pairs = kwargs['block_op_pairs']
-        if(utils.is_dict(block_op_pairs)):
-            block_op_pairs_dict = block_op_pairs
-        else:
-            block_op_pairs_dict = block.get_block_op_pairs(block_op_pairs)
-    else:
-        block_op_pairs_dict = block.get_block_op_pairs('{}[]()')
+    sp = eftl.dflt_kwargs("sp",'/',**kwargs)
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
+    block_op_pairs_dict = eftl.dflt_kwargs('block_op_pairs_dict',block.get_block_op_pairs('{}[]()'),**kwargs)
+    quotes_pairs_dict = eftl.dflt_kwargs('quotes_pairs_dict',quote.get_quotes_pairs('""\'\''))
+    path_sps =  eftl.dflt_kwargs('path_sps',['/'],**kwargs)
+    fixed_indent = eftl.dflt_kwargs('fixed_indent',0,**kwargs)
+    indent = eftl.dflt_kwargs('indent',4,**kwargs)
+    quotes_pairs_dict = get_dflt_quotes_pairs_dict(**kwargs)
+    block_op_pairs_dict = get_dflt_block_op_pairs_dict(**kwargs)
     if('with_color' in kwargs):
         with_color = kwargs['with_color']
     else:
@@ -950,14 +837,6 @@ def pobj(obj,*args,**kwargs):
         s = obj
     else:
         s = obj.__str__()
-    if('fixed_indent' in kwargs):
-        fixed_indent = kwargs['fixed_indent']
-    else:
-        fixed_indent =0
-    if('indent' in kwargs):
-        indent = kwargs['indent']
-    else:
-        indent =4
     if(with_color):
         print_j_str(s,spaces=spaces,colons=colons,commas=commas,line_sps = line_sps,path_sps = path_sps,sp=sp,with_color=with_color,block_op_pairs=block_op_pairs_dict,quotes_pairs=quotes_pairs_dict,key_color=key_color,value_color=value_color,list_ele_color=list_ele_color,op_color=op_color,default_color=default_color,display=1,start=start,end=end,fixed_indent=fixed_indent,indent=indent)
     else:
@@ -1024,66 +903,18 @@ def pdir(obj,*args,**kwargs):
         end = kwargs['range'][1]
     else:
         pass
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('line_sps' in kwargs):
-        line_sps = kwargs['line_sps']
-    else:
-        line_sps = ['\r','\n']
-    if('path_sps' in kwargs):
-        path_sps = kwargs['path_sps']
-    else:
-        path_sps = ['/']
-    if('spaces' in kwargs):
-        spaces = kwargs['spaces']
-    else:
-        spaces = [' ','\t']
-    if('colons' in kwargs):
-        colons = kwargs['colons']
-    else:
-        colons = [':']
-    if('commas' in kwargs):
-        commas = kwargs['commas']
-    else:
-        commas = [',']
-    if('fixed_indent' in kwargs):
-        fixed_indent = kwargs['fixed_indent']
-    else:
-        fixed_indent =0
-    if('indent' in kwargs):
-        indent = kwargs['indent']
-    else:
-        indent =4
-    if('sp' in kwargs):
-        sp = kwargs['sp']
-    else:
-        sp = '/'
-    if('quotes_pairs' in kwargs):
-        quotes_pairs = kwargs['quotes_pairs']
-        if(utils.is_dict(quotes_pairs)):
-            quotes_pairs_dict = quotes_pairs
-        else:
-            quotes_pairs_dict = quote.get_quotes_pairs(quotes_pairs)
-    else:
-        quotes_pairs_dict = quote.get_quotes_pairs('""\'\'')
-    if('block_op_pairs' in kwargs):
-        block_op_pairs = kwargs['block_op_pairs']
-        if(utils.is_dict(block_op_pairs)):
-            block_op_pairs_dict = block_op_pairs
-        else:
-            block_op_pairs_dict = block.get_block_op_pairs(block_op_pairs)
-    else:
-        block_op_pairs_dict = block.get_block_op_pairs('{}[]()')
+    sp = eftl.dflt_kwargs("sp",'/',**kwargs)
+    spaces = eftl.dflt_kwargs("spaces",[' ','\t'],**kwargs)
+    colons = eftl.dflt_kwargs("colons",[':'],**kwargs)
+    commas = eftl.dflt_kwargs("commas",[','],**kwargs)
+    line_sps = eftl.dflt_kwargs("line_sps",['\r','\n'],**kwargs)
+    block_op_pairs_dict = eftl.dflt_kwargs('block_op_pairs_dict',block.get_block_op_pairs('{}[]()'),**kwargs)
+    quotes_pairs_dict = eftl.dflt_kwargs('quotes_pairs_dict',quote.get_quotes_pairs('""\'\''))
+    path_sps =  eftl.dflt_kwargs('path_sps',['/'],**kwargs)
+    fixed_indent = eftl.dflt_kwargs('fixed_indent',0,**kwargs)
+    indent = eftl.dflt_kwargs('indent',4,**kwargs)
+    quotes_pairs_dict = get_dflt_quotes_pairs_dict(**kwargs)
+    block_op_pairs_dict = get_dflt_block_op_pairs_dict(**kwargs)
     if('with_color' in kwargs):
         with_color = kwargs['with_color']
     else:
@@ -1119,14 +950,6 @@ def pdir(obj,*args,**kwargs):
         end = kwargs['end']
     else:
         pass
-    if('fixed_indent' in kwargs):
-        fixed_indent = kwargs['fixed_indent']
-    else:
-        fixed_indent =0
-    if('indent' in kwargs):
-        indent = kwargs['indent']
-    else:
-        indent =4
     ###
     obj = obj[start:end]
     ###
