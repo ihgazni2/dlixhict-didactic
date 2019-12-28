@@ -8,7 +8,7 @@ __2. dict/list/tuple/set toolsets__
 # INTRODUCE:
 -------------------------------------------------  
 
-        ![](Images/cmdline.dummy.png)
+![](Images/cmdline.dummy.png)
         #QUERY BIG JSON
 
 
@@ -66,7 +66,7 @@ __2. dict/list/tuple/set toolsets__
         @#
 
         
-        ![](Images/cmdline.dummy.png)
+![](Images/cmdline.dummy.png)
         #BEAUTIFY  PRINT  JSON
 
 
@@ -77,7 +77,7 @@ __2. dict/list/tuple/set toolsets__
         @#
 
 
-        ![](Images/cmdline.dummy.png)
+![](Images/cmdline.dummy.png)
         #QUERY HTML        
 
 		#a html_text as below
