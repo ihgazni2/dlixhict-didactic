@@ -18,6 +18,47 @@ __2. dict/list/tuple/set toolsets__
 
 		#a html_text as below
 
+
+        @#hentry index.html "span input" nested
+        html body div div div div div form span input
+        html body div div div div div form span input
+        
+        -Found 2 matched:
+        -----------------------------------------------------
+        {
+         'cmd': 'html body div div div div div form span input',
+         'result': None,
+         'attrib':
+                   {
+                    'id': 'kw',
+                    'name': 'wd',
+                    'class': 's_ipt',
+                    'value': '',
+                    'maxlength': '255',
+                    'autocomplete': 'off',
+                    'autofocus': 'autofocus'
+                   },
+         'seq': 23
+        }
+        -----------------------------------------------------
+        {
+         'cmd': 'html body div div div div div form span input',
+         'result': None,
+         'attrib':
+                   {
+                    'type': 'submit',
+                    'id': 'su',
+                    'value': '百度一下',
+                    'class': 'bg s_btn',
+                    'autofocus': ''
+                   },
+         'seq': 25
+        }
+        -----------------------------------------------------
+        @#
+
+
+
 ![](Images/cmdline.Hentry.0.png) 
 
 		from xdict.jprint import pobj
