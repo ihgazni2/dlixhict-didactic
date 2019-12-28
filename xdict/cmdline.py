@@ -3879,7 +3879,7 @@ def show_html_text_via_cmd(cmd,**kwargs):
                     spaint.slpaint('[result]: ','white',result,'lightred')
                     attrib = str(attribs[seq])
                     spaint.slpaint('[attrib]: ','white',attrib,'lightcyan')
-                    spaint.slpaint('   [seq]: ',str(seq),'lightmagenta')
+                    spaint.slpaint('   [seq]: ','white',str(seq),'lightmagenta')
                 else:
                     jprint.pobj(rslt[i])
             print("-----------------------------------------------------")
