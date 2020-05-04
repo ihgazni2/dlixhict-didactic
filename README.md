@@ -7,63 +7,7 @@ __2. dict/list/tuple/set toolsets__
 
 # INTRODUCE:
 -------------------------------------------------  
-
-![](Images/cmdline.dummy.png)
-        #QUERY BIG JSON
-
-
-        #to query big json
-        
-        @#jsonq nested.json '7 Row'
-        Displays 7 Row1
-        Displays 7 Row1 Row
-        Displays 7 Row1 RuleID
-        Displays 7 Row2
-        Displays 7 Row2 Row
-        Displays 7 Row2 RuleID
-        @#
-        @#jsonq nested.json '7 Row2 R'
-        Displays 7 Row2 Row
-        Displays 7 Row2 RuleID
-        @#
-        
-        @#jsonq nested.json 'Displays 7 Row2'
-        {
-         'Row': 4,
-         'RuleID': None
-        }
-        
-        @#jsonq nested.json 'Displays 7 Row2 Row'
-        4
-        
-        @#jsonq nested.json 'plays 7 Row2' 0
-        Displays 7 Row2
-        Displays 7 Row2 Row
-        Displays 7 Row2 RuleID
-        {
-         'Row': 4,
-         'RuleID': None
-        }
-        @#
-        
-        @#jsonq nested.json "In"
-        Ordinal
-        GPSInterval
-        Interval1Time
-        Interval2Time
-        UseIntervals
-        Interval2Distance
-        UseInDevice
-        AutomaticLogRecording
-        RecordingInterval
-        IntervalRepetitions
-        Interval1Distance
-        @#
-        @#jsonq nested.json "UseIntervals"
-        False
-        @#jsonq nested.json "IntervalRepetitions"
-        0
-        @#
+[QUERY_AND SEARCH BIG JSON: ecli_jsonq](https://github.com/ihgazni2/ecli/blob/master/readme.rst#id4)
 
         
 ![](Images/cmdline.dummy.png)
