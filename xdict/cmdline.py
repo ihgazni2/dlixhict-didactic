@@ -4945,6 +4945,11 @@ class Hentry():
         '''
         '''
         ####
+        if('style' in kwargs):
+            style = kwargs['style']
+        else:
+            style='flat'
+        ####
         selected_seqs = []
         length = self.texts.__len__()
         for i  in range(0,length):
