@@ -4922,6 +4922,7 @@ class Hentry():
                 else:
                     pass
     ###############################
+        rslt = {}
         rslt_seqs = selected_seqs
         howmany = rslt_seqs.__len__()
         print("\n-Found {0} matched:".format(howmany))
