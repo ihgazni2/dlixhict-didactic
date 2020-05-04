@@ -4866,6 +4866,10 @@ class Hentry():
     def query_attribs(self,x,**kwargs):
         '''
         '''
+        if('style' in kwargs):
+            style = kwargs['style']
+        else:
+            style='flat'
         if('mode' in kwargs):
             mode = kwargs['mode']
         else:
