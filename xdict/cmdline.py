@@ -4852,12 +4852,6 @@ class Hentry():
                 attrib = str(self.attribs[seq])
                 spaint.slpaint('[attrib]: ','white',attrib,'cyan1')
                 spaint.slpaint('   [seq]: ','white',str(seq),'magenta1')
-                #spaint.slpaint(cmd,'yellow',prefix='   [cmd]: ')
-                #result = str(self.texts[seq])
-                #spaint.slpaint(result,'red',prefix='[result]: ')
-                #attrib = str(self.attribs[seq])
-                #spaint.slpaint(attrib,'cyan1',prefix='[attrib]: ')
-                #spaint.slpaint(str(seq),'magenta1',prefix='   [seq]: ')
             else:
                 jprint.pobj(rslt[i])
         print("-----------------------------------------------------")
@@ -4936,12 +4930,6 @@ class Hentry():
             print("-----------------------------------------------------")
             if(style == 'flat'):
                 cmd = str(self.cmds[seq])
-                #spaint.slpaint(cmd,'yellow',prefix='   [cmd]: ')
-                #result = str(self.texts[seq])
-                #spaint.slpaint(result,'red',prefix='[result]: ')
-                #attrib = str(self.attribs[seq])
-                #spaint.slpaint(attrib,'cyan1',prefix='[attrib]: ')
-                #spaint.slpaint(str(seq),'magenta1',prefix='   [seq]: ')
                 spaint.slpaint('   [cmd]: ','white',cmd,'yellow')
                 result = str(self.texts[seq])
                 spaint.slpaint('[result]: ','white',result,'red')
@@ -4953,10 +4941,40 @@ class Hentry():
         print("-----------------------------------------------------")
         return(rslt)
     ###
-    def query_texts(self,**kwargs):
+    def query_texts(self,s,**kwargs):
         '''
         '''
-        pass
+        ####
+        selected_seqs = []
+        length = self.texts.__len__()
+        for i range(0,length):
+            txt = self.texts[i]
+            cond = (s in txt)
+            if(cond):
+                selected_seqs.append(i)
+            else:
+                pass
+        ####
+        rslt = {}
+        rslt_seqs = selected_seqs
+        howmany = rslt_seqs.__len__()
+        print("\n-Found {0} matched:".format(howmany))
+        for i in range(0,howmany):
+            seq = rslt_seqs[i]
+            rslt[i] = {'cmd':self.cmds[seq],'result':self.texts[seq],'attrib':self.attribs[seq],'seq':seq}
+            print("-----------------------------------------------------")
+            if(style == 'flat'):
+                cmd = str(self.cmds[seq])
+                spaint.slpaint('   [cmd]: ','white',cmd,'yellow')
+                result = str(self.texts[seq])
+                spaint.slpaint('[result]: ','white',result,'red')
+                attrib = str(self.attribs[seq])
+                spaint.slpaint('[attrib]: ','white',attrib,'cyan1')
+                spaint.slpaint('   [seq]: ','white',str(seq),'magenta1')
+            else:
+                jprint.pobj(rslt[i])
+        print("-----------------------------------------------------")
+        return(rslt)
     
 
 
