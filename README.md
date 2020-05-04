@@ -9,52 +9,11 @@ __2. dict/list/tuple/set toolsets__
 -------------------------------------------------  
 - [QUERY-AND-SEARCH-BIG-JSON: ecli_jsonq](https://github.com/ihgazni2/ecli/blob/master/readme.rst#id4)
 - [PPRINT-JSON: ecli_pobj](https://github.com/ihgazni2/ecli/blob/master/readme.rst#id9)
-        
+- [TAG-SERACH-HTML: ecli_tagq](https://github.com/ihgazni2/ecli/blob/master/readme.rst#ecli-html-tagq)
+- [ATTR-SERACH-HTML: ecli_attrq](https://github.com/ihgazni2/ecli/blob/master/readme.rst#ecli-html-attrq) 
+- [TEXT-SERACH-HTML: ecli_textq](https://github.com/ihgazni2/ecli/blob/master/readme.rst#ecli-html-textq)    
 
 
-![](Images/cmdline.dummy.png)
-        #QUERY HTML        
-
-		#a html_text as below
-
-
-        @#hentry index.html "span input" nested
-        html body div div div div div form span input
-        html body div div div div div form span input
-        
-        -Found 2 matched:
-        -----------------------------------------------------
-        {
-         'cmd': 'html body div div div div div form span input',
-         'result': None,
-         'attrib':
-                   {
-                    'id': 'kw',
-                    'name': 'wd',
-                    'class': 's_ipt',
-                    'value': '',
-                    'maxlength': '255',
-                    'autocomplete': 'off',
-                    'autofocus': 'autofocus'
-                   },
-         'seq': 23
-        }
-        -----------------------------------------------------
-        {
-         'cmd': 'html body div div div div div form span input',
-         'result': None,
-         'attrib':
-                   {
-                    'type': 'submit',
-                    'id': 'su',
-                    'value': '百度一下',
-                    'class': 'bg s_btn',
-                    'autofocus': ''
-                   },
-         'seq': 25
-        }
-        -----------------------------------------------------
-        @#
 
 
 
