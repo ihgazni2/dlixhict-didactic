@@ -4949,7 +4949,7 @@ class Hentry():
         length = self.texts.__len__()
         for i  in range(0,length):
             txt = self.texts[i]
-            cond = (s in txt)
+            cond = (s in txt ) if(txt!=None) else s==txt
             if(cond):
                 selected_seqs.append(i)
             else:
