@@ -8,7 +8,7 @@ __2. dict/list/tuple/set toolsets__
 # INTRODUCE:
 -------------------------------------------------  
 - [QUERY-AND-SEARCH-BIG-JSON: ecli_jsonq](https://github.com/ihgazni2/ecli/blob/master/readme.rst#id4)
-- [QUERY-AND-SEARCH-BIG-JSON: ecli_pobj](https://github.com/ihgazni2/ecli/blob/master/readme.rst#id9)
+- [PPRINT-: ecli_pobj](https://github.com/ihgazni2/ecli/blob/master/readme.rst#id9)
         
 
 
