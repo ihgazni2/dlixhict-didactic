@@ -4947,7 +4947,7 @@ class Hentry():
         ####
         selected_seqs = []
         length = self.texts.__len__()
-        for i range(0,length):
+        for i  in range(0,length):
             txt = self.texts[i]
             cond = (s in txt)
             if(cond):
