@@ -4945,7 +4945,7 @@ class Hentry():
                 spaint.slpaint('   [cmd]: ','white',cmd,'yellow')
                 result = str(self.texts[seq])
                 spaint.slpaint('[result]: ','white',result,'red')
-                attrib = str(attribs[seq])
+                attrib = str(self.attribs[seq])
                 spaint.slpaint('[attrib]: ','white',attrib,'cyan1')
                 spaint.slpaint('   [seq]: ','white',str(seq),'magenta1')
             else:
