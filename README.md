@@ -73,7 +73,7 @@ for detailed usage and functions please refer to:
 ├── [ltdict](https://github.com/ihgazni2/ltdict)
 ├── [fsm](ReadMeDetailed/fsm.md)  <br>
 ├── [utils](ReadMeDetailed/utils.md)  <br>
-├── [timeutil](https://github.com/ihgazni2/kukibanshee/blob/master/kukibanshee/nozdormu.py)  <br>
+├── [timeutil](https://github.com/ihgazni2/pynoz)  <br>
 └── [console_color](https://github.com/ihgazni2/string-painter)<br>
 
 -------------------------------------------------------
